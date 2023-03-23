@@ -8,6 +8,7 @@ lecture
 target
 pom.properties
 MANIFEST.MF
+jdbc.properties
 
 ### Eclipse ###
 .metadata
