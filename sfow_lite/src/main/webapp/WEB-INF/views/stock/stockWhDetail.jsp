@@ -182,7 +182,7 @@
 
 // 	 	};
 	    	
-	    	
+	   
 	//function checkstock(){
 		   // make AJAX call to server
 	    $.ajax({
