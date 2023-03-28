@@ -24,9 +24,5 @@ public class HomeController {
 	public String reqMainContent() {
 		return "main";
 	}
-	
-	@RequestMapping("/product/pp")
-	public String reqpp() {
-		return "/pp/product";
-	}
+
 }
