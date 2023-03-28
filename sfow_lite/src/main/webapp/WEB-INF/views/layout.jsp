@@ -125,7 +125,7 @@
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse2"
                         aria-expanded="false" aria-controls="collapseWarehouse2">반품관리</a>
                            <div id="collapseWarehouse2" class="collapse" aria-labelledby="headingWarehouse2" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">반품등록</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnMain');">반품등록</a>
                                   <a class="collapse-item" href="#">반품현황</a>
                           </div>
                     </div>
@@ -401,7 +401,7 @@
     	    	$("#bodyContents").html(data);
     	    },
     	    error: function(){
-    	    	alert("error")
+    	    	alert("ajax error")
     	    }
     	});
     });
@@ -419,7 +419,7 @@
 	            $('#bodyContents').html(data);
 		      },
 		      error: function(request, status, error) {
-		        alert(error);
+		        alert("acyncMovePage 매핑 오류");
 		    }
 		  });
 	}
