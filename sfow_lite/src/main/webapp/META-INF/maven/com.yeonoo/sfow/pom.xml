@@ -213,7 +213,7 @@
         </dependency>
         
         <!-- tiles 라이브러리 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
 			<version>2.2.2</version>
@@ -227,7 +227,7 @@
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-servlet</artifactId>
 			<version>2.2.2</version>
-		</dependency> 
+		</dependency>  -->
         
         <!-- JSON을 JavaObject로 변환,  JavaObject를 JSON으로 변환 -->
         <dependency>

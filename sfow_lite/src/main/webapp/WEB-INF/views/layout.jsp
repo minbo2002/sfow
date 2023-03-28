@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <c:set var="conPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -12,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title><tiles:insertAttribute name="title"/></title>
+<title>SFOW MAIN</title>
 
 <!-- Custom fonts for this template-->
     <link href="${conPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,6 +21,9 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -32,7 +34,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}/main">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -44,7 +46,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="${conPath}/main">
+                <a class="nav-link" href="${conPath}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -154,7 +156,7 @@
                 </a>
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
                     </div>
                 </div>
             </li>
@@ -339,7 +341,6 @@
                 
          <!-- body -->
         <div id="bodyContents">     
-			<tiles:insertAttribute name="body"/>
 		</div>
 		
 		
@@ -387,30 +388,42 @@
     <!-- Core plugin JavaScript-->
     <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="${conPath}/resources/js/sb-admin-2.min.js"></script>
-
     <script>
-
-
-function acyncMovePage(url){
-    // ajax option
-    var ajaxOption = {
-            url : url,
-            async : true,
+    $(document).ready(function() {
+    	
+    	$.ajax({
+    	    url: "${conPath}/main",
+    	    async : true,
             type : "GET",
             dataType : "html",
-            cache : false
-    };
-    
-    $.ajax(ajaxOption).done(function(data){
-        // Contents 영역 삭제
-        $('#bodyContents').children().remove();
-        // Contents 영역 교체
-        $('#bodyContents').html(data);
+            cache : false,
+    	    success: function(data) {
+    	    	$("#bodyContents").html(data);
+    	    },
+    	    error: function(){
+    	    	alert("error")
+    	    }
+    	});
     });
-}
-</script>
+
+	function acyncMovePage(url) {
+		  $.ajax({
+			  url : url,
+	          async : true,
+	          type : "GET",
+	          dataType : "html",
+	          cache : false,
+		      success: function(data) {
+		    	$('#bodyContents').children().remove();
+	            // Contents 영역 교체
+	            $('#bodyContents').html(data);
+		      },
+		      error: function(request, status, error) {
+		        alert(error);
+		    }
+		  });
+	}
+	</script>
 
 </body>
 
