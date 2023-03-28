@@ -94,6 +94,7 @@
                                   <a class="collapse-item" href="#">창고등록</a>
                                   <a class="collapse-item" href="#">창고정보</a>
                           </div>
+                 <a class="collapse-item" href="">BOM등록</a>
                     </div>
                 </div>
             </li>

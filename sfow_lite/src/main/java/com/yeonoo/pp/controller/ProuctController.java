@@ -10,4 +10,8 @@ public class ProuctController {
 	public String ppMain() {
 		return "pp/product";
 	}
+	@GetMapping("/ma/bom")
+	public String maBom() {
+		return "pp/bom";
+	}
 }
