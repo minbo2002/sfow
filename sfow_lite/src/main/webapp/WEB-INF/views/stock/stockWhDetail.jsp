@@ -117,7 +117,7 @@
 			alert(rowData);
 	    	alert(gridData[0].warehouse_name);
 	    	
-	    	});*/
+	    	});*/ 
 
 	    	//checkbox 체크 시에 input 태그에 해당 value 출력 (추가수정 필요 checkbox 2개 check 시에 박스안에 data clear)
     	   	grid.on('check', function(ev) {
