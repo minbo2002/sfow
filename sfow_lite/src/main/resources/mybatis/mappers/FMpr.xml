@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<!-- 전체목록조회 -->
-	<select id="FMprAllList"  resultType="FMpr">
+	<select id="FMprAllList"  resultMap="FMprResult">
 		<![CDATA[
 			SELECT prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,prd.price,prd.amount
 			FROM po_request_detail prd, ma_item mi, ma_client_company mcc
@@ -48,6 +48,22 @@
 		AND prd.request_order = #{request_order}
 		]]>
 	</update>
+	
+		<!-- 검색하기 -->
+   <select id="FMprList" resultMap="FMprResult">
+      <![CDATA[
+         select prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,prd.price,prd.amount
+         from po_request_detail prd, ma_item mi, ma_client_company mcc
+         where prd.item_code = mi.item_code
+		 AND prd.client_code = mcc.client_code
+		 
+         
+         and COALESCE(mi.item_type, '') LIKE CONCAT('%', #{item_type}, '%')
+         and COALESCE(mcc.client_name, '') LIKE CONCAT('%', #{client_name}, '%')
+         and COALESCE(mi.item_code, '') LIKE CONCAT('%', #{item_code}, '%')
+         
+      ]]>   
+   </select>
 	
 </mapper>    
 

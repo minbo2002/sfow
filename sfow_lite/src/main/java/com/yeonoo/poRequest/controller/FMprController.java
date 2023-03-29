@@ -20,10 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yeonoo.poRequest.domain.FMpr;
 import com.yeonoo.poRequest.service.FMprService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
+@RequiredArgsConstructor
 public class FMprController  {
 
 	private static final Logger logger = LoggerFactory.getLogger(FMprController.class);
@@ -39,12 +40,22 @@ public class FMprController  {
 	   }
 
 	//화면목록페이지
-	@GetMapping("/FMpr/test")
+	@GetMapping("/FMpr")
 	@ResponseBody
-	public List<FMpr> list() throws Exception {
+	public List<FMpr> list(		 
+	         @RequestParam(required = false) String item_type,
+	         @RequestParam(required = false) String client_name,
+	         @RequestParam(required = false) String item_code
+	         
+			
+			) throws Exception {
+		FMpr fMpr = new FMpr();
+		fMpr.setItem_type(item_type);
+		fMpr.setClient_name(client_name);
+		fMpr.setItem_code(item_code);
 
 		//전체목록조회
-		List<FMpr> list = fMprService.getFMprAllList();
+		List<FMpr> list = fMprService.getFMprAllList(fMpr);
 		
 	
 		//4.View
@@ -61,6 +72,7 @@ public class FMprController  {
 	  }
 
 	
+	  
 
 }//입력처리 끝
 	

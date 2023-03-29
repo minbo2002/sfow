@@ -9,9 +9,10 @@ import com.yeonoo.poRequest.domain.FMpr;
 public interface FMprService {
 
 	
-	//전체 목록 조회
-	public List<FMpr>  getFMprAllList() throws Exception;
+	//전체 목록 조회(검색)
+	public List<FMpr>  getFMprAllList(FMpr fMpr) throws Exception;
 
 	//수정하기
 	public int updateFMpr(FMpr fMpr) throws Exception;
 }
+

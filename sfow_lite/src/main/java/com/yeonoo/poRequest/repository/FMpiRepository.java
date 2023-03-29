@@ -6,15 +6,16 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 
+import com.yeonoo.poRequest.domain.FMpi;
 import com.yeonoo.poRequest.domain.FMpr;
 
-public interface FMprRepository {
+public interface FMpiRepository {
 
 	//전체 목록 조회
-	public List<FMpr>  getFMprAllList(FMpr fMpr) throws DataAccessException;
+	public List<FMpi>  getFMpiAllList() throws DataAccessException;
 	
 	//수정하기
-	public int updateFMpr(FMpr fMpr) throws DataAccessException;
+	public int updateFMpi(FMpi fMpi) throws DataAccessException;
 }
 
 

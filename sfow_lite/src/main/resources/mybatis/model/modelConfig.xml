@@ -6,6 +6,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.yeonoo.poRequest.domain.FMpr" alias="FMpr" />
+		<typeAlias type="com.yeonoo.poRequest.domain.FMpi" alias="FMpi" />
 	</typeAliases>
 	
 </configuration>

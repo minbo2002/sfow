@@ -9,18 +9,21 @@ import org.springframework.stereotype.Service;
 import com.yeonoo.poRequest.domain.FMpr;
 import com.yeonoo.poRequest.repository.FMprRepository;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class FMprServiceImpl implements FMprService{
 
 	@Autowired
 	FMprRepository fMprRepository;
 	
 
-	//전체 목록 조회
+	//전체 목록 조회(검색)
 	@Override
-	public List<FMpr> getFMprAllList() throws Exception {
-		return fMprRepository.getFMprAllList();
+	public List<FMpr> getFMprAllList(FMpr fMpr) throws Exception {
+		return fMprRepository.getFMprAllList(fMpr);
 	}
 
 	//수정하기

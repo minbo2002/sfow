@@ -10,25 +10,43 @@ import org.springframework.stereotype.Repository;
 
 import com.yeonoo.poRequest.domain.FMpr;
 
-@Repository
-public class FMprRepositoryImpl implements FMprRepository{
+import lombok.RequiredArgsConstructor;
 
-	//필드
+@Repository
+@RequiredArgsConstructor
+public class FMprRepositoryImpl implements FMprRepository {
+
+	// 필드
 	@Autowired
 	private SqlSession sqlSession;
-	
-	
-	//전체 목록 조회
+
+	// 전체 목록 조회
 	@Override
-	public List<FMpr> getFMprAllList() throws DataAccessException {
-		List<FMpr> list = sqlSession.selectList("mapper.FMpr.FMprAllList");
+	public List<FMpr> getFMprAllList(FMpr fMpr) throws DataAccessException {
+		if(
+			  fMpr.getItem_type()==null 
+            &&fMpr.getClient_name()==null
+            &&fMpr.getItem_code()==null ) {
+			
+		List<FMpr> allList = sqlSession.selectList("mapper.FMpr.FMprAllList");
+		System.out.println("allList"+allList);
+		return allList;
+		
+	}else
+
+	{
+		List<FMpr> list = sqlSession.selectList("mapper.FMpr.FMprList", fMpr);
+		System.out.println("list" + list);
 		return list;
 	}
-	
-	//수정하기
+}
+
+	// 수정하기
 	public int updateFMpr(FMpr fMpr) throws DataAccessException {
-		int cnt=sqlSession.update("mapper.FMpr.updateFMpr", fMpr);
-		System.out.println("cnt="+cnt);
+		int cnt = sqlSession.update("mapper.FMpr.updateFMpr", fMpr);
+		System.out.println("cnt=" + cnt);
 		return cnt;
 	}
+
+	
 }

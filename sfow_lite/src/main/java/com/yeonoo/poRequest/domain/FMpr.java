@@ -1,7 +1,8 @@
 package com.yeonoo.poRequest.domain;
 
+import lombok.Data;
 
-
+@Data
 public class FMpr {
 	
 	private int request_order;			//구매요청번호
@@ -16,7 +17,7 @@ public class FMpr {
 	private int price;					//단가
 	private int amount;					//공급가액
 
-	public FMpr() {}
+	/*public FMpr() {}
 
 	public FMpr(int request_order, String item_type, String client_name, String item_code, String item_name,
 			String item_no, String item_specification, String item_stock_unit, int request_quantity, int price,
@@ -130,5 +131,5 @@ public class FMpr {
 				+ ", item_specification=" + item_specification + ", item_stock_unit=" + item_stock_unit
 				+ ", request_quantity=" + request_quantity + ", price=" + price + ", amount=" + amount + "]";
 	}
-
+*/
 }
