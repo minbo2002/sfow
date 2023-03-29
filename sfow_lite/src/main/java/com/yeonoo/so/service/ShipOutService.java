@@ -6,4 +6,6 @@ import com.yeonoo.so.domain.ShipOut;
 public interface ShipOutService {
 
 	List<ShipOut> getList();
+	
+	int updateStatus(String outCode);
 }

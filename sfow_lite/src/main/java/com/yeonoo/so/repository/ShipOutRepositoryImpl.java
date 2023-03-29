@@ -20,4 +20,10 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 		return sqlSession.selectList("mapper.shipout.getList");
 	}
 
+	@Override
+	public int updateStatus(String outCode) {
+		
+		return sqlSession.update("mapper.shipout.updateStatus", outCode);
+	}
+
 }

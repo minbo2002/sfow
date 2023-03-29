@@ -21,4 +21,10 @@ public class ShipOutServiceImpl implements ShipOutService {
 		return shipOutRepository.getList();
 	}
 
+	@Override
+	public int updateStatus(String outCode) {
+		
+		return shipOutRepository.updateStatus(outCode);
+	}
+
 }

@@ -1,16 +1,16 @@
 package com.yeonoo.so.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+import java.util.Iterator;
+import java.util.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.service.ShipOutService;
-
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,8 +30,25 @@ public class ShipOutController {
 	@RequestMapping(value="list")
 	public List<ShipOut> getList() {
 
-		List<ShipOut> list = shipOutService.getList();
-		System.out.println("list = " + list);
-		return list;
+		List<ShipOut> shipOutList = shipOutService.getList();
+		System.out.println("shipOutList = " + shipOutList);
+		return shipOutList;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="useUpdate", method=RequestMethod.POST)
+	public void useUpdate(@RequestBody List<ShipOut> shipout) {
+
+		System.out.println("shipout = " + shipout);
+
+		Iterator<ShipOut> iterator = shipout.iterator();
+		while(iterator.hasNext()) {
+			ShipOut elements = iterator.next();
+			System.out.println("outCode = " + elements.getOutCode());
+			
+			shipOutService.updateStatus(elements.getOutCode());
+		}
+		
+	}
+
 }
