@@ -15,7 +15,6 @@
 <script>
 
 //그리드
-window.onload = function() {
 	   var gridData=[];
 	   var grid = new tui.Grid({
 	       el: document.getElementById('grid'),
@@ -25,6 +24,13 @@ window.onload = function() {
 	       rowHeaders: ['checkbox'],
 	       
 	    columns: [
+    	   {
+   	        header: '번호',	//헤더 제목
+   	        name: 'request_order',	//컬럼 이름
+   	        sortable: true,		//정렬 위아래로
+   	        editor: 'text',		//글씨 수정
+   	        align:'center', 	//텍스트 센터
+   	      },
 	      {
 	        header: '품목유형',	//헤더 제목
 	        name: 'item_type',	//컬럼 이름
@@ -99,17 +105,47 @@ window.onload = function() {
 		        
 		  }
 	    ]
-	  });
+	  });//그리기 끝
+	   
 	$.ajax({
-		url : "${conPath}/FMpr/test", //toastList
+		//전체 조회
+		url : "${conPath}/FMpr/test", //컨트롤러url
 		method : "GET",
 		dataType : "JSON",
-		success : function(result) {
-			console.dir(result);
-			grid.resetData(result);
+		success : function(data) {
+			console.dir(data);
+			grid.resetData(data);
+		
+			//수정
+			grid.on('editingFinish', function(ev) {
+	            const rowKey = ev.rowKey;
+	            const columnName = ev.columnName;
+	            var updatedData = {};
+	            const rowData = grid.getRow(rowKey);
+	            console.log('Row data: ', rowData);
+	            
+	     	   $.ajax({
+	    	       url: '${conPath}/updateFMpr',
+	    	       method: 'PUT',
+	    	       dataType: 'JSON',
+	    	       data: JSON.stringify(rowData),
+	    	       contentType: 'application/json',
+	    	       success: function(response) {
+	    	           console.log('Success:', response);
+	    	       },
+	    	       error: function(error) {
+	    	           console.log('Error:', error);
+	               }
+	             }); 
+	    	   	});
+	    	  },
+	      error: function(xhr, status, error) {
+	        // handle error
+	        console.log(error);
+			
+			
 		}
 	});	
-};
 
 </script>
 

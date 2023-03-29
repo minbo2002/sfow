@@ -143,6 +143,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">구매요청</a>
                         <a class="collapse-item" href="#">구매입고등록</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/h');")>필드모드</a>
+
                     </div>
                 </div>
             </li>
