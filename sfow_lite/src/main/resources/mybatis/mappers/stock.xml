@@ -22,15 +22,26 @@
 		select * from mt_stock_detail
 	  ]]>
 	</select>
-	
-	
+
 	<update id="updateStock" parameterType="com.yeonoo.stock.domain.Stock">
 	  <![CDATA[
 		update mt_stock_detail
-		set pass_quantity = #{pass_quantity}, fail_quantity=#{fail_quantity}, quantity=#{quantity}
+		set pass_quantity = #{pass_quantity}, fail_quantity=#{fail_quantity}, quantity=#{quantity}, item_type=#{item_type}
 		where lot_no=#{lot_no}
 	  ]]>
 	</update>
+	
+	<select id="searchStockList" resultType="com.yeonoo.stock.domain.Stock" parameterType="com.yeonoo.stock.domain.Stock">
+	  <![CDATA[
+		SELECT * FROM mt_stock_detail
+		WHERE COALESCE(warehouse_code, '') LIKE CONCAT('%', #{warehouse_code}, '%') 
+		AND COALESCE(warehouse_name, '') LIKE CONCAT('%', #{warehouse_name}, '%')
+		AND COALESCE(lot_no, '') LIKE CONCAT('%', #{lot_no}, '%')
+		AND COALESCE(item_type, '') LIKE CONCAT('%', #{item_type}, '%')
+		AND COALESCE(item_code, '') LIKE CONCAT('%', #{item_code}, '%')
+		AND COALESCE(item_name, '') LIKE CONCAT('%', #{item_name}, '%')
+	  ]]>
+	</select>
 	
 	
 </mapper>
