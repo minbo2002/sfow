@@ -384,6 +384,7 @@
 		                 method: 'PATCH',
 		                 dataType: 'JSON',
 		                 data: JSON.stringify(rowData),
+		                 //data: {rowData},
 		                 contentType: 'application/json',
 		                 success: function(response) {
 		                     console.log('Success:', response);

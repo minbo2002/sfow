@@ -44,7 +44,9 @@ public class StockController {
       //return "stock/main";
   }//search() 끝
 
-  
+  //예상컨데 select해서 이미 한번 받은 데이터가  json형식이라 @RequestBody 어노테이션을 무조건 사용해야 하는듯 하다..
+	//@RequestBody  //JSON -> Java Object
+	//@ResponseBody  //Java Object -> JSON 
   @ResponseBody
   @RequestMapping(value="/updateStock", method=RequestMethod.PATCH)
   public void updateStock(Model model, @RequestBody Stock data) throws Exception {
