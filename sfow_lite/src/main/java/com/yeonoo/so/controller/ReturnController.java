@@ -12,5 +12,11 @@ public class ReturnController {
 		return "/so/returnMain";
 	}
 	
+	@GetMapping("/so/child")
+	public String child() {
+		
+		return "/so/child";
+	}
+	
 	
 }
