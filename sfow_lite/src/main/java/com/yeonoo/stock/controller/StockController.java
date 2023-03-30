@@ -28,7 +28,7 @@ public class StockController {
     	
     	//return "stock/stockSearch";
     	return "stock/stockWhDetail";
-    }//stockSearch() 끝 
+    }//stockSearch() 끝 8o
 
 	@ResponseBody
 	@RequestMapping(value="/searchAllStock", method=RequestMethod.POST )

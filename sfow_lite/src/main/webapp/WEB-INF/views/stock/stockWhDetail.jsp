@@ -404,10 +404,112 @@
 // }); 
 	};
 	    
-	
-	
+	//초기화 버튼 더블 클릭시에 그리드 데이터 클리어
+	$(document).ready(function() {
+	 $('#resetBtn').dblclick(function(event) {
+		  event.preventDefault();
+		  grid.clear();
+	 	});
+	 });
 	
 </script>
+
+
+
+<script>
+window.onload = function() {
+var gridData2=[];
+var grid2 = new tui.Grid({
+  el: document.getElementById('modalGrid'),
+  data: gridData2,
+  scrollX: false,
+  scrollY: false,
+  rowHeaders: [{
+      type: 'rowNum',
+      header: "  ",
+      width: 50,
+  },{type : 'checkbox'}     ],
+  columns: [
+    {
+      header: '창고코드',
+      name: 'warehouse_code',
+      sortable: true,
+      align:'center'
+    },
+    {
+      header: '창고명',
+      name: 'warehouse_name',
+      sortable: true,
+      align:'center'
+    }
+  ]
+});
+};
+</script>
+
+
+
+<script>
+  const body = document.querySelector('body');
+  const modal = document.querySelector('.modal');
+  const btnOpenPopup = document.querySelector('.btn-open-popup');
+
+  btnOpenPopup.addEventListener('dblclick', () => {
+    modal.classList.toggle('show');
+
+    if (modal.classList.contains('show')) {
+      body.style.overflow = 'hidden';
+    }
+  });
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.classList.toggle('show');
+
+      if (!modal.classList.contains('show')) {
+        body.style.overflow = 'auto';
+      }
+    }
+  });
+</script>
+  
+ <script>
+ //정우씨 modal 소스
+ /*
+  function openModal() {
+      var modal = document.createElement('div');
+      modal.classList.add('modal');
+  
+  
+      modal.innerHTML = `
+          //<button type="button" class="close-modal">Close</button>   
+                                                                                   
+       `;
+       document.body.appendChild(modal);
+
+//        var modalContent = modal.querySelector('.modal-content');
+//        modalContent.appendChild(document.createTextNode(JSON.stringify()));
+
+       modal.style.display = 'block';
+
+       //var closeModalButton = modal.querySelector('.close-modal');
+       //closeModalButton.addEventListener('click', () => {
+         //modal.remove();
+       //});
+     }
+ 
+*/
+
+//      grid.on('dblclick', (ev) => {
+//        var { rowKey } = grid.getFocusedCell();
+//        var rowData = grid.getRow(rowKey);
+//        openModal();
+//        //alert("confirm");
+//      });
+      
+</script>
+
+
 
 <style>
 /*  	th { */
@@ -442,6 +544,18 @@
 		.form-data{
 		width : 200px;
 		height: 30px;
+/* 		background-color: rgb(230, 242, 255) */
+/* 		text-align:center; */
+	/* 	vertical-align: middle; */
+		line-height : 30px;
+		border-radius:3px;
+		border:1px solid #e2e2e2;
+		display:inline-block;
+		}
+		
+		.btn-open-popup{
+		width : 200px;
+		height: 30px;
 		background-color: rgb(230, 242, 255)
 		text-align:center;
 	/* 	vertical-align: middle; */
@@ -450,6 +564,7 @@
 		border:1px solid #e2e2e2;
 		display:inline-block;
 		}
+		
 	
 /* 	.total { */
 /* 	width:1600px; */
@@ -464,12 +579,48 @@
 /* 	font-size:13px; */
 /* 	} */
 	
+	.modal {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
 	
+	  width: 100%;
+	  height: 100%;
+	
+	  display: none;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+	 
+	.modal.show {
+	  display: block;
+	}
+	
+	.modalGrid {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	
+	  width: 400px;
+	  height: 600px;
+	
+	  padding: 40px;
+	
+	  text-align: center;
+	
+	  background-color: rgb(255, 255, 255);
+	  border-radius: 10px;
+	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	
+	  transform: translateX(-50%) translateY(-50%);
+	}
+	
+
 	
 </style>
 
 
 <body>
+
 <%-- 	<form id=stockSearch name=stockSearch action="<%=request.getContextPath()%>/stockSearch" method="post"> --%>
 	<form id=stockSearch name=stockSearch>
 <!-- 		<div class=form-title></div><div><input type="text" id="tSearch" name="tSearch" /></div> -->
@@ -477,13 +628,13 @@
 		&nbsp;<button type="button" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="checkStock()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp;
 <%-- 		&nbsp;<button type="submit" id="searchBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp; --%>
 <%-- 					<button type="reset" onclick="item_type.disabled=false;" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button> --%>
-					<button type="reset" onclick="uncheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button>
+					<button type="reset" id="resetBtn" onclick="uncheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button>
 
 <br/><br/>
 <!-- <input type="button" value="창고 검색" style="border:1px solid #e2e2e2;" /> -->
 <!-- <div class="form-title" style="display: inline-block;">창고 검색</div> -->
 <div style="display:inline-block; margin:5px; font-size:13px; color:black;">
-<input type="text" class="form-title" value="창고검색" disabled/><input type="text" class="form-data" id ="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/></div>
+<input type="text" class="form-title" value="창고검색" disabled/><input type="text" class="btn-open-popup" id ="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/></div>
 <!-- <div style="display:inline-block; margin:5px;"><div class="form-title" >창고검색</div><div class="form-data" style="background-color: rgb(230, 242, 255);"><input type="text"  style="border:none; height:25px; width:190px; background-color: rgb(230, 242, 255);"></div></div> -->
 
 <%-- <button type="button" class="form-title" style="background-color: rgb(230, 242, 255);"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px" /><input type="text" class="form-data" id ="" name="" style="background-color: rgb(230, 242, 255);"/></button> --%>
@@ -524,7 +675,19 @@
 
 
 
-
-
 </body>
+
+    <div class="modal">
+    <!-- modal에 grid 띄우기 -->
+     
+      <div class="modalGrid"></div>
+    </div>
+
+
 </html>
+
+
+
+
+
+
