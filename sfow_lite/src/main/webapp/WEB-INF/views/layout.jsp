@@ -21,11 +21,14 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    
 </head>
 <body id="page-top">
 
