@@ -10,91 +10,72 @@
 	<title>구매관리(필드모드)</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/resources/js/tui-grid.js"></script>
-<link rel="stylesheet" href="/resources/css/tui-grid.css" type="text/css"/>
-		
+<link rel="stylesheet" href="/resources/css/tui-grid.css" type="text/css"/>	
 <script>
+$(document).ready(window.onload=function() {
+	   
+	
+	//FMpi구매발주조회 이동하기
+   var FMpr_move = document.getElementById('FMpr_move');
+   FMpr_move.addEventListener('click', function() {
+      var confirmMsg = `이동 하시겠습니까?`;
+      if(confirm(confirmMsg))
+         grid.move();
+   });
+   
+	//FMpi 입고등록이동하기
+   var FMpi_move = document.getElementById('FMpi_move');
+   FMpi_move.addEventListener('click', function() {
+      var confirmMsg = `이동 하시겠습니까?`;
+      if(confirm(confirmMsg))
+         grid.move();
+   });
 
-//그리드
-window.onload = function() {
-	   var gridData=[];
-	   var grid = new tui.Grid({
-	       el: document.getElementById('grid'),
-	       data: gridData,
-	       scrollX: false,
-	       scrollY: false,
-	       rowHeaders: ['checkbox'],
-	       
-	    columns: [
-	      {
-	        header: '발주번호',	//헤더 제목
-	        name: 'in_number',	//컬럼 이름
-	        sortable: true,		//정렬 위아래로
-	        editor: 'text',		//글씨 수정
-	        align:'center', 	//텍스트 센터
-	      },
-	      {
-	        header: '입고일자',
-	        name: 'in_date',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-	      },
-	      {
-	        header: 'ITEM코드',
-	        name: 'item_code',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-	      },
-	      {
-	        header: '품명',
-	        name: 'item_name',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-	      },
-	      {
-	        header: '품번',
-	        name: 'item_no',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-	      },
-	      {
-	        header: '규격',
-	        name: 'item_specification',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-		  },
-		  {
-	        header: '재고단위',
-	        name: 'item_stock_unit',
-	        sortable: true,
-	        editor: 'text',
-	        align:'center',
-		  }
-	    ]
-	  });//그리기 끝
-	   
-	   
-	$.ajax({
-		//전체 조회
-		url : "${conPath}/FMpi/test", //컨트롤러url
-		method : "GET",
-		dataType : "JSON",
-		success : function(data) {
-			console.dir(data);
-			grid.resetData(data);
-			
-			//수정
-			grid.on('editingFinish', function(ev) {
-	            const rowKey = ev.rowKey;
-	            const columnName = ev.columnName;
-	            var updatedData = {};
-	            const rowData = grid.getRow(rowKey);
-	            console.log('Row data: ', rowData);
+
+	//초기화
+   var resetRow = document.getElementById('resetRow');
+   resetRow.addEventListener('click', function() {
+      var confirmMsg = `초기화 하시겠습니까?`;
+      if(confirm(confirmMsg))
+         grid.clear();
+   });
+   
+   //검색
+  $('#search').click(function(event) {
+    event.preventDefault(); // prevent form submission
+    // get search parameters
+  
+    var in_number = $('#in_number').val();
+    var item_code = $('#item_code').val();
+    var in_date = $('#in_date').val();
+    var warehouse_code = $('#warehouse_code').val();
+    
+    // make AJAX call to server
+    $.ajax({
+      url:'${conPath}/FMpi',
+      type:'GET',
+      dataType:'JSON',
+      contentType: 'application/json',
+      data: {
+    	  
+    	  in_number:in_number,
+    	  item_code:item_code,
+    	  in_date:in_date,
+    	  warehouse_code:warehouse_code
+    	  
+      },
+      success: function(data) {
+    
+    	  	grid.resetData(data);
+    	   	
+    	   	grid.on('editingFinish', function(ev) {
+            const rowKey = ev.rowKey;
+            const columnName = ev.columnName;
+            var updatedData = {};
+            const rowData = grid.getRow(rowKey);
+            console.log('Row data: ', rowData);
 	            
+         		// 업데이트
 	     	   $.ajax({
 	    	       url: '${conPath}/updateFMpi',
 	    	       method: 'PUT',
@@ -113,11 +94,10 @@ window.onload = function() {
 	      error: function(xhr, status, error) {
 	        // handle error
 	        console.log(error);
-			
-			
-		}
-	});	
-};
+	      }
+	    });
+	  });
+	});
 
 </script>
 
@@ -185,29 +165,33 @@ window.onload = function() {
 
 	<div class="file-title" style="margin: 20px;">
         <div class="right-btn-group">
-            <div class="right-tap-btn" id="search_btn">조회</div>
-            <div class="right-tap-btn" id="search_btn">초기화</div>
-            <div class="right-tap-btn" id="search_btn">구매발주조회</div>
-            <div class="right-tap-btn" id="search_btn">입고등록</div>
+        <input type="submit" id="search" value="조회">
+        <input type="reset" id="resetRow" value="초기화">
+  
+        <form id=FMpr_move name=FMpr_move  method="GET" action="${conPath}/FMpr">
+	        <input type="submit" id="FMpr_move" value="구매발주조회">
+	        <input type="submit" id="FMpi_move" value="입고등록">
+     	</form>
+
         </div>
     </div>
     
     <div class="right-content">
         <div class="editer-content">
-                       <div>
+            <div>
                 <div >
-                    발주번호 검색<input type="text" style="margin: 8px;">
+                    구매요청번호 검색<input type="text" name="in_number" id="in_number">
                 </div>
                 <div>
-                    품목검색<input type="text" style="margin: 8px;">
+           ITEM코드<input type="text" name="item_code" id="item_code">
                 </div>
             </div>
             <div>
                 <div>
-                    입고일자<input type="text" style="margin: 8px;">
+                    입고일자<input type="text" name="in_date" id="in_date">
                 </div>
                 <div>
-                    창고선택<input type="text" style="margin: 8px;">
+                    창고선택<input type="text" name="warehouse_code" id="warehouse_code">
                 </div>
             </div>
         </div>
@@ -215,6 +199,173 @@ window.onload = function() {
      
 	<!-- 그리드 화면 -->
  <div id="grid"></div>
+ 
+ <script>
+//그리드
+ var gridData=[];
+ var grid = new tui.Grid({
+     el: document.getElementById('grid'),
+     data: gridData,
+     scrollX: false,
+     scrollY: false,
+     rowHeaders: ['checkbox'],
+     
+  columns: [
+    {
+      header: '구매요청번호',	//헤더 제목
+      name: 'in_number',	//컬럼 이름
+      sortable: true,		//정렬 위아래로
+      editor: 'text',		//글씨 수정
+      align:'center', 	//텍스트 센터
+    },
+    {
+      header: '입고일자',
+      name: 'in_date',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+    },
+    {
+      header: 'ITEM코드',
+      name: 'item_code',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+    },
+    {
+      header: '품명',
+      name: 'item_name',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+    },
+    {
+      header: '품번',
+      name: 'item_no',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+    },
+    {
+      header: '규격',
+      name: 'item_specification',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+	  },
+	  {
+      header: '재고단위',
+      name: 'item_stock_unit',
+      sortable: true,
+      editor: 'text',
+      align:'center',
+	  },
+	  {
+	      header: '창고코드',
+	      name: 'warehouse_code',
+	      sortable: true,
+	      editor: 'text',
+	      align:'center',
+		  }
+	  
+  ]
+}); //그리기 끝
+
+//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
+	grid.on('check', function(ev) {
+  const rowKey = ev.rowKey;
+  const columnName = ev.columnName;
+  var updatedData = {};
+  const rowData = grid.getRow(rowKey);
+  console.log('Row data: ', rowData);
+  if(grid.getCheckedRows().length==1){
+	var in_number = document.getElementById('in_number');
+	var in_date = document.getElementById('in_date');
+	var item_code = document.getElementById('item_code');
+	var warehouse_code = document.getElementById('warehouse_code');
+	
+	var test1 =rowData.in_number;
+	var test2 =rowData.in_date;
+	var test3 =rowData.item_code;
+	var test4 =rowData.warehouse_code;
+	
+	in_number.value=test1;
+	in_number.readOnly=true;
+	in_number.disabled=true;
+	in_number.style.outline='none';
+	
+	in_date.value=test2;
+	in_date.readOnly=true;
+	in_date.disabled=true;
+	in_date.style.outline='none';
+	
+	item_code.value=test3;
+	item_code.readOnly=true;
+	item_code.disabled=true;
+	item_code.style.outline='none';
+	
+	warehouse_code.value=test4;
+	warehouse_code.readOnly=true;
+	warehouse_code.disabled=true;
+	warehouse_code.style.outline='none';
+
+  }else{
+		
+		var in_number = document.getElementById('in_number');
+    	var in_date = document.getElementById('in_date');
+    	var item_code = document.getElementById('item_code');
+    	var warehouse_code = document.getElementById('warehouse_code');
+    
+    	in_number.value="";
+    	in_number.readOnly=false;
+    	in_number.style.removeProperty('outline');
+		
+    	in_date.value="";
+    	in_date.readOnly=false;
+    	in_date.style.removeProperty('outline');
+		
+		item_code.value="";
+		item_code.readOnly=false;
+		item_code.style.removeProperty('outline');
+		
+		warehouse_code.value="";
+		warehouse_code.readOnly=false;
+		warehouse_code.style.removeProperty('outline');
+  }
+	
+	
+ });
+
+//checkbox 체크 해제 시에 input 태그 내에 해당 value 제거 & 다중 선택 시에 input 태그 내에 value 제거
+grid.on('uncheck', (ev) => {
+	var in_number = document.getElementById('in_number');
+	var in_date = document.getElementById('in_date');
+	var item_code = document.getElementById('item_code');
+	var warehouse_code = document.getElementById('warehouse_code');
+
+	in_number.value="";
+	in_number.readOnly=false;
+	in_number.style.removeProperty('outline');
+	in_number.disabled=false;
+	
+	in_date.value="";
+	in_date.readOnly=false;
+	in_date.style.removeProperty('outline');
+	in_date.disabled=false;
+	
+	item_code.value="";
+	item_code.readOnly=false;
+	item_code.style.removeProperty('outline');
+	item_code.disabled=false;
+	
+	warehouse_code.value="";
+	warehouse_code.readOnly=false;
+	warehouse_code.style.removeProperty('outline');
+	warehouse_code.disabled=false;
+
+	
+});
+ </script>
  
   <!-- footer -->
     <div class="footer" style="display: inline">

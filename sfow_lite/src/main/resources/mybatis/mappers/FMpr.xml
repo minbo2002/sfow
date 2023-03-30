@@ -21,7 +21,7 @@
 	<!-- 전체목록조회 -->
 	<select id="FMprAllList"  resultMap="FMprResult">
 		<![CDATA[
-			SELECT prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,prd.price,prd.amount
+			SELECT prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,mi.buy_price,prd.amount
 			FROM po_request_detail prd, ma_item mi, ma_client_company mcc
 			WHERE prd.item_code = mi.item_code
 			AND prd.client_code = mcc.client_code
@@ -41,7 +41,7 @@
 		    mi.item_specification = #{item_specification},
 		    mi.item_stock_unit = #{item_stock_unit},
 		    prd.request_quantity = #{request_quantity},
-		    prd.price = #{price},
+		    mi.buy_price = #{buy_price},
 		    prd.amount = #{amount}
 		WHERE prd.item_code = mi.item_code
 		AND prd.client_code = mcc.client_code
@@ -52,7 +52,7 @@
 		<!-- 검색하기 -->
    <select id="FMprList" resultMap="FMprResult">
       <![CDATA[
-         select prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,prd.price,prd.amount
+         select prd.request_order,mi.item_type,mcc.client_name,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit,prd.request_quantity,mi.buy_price,prd.amount
          from po_request_detail prd, ma_item mi, ma_client_company mcc
          where prd.item_code = mi.item_code
 		 AND prd.client_code = mcc.client_code

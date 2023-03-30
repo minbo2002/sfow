@@ -14,7 +14,7 @@ public class FMpr {
 	private String item_specification;	//규격
 	private String item_stock_unit;		//재고단위
 	private int request_quantity;		//수량
-	private int price;					//단가
+	private int buy_price;					//단가
 	private int amount;					//공급가액
 
 	/*public FMpr() {}

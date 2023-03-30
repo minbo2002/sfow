@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yeonoo.poRequest.domain.FMpi;
-import com.yeonoo.poRequest.domain.FMpr;
 import com.yeonoo.poRequest.repository.FMpiRepository;
 
 
@@ -19,8 +18,8 @@ public class FMpiServiceImpl implements FMpiService{
 
 	//전체 목록 조회
 	@Override
-	public List<FMpi> getFMpiAllList() throws Exception {
-		return fMpiRepository.getFMpiAllList();
+	public List<FMpi> getFMpiAllList(FMpi fMpi) throws Exception {
+		return fMpiRepository.getFMpiAllList(fMpi);
 	}
 
 	//수정하기

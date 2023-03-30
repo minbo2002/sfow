@@ -295,7 +295,7 @@ $(document).ready(window.onload=function() {
 		  },
 		  {
 	        header: '단가',
-	        name: 'price',
+	        name: 'buy_price',
 	        sortable: true,
 	        editor: 'text',
 	        align:'center',
@@ -312,47 +312,67 @@ $(document).ready(window.onload=function() {
 	    ]
 	  });//그리기 끝
 	   
-	/* $.ajax({
-		//전체 조회
-		url : "${conPath}/FMpr/test", //컨트롤러url
-		method : "GET",
-		dataType : "JSON",
-		success : function(data) {
-			console.dir(data);
-			grid.resetData(data);
-		
-			//수정
-			
-			grid.on('editingFinish', function(ev) {
-	            const rowKey = ev.rowKey;
-	            const columnName = ev.columnName;
-	            var updatedData = {};
-	            const rowData = grid.getRow(rowKey);
-	            console.log('Row data: ', rowData);
-	            
-	     	   $.ajax({
-	    	       url: '${conPath}/updateFMpr',
-	    	       method: 'PUT',
-	    	       dataType: 'JSON',
-	    	       data: JSON.stringify(rowData),
-	    	       contentType: 'application/json',
-	    	       success: function(response) {
-	    	           console.log('Success:', response);
-	    	       },
-	    	       error: function(error) {
-	    	           console.log('Error:', error);
-	               }
-	             }); 
-	    	   	});
-	    	  },
-	      error: function(xhr, status, error) {
-	        // handle error
-	        console.log(error);
-			
-			
-		}
-	});	 */
-
+	//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
+	   	grid.on('check', function(ev) {
+          const rowKey = ev.rowKey;
+          const columnName = ev.columnName;
+          var updatedData = {};
+          const rowData = grid.getRow(rowKey);
+          console.log('Row data: ', rowData);
+          if(grid.getCheckedRows().length==1){
+	    	var client_name = document.getElementById('client_name');
+	    	var item_code = document.getElementById('item_code');
+	    	
+	    	var test1 =rowData.client_name;
+	    	var test2 =rowData.item_code;
+	    	
+	    	client_name.value=test1;
+	    	client_name.readOnly=true;
+	    	client_name.disabled=true;
+	    	client_name.style.outline='none';
+	    	
+	    	item_code.value=test2;
+	    	item_code.readOnly=true;
+	    	item_code.disabled=true;
+	    	item_code.style.outline='none';
+	
+          }else{
+	    		
+	    		var client_name = document.getElementById('client_name');
+		    	var item_code = document.getElementById('item_code');
+		    
+	    		client_name.value="";
+	    		client_name.readOnly=false;
+	    	
+	    		client_name.style.removeProperty('outline');
+	    		
+	    		item_code.value="";
+	    		item_code.readOnly=false;
+	    	
+	    		item_code.style.removeProperty('outline');
+          }
+	    	
+	    	
+  	   });
+	   
+	  //checkbox 체크 해제 시에 input 태그 내에 해당 value 제거 & 다중 선택 시에 input 태그 내에 value 제거
+    	grid.on('uncheck', (ev) => {
+    		var client_name = document.getElementById('client_name');
+	    	var item_code = document.getElementById('item_code');
+	  
+    		client_name.value="";
+    		client_name.readOnly=false;
+    		client_name.style.removeProperty('outline');
+    		client_name.disabled=false;
+    		
+    		item_code.value="";
+    		item_code.readOnly=false;
+    		item_code.style.removeProperty('outline');
+    		item_code.disabled=false;
+ 
+    		
+    	});
+	  
 </script>
 
   <!-- footer -->

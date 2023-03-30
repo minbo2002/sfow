@@ -18,7 +18,7 @@
 	</resultMap>
 	
 	<!-- 전체목록조회 -->
-	<select id="FMpiAllList"  resultType="FMpi">
+	<select id="FMpiAllList"  resultMap="FMpiResult">
 		<![CDATA[
 			SELECT pid.in_number,pi.in_date,mi.item_code,mi.item_name,mi.item_no,mi.item_specification,mi.item_stock_unit
 			FROM po_in PI, ma_item mi, po_in_detail pid
