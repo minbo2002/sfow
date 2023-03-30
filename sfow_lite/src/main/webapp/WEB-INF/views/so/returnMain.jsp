@@ -10,67 +10,36 @@
 <title>고객반품등록</title>
 <script>
 $(document).ready(function() {
+	
+	$('#search').on("click", function(){
+		event.preventDefault();
+		
+	$.ajax({
+		url : "<%=request.getContextPath()%>/so/getReturnAdd",
+		method : "POST",
+		dataType : "JSON",
+		contentType : "application/json; charset=utf-8",
+		success : function (returnAdd) {
+			console.dir(returnAdd);
+			grid.resetData(returnAdd);  // result를 배열로 받는다
+		},
+		error:function(returnAdd){
+			alert('에러');
+			console.log(returnAdd);
+		}
+	}); //아작스 끝
+	
+  }); //버튼이벤트 끝
+	
+}); // jQuery ready 끝
 
-//데이트피커 설정
-const config = {
-		dateFormat: 'yy-mm-dd',
-	    prevText: '이전 달',
-	    nextText: '다음 달',
-	    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-	    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-	    dayNames: ['일','월','화','수','목','금','토'],
-	    dayNamesShort: ['일','월','화','수','목','금','토'],
-	    dayNamesMin: ['일','월','화','수','목','금','토'],
-	    yearSuffix: '년',
-        changeMonth: true,
-        changeYear: true
-};
 
-//반품일자 jQuery 데이트피커
-$( function() {
-    $( "#datepicker" ).datepicker(config);
- });
-  
-
-let openWin;
-
-function openChild() {
-    // window.name = "부모창 이름"; 
-    window.name = "parentForm";
-    
-    let openUrl = ''
-    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-    openWin = window.open(openUrl, "childForm", "width=570, height=350, resizable = no, scrollbars = no");    
-}
-
-/* 그리드객체명.on('click', (ev) => {
-    const { rowKey } = grid1.getFocusedCell();
-    const rowData = grid1.getRow(rowKey);
-                      alert(rowData.그리드컬럼name);
-}); */
-
-//GRID 에 데이터를 입력한다.
-/* const gridData  = [
-	{
-		out_status:'0',
-		return_date:'2020-11-16',
-		return_number:'230320-002',
-		customer_code: 'C00000222',
-		client_name: '(주)에이테크경주',
-		memo: ''
-	}
-]; */
-
-const grid = new tui.Grid({
-    el: document.getElementById('grid'),
-    data: {
-      api: {
-        readData: { url: '<%=request.getContextPath()%>/so/getReturnAdd', method: 'POST' }
-      }
-    },
+var gridData = [];
+var grid = new tui.Grid({
+	el: document.getElementById('grid'),
+    data: gridData,
     scrollX: false,
     scrollY: false,
-    minBodyHeight: 30,
     rowHeaders: ['rowNum'],
     columns: [
 		{
@@ -123,106 +92,8 @@ const grid = new tui.Grid({
 			editor: 'text'
 		}
 	]
-} );
+	});
 
-
-//조회 클릭했을때 받아오긴 함. 이걸 그리드에 어떻게 넣지?
-$('#search').on("click", function(){
-	alert('hi');
-		$.ajax({
-			type:'post',
-			url:'<%=request.getContextPath()%>/so/getReturnAdd',
-			success:function(data,status,xhr){
-      	      let jsonInfo = JSON.parse(data);
-    	      console.log(jsonInfo.test);
-			},
-			error:function(xhr,status,error){
-				alert('에러');
-			}
-		}); //아작스 끝
-});
-
-
-//그리드 테이블 만들기
-/* var grid = new tui.Grid( {
-	el: document.getElementById('grid'),
-	data:dataSource,
- 	rowHeaders: ['rowNum'],
-	columns: [
-		{
-			header: '상태',
-			name: 'out_status',
-			formatter: 'listItemText',
-			editor: {
-				type: 'select',
-				options: {
-					listItems: [
-						{
-							text: '저장',
-							value: '0'
-						},
-						{
-							text: '확정',
-							value: '1'
-						}
-					]
-				}
-			}
-		},
-		{
-			header: '반품일자',
-			name: 'return_date',
-	          editor: {
-	        	  type: 'datePicker',
-	              options: {
-	                format: 'yyyy-MM-dd'
-	              }
-	          }
-		},
-		{
-			header: '입고번호',
-			name: 'return_number',
-			editor: 'text'
-		},
-		{
-			header: '거래처코드',
-			name: 'customer_code',
-			editor: 'text'
-		},
-		{
-			header: '거래처명',
-			name: 'client_name',
-			editor: 'text'
-		},		{
-			header: '비고',
-			name: 'memo',
-			editor: 'text'
-		}
-	]
-} ); */
-
-$('#search').on("click", function(){
-	alert('hi2');
-		$.ajax({
-			type:'post',
-			url:'<%=request.getContextPath()%>/so/getReturnAdd',
-			success:function(reseult){
-				console.dir(result);
-				gride.resetDate(result);
-				
-	      	      /* let jsonInfo = JSON.parse(data);
-	    	      console.log(jsonInfo.test); */
-				
-			},
-			error:function(xhr,status,error){
-				alert('에러');
-			}
-		}); //아작스 끝
-});
-
-
-
-}); // jQuery ready 끝
 
 </script>
 </head>

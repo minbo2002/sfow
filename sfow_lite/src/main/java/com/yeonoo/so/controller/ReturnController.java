@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sun.media.jfxmedia.logging.Logger;
+import com.yeonoo.sfow.HomeController;
 import com.yeonoo.so.domain.ReturnAdd;
 import com.yeonoo.so.service.ReturnAddService;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 
 
 
 @Controller
 @Slf4j
 public class ReturnController {
+	
+	
 	
 	@Autowired
 	ReturnAddService returnAddService;
@@ -33,7 +37,8 @@ public class ReturnController {
 		return "/so/returnMain";
 	}
 	
-
+	
+	//반품등록 전체조회 테스트
 	@GetMapping("/so/test")
 	public String test(HttpServletRequest request, Model model) throws Exception {
 		
@@ -43,24 +48,18 @@ public class ReturnController {
 		return "/so/test";
 	}
 	
-	//반품등록 전체조회
-	@RequestMapping(value="/so/getReturnAdd", 
-			method = RequestMethod.POST, 
-			produces="application/text;charset=utf8")
+
+	//아작스 버튼조회
+	
+	@RequestMapping(value="/so/getReturnAdd",
+			   method=RequestMethod.POST)
 	@ResponseBody
-	public String getReturnAdd() throws Exception {
+	public List<ReturnAdd> getReturn() throws Exception {
 		
 		List<ReturnAdd> returnAdd = returnAddService.getReturnAdd();
 		
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("test", returnAdd);
-		String jsonInfo = jsonObject.toString();
-		
-		
-		return jsonInfo;
+		return returnAdd;
 	}
-	
-	
 	
 	
 	
