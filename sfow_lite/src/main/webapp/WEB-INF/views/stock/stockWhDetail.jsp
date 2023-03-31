@@ -96,7 +96,7 @@
 	          align:'center'
 	        },
 	        {
-	          header: '규격',
+	          header: '규격', 
 	          name: 'item_specification',
 	          sortable: true,
 	          align:'center'
@@ -417,7 +417,6 @@
 
 
 <script>
-window.onload = function() {
 var gridData2=[];
 var grid2 = new tui.Grid({
   el: document.getElementById('modalGrid'),
@@ -444,7 +443,6 @@ var grid2 = new tui.Grid({
     }
   ]
 });
-};
 </script>
 
 
@@ -600,8 +598,8 @@ var grid2 = new tui.Grid({
 	  top: 50%;
 	  left: 50%;
 	
-	  width: 400px;
-	  height: 600px;
+	  width: 1200px;
+	  height: 800px;
 	
 	  padding: 40px;
 	
@@ -680,7 +678,34 @@ var grid2 = new tui.Grid({
     <div class="modal">
     <!-- modal에 grid 띄우기 -->
      
-      <div class="modalGrid"></div>
+      <div class="modalGrid">
+		var gridData2=[];
+		var grid2 = new tui.Grid({
+		  el: document.getElementById('modalGrid'),
+		  data: gridData2,
+		  scrollX: false,
+		  scrollY: false,
+		  rowHeaders: [{
+		      type: 'rowNum',
+		      header: "  ",
+		      width: 50,
+		  },{type : 'checkbox'}     ],
+		  columns: [
+		    {
+		      header: '창고코드',
+		      name: 'warehouse_code',
+		      sortable: true,
+		      align:'center'
+		    },
+		    {
+		      header: '창고명',
+		      name: 'warehouse_name',
+		      sortable: true,
+		      align:'center'
+		    }
+		  ]
+		});
+      </div>
     </div>
 
 
