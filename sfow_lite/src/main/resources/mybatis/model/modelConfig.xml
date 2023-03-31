@@ -4,4 +4,11 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
+<typeAliases>
+ <!--<typeAlias type="패키지명.클래스명"    alias="클래스별칭"/>
+ 	  <typeAlias type="java.lang.String" alias="string"/>	
+ 		<typeAlias type="java.util.List"   alias="list"/> -->
+	  <typeAlias type="com.yeonoo.pp.domain.Item"    
+	                                     alias="Item"/>
+</typeAliases>
 </configuration>

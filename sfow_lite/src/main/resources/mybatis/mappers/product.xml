@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.pp">
+
+	<select id="getItemList" resultType="Item" parameterType="int">
+		<![CDATA[
+			SELECT item_code,item_name,item_no,item_specification,
+			(SELECT item_type FROM ma_itemtype WHERE item_category = '키오스크류' AND NOT item_type = '원자제') AS item_type
+			FROM ma_item
+			WHERE company_code = #{company_code}
+		]]> 	
+	</select>
+	
+	<select id="selectItem" resultType="Item" parameterType="String">
+		<![CDATA[
+			SELECT item_code,item_name,item_no,item_specification
+			FROM ma_item
+			WHERE item_code = #{item_code}
+		]]> 	
+	</select>
+	
+	<select id="getBomTree" resultType="Item" parameterType="String">
+		<![CDATA[
+			SELECT sitem_cd AS item_code, item_name, item_no, item_specification
+			FROM ma_bom_tree
+			WHERE ppitem_cd = #{ppitem_cd}
+		]]> 	
+	</select>
+
+</mapper>
