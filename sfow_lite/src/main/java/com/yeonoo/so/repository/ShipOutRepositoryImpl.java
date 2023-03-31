@@ -26,4 +26,10 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 		return sqlSession.update("mapper.shipout.updateStatus", outCode);
 	}
 
+	@Override
+	public int writeShipOut(ShipOut elements) {
+
+		return sqlSession.update("mapper.shipout.writeShipout", elements);
+	}
+
 }

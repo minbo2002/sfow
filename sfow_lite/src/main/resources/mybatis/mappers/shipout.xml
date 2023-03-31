@@ -4,10 +4,11 @@
 <mapper namespace="mapper.shipout">
 	<select id="getList" resultType="shipOut">
 		<![CDATA[
-			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode, out_type AS outType,
-			trans_type AS transType, out_plan_date AS outPlanDate, out_manager AS outManager, out_status AS outStatus, memo, create_date AS createDate,
-			create_user AS createUser, update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo FROM so_shipout
-			where delete_yes_no="N" 
+			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode, item_code AS itemCode,
+			       out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate, out_manager AS outManager, out_status AS outStatus, memo,
+			       create_date AS createDate, create_user AS createUser, update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
+			FROM so_shipout
+			where delete_yes_no="N"
 		]]>
 	</select>
 	
@@ -18,4 +19,16 @@
 			where out_code=#{outCode}
 		]]>
 	</update>
+	
+	<insert id="writeShipout" parameterType="shipOut" useGeneratedKeys="true" keyProperty="outCode">
+		<selectKey keyProperty="outCode" resultType="string" order="BEFORE">
+			SELECT so_shipout_seq_12('SOUT') FROM DUAL
+		</selectKey>
+		<![CDATA[
+			insert into so_shipout (out_code, order_number, client_code, company_code, item_code ,out_type, trans_type, out_plan_date, out_manager, 
+									memo, create_user, update_user)
+			values (#{outCode}, #{orderNumber}, #{clientCode}, #{companyCode}, ${itemCode}, #{outType}, #{transType}, #{outPlanDate}, #{outManager}, 
+					#{memo}, #{createUser}, #{updateUser})
+		]]>
+	</insert>
 </mapper>

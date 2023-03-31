@@ -9,4 +9,6 @@ public interface ShipOutRepository {
 	List<ShipOut> getList();
 	
 	int updateStatus(String outCode);
+	
+	int writeShipOut(ShipOut elements);
 }

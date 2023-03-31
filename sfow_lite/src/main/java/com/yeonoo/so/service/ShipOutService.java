@@ -8,4 +8,6 @@ public interface ShipOutService {
 	List<ShipOut> getList();
 	
 	int updateStatus(String outCode);
+	
+	int writeShipOut(ShipOut elements);
 }
