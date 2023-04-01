@@ -15,7 +15,7 @@ public interface WhRepository {
 	// public void insertwhService(WH wh) throws DataAccessException;
 	
 	//수정하기 update
-	public int updateWHform(WH wh) throws Exception;
+	public void updateWH(WH rowData) throws Exception;
 		
 	public String getAreaList(String st) throws DataAccessException;
 	

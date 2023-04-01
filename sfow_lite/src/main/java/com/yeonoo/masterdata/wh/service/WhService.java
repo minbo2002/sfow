@@ -17,13 +17,14 @@ public interface WhService {
 	*/
 		
 	//수정 update
-	public int updateWHform(WH wh) throws Exception;
 
 	public String getAreaList(String st) throws Exception;
 
 	public List<WH> searchWH(WH searchwh) throws Exception;
 
 	public List<WH> WHarea(WH wharea)throws Exception;
+
+	public void updateWH(WH rowData) throws Exception ;
 		
 	
 	

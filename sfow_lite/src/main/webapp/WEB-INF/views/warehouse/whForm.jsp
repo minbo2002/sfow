@@ -288,41 +288,11 @@ window.onload = function() {
 			 	});
 			});
 		
-			//그리드 클릭하면  창고코드 기준으로 검색해서  정보 그리드2에 뿌려주기 
-			 //checkbox 체크 시에 input 태그에 해당 value 출력 (추가수정 필요 checkbox 2개 check 시에 박스안에 data clear)
-           /*  grid.on('check', function(ev){
-              const rowKey = ev.rowKey;
-              const columnName = ev.columnName;
-              
-              const { rowKey } = grid.getFocusedCell();
-			  const rowData = grid.getRow(rowKey);
-			  
-			  const whcode= rowData.warehouse_code;
-              
-              
-              
-              console.log('Row data: ', rowData);
-              
-            	$.ajax({
-            	    url: '${conPath}/warehouse/WHarea',
-            	    method: 'GET',
-            	    dataType: 'JSON',
-            	    data: JSON.stringify(rowDate),
-            	    contentType: 'application/json',
-            	    success: function(response) {
-            	    	
-            	    	areaGrid.resetData(response);
-            	    	console.log('Success:', response);
-            	    },
-            	    error: function(error) {
-            	    	areaGrid.clear();
-            	      console.log('Error:', error);
-            	      
-            	      
-            	    }
-            	 });
-              
-            }); */
+		
+		
+		
+		
+		
 };//윈로드 스크립트 시작,종료
 </script>
 

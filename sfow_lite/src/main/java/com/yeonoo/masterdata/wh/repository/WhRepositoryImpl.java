@@ -26,15 +26,15 @@ public class WhRepositoryImpl implements WhRepository {
 		
 		return list;
 	}
-
+	
+	//업데이트 그리드 1
 	@Override
-	public int updateWHform(WH wh) throws DataAccessException {
-		int cnt= sqlSession.update("mapper.warehouse.updateWH",wh);
+	public void updateWH(WH warehouse_code) throws Exception {
+		sqlSession.update("mapper.warehouse.updateWH", warehouse_code);
 		
-		System.out.println("cnt"+cnt);
-		
-		return cnt;
 	}
+	
+	
 	@Override
 	public String getAreaList(String st) throws DataAccessException {
 		String list =sqlSession.selectOne("mapper.warehouse.AreaList",st);
@@ -54,6 +54,11 @@ public class WhRepositoryImpl implements WhRepository {
 		return list;
 	}
 
+	
+
+	
+	
+	
 	/*
 	@Override
 	public void insertwhService(WH wh) throws DataAccessException{
