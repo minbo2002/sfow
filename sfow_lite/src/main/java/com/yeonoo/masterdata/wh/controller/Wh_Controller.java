@@ -1,19 +1,20 @@
 package com.yeonoo.masterdata.wh.controller;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
-
-
+import org.mariadb.jdbc.internal.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.service.WhService;
@@ -26,6 +27,8 @@ public class Wh_Controller {
 	
 	@Autowired
 	WhService whService;
+	
+	//private final Logger logger = (Logger) LoggerFactory.getLogger(Wh_Controller.class);
 	
 	//창고폼 보여주기
 	  @RequestMapping("/warehouse/whinfo")
@@ -45,17 +48,18 @@ public class Wh_Controller {
 	        return results;
 	    }
 	    
-	    
-	    //update WH
-	    @PutMapping("/warehouse/updateWH")
-	    @ResponseBody
-	    public void updateWH(@RequestParam WH rowData) throws Exception {
-	    	
-	    	System.out.println("행테이터"+rowData);
-	    	whService.updateWH(rowData);
-	    	
-	    }
-	    
+		/*
+		 * //update WH
+		 * 
+		 * @PutMapping("/warehouse/updateWH")
+		 * 
+		 * @ResponseBody public void updateWH(@RequestParam WH rowData) throws Exception
+		 * {
+		 * 
+		 * System.out.println("행테이터"+rowData); whService.updateWH(rowData);
+		 * 
+		 * }
+		 */
 	  //area 보여주기
 	    @PostMapping("/warehouse/whArea")
 	    public String getAreaList() throws Exception {
@@ -94,26 +98,29 @@ public class Wh_Controller {
 	    }
 	    
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    /*
-	    //인서트 WH
-	    @GetMapping("/warehoues/insertwh")
-	    public String insertwhService(@ModelAttribute WH wh,HttpServletRequest request,Model model) throws Exception {
-			
-	    	whService.insertwhService(wh);
+	    //행 추가 등록(인서트)
+	    @RequestMapping(value="/warehouse/insertWH", method=RequestMethod.POST)
+	    @ResponseBody
+	    public List<WH> insertWH(@RequestBody List<WH> wh){
 	    	
-	    	model.addAttribute("wh",wh);
 	    	
-	    	return "redirect:/warehouse/whinfo";
-	    	
+	    	Iterator<WH> iterator = wh.iterator();
+	    	while(iterator.hasNext()){
+	    		WH elements = iterator.next();
+	    		//logger.info("elements=="+elements);
+	    		
+	    		int insertCnt = whService.writeWH(elements);
+	    		//logger.info("insertCnt==="+insertCnt);
+	    	}
+	    	return wh;
 	    }
-	    */
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 
 	
 	

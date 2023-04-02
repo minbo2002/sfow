@@ -289,8 +289,44 @@ window.onload = function() {
 			});
 		
 		
+		// 행 삭제
+		var deleteRow2 = document.getElementById("deleteRow2");
+		deleteRow2.addEventListener("click", function() {
+	
+			areaGrid.removeCheckedRows(true);
+			// grid.blur();
+		});
 		
+		//창고 등록
 		
+		$(document).ready(function(){
+			
+			$("#saveBtn").click(function(){
+			
+			var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
+			alert("rowDatas : " + rowDatas);
+			var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+			alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+			
+			
+		 	$.ajax({
+				url : "/warehouse/insertWH",
+				method : "post",
+				data : jsonRowDatas,
+				contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+				dataType: "json",			// 서버에서 받을 데이터타입
+				success : function (result) {
+					alert(result); // result는 반환받은 json형태의 객체 
+					alert('성공');
+					
+					
+				},
+				error: function() {
+			        console.log("실패");
+			    }
+			});
+		 	});
+	 	});
 		
 		
 };//윈로드 스크립트 시작,종료
@@ -307,7 +343,7 @@ window.onload = function() {
 		
 		<div class="whbox1">
 	<!-- 	<input type="button" name="serchBtn" id="serchBtn" value="조회"> -->
-		<input type="submit" name="saveBtn" id="saveBtn" value="저장">
+		<input type="button" name="saveBtn" id="saveBtn" value="저장">
 		<input type="button" name="delBtn" id="delBtn" value="삭제">
 		<input type="button" name="clearBtn" id="clearBtn" value="초기화" onClick="window.location.reload()">
 		</div>
@@ -359,7 +395,7 @@ window.onload = function() {
 				<input type="text" name="warehouse_name" id="warehouse_name">
 			</td>
 			<td id="td4">
-				<input type="submit" name="searchBtn" id="searchBtn" value="조회">
+				<input type="button" name="searchBtn" id="searchBtn" value="조회">
 			</td>
 			
 		</tr>
@@ -371,6 +407,7 @@ window.onload = function() {
 		
 		<br/>
 		<input type="button" name="addRowBtn" id="addRowBtn" value="+">
+		<button type="button" id="deleteRow">ㅡ</button>
 		<div style="margin-top:30px;">창고</div>
 		<div id="grid"></div>
 		
@@ -379,7 +416,9 @@ window.onload = function() {
 	
 	
 <hr>
-		<div style="display: flex; margin:10px;">구역(Area)<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" ></div>
+		<div style="display: flex; margin:10px;">구역(Area)
+		<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" >
+		<button type="button" name="deleteRow2" id="deleteRow2" >-</button></div>
 		
 		
 		<div id="areaGrid"></div>
