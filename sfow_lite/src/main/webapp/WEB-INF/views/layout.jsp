@@ -11,7 +11,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+
+
 <title>SFOW MAIN</title>
+
 
 <!-- Custom fonts for this template-->
     <link href="${conPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -45,16 +48,19 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="${conPath}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+           <li class="nav-item active">
+    		<a class="nav-link" href="javascript:acyncMovePage('${conPath}/main3');">
+        		<i class="fas fa-fw fa-tachometer-alt"></i>
+        		<span>공지사항</span>
+    		</a>
+		</li>
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-
+			
+			
             <!-- Nav Item -사용자관리 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -82,6 +88,13 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     
+                    
+                    
+                    <!-- 승 -->
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapsecompany"
+                      aria-expanded="false" aria-controls="collapseItem">거래처정보</a>
+                        <div id="collapsecompany" class="collapse" aria-labelledby="collapsecompany" data-parent="#collapseUtilities">
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/main2');">거래처정보등록</a>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseCompanyInfo"
                       aria-expanded="false" aria-controls="collapseCompanyInfo">회사정보</a>
                         <div id="collapseCompanyInfo" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">

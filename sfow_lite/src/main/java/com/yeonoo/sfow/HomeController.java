@@ -25,4 +25,18 @@ public class HomeController {
 		return "main";
 	}
 
+	@RequestMapping("/main2")
+	public String main(Model model) {
+		
+		
+		return "cpm/clist4";
+	}
+	
+	
+	@RequestMapping("/main3")
+	public String main3(Model model) {
+		
+		
+		return "notice/noticeList";
+	}
 }
