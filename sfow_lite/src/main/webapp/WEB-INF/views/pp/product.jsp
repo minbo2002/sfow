@@ -12,53 +12,46 @@
 <script>
 var gridData = [
     {
-      name: 'Beautiful Lies',
-      artist: 'Birdy',
+      name: '230317-003',
+      artist: '저장',
       release: '2016-03-26',
-      type: 'Deluxe',
-      genre: 'Pop'
+      genre: '2016-03-27'
     },
     {
-      name: 'X',
-      artist: 'Ed Sheeran',
+      name: '230317-001',
+      artist: '저장',
       release: '2014-06-24',
-      type: 'Deluxe',
-      genre: 'Pop'
+      genre: '2014-06-25'
     },
     {
-      name: 'Moves Like Jagger',
-      release: '2011-08-08',
-      artist: 'Maroon5',
-      type: 'Single',
-      genre: 'Pop,Rock'
+      name: '230317-002',
+      artist: '저장',
+      release: '2014-06-23',
+      genre: '2014-06-24'
     },
     {
-      name: 'A Head Full Of Dreams',
-      artist: 'Coldplay',
-      release: '2015.12.04',
-      type: 'Deluxe',
-      genre: 'Rock'
+      name: '230303-006',
+      artist: '저장',
+      release: '2015-12-04',
+      genre: '2015-12-05'
     },
     {
-      name: '19',
-      artist: 'Adele',
-      release: '2008.01.27',
-      type: 'EP',
-      genre: 'Pop,R&B'
+      name: '230227-005',
+      artist: '저장',
+      release: '2018-01-27',
+      genre: '2018-01-28'
     },
     {
-      name: '21',
-      artist: 'Adele',
-      release: '2011.01.21',
-      type: 'Deluxe',
-      genre: 'Pop,R&B'
+      name: '230227-003',
+      artist: '저장',
+      release: '2011-01-21',
+      genre: '2011-01-22'
     },
     {
-      name: '25',
-      artist: 'Adele',
-      release: '2015.11.20',
-      type: 'EP',
-      genre: 'Pop'
+      name: '230227-007',
+      artist: '저장',
+      release: '2015-11-20',
+      genre: '2015-11-21'
     }
   ];
 var grid = new tui.Grid({
@@ -120,50 +113,50 @@ var grid = new tui.Grid({
       },
       {
         header: 'ITEM코드',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true,
         editor: 'text'
       },
       {
         header: '품명',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: '품목코드',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: '규격',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: 'lot_size',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: '수량',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: '창고',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },
       {
         header: '창고명',
-        name: 'genre',
+        name: '',
         sortingType: 'desc',
         sortable: true
       },

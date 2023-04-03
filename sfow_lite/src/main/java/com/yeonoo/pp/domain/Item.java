@@ -1,13 +1,17 @@
 package com.yeonoo.pp.domain;
 
-import lombok.Data;
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 public class Item {
 	
 	//필드
@@ -15,6 +19,10 @@ public class Item {
 	private String item_name;
 	private String item_no;
 	private String item_specification;
-	private String item_type;
+	private String item_category;
+	private Map _attributes;
+	private List<Item> _children;
+	
+
 	
 }
