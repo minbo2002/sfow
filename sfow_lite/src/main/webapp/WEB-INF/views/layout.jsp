@@ -90,7 +90,7 @@
                     
                     
                     
-                    
+                    <!-- 승 -->
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapsecompany"
                       aria-expanded="false" aria-controls="collapseItem">거래처정보</a>
                         <div id="collapsecompany" class="collapse" aria-labelledby="collapsecompany" data-parent="#collapseUtilities">
