@@ -8,7 +8,7 @@
  <!--<typeAlias type="패키지명.클래스명"    alias="클래스별칭"/>
  	  <typeAlias type="java.lang.String" alias="string"/>	
  		<typeAlias type="java.util.List"   alias="list"/> -->
-	  <typeAlias type="com.yeonoo.pp.domain.Item"    
-	                                     alias="Item"/>
+	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
+	                                     alias="BomItem"/>
 </typeAliases>
 </configuration>

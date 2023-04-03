@@ -29,7 +29,26 @@
 	<button id="saveBtn"><i class="fa fa-cloud" aria-hidden="true"></i>저장</button>
 </div>
 <div id="grid3"></div>
-
+<div id="container">
+        <h2>Lorem Ipsum</h2>
+        <button id="btn-modal">모달 창 열기 버튼</button>
+        <div id="lorem-ipsum"></div>
+    </div>
+    <div id="modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="title">
+                <h2>모달</h2>
+            </div>
+            <div class="close-area">X</div>
+            <div class="content">
+                <p>가나다라마바사 아자차카타파하</p>
+                <p>가나다라마바사 아자차카타파하</p>
+                <p>가나다라마바사 아자차카타파하</p>
+                <p>가나다라마바사 아자차카타파하</p>
+                
+            </div>
+        </div>
+    </div>
 <script>
 $(function(){
 	$.ajax({
@@ -246,7 +265,7 @@ function addToDB() {
     alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
     
     $.ajax({
-       url : "{conPath}/ma/addTree",
+       url : "${conPath}/ma/addTree",
        method : "post",
        data : jsonRowDatas,
        contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다

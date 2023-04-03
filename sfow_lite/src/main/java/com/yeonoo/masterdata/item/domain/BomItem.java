@@ -1,4 +1,4 @@
-package com.yeonoo.pp.domain;
+package com.yeonoo.masterdata.item.domain;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class BomItem {
 	
 	//필드
 	private String item_code;
@@ -20,8 +20,14 @@ public class Item {
 	private String item_no;
 	private String item_specification;
 	private String item_category;
+	
+	//BOM
+	private int item_qty;
+	private String item_stock_unit;
+	
+	//Tree 객체용
 	private Map _attributes;
-	private List<Item> _children;
+	private List<BomItem> _children;
 	
 
 	
