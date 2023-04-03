@@ -19,7 +19,7 @@ public interface UserInfoService {
 	public UserInfo mainUserModify(UserInfo userInfo) throws Exception;
 	
 	//사용자 목록 
-	public List<UserInfo> userListAll(int companyCode) throws Exception;
+	public List<UserInfo> userListAll(String companyCode) throws Exception;
 	
 	//일반 사용자 계정관리
 	public int userListModify(UserInfo userInfo) throws Exception;
@@ -28,6 +28,6 @@ public interface UserInfoService {
 	public int newUserAdd(UserInfo newUserInfo) throws Exception;
 	
 	//계정 삭제(그리드)
-	public int removeUser(String id) throws Exception;
+	public int removeUser(String deleteId) throws Exception;
 	
 }

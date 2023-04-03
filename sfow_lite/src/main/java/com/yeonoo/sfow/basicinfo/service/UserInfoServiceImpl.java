@@ -38,7 +38,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 	}
 
 	@Override
-	public List<UserInfo> userListAll(int companyCode) throws Exception {
+	public List<UserInfo> userListAll(String companyCode) throws Exception {
 		return userInfoRepository.userInfoSelectAll(companyCode);
 	}
 
@@ -53,8 +53,8 @@ public class UserInfoServiceImpl implements UserInfoService{
 	}
 
 	@Override
-	public int removeUser(String id) throws Exception {
-		return userInfoRepository.deleteUser(id);
+	public int removeUser(String deleteId) throws Exception {
+		return userInfoRepository.deleteUser(deleteId);
 	}
 
 }

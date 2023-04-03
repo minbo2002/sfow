@@ -17,13 +17,13 @@ public interface UserInfoRepository{
 	//관리자 계정 수정
 	public UserInfo mainUserInfoUpdate(UserInfo userInfo) throws Exception;
 	
-	public List<UserInfo> userInfoSelectAll(int companyCode) throws Exception;
+	public List<UserInfo> userInfoSelectAll(String companyCode) throws Exception;
 	
 	//사용자 계정관리 - 수정
 	public int userListUpdate(UserInfo userInfo) throws Exception;
 	
 	public int newUserInsert(UserInfo newUserInfo) throws Exception;
 	
-	public int deleteUser(String id) throws Exception;
+	public int deleteUser(String deleteId) throws Exception;
 
 }

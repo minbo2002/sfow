@@ -11,10 +11,28 @@
 	<link rel="stylesheet" href="${ContextPath}/resources/css/tui-grid.css" type="text/css"/>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
-<style>
+   <style>
+    .btn-wrapper button {
+      background-color: #f5f5f5; /* 배경색 */
+      color: #333; /* 글자색 */
+      border: 1px solid #ccc; /* 테두리 */
+      padding: 10px 20px; /* 내부 여백 */
+      margin-right: 10px; /* 오른쪽 마진 */
+      border-radius: 4px; /* 둥근 모서리 */
+      cursor: pointer; /* 마우스 포인터 모양 변경 */
+    }
 
-
-</style>
+   #delete-row-btn {
+		  background-color: #ff8a80;
+		  color: #fff;
+		  border: 1px solid #ff8a80;
+		}
+		
+		#delete-row-btn:hover {
+		  background-color: #ff7043;
+		  border: 1px solid #ff7043;
+		}
+  </style>
 </head>
 <script>
 $(document).ready(function() {
@@ -64,6 +82,13 @@ $(document).ready(function() {
                 name: 'id',  
                 editor: 'text',
                 align: 'center', 
+            },
+            
+            // updateKey 확인
+            {
+                header: '아이디',         
+                name: 'updateKey',  
+                align: 'center'
             },
             
          		// [계정번호 ]
@@ -128,6 +153,13 @@ $(document).ready(function() {
 	  
 	  //행 추가
 	  $('#add-row-btn').on('click', function() {
+		  
+		  
+		  var now = new Date();
+		  var currentDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2) + '-' + ('0' + now.getHours()).slice(-2);
+
+		  
+		  
 		    // 행 추가할 때 필수 데이터 입력
 		    var newRowData = {
 		        companyCode: '${sessionScope.AUTHUSER.companyCode}',
@@ -138,8 +170,8 @@ $(document).ready(function() {
 		        password: '',
 		        phoneNum: '',
 		        email: '',
-		        createDate: '',
-		        updateDate: ''
+		        createDate: currentDate,
+		        updateDate: currentDate
 		    };
 		    console.log("newRowData", newRowData);
 				
@@ -157,7 +189,21 @@ $(document).ready(function() {
 		        contentType: 'application/json',
 		        success: function(result) {
 		            console.log(result);
-		            alert(ADD_SUCCESS);
+		            
+		            $.ajax({
+		                url: '${ContextPath}/userManagementAjax?companyCode=${sessionScope.AUTHUSER.companyCode}',
+		                type: 'GET',
+		                dataType: 'JSON',
+		                success: function(result) {
+		                    console.log(result);
+		                    grid.resetData(result);
+		                },
+		                error: function(xhr, status, error) {
+		                    console.log(xhr.responseText);
+		                    alert('Error: ' + error);
+		                }
+		            });
+		            alert('사용자가 추가되었습니다.');
 		        },
 		        error: function(xhr, status, error) {
 		            console.log(xhr.responseText);
@@ -203,7 +249,7 @@ $(document).ready(function() {
 	    		  }
 	    		}
 
-	    	  
+	    	  //회원정보 변경
 	    	  $.ajax({
 	    		    url: '${ContextPath}/userListUpdate',
 	    		    method: 'PUT',
@@ -229,7 +275,7 @@ $(document).ready(function() {
 	    const checkedRows = grid.getCheckedRows();
 	    var ids = [];
 	    for (var i = 0; i < checkedRows.length; i++) {
-	      ids.push(checkedRows[i].id);
+	      ids.push(checkedRows[i].updateKey);
 	    }
 	    console.log("ids",ids);
 	    
@@ -245,7 +291,7 @@ $(document).ready(function() {
 	        
 	        // 삭제된 행 재로딩
 	        $.ajax({
-	          url: '${ContextPath}/userManagementAjax',
+	          url: '${ContextPath}/userManagementAjax?companyCode=${sessionScope.AUTHUSER.companyCode}',
 	          method: 'GET',
 	          dataType: 'JSON',
 	          success: function(result) {

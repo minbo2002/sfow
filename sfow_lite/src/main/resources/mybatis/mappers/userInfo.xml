@@ -24,7 +24,7 @@
 	<select id="userInfoSelect" parameterType="Integer" resultMap="userInfo">
 			<![CDATA[
 			select company_code,company_name,user_name,id,phone_num,email,create_date 
-			from cm_userInfo
+			from cm_userinfo
 	    where company_code=#{no}
 			]]> 
 	</select>
@@ -100,18 +100,13 @@
 	
 	
 	
-	
-	
-	
-	
-	
 
 	<!-- 사용자 계정 관리 메뉴-->
 	
 	<!-- 회원 정보 변경 -->
 	<update id="userListUpdate">
 			<![CDATA[
-				update cm_userInfo 
+				update cm_userinfo 
 				set company_name=#{companyName}, id=#{id},user_name=#{userName},password=#{password},email=#{email},phone_num=#{phoneNum}
 				where update_key=#{updateKey}
 			]]>
@@ -120,7 +115,7 @@
 	<!-- 회원 생성 -->
 	<insert id="newUserAdd">
 		<![CDATA[
-		INSERT INTO cm_userInfo (company_code,company_name, user_name,update_key, password, email,phone_num)
+		INSERT INTO cm_userinfo (company_code,company_name, user_name,update_key, password,phone_num,email)
 		VALUES (#{companyCode},#{companyName},#{userName},REPLACE(UUID_SHORT(), '-', ''),#{password},#{phoneNum},#{email})
 		]]>
 	</insert>
@@ -130,7 +125,7 @@
 	<delete id="deleteUser">
 		<![CDATA[
 			delete from cm_userinfo
-			where id=#{id};
+			where update_key=#{deleteId}
 		]]>
 	</delete>
 

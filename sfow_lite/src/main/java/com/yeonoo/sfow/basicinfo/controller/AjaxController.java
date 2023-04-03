@@ -46,35 +46,40 @@ public class AjaxController {
 	}
 	
 	@RequestMapping("/userManagementAjax")
-	public List<UserInfo> userManagementAjax(int companyCode) throws Exception {
+	public List<UserInfo> userManagementAjax(String companyCode) throws Exception {
 		List<UserInfo> userInfoList =userInfoService.userListAll(companyCode);
 		return userInfoList;
 	}
 	
 	
+	//계정 정보 수정
 	@RequestMapping(value = "/userListUpdate")
 	public int userListUpdate(@RequestBody UserInfo updatedData) throws Exception {
-
+		System.out.println("userListUpdate==========="+updatedData);
 	    int result = userInfoService.userListModify(updatedData);
 
 	    return result;
 	}
 	
+	//새로운 유저 생성
 	@RequestMapping("/newUserAjax")
-	public String newUserAdd(@RequestBody UserInfo updatedData) throws Exception {
-		
-		int result=userInfoService.newUserAdd(updatedData);
+	public String newUserAdd(@RequestBody UserInfo newUserData) throws Exception {
+		System.out.println("updatedData======="+newUserData);
+		int result=userInfoService.newUserAdd(newUserData);
 		
 		return "1";
 	}
 
+	
+	//계정 삭제
 	@RequestMapping("/deleteUserAjax")
-	public String deleteUserAjax(@RequestBody String ids) throws Exception {
-		String id = ids;
-		if (id.startsWith("\"") && id.endsWith("\"")) {
-			id = id.substring(1, id.length() - 1);
+	public String deleteUserAjax(@RequestBody String updateKey) throws Exception {
+		System.out.println("ids========"+updateKey);
+		String deleteId = updateKey;
+		if (deleteId.startsWith("\"") && deleteId.endsWith("\"")) {
+			deleteId = deleteId.substring(1, deleteId.length() - 1);
 		}
-		int result = userInfoService.removeUser(id);
+		int result = userInfoService.removeUser(deleteId);
 		
 	    return "1";
 	}

@@ -67,7 +67,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 
 	//사용자 목록 조회
 	@Override
-	public List<UserInfo> userInfoSelectAll(int companyCode) throws Exception {
+	public List<UserInfo> userInfoSelectAll(String companyCode) throws Exception {
 		List<UserInfo> userInfoList =sqlSession.selectList("userInfoSelectAll",companyCode);
 		return userInfoList;
 	}
@@ -88,8 +88,8 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 	
 	//그리드 행 삭제
 	@Override
-	public int deleteUser(String id) throws Exception {
-			int result=sqlSession.delete("deleteUser",id);
+	public int deleteUser(String deleteId) throws Exception {
+			int result=sqlSession.delete("deleteUser",deleteId);
 		return result;
 	}
 
