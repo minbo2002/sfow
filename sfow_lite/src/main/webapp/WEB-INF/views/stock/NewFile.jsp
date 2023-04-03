@@ -1,109 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="conPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Modal</title>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function modal(){
+	alert("dd");
+}
+</script>
+<body>
+<style>
+.container {
+  display: flex;
+  align-items: center;
+}
 
-    <style>
-      .modal {
-        position: absolute;
-        top: 0;
-        left: 0;
+  .search_wh {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
 
-        width: 100%;
-        height: 100%;
+  .search_wh input[type="text"] {
+    border: none;
+    outline: none;
+  }
 
-        display: none;
+  .search_wh .fas.fa-search {
+    margin-right: 5px;
+  }
+	
+	
+.wh_div { display: inline-block; padding: 5px; border: solid 1px #ccc; background-color: #f4f4f4; font-size: 9pt; }
+.wh { background-color: transparent; width: 100px; padding: 3px; border: 0;  font-size: 9pt; border-radius:4px; }
+</style>
 
-        background-color: rgba(0, 0, 0, 0.4);
-      }
 
-      .modal.show {
-        display: block;
-      }
 
-      .modal_body {
-        position: absolute;
-        top: 50%;
-        left: 50%;
 
-        width: 400px;
-        height: 600px;
+<div class="search_wh">
+<div class="wh_div">창고검색</div>
+<div class="wh_div">
+<input type="image" src="resources/img/stock/lens.png" alt="돋보기" onclick="modal();" width="25px" height="25px" 
+style="border-radius:4px;">
+<input type="text" name="wh" class="wh">
+</div>
+</div>
 
-        padding: 40px;
 
-        text-align: center;
-
-        background-color: rgb(255, 255, 255);
-        border-radius: 10px;
-        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-        transform: translateX(-50%) translateY(-50%);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="modal">
-      <div class="modal_body">Modal</div>
-    </div>
-    <button class="btn-open-popup">Modal 띄우기</button>
-    <div>
-		<script>
-			var gridData2=[];
-			var grid2 = new tui.Grid({
-			  el: document.getElementById('modalGrid'),
-			  data: gridData2,
-			  scrollX: false,
-			  scrollY: false,
-			  rowHeaders: [{
-				  type: 'rowNum',
-				  header: "  ",
-				  width: 50,
-			  },{type : 'checkbox'}     ],
-			  columns: [
-				{
-				  header: '창고코드',
-				  name: 'warehouse_code',
-				  sortable: true,
-				  align:'center'
-				},
-				{
-				  header: '창고명',
-				  name: 'warehouse_name',
-				  sortable: true,
-				  align:'center'
-				}
-			  ]
-			});
-		</script>
-    </div>
-    <script>
-      const body = document.querySelector('body');
-      const modal = document.querySelector('.modal');
-      const btnOpenPopup = document.querySelector('.btn-open-popup');
-
-      btnOpenPopup.addEventListener('click', () => {
-        modal.classList.toggle('show');
-
-        if (modal.classList.contains('show')) {
-          body.style.overflow = 'hidden';
-        }
-      });
-
-      modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-          modal.classList.toggle('show');
-
-          if (!modal.classList.contains('show')) {
-            body.style.overflow = 'auto';
-          }
-        }
-      });
-      
-    </script>
-  </body>
+</body>
 </html>

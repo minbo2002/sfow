@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>창고별 재고현황</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 	<script>
 		var gridData=[];
@@ -451,6 +452,7 @@ var grid2 = new tui.Grid({
   const body = document.querySelector('body');
   const modal = document.querySelector('.modal');
   const btnOpenPopup = document.querySelector('.btn-open-popup');
+  //const fasearch = document.querySelector('.fas fa-search');
 
   btnOpenPopup.addEventListener('dblclick', () => {
     modal.classList.toggle('show');
@@ -459,6 +461,14 @@ var grid2 = new tui.Grid({
       body.style.overflow = 'hidden';
     }
   });
+  
+//   fasearch.addEventListener('dblclick', () => {
+// 	    modal.classList.toggle('show');
+
+// 	    if (modal.classList.contains('show')) {
+// 	      body.style.overflow = 'hidden';
+// 	    }
+// 	  });
 
   modal.addEventListener('click', (event) => {
     if (event.target === modal) {
@@ -554,8 +564,8 @@ var grid2 = new tui.Grid({
 		.btn-open-popup{
 		width : 200px;
 		height: 30px;
-		background-color: rgb(230, 242, 255)
-		text-align:center;
+		background-color: rgb(230, 242, 255);
+		text-align:left;
 	/* 	vertical-align: middle; */
 		line-height : 30px;
 		border-radius:3px;
@@ -613,6 +623,87 @@ var grid2 = new tui.Grid({
 	}
 	
 
+
+/*   .search_wh { */
+/*     display: flex; */
+/*     align-items: center; */
+/*     border: 1px solid #ccc; */
+/*     padding: 5px; */
+    
+/*   } */
+
+/*   .search_wh input[type="text"] { */
+/*     flex: 1; */
+/*     border: none; */
+/*     outline: none; */
+/*   } */
+
+/*   .search_wh .fas.fa-search { */
+/*     margin-right: 5px; */
+/*   } */
+
+
+
+
+  .search_wh .form-title{
+    border-radius:3px;
+/* 	display:inline-block;  */
+/* 	margin:5px;  */
+/* 	font-size:13px;  */
+/* 	color:black; */
+	line-height : 30px;
+/*  	margin-left : 8px; */
+/* 	margin-right :-1.5px; */
+  }
+
+  .search_wh input[type="text"] {
+    border: none;
+    outline: none;
+    border-radius:3px;
+    border:1px solid #e2e2e2;
+
+    line-height : 30px;
+/*     		width : 200px; */
+	height: 30px;
+  }
+
+  .search_wh .fas.fa-search {
+/*     margin-right: 4px; */
+  }
+lens_sh
+
+  .search_wh input[type="text"]#lens_sh {
+    margin-left:2px;
+
+  }
+
+  .search_wh input[type="text"].btn-open-popup {
+    padding-left: 30px;
+    cursor: text;
+    margin-left:-4.5px;
+	margin-right:5px;
+  }
+  
+  .search_wh input[type="text"].btn-open-popup:focus {
+    outline: none;
+  }
+  
+  .search_wh i.fa-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+	
+
+        
+        
+        
+        
+        
+
+	
 	
 </style>
 
@@ -631,8 +722,28 @@ var grid2 = new tui.Grid({
 <br/><br/>
 <!-- <input type="button" value="창고 검색" style="border:1px solid #e2e2e2;" /> -->
 <!-- <div class="form-title" style="display: inline-block;">창고 검색</div> -->
-<div style="display:inline-block; margin:5px; font-size:13px; color:black;">
-<input type="text" class="form-title" value="창고검색" disabled/><input type="text" class="btn-open-popup" id ="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/></div>
+<!-- <div style="display:inline-block; margin:5px; font-size:13px; color:black;"> -->
+<!-- <input type="text" class="form-title" value="창고검색" disabled/><input type="text" class="btn-open-popup" id ="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/></div> -->
+
+<div class="search_wh" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
+  <input type="text" class="form-title" id="lens_sh" value="창고검색" disabled/>
+  <span style="position: relative;">
+    <input type="text" class="btn-open-popup" id="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/>
+    <i class='fas fa-search' style="position: absolute; transform: translateY(-50%);"></i>
+  </span>
+</div>
+
+<!-- 백업 -->
+<!-- <div class="search_wh" style="display:inline-block; margin-left:6px; font-size:13px; color:black;"> -->
+<!--   <input type="text" class="form-title" value="창고검색" disabled/> -->
+<!--   <span style="position: relative;"> -->
+<!--     <input type="text" class="btn-open-popup" id="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/> -->
+<!--     <i class='fas fa-search' style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);"></i> -->
+<!--   </span> -->
+<!-- </div> -->
+
+
+
 <!-- <div style="display:inline-block; margin:5px;"><div class="form-title" >창고검색</div><div class="form-data" style="background-color: rgb(230, 242, 255);"><input type="text"  style="border:none; height:25px; width:190px; background-color: rgb(230, 242, 255);"></div></div> -->
 
 <%-- <button type="button" class="form-title" style="background-color: rgb(230, 242, 255);"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px" /><input type="text" class="form-data" id ="" name="" style="background-color: rgb(230, 242, 255);"/></button> --%>

@@ -28,6 +28,7 @@ public class StockController {
     	
     	//return "stock/stockSearch";
     	return "stock/stockWhDetail";
+    	//return "stock/NewFile";
     }//stockSearch() 끝 8o
 
 	@ResponseBody
