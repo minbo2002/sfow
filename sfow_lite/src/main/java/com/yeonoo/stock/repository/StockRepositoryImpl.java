@@ -30,7 +30,7 @@ public class StockRepositoryImpl implements StockRepository{
 
         // 여기서는 더미 데이터를 사용한다.
      
-        List<Stock> result=sqlSession.selectList("mapper.stock.allStockList");
+        List<Stock> result=sqlSession.selectList("mapper.stockWh.allStockList");
         
         System.out.println("result repositoryImpl"+result);
         return result;
@@ -38,7 +38,7 @@ public class StockRepositoryImpl implements StockRepository{
 
 	@Override
 	public void updateStock(Stock data) throws DataAccessException{
-		sqlSession.update("mapper.stock.updateStock", data);
+		sqlSession.update("mapper.stockWh.updateStock", data);
 		
 	}
 	
@@ -51,14 +51,20 @@ public class StockRepositoryImpl implements StockRepository{
 				(data.getItem_name()==null||data.getItem_name()=="")&&
 				(data.getItem_type()==null||data.getItem_type()=="")&&
 				(data.getWarehouse_name()==null||data.getWarehouse_name()=="")) {
-			List<Stock> result=sqlSession.selectList("mapper.stock.allStockList");
+			List<Stock> result=sqlSession.selectList("mapper.stockWh.allStockList");
 			System.out.println("스톡리포지토리 리저트1"+result);
 			return result;
 		}else {
-			List<Stock> result=sqlSession.selectList("mapper.stock.searchStockList", data);
+			List<Stock> result=sqlSession.selectList("mapper.stockWh.searchStockList", data);
 			System.out.println("스톡리포지토리 리저트2"+result);
 	        return result;
 		}
 
+	}
+
+	@Override
+	public List<Stock> searchWh() throws DataAccessException {
+		List<Stock> result = sqlSession.selectList("mapper.stockWh.searchWh");
+		return result;
 	}
 }

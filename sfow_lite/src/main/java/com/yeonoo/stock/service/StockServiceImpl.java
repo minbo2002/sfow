@@ -37,6 +37,12 @@ public class StockServiceImpl implements StockService {
 		System.out.println("스톡서비스 리저트"+result);
 		return result;
 	}
+
+    @Override
+	public List<Stock> searchWh() throws Exception {
+    	List<Stock> result = stockRepository.searchWh();
+		return result;
+	}
 	
 	
 	

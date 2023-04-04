@@ -82,6 +82,19 @@ public class StockController {
 	  return results;
   }
 
+  
+  //창고코드, 창고이름 만 select 하는 controller
+  @ResponseBody
+  @RequestMapping(value="/searchWh", method=RequestMethod.POST)
+  public List<Stock> searchWh(Model model) throws Exception{
+	  
+	  List<Stock> results = stockService.searchWh();
+	  
+	  
+	  System.out.println("2가지 열의 결과"+results);
+	  
+	  return results;
+  }
     
     
 }//stockController

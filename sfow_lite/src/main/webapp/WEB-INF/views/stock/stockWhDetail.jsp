@@ -336,7 +336,7 @@
 
 		   
 		   
-		   
+	//조회버튼 누를 시 가져오는 데이터 리스트  
 	function checkStock(){
 		//grid.clear();
 // $(document).ready(function() {
@@ -417,59 +417,96 @@
 
 
 
+
+
+
 <script>
-var gridData2=[];
-var grid2 = new tui.Grid({
+//modal에 띄워지는 grid
+$(document).ready(function() {
+	
+	var grid2=null;	 //추가된 부분!!
+
+  $('.btn-open-popup').dblclick(function(event) {
+	  event.preventDefault();
+
+	//추가된 부분!!
+	  if(grid2){
+		  grid2.destroy();
+	  }
+	  
+	  
+var gridData2=[
+// 	  {warehouse_code: 'W001', warehouse_name: '창고1'},
+// 	  {warehouse_code: 'W002', warehouse_name: '창고2'},
+// 	  {warehouse_code: 'W003', warehouse_name: '창고3'},
+];
+	grid2 = new tui.Grid({
   el: document.getElementById('modalGrid'),
   data: gridData2,
   scrollX: false,
   scrollY: false,
+  autoWidth: true,
   rowHeaders: [{
       type: 'rowNum',
       header: "  ",
-      width: 50,
-  },{type : 'checkbox'}     ],
+      width: 50
+  },{type : 'checkbox'}],
   columns: [
     {
       header: '창고코드',
       name: 'warehouse_code',
       sortable: true,
-      align:'center'
+      align:'center',
+      width:165
     },
     {
       header: '창고명',
       name: 'warehouse_name',
       sortable: true,
-      align:'center'
+      align:'center',
+      width:165
     }
   ]
 });
-</script>
 
 
+$.ajax({
+    type:"POST", //요청방식 
+    dataType:"JSON",
+    url: '<%=request.getContextPath()%>/searchWh',
+	      success: function(data) {
+    	 	gridData2=data
+  	  		grid2.resetData(data)
+  	   	
+  	  },
+    error: function(xhr, status, error) {
+      // handle error
+      console.log(error);
+    }
+  });
 
-<script>
-  const body = document.querySelector('body');
-  const modal = document.querySelector('.modal');
-  const btnOpenPopup = document.querySelector('.btn-open-popup');
+
+});
+
+
+  //const body = document.querySelector('body');
+  //const modal = document.querySelector('.modal');
+  //const btnOpenPopup = document.querySelector('.btn-open-popup');
+  //modal 띄우기
+  var body = document.querySelector('body');
+  var modal = document.querySelector('.modal');
+  var btnOpenPopup = document.querySelector('.btn-open-popup');
   //const fasearch = document.querySelector('.fas fa-search');
 
   btnOpenPopup.addEventListener('dblclick', () => {
     modal.classList.toggle('show');
 
     if (modal.classList.contains('show')) {
-      body.style.overflow = 'hidden';
+    	body.style.overflow = 'hidden';
     }
   });
-  
-//   fasearch.addEventListener('dblclick', () => {
-// 	    modal.classList.toggle('show');
 
-// 	    if (modal.classList.contains('show')) {
-// 	      body.style.overflow = 'hidden';
-// 	    }
-// 	  });
-
+  //modal 클릭 이벤트 리스너
   modal.addEventListener('click', (event) => {
     if (event.target === modal) {
       modal.classList.toggle('show');
@@ -479,6 +516,7 @@ var grid2 = new tui.Grid({
       }
     }
   });
+});
 </script>
   
  <script>
@@ -603,13 +641,13 @@ var grid2 = new tui.Grid({
 	  display: block;
 	}
 	
-	.modalGrid {
+	#modalGrid {
 	  position: absolute;
 	  top: 50%;
 	  left: 50%;
 	
-	  width: 1200px;
-	  height: 800px;
+	  width: 500px;
+	  height: 500px;
 	
 	  padding: 40px;
 	
@@ -622,28 +660,6 @@ var grid2 = new tui.Grid({
 	  transform: translateX(-50%) translateY(-50%);
 	}
 	
-
-
-/*   .search_wh { */
-/*     display: flex; */
-/*     align-items: center; */
-/*     border: 1px solid #ccc; */
-/*     padding: 5px; */
-    
-/*   } */
-
-/*   .search_wh input[type="text"] { */
-/*     flex: 1; */
-/*     border: none; */
-/*     outline: none; */
-/*   } */
-
-/*   .search_wh .fas.fa-search { */
-/*     margin-right: 5px; */
-/*   } */
-
-
-
 
   .search_wh .form-title{
     border-radius:3px;
@@ -670,7 +686,6 @@ var grid2 = new tui.Grid({
   .search_wh .fas.fa-search {
 /*     margin-right: 4px; */
   }
-lens_sh
 
   .search_wh input[type="text"]#lens_sh {
     margin-left:2px;
@@ -784,40 +799,13 @@ lens_sh
 
 
 
+   <div class="modal">
+   <!-- modal에 grid 띄우기 -->
+     <div id="modalGrid"></div>
+   </div>
+    
 </body>
 
-    <div class="modal">
-    <!-- modal에 grid 띄우기 -->
-     
-      <div class="modalGrid">
-		var gridData2=[];
-		var grid2 = new tui.Grid({
-		  el: document.getElementById('modalGrid'),
-		  data: gridData2,
-		  scrollX: false,
-		  scrollY: false,
-		  rowHeaders: [{
-		      type: 'rowNum',
-		      header: "  ",
-		      width: 50,
-		  },{type : 'checkbox'}     ],
-		  columns: [
-		    {
-		      header: '창고코드',
-		      name: 'warehouse_code',
-		      sortable: true,
-		      align:'center'
-		    },
-		    {
-		      header: '창고명',
-		      name: 'warehouse_name',
-		      sortable: true,
-		      align:'center'
-		    }
-		  ]
-		});
-      </div>
-    </div>
 
 
 </html>

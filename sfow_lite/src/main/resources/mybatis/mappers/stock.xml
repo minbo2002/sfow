@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.stock">
+<mapper namespace="mapper.stockWh">
 
 	<!-- 
 	이런 타입은 MyBatis에 내장된(built-in) typeAlias 이기 때문에 modelConfig.xml에 등록하지 않고도 바로 사용 가능
@@ -43,5 +43,12 @@
 	  ]]>
 	</select>
 	
+	
+	<select id="searchWh" resultType="com.yeonoo.stock.domain.Stock">
+	  <![CDATA[
+		SELECT warehouse_code, warehouse_name
+		FROM mt_stock_detail
+	  ]]>
+	</select>
 	
 </mapper>
