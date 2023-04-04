@@ -44,19 +44,119 @@
 			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
 			{header:"회사코드", name:"companyCode", align:"center", width:"auto"},
 			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
-			{header:"출하유형", name:"outType", editor:"text", align:"center", width:"auto"},
-			{header:"수불타입", name:"transType", editor:"text", align:"center", width:"auto"},
-			{header:"출하계획일", name:"outPlanDate", editor:"text", align:"center", width:"auto"},
-			{header: "출하담당자", name:"outManager", editor:"text", align:"center", width:"auto"},
-			{header: "상태", name:"outStatus", align:"center", width:"auto"},
-			{header: "비고", name:"memo", editor:"text", align:"center", width:"auto"},
-			{header: "등록일", name:"createDate", align:"center", width:"auto"},
-			{header: "등록자", name:"createUser", editor:"text", align:"center", width:"auto"},
-			{header: "수정일", name:"updateDate", align:"center", width:"auto"},
-			{header: "수정자", name:"updateUser", editor:"text", align:"center", width:"auto"},
-			{header: "삭제여부", name:"deleteYesNo", align:"center", width:"auto"}
+			{header:"출하유형", name:"outType", editor:"text", align:"center"},  // filter:"text"
+			{header:"수불타입", name:"transType", editor:"text", align:"center"},
+			{header:"출하계획일", name:"outPlanDate", editor:"text", align:"center"},
+			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
+			{header: "상태", name:"outStatus", align:"center"},
+			{header: "비고", name:"memo", editor:"text", align:"center"},
+			{header: "등록일", name:"createDate", align:"center"},
+			{header: "등록자", name:"createUser", editor:"text", align:"center"},
+			{header: "수정일", name:"updateDate", align:"center"},
+			{header: "수정자", name:"updateUser", editor:"text", align:"center"},
+			{header: "삭제여부", name:"deleteYesNo", align:"center"}
 	      ]
+	
+		  /*
+		  onGridMounted (e) {
+		    	console.log('mounted' + e);
+		    	const grid = e.detail;
+		    	
+		    	// 각 행에 검색창 추가
+		    	grid.on('check', function(ev) {
+		    	var rowKey = ev.rowKey;
+		    	var columnName = ev.columnName;
+		    		if (columnName === 'outType') { // 검색창이 추가된 컬럼 클릭 시
+		    			var row = grid.getRow(rowKey);
+		    			var cellEl = row.getCellElement(columnName);
+		    			var inputEl = document.createElement('input');
+		    			inputEl.type = 'text';
+		    			inputEl.value = row.getValue(columnName);
+		    			inputEl.style.width = '100%';
+		    			inputEl.addEventListener('blur', function() {
+		    			  row.setValue(columnName, inputEl.value);
+		    			  cellEl.textContent = inputEl.value;
+		    			  inputEl.remove();
+		    			});
+		    			cellEl.textContent = '';
+		    			cellEl.appendChild(inputEl);
+		    			inputEl.focus();
+		    		}
+		    	});
+			  }
+			  */
 	});
+
+	// 체크박스 클릭시 검색창에 PK, FK값 출력
+	grid.on('check', function(ev) {
+		
+		const rowKey = ev.rowKey;
+		const columnName = ev.columnName;
+		var updatedData = {};
+		const rowData = grid.getRow(rowKey);
+		console.log('Row data: ', rowData);
+		
+		var outCode = document.getElementById("outCode");  			// 출하코드
+		var orderNumber = document.getElementById("orderNumber");   // 수주번호
+		var clientCode = document.getElementById("clientCode");   	// 거래처코드
+		var companyCode = document.getElementById("companyCode");   // 회사코드
+		var itemCode = document.getElementById("itemCode");   		// ITEM코드
+
+		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
+		alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
+		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		
+		if(rowDatas.length==1){
+
+			outCode.value=rowData.outCode;
+			outCode.readOnly=true;
+			console.log('outCode: ', rowData.outCode);
+			
+			orderNumber.value=rowData.orderNumber;
+			orderNumber.readOnly=true;
+
+			clientCode.value=rowData.clientCode;
+			clientCode.readOnly=true;
+			
+			companyCode.value=rowData.companyCode;
+			companyCode.readOnly=true;
+			
+			itemCode.value=rowData.itemCode;
+			itemCode.readOnly=true;
+			console.log('itemCode: ', rowData.itemCode);
+
+			$.ajax({
+				url : "shipout/selectItems",
+				method : "post",
+				data : jsonRowDatas,
+				dataType : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function (result) {
+					alert('성공');
+					console.dir('result : ' + result);
+					gridItem.resetData(result);  // result를 배열로 받는다
+				}
+			});
+
+        }else{
+
+        	outCode.value="";
+        	outCode.readOnly=true;
+			 
+        	orderNumber.value="";
+        	orderNumber.readOnly=false;
+
+        	clientCode.value="";
+        	clientCode.readOnly=false;
+			
+        	companyCode.value="";
+        	companyCode.readOnly=false;
+			
+        	itemCode.value="";
+        	itemCode.readOnly=false;
+		}
+   });
 
 	var gridItemData = [];
 	var gridItem = new tui.Grid({
@@ -65,9 +165,12 @@
 	      scrollX: false,
 	      scrollY: false,
 	      columns: [
-			{header: "출하코드", name: "outCode"},
-			{header: "회사코드", name: "companyCode"},
-			{header: "ITEM코드", name: "itemCode"}
+			{header: "출하코드", name: "outCode"},		   // 출하 테이블
+			{header: "ITEM코드", name: "itemCode"},     // 기준정보 테이블	 
+			{header: "품명", name: "itemName"},		   // 기준정보 테이블		
+			{header: "품번", name: "itemNo"},			   // 기준정보 테이블	
+			{header: "수량", name: "requestQuantity"},  // 구매요청상세보기 테이블
+			{header: "공급가액", name: "amount"},  // 구매요청상세보기 테이블
 	      ]
 	});
 	
@@ -78,9 +181,11 @@
 	      scrollX: false,
 	      scrollY: false,
 	      columns: [
-			{header: "출하코드", name: "outCode"},
-			{header: "회사코드", name: "companyCode"},
-			{header: "LOT 번호", name: "lotNo"}
+			{header: "LOT번호", name: "lotNo"},       // 실적등록 테이블
+			{header: "생성번호", name: "bomdNo"},      // 실적등록 테이블
+			{header: "ITEM코드", name: "itemCode"},   // BOM tree
+			{header: "품명", name: "itemName"},		 // BOM tree
+			{header: "품번", name: "itemNo"},		     // BOM tree
 	      ]
 	});
 
