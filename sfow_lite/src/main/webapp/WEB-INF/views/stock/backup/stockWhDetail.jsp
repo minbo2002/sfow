@@ -269,9 +269,6 @@
 	    		
 	    		
 	    	};
-	    	
-	    	
-
 	    	  	
 	   //전체 데이터 select 데이터(항상보이기)
 	//function checkstock(){
@@ -329,6 +326,8 @@
     var item_type = $('#item_type').val();
     var item_code = $('#item_code').val();
     var item_name = $('#item_name').val();
+	//alert(warehouse_name);
+	//$("#stockSearch").submit();
 	    $.ajax({
 		      type:"POST", //요청방식 
 		      dataType:"JSON",
@@ -393,51 +392,58 @@
 </script>
 
 
-<script>
-//modal에 띄워지는 grid2
 
+
+
+
+<script>
+//modal에 띄워지는 grid
 $(document).ready(function() {
+	
 	var grid2=null;	 //추가된 부분!!
-	//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
-	function uncheck2(){
-		grid2.uncheckAll();
-	};
+
   $('.btn-open-popup').dblclick(function(event) {
 	  event.preventDefault();
+
 	//추가된 부분!!
 	  if(grid2){
 		  grid2.destroy();
 	  }
 	  
-	var gridData2=[];
-  	grid2 = new tui.Grid({
-  	el: document.getElementById('modalGrid'),
-  	data: gridData2,
-  	scrollX: false,
-  	scrollY: false,
-  	autoWidth: true,
-  	rowHeaders: [{
-   	   type: 'rowNum',
-   	   header: "  ",
-   	   width: 50
-  	},{type : 'checkbox'}],
-  	columns: [
-   	 {
-    	header: '창고코드',
-      	name: 'warehouse_code',
-      	sortable: true,
-      	align:'center',
-      	width:165
-    	},
-    	{
-      	header: '창고명',
-      	name: 'warehouse_name',
-      	sortable: true,
-      	align:'center',
-      	width:165
-    	}
-  	]
-	});
+	  
+var gridData2=[
+// 	  {warehouse_code: 'W001', warehouse_name: '창고1'},
+// 	  {warehouse_code: 'W002', warehouse_name: '창고2'},
+// 	  {warehouse_code: 'W003', warehouse_name: '창고3'},
+];
+  grid2 = new tui.Grid({
+  el: document.getElementById('modalGrid'),
+  data: gridData2,
+  scrollX: false,
+  scrollY: false,
+  autoWidth: true,
+  rowHeaders: [{
+      type: 'rowNum',
+      header: "  ",
+      width: 50
+  },{type : 'checkbox'}],
+  columns: [
+    {
+      header: '창고코드',
+      name: 'warehouse_code',
+      sortable: true,
+      align:'center',
+      width:165
+    },
+    {
+      header: '창고명',
+      name: 'warehouse_name',
+      sortable: true,
+      align:'center',
+      width:165
+    }
+  ]
+});
 
 
 $.ajax({
@@ -457,7 +463,7 @@ $.ajax({
 
 
 });
-	
+
 
   //const body = document.querySelector('body');
   //const modal = document.querySelector('.modal');
@@ -486,19 +492,62 @@ $.ajax({
       }
     }
   });
-  
-
-  
-  
 });
+</script>
+  
+ <script>
+ //정우씨 modal 소스
+ /*
+  function openModal() {
+      var modal = document.createElement('div');
+      modal.classList.add('modal');
+  
+  
+      modal.innerHTML = `
+          //<button type="button" class="close-modal">Close</button>   
+                                                                                   
+       `;
+       document.body.appendChild(modal);
+
+//        var modalContent = modal.querySelector('.modal-content');
+//        modalContent.appendChild(document.createTextNode(JSON.stringify()));
+
+       modal.style.display = 'block';
+
+       //var closeModalButton = modal.querySelector('.close-modal');
+       //closeModalButton.addEventListener('click', () => {
+         //modal.remove();
+       //});
+     }
+ 
+*/
+
+//      grid.on('dblclick', (ev) => {
+//        var { rowKey } = grid.getFocusedCell();
+//        var rowData = grid.getRow(rowKey);
+//        openModal();
+//        //alert("confirm");
+//      });
+      
 </script>
 
 
 
-
-
 <style>
-	
+/*  	th { */
+/*  		width: 1150px; */
+/*   	    margin-left: auto; */
+/*   	    margin-right: auto; */
+/*  		border: 1px solid black; */
+/*    	    text-align: center; */
+/*    	    height:50px; 	 */
+/*    	    }  */
+/* 	 tr:hover {  */
+/* 	 	background-color: #dcdcdc; */
+/* 	 	text-align:center; */
+/* 	 	height:50px; */
+/* 	 	}  */
+		
 		.form-title{
 		width : 100px;
 		height: 30px;
@@ -537,6 +586,20 @@ $.ajax({
 		border:1px solid #e2e2e2;
 		display:inline-block;
 		}
+		
+	
+/* 	.total { */
+/* 	width:1600px; */
+/* 	} */
+	
+/* 	.item { */
+/* 	height:50px; */
+/* 	} */
+	
+/* 	.result { */
+/* 	height:40px; */
+/* 	font-size:13px; */
+/* 	} */
 	
 	.modal {
 	  position: absolute;
@@ -576,7 +639,13 @@ $.ajax({
 
   .search_wh .form-title{
     border-radius:3px;
+/* 	display:inline-block;  */
+/* 	margin:5px;  */
+/* 	font-size:13px;  */
+/* 	color:black; */
 	line-height : 30px;
+/*  	margin-left : 8px; */
+/* 	margin-right :-1.5px; */
   }
 
   .search_wh input[type="text"] {
@@ -584,7 +653,9 @@ $.ajax({
     outline: none;
     border-radius:3px;
     border:1px solid #e2e2e2;
+
     line-height : 30px;
+/*     		width : 200px; */
 	height: 30px;
   }
 
@@ -593,14 +664,14 @@ $.ajax({
   }
 
   .search_wh input[type="text"]#lens_sh {
-    margin-left:-0.5px;
+    margin-left:2px;
 
   }
 
   .search_wh input[type="text"].btn-open-popup {
     padding-left: 30px;
     cursor: text;
-    margin-left:-3.5px;
+    margin-left:-4.5px;
 	margin-right:5px;
   }
   
@@ -617,7 +688,14 @@ $.ajax({
   }
 	
 
+        
+        
+        
+        
+        
 
+	
+	
 </style>
 
 
@@ -699,10 +777,8 @@ $.ajax({
 
    <div class="modal">
    <!-- modal에 grid 띄우기 -->
-     <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;"></div>
-
-     </div>
-  
+     <div id="modalGrid"></div>
+   </div>
     
 </body>
 
