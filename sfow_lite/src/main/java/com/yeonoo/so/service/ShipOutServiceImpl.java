@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yeonoo.so.controller.ShipOutController;
 import com.yeonoo.so.domain.ShipOut;
-import com.yeonoo.so.domain.ShipOutDTO;
+import com.yeonoo.so.domain.ItemShipOutDTO;
+import com.yeonoo.so.domain.LotShipOutDTO;
 import com.yeonoo.so.repository.ShipOutRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -48,9 +49,15 @@ public class ShipOutServiceImpl implements ShipOutService {
 
 	// 특정 출하번호의 ITEM 상세정보 조회
 	@Override
-	public ShipOutDTO selectOne(String outCode) {
+	public ItemShipOutDTO selectItem(String outCode) {
 		logger.info("3) outCode : " + outCode);
-		return shipOutRepository.selectOne(outCode);
+		return shipOutRepository.selectItem(outCode);
+	}
+
+	@Override
+	public LotShipOutDTO selectLot(String itemCode) {
+		logger.info("3) itemCode : " + itemCode);
+		return shipOutRepository.selectLot(itemCode);
 	}
 
 }

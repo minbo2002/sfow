@@ -2,7 +2,8 @@ package com.yeonoo.so.service;
 
 import java.util.List;
 import com.yeonoo.so.domain.ShipOut;
-import com.yeonoo.so.domain.ShipOutDTO;
+import com.yeonoo.so.domain.ItemShipOutDTO;
+import com.yeonoo.so.domain.LotShipOutDTO;
 
 public interface ShipOutService {
 
@@ -12,5 +13,7 @@ public interface ShipOutService {
 	
 	int writeShipOut(ShipOut elements);
 	
-	ShipOutDTO selectOne(String outCode);
+	ItemShipOutDTO selectItem(String outCode);
+	
+	LotShipOutDTO selectLot(String itemCode);
 }

@@ -32,12 +32,21 @@
 		]]>
 	</insert>
 	
-	<select id="selectOne" parameterType="String" resultType="shipOutDTO">
+	<select id="selectItem" parameterType="String" resultType="itemShipOutDTO">
 		<![CDATA[
 			SELECT a.out_code AS outCode, b.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
 				   c.request_quantity AS requestQuantity, c.amount
 			FROM so_shipout a left join ma_item b on a.item_code=b.item_code JOIN po_request_detail c ON b.item_code=c.item_code
 			where a.out_code=#{outCode}
+		]]>
+	</select>
+	
+	<select id="selectLot" parameterType="String" resultType="lotShipOutDTO">
+		<![CDATA[
+			SELECT a.lot_no AS lotNo, a.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
+	    		   b.item_specification AS itemSpec, b.quantity AS quantity, b.warehouse_code AS warehouseCode
+			FROM test_pp_perform a left JOIN mt_stock_detail b ON a.item_code=b.item_code
+			WHERE a.item_code=#{itemCode}
 		]]>
 	</select>
 </mapper>

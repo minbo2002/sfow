@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShipOutDTO {
+public class ItemShipOutDTO {
 
 	private String outCode;     // 출하코드    PK  (출하 테이블)
 	private String itemCode;	// ITEM코드 PK  (기준정보 테이블)

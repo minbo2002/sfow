@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import com.yeonoo.so.domain.ShipOut;
-import com.yeonoo.so.domain.ShipOutDTO;
+import com.yeonoo.so.domain.ItemShipOutDTO;
+import com.yeonoo.so.domain.LotShipOutDTO;
 import com.yeonoo.so.service.ShipOutServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,15 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 
 	// 특정 출하번호의 ITEM 상세정보 조회
 	@Override
-	public ShipOutDTO selectOne(String outCode) {
+	public ItemShipOutDTO selectItem(String outCode) {
 		logger.info("4) outCode : " + outCode);
-		return sqlSession.selectOne("mapper.shipout.selectOne", outCode);
+		return sqlSession.selectOne("mapper.shipout.selectItem", outCode);
+	}
+
+	@Override
+	public LotShipOutDTO selectLot(String itemCode) {
+		logger.info("4) itemCode : " + itemCode);
+		return sqlSession.selectOne("mapper.shipout.selectLot", itemCode);
 	}
 
 }

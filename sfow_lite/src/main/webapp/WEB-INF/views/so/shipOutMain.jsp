@@ -106,6 +106,7 @@
 		alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		var jsonRowDatas2 = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 		
 		if(rowDatas.length==1){
 
@@ -133,9 +134,22 @@
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				success : function (result) {
-					alert('성공');
+					alert('Items 조회성공');
 					console.dir('result : ' + result);
 					gridItem.resetData(result);  // result를 배열로 받는다
+				}
+			});
+			
+			$.ajax({
+				url : "shipout/selectLots",
+				method : "post",
+				data : jsonRowDatas2,
+				dataType : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function (result) {
+					alert('Lots 조회성공');
+					console.dir('result : ' + result);
+					gridLot.resetData(result);  // result를 배열로 받는다
 				}
 			});
 
@@ -156,8 +170,13 @@
         	itemCode.value="";
         	itemCode.readOnly=false;
 		}
-   });
-
+    });
+	
+	grid.off('check', function(ev) {
+		grid.removeCheckedRows(true);
+	});
+	
+	
 	var gridItemData = [];
 	var gridItem = new tui.Grid({
 	      el: document.getElementById('gridItem'),
@@ -170,7 +189,7 @@
 			{header: "품명", name: "itemName"},		   // 기준정보 테이블		
 			{header: "품번", name: "itemNo"},			   // 기준정보 테이블	
 			{header: "수량", name: "requestQuantity"},  // 구매요청상세보기 테이블
-			{header: "공급가액", name: "amount"},  // 구매요청상세보기 테이블
+			{header: "공급가액", name: "amount"},        // 구매요청상세보기 테이블
 	      ]
 	});
 	
@@ -181,11 +200,13 @@
 	      scrollX: false,
 	      scrollY: false,
 	      columns: [
-			{header: "LOT번호", name: "lotNo"},       // 실적등록 테이블
-			{header: "생성번호", name: "bomdNo"},      // 실적등록 테이블
-			{header: "ITEM코드", name: "itemCode"},   // BOM tree
-			{header: "품명", name: "itemName"},		 // BOM tree
-			{header: "품번", name: "itemNo"},		     // BOM tree
+			{header: "LOT번호", name: "lotNo"},        // 실적등록 테이블(pp_perform)
+			{header: "ITEM코드", name: "itemCode"},    // 실적등록 테이블(pp_perform)
+			{header: "품명", name: "itemName"},		  // 재고상세 테이블(mt_stock_detail)
+			{header: "품번", name: "itemNo"},		      // 재고상세 테이블(mt_stock_detail)
+			{header: "규격", name: "itemSpec"},        // 재고상세 테이블(mt_stock_detail)
+			{header: "재고수량", name: "quantity"}, // 재고상세 테이블(mt_stock_detail)
+			{header: "창고코드", name: "warehouseCode"}, // 재고상세 테이블(mt_stock_detail)
 	      ]
 	});
 

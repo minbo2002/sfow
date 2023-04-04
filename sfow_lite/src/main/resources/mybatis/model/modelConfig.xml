@@ -6,6 +6,7 @@
 <configuration>
 	<typeAliases> 
   		<typeAlias type="com.yeonoo.so.domain.ShipOut" alias="shipOut" />
-  		<typeAlias type="com.yeonoo.so.domain.ShipOutDTO" alias="shipOutDTO" />
+  		<typeAlias type="com.yeonoo.so.domain.ItemShipOutDTO" alias="itemShipOutDTO" />
+  		<typeAlias type="com.yeonoo.so.domain.LotShipOutDTO" alias="lotShipOutDTO" />
   	</typeAliases>
 </configuration>
