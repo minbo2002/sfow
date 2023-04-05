@@ -1,5 +1,6 @@
 package com.yeonoo.so.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
+import com.yeonoo.so.domain.SearchDTO;
 import com.yeonoo.so.service.ShipOutService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,21 +27,23 @@ public class ShipOutController {
 	private final ShipOutService shipOutService;
 	private final Logger logger = LoggerFactory.getLogger(ShipOutController.class);
 	
+	// 메인화면
 	@RequestMapping(value="main")
 	public String main() {
 		
 		return "so/shipOutMain";
 	}
-	
+
 	/*-------------------------------------------------------------------------------------*/
 
 	// 전체조회
 	@ResponseBody
-	@RequestMapping(value="list")
-	public List<ShipOut> getList() {
+	@RequestMapping(value="list", method=RequestMethod.POST)
+	public List<ShipOut> getList(@RequestBody SearchDTO searchDTO) {
 
-		List<ShipOut> shipOutList = shipOutService.getList();
+		logger.info("1) searchDTO = " + searchDTO);
 
+		List<ShipOut> shipOutList = shipOutService.getList(searchDTO);
 		logger.info("shipOutList = " + shipOutList);
 		
 		return shipOutList;
@@ -88,7 +92,7 @@ public class ShipOutController {
 		return shipout;
 	}
 	
-	// 특정 출하번호에 있는 ITEM 정보조회
+	// 특정 수주번호에 있는 ITEM 정보조회
 	@ResponseBody
 	@RequestMapping(value="selectItems", method=RequestMethod.POST)
 	public List<ItemShipOutDTO> selectItem(@RequestBody List<ShipOut> shipOutList) {	
@@ -110,7 +114,7 @@ public class ShipOutController {
 		return itemShipOutList; 
 	}
 	
-	// 특정 ITEM코드에 있는 LOT 정보조회
+	// 특정 ITEM 코드에 있는 LOT 정보조회
 	@ResponseBody
 	@RequestMapping(value="selectLots", method=RequestMethod.POST)
 	public List<LotShipOutDTO> selectLot(@RequestBody List<ShipOut> shipOutList) {	

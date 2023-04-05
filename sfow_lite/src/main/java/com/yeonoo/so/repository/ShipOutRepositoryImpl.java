@@ -1,6 +1,8 @@
 package com.yeonoo.so.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
+import com.yeonoo.so.domain.SearchDTO;
 import com.yeonoo.so.service.ShipOutServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +25,10 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 	
 	// 전체조회
 	@Override
-	public List<ShipOut> getList() {
+	public List<ShipOut> getList(SearchDTO searchDTO) {	
+		logger.info("3) RepositoryImpl에서의  searchDTO : " + searchDTO);
 		
-		return sqlSession.selectList("mapper.shipout.getList");
+		return sqlSession.selectList("mapper.shipout.getList", searchDTO);
 	}
 
 	// 삭제여부 상태변경

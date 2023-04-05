@@ -12,6 +12,7 @@ import com.yeonoo.so.controller.ShipOutController;
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
+import com.yeonoo.so.domain.SearchDTO;
 import com.yeonoo.so.repository.ShipOutRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,10 @@ public class ShipOutServiceImpl implements ShipOutService {
 	
 	// 전체조회
 	@Override
-	public List<ShipOut> getList() {
+	public List<ShipOut> getList(SearchDTO searchDTO) {	
+		logger.info("2) ServiceImpl에서의  searchDTO : " + searchDTO);
 		
-		return shipOutRepository.getList();
+		return shipOutRepository.getList(searchDTO);
 	}
 
 	// 삭제여부 상태변경

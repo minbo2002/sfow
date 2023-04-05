@@ -3,15 +3,27 @@
 
 <mapper namespace="mapper.shipout">
 	<select id="getList" resultType="shipOut">
-		<![CDATA[
-			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode, item_code AS itemCode,
-			       out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate, out_manager AS outManager, out_status AS outStatus, memo,
-			       create_date AS createDate, create_user AS createUser, update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
+			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode,
+				   item_code AS itemCode, out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate,
+				   out_manager AS outManager, out_status AS outStatus, memo, create_date AS createDate, create_user AS createUser,
+				   update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
 			FROM so_shipout
-			where delete_yes_no="N"
-		]]>
+ 			where COALESCE(out_code, '') LIKE CONCAT('%', #{outCode}, '%') AND  
+ 				  COALESCE(order_number, '') LIKE CONCAT('%', #{orderNumber}, '%') AND 
+				  COALESCE(client_code, '') LIKE CONCAT('%', #{clientCode}, '%') AND 
+				  COALESCE(company_code, '') LIKE CONCAT('%', #{companyCode}, '%') AND 
+				  COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%') AND 
+				  COALESCE(out_type, '') LIKE CONCAT('%', #{outType}, '%') AND 
+				  COALESCE(trans_type, '') LIKE CONCAT('%', #{transType}, '%') AND 
+ 				  COALESCE(out_plan_date, '') = DATE(#{outPlanDate}) AND 
+ 				  COALESCE(out_manager, '') LIKE CONCAT('%', #{outManager}, '%') AND 
+				  COALESCE(out_status, '') LIKE CONCAT('%', #{outStatus}, '%') AND 
+				  COALESCE(memo, '') LIKE CONCAT('%', #{memo}, '%') AND 
+ 				  COALESCE(create_date, '') = DATE(#{createDate}) AND 
+ 				  COALESCE(create_user, '') LIKE CONCAT('%', #{createUser}, '%') AND 
+				  delete_yes_no='N'
 	</select>
-	
+
 	<update id="updateStatus" parameterType="String">
 		<![CDATA[
 			update so_shipout

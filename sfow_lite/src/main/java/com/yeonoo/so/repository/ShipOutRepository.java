@@ -5,10 +5,11 @@ import java.util.List;
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
+import com.yeonoo.so.domain.SearchDTO;
 
 public interface ShipOutRepository {
 
-	List<ShipOut> getList();
+	List<ShipOut> getList(SearchDTO searchDTO);
 	
 	int updateStatus(String outCode);
 	

@@ -8,7 +8,7 @@
 	<title>출하등록</title>
 	
 	<style>
-	
+
 	</style>
 	
 	<script>
@@ -16,11 +16,29 @@
 		
 		$('#searchBtn').on('click', function() {
 
+		    var searchData = {
+		    		"outCode" : $("#outCode").val(),
+		    		"orderNumber" : $("#orderNumber").val(),
+		    		"clientCode" : $("#clientCode").val(),
+		    		"companyCode" : $("#companyCode").val(),
+		    		"itemCode" : $("#itemCode").val(),
+		    		"outType" : $("#outType").val(),
+		    		"transType" : $("#transType").val(),
+		    		"outPlanDate" : $("#outPlanDate").val(),
+		    		"outManager" : $("#outManager").val(),
+		    		"outStatus" : $("#outStatus").val(),
+		    		"memo" : $("#memo").val(),
+		    		"createDate" : $("#createDate").val(),
+		    		"createUser" : $("#createUser").val(),
+		    		"deleteYesNo" : $("#deleteYesNo").val()
+		    }
+		
 			event.preventDefault(); // prevent form submission
-			
+
 			$.ajax({
 				url : "shipout/list",
-				method : "get",
+				method : "post",
+				data : JSON.stringify(searchData),
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				success : function (shipOutList) {
@@ -84,6 +102,7 @@
 		    		}
 		    	});
 			  }
+	
 			  */
 	});
 
@@ -321,7 +340,21 @@
 	var resetRow = document.getElementById("resetRow");
 	resetRow.addEventListener("click", function() {
 			grid.clear();
-	});  
+	});
+	
+	// 검색조건 초기화
+	var resetBtn = document.getElementById("resetBtn");
+	resetBtn.addEventListener("click", function() {
+		$("#shipOutSearch")[0].reset();
+		document.getElementById("outPlanDate").valueAsDate = new Date();
+		document.getElementById("createDate").valueAsDate = new Date();
+		document.getElementById("updateDate").valueAsDate = new Date();
+	});
+	
+	document.getElementById("outPlanDate").valueAsDate = new Date();
+	document.getElementById("createDate").valueAsDate = new Date();
+	document.getElementById("updateDate").valueAsDate = new Date();
+
 	</script>
 	
 </head>
@@ -329,7 +362,7 @@
 
  	<form id="shipOutSearch" > 
 		<input type="submit" value="조회" id="searchBtn">
-		<input type="reset" value="검색 초기화"> <br><br>
+		<button type="button" id="resetBtn">검색조건 초기화</button> <br><br>
 		
 		<label for="outCode">출하코드:</label>
 		<input type="text" name="outCode" id="outCode" value="">
@@ -339,7 +372,7 @@
 		<input type="text" name="clientCode" id="clientCode" value="">
 		<label for="companyCode">회사코드:</label>
 		<input type="text" name="companyCode" id="companyCode" value=""> <br>
-		<label for="companyCode">ITEM코드:</label>
+		<label for="itemCode">ITEM코드:</label>
 		<input type="text" name="itemCode" id="itemCode" value="">
 		
 		<label for="outType">출하유형:</label>
@@ -361,33 +394,37 @@
 		</select>
 		
 		<label for="outPlanDate"> 출하계획일:
-		  <input type="date" id="outPlanDate" name="outPlanDate" max="2030-12-31" min="2020-01-01">
+		  <input type="date" name="outPlanDate" id="outPlanDate" max="2030-12-31" min="2020-01-01">
 		</label>
 
 		<label for="outManager">출하담당자:</label>
-		<input type="text" name="outManager" id="outManager" value="">
+		<input type="text" name="outManager" id="outManager" value=""> <br>
 		
 		<label for="outStatus">상태:</label>
 		<select name="outStatus" id="outStatus">
 			<option value="">--</option>
 			<option value="등록">등록</option>
 			<option value="확정">확정</option>
-		</select> <br>
+		</select>
 
 		<label for="memo">비고:</label>
 		<input type="text" name="memo" id="memo" value="">
 		
 		<label for="createDate">등록일:
-		  <input type="date" id="createDate" name="createDate" max="2030-12-31" min="2020-01-01"> 
+		  <input type="date" name="createDate" id="createDate" max="2030-12-31" min="2020-01-01"> 
 		</label>
 		<label for="createUser">등록자:</label>
 		<input type="text" name="createUser" id="createUser" value="">
 		
+		<!--
 		<label for="updateDate">수정일:
-		  <input type="date" id="updateDate" name="updateDate" max="2030-12-31" min="2020-01-01">
+		  <input type="date" name="updateDate" id="updateDate" max="2030-12-31" min="2020-01-01">
 		</label>
 		<label for="updateUser">수정자:</label>
 		<input type="text" name="updateUser" id="updateUser" value="">
+		-->
+		
+		<input type="hidden" name="deleteYesNo" id="deleteYesNo" value="N">
 	</form> 
 	<br><hr>
 
@@ -400,6 +437,9 @@
 	</div> <br><hr>
 	<div id="gridItem"></div>   <br><hr>
 	<div id="gridLot"></div>    <br><hr>
+	
+	<div class="modal"></div>    <br><hr>
+	<div class="btn-open-popup"></div>    <br><hr>
 
 </body>
 </html>
