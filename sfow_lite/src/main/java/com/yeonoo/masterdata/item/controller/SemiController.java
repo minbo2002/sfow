@@ -36,28 +36,35 @@ public class SemiController {
 	@ResponseBody
 	@RequestMapping(value="toastSemiDataList", method= {RequestMethod.POST, RequestMethod.GET}) 
  	public List<SemiDTO> toastDataList(SemiDTO dto) {
-		logger.info("dto="+dto);
 		List<SemiDTO> list = semiService.semiList(dto);
 		
 		return list;
 	}
 
 
-	// 반제품 정보 수정
+			// 반제품 정보 수정
 		    
 		  //수정하기
 		     @ResponseBody
-		     @RequestMapping(value="/updateSemi", method=RequestMethod.PUT)
+		     @RequestMapping(value="/updateSemi", method=RequestMethod.PATCH)
 		     public void update(@RequestBody SemiDTO dto) throws Exception {
 		        semiService.updateSemi(dto);
 
 		     }	    
 		     
-		  // 삭제 컨트롤러
+		  // 삭제하기(useyn 상태 변경)
 		     @ResponseBody
 		     @RequestMapping(value="useUpdate", method=RequestMethod.POST)
-		     public void useUpdate(@RequestBody List<SemiDTO> dto) {
+		     public List<SemiDTO> useUpdate(@RequestBody List<SemiDTO> dto) {
 
+		    	 Iterator<SemiDTO> iterator = dto.iterator();
+		    	 
+		    	 while(iterator.hasNext()) {
+		    		 SemiDTO elements= iterator.next();
+		    		 semiService.deleteSemi(elements.getItemCode());
+		    	 }
+		    	 
+		    	 return dto;
 		     }
 
 		     

@@ -54,14 +54,17 @@
 	
 	<update id="updateSemi" parameterType="semiDTO">
 		update ma_item
-		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit},buy_price=#{buyPrice}, sales_price=#{salesPrice}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} 
+		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit},buy_price=#{buyPrice}, sales_price=#{salesPrice}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=now()
 		where item_code=#{itemCode}
 	</update>
 
-	<delete id="deleteSemi">
-		delete from member
-		where mem_id=#{memId}
-	</delete>
+	<update id="useUpdate" parameterType="String">
+		<![CDATA[
+			update ma_item
+			set useyn='N'
+			where item_code=#{itemCode}
+		]]>
+	</update>
 	
 
 

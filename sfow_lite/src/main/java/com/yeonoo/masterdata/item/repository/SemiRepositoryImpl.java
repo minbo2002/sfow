@@ -58,11 +58,11 @@ public class SemiRepositoryImpl implements SemiRepository{
 			return cnt;
 		}
 
-		// 반제품 품목 삭제
+		// 반제품 품목 삭제(상태업데이트)
 		@Override
-		public void deleteSemi(String itemCode) {
+		public int deleteSemi(String itemCode) {
 			
-			sqlSession.delete("semi.deleteSemi", itemCode);
+			return sqlSession.update("semi.useUpdate", itemCode);
 		}
 
 

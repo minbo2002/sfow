@@ -2,7 +2,6 @@ package com.yeonoo.masterdata.item.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.yeonoo.masterdata.item.domain.SemiDTO;
 
@@ -19,5 +18,5 @@ public interface SemiService {
 	public int updateSemi(SemiDTO dto);
 
 	// 반제품 삭제
-	public void deleteSemi(String itemCode);
+	public int deleteSemi(String itemCode);
 }

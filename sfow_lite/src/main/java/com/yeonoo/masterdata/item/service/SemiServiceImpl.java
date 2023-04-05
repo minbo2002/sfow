@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.yeonoo.masterdata.item.domain.SemiDTO;
 import com.yeonoo.masterdata.item.repository.SemiRepository;
@@ -48,9 +47,8 @@ public class SemiServiceImpl implements SemiService{
 	// 삭제하기
 	@Override
 	@Transactional
-	public void deleteSemi(String itemCode) {
-		
+	public int deleteSemi(String itemCode) {
+		return semiRepository.deleteSemi(itemCode);
 	}
-	
 
 }
