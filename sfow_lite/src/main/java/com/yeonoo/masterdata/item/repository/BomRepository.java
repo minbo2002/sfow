@@ -13,4 +13,10 @@ public interface BomRepository {
 	public List<BomItem> getBomTree(String ppitem_cd) throws DataAccessException;
 
 	public BomItem selectItem(String ppitem_cd) throws DataAccessException;
+
+	public List<BomItem> getItemListByName(String item_name) throws DataAccessException;
+
+	public void updateTree(String ppitem_cd, BomItem bomItem) throws DataAccessException;
+
+	public void insertTree(String ppitem_cd, BomItem bomItem) throws DataAccessException;
 }

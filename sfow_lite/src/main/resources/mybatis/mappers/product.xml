@@ -3,28 +3,9 @@
 
 <mapper namespace="mapper.pp">
 
-	<select id="getItemList" resultType="BomItem" parameterType="int">
-		<![CDATA[
-			SELECT a.item_code,a.item_name,a.item_no,a.item_specification,b.item_category
-			FROM ma_item a, ma_itemtype b
-			WHERE a.item_type = b.item_type AND NOT b.item_category = '원자재' AND company_code = #{company_code}
-		]]> 	
-	</select>
 	
-	<select id="selectItem" resultType="BomItem" parameterType="String">
-		<![CDATA[
-			SELECT item_code,item_name,item_no,item_specification
-			FROM ma_item
-			WHERE item_code = #{item_code}
-		]]> 	
-	</select>
 	
-	<select id="getBomTree" resultType="BomItem" parameterType="String">
-		<![CDATA[
-			SELECT sitem_cd AS item_code, item_name, item_no, item_specification
-			FROM ma_bom_tree
-			WHERE ppitem_cd = #{ppitem_cd}
-		]]> 	
-	</select>
+	
+	
 
 </mapper>

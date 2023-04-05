@@ -2,6 +2,7 @@ package com.yeonoo.masterdata.item.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.masterdata.item.domain.BomItem;
+import com.yeonoo.masterdata.item.domain.DupDto;
 import com.yeonoo.masterdata.item.service.BomService;
 
 @Controller
@@ -26,7 +30,7 @@ public class BomController {
 	
 	@GetMapping("/ma/bom")
 	public String maBom() {
-		return "pp/bom";
+		return "masterData/bom";
 	}
 	
 	@RequestMapping("/ma/bomGetItem")
@@ -41,9 +45,9 @@ public class BomController {
 	//BomTree 조회 후 데이터 넘기기
 	@RequestMapping("/ma/getBomTree")
 	@ResponseBody
-	public List<Object> getBomTree(String ppitem_cd) throws Exception {
+	public List<BomItem> getBomTree(String ppitem_cd) throws Exception {
 		//넘길 데이터
-		List<Object> treeData = new ArrayList<Object>();
+		List<BomItem> treeData = new ArrayList<BomItem>();
 		//자식 데이터
 		List<BomItem> childList = bomService.getBomTree(ppitem_cd);
 		//부모 데이터
@@ -75,20 +79,56 @@ public class BomController {
 		}
 	}
 	
-	/*@ResponseBody
+	@ResponseBody
+	@RequestMapping(value = "/ma/searchItem", method = RequestMethod.POST)
+	public List<BomItem> searchItem(@RequestBody String item_name) throws Exception {
+		List<BomItem> list = bomService.getItemListByName(item_name);
+		return list;
+	}
+	
+	//중복 Tree 검사
+	@ResponseBody
+	@RequestMapping(value = "/ma/dupTest", method = RequestMethod.POST)
+	public int dupTest(@RequestBody DupDto dupDto) throws Exception {
+		String ppitem_cd = dupDto.getPpitem_cd();
+		List<BomItem> list = bomService.getBomTree(ppitem_cd);
+		List<BomItem> checkedRow = dupDto.getRowData();
+		for(int i = 0; i < list.size(); i++) {
+			String treeItem_code = list.get(i).getItem_code();
+			for(int j = 0; j < checkedRow.size(); j++) {
+				String chkItem_code = checkedRow.get(j).getItem_code();
+				if(treeItem_code.equals(chkItem_code)) {
+					return 1;
+				}
+			}
+			
+		}
+		return 0;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/ma/addTree", method=RequestMethod.POST)
-	public List<Item> addTree(@RequestBody List<Item> itemList){
-		logger.info("등록을 위해 입력한 itemList 정보 = " + itemList);
-		Iterator<Item> iterator = itemList.iterator();
+	public int addTree(@RequestBody DupDto dupDto) throws Exception{
+		String ppitem_cd = dupDto.getPpitem_cd();
+		List<BomItem> list = bomService.getBomTree(ppitem_cd);
+		List<BomItem> rowData = dupDto.getRowData();
+		for(int i = 0; i < rowData.size(); i++) {
+			Boolean found = false;
+			String rowItem_code = rowData.get(i).getItem_code();
+			for(int j = 0; j < list.size(); j++) {
+				String treeItem_code = list.get(j).getItem_code();
+				if(treeItem_code.equals(rowItem_code)) {
+					bomService.updateTree(ppitem_cd, rowData.get(i));
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				bomService.insertTree(ppitem_cd, rowData.get(i));
+			}
+		}
 		
-		while(iterator.hasNext()) {
-			Item elements = iterator.next();
-	        logger.info("shipout 정보 iterator 변환 = " + elements);
-	         
-	        int writeCnt = productService.addTree(elements);
-	        logger.info("DB에 insert된 출하 개수 : " + writeCnt);
-	      }
-		return itemList;
-	}*/
+		return 1;
+	}
 
 }
