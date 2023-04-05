@@ -86,8 +86,8 @@
                       aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">품목등록(제품)</a>
-                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">품목등록(반제품)</a>
-                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">품목등록(원자재)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/raw/list');">품목등록(원자재)</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">품목유형 코드등록</a>
                            </div>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
