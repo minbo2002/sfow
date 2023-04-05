@@ -1,0 +1,29 @@
+@charset "UTF-8";
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/Awzxz8l4ZOOjLWmwnYFhE9LlLiE4D00Pz2Kz4N" crossorigin="anonymous">
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.button-container button {
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.button-container button:hover {
+    background-color: #1565c0;
+}

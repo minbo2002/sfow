@@ -7,9 +7,10 @@
            id="returnAddResult">
 	<!-- <result property="필드명"  column="컬럼명"/>	 -->
 	<result property="company_code"  column="company_code"/>	
-	<result property="customer_code"  column="customer_code"/>	
 	<result property="return_number"  column="return_number"/>	
 	<result property="return_date"  column="return_date"/>	
+	<result property="client_code"  column="client_code"/>
+	<result property="client_name"  column="client_name"/>		
 	<result property="out_status"  column="out_status"/>
 	<result property="memo"  column="memo"/>
 	<result property="create_date"  column="create_date"/>
@@ -18,11 +19,23 @@
 	<result property="update_user"  column="update_user"/>			
 </resultMap>
 
+	<!-- 전체조회  -->
 	<select id="getReturnAdd" resultMap="returnAddResult">
 		<![CDATA[
 			select *
 			from so_return_add
 		]]> 	
 	</select>
+	
+	<!-- 날짜로 반품 조회  -->
+	<select id="getReturnAddByDate" parameterType="String" resultMap="returnAddResult">
+    	<![CDATA[
+		    SELECT *
+		    FROM so_return_add
+		    WHERE return_date = #{return_date}
+	    ]]>
+	</select>
+	
+	
 
 </mapper>
