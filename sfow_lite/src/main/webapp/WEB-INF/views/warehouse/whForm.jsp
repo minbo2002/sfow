@@ -310,7 +310,7 @@ window.onload = function() {
 			
 			
 		 	$.ajax({
-				url : "/warehouse/insertWH",
+				url : "${conPath}/warehouse/insertWH",
 				method : "post",
 				data : jsonRowDatas,
 				contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
