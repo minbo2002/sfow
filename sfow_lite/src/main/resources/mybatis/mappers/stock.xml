@@ -46,7 +46,7 @@
 	
 	<select id="searchWh" resultType="com.yeonoo.stock.domain.Stock">
 	  <![CDATA[
-		SELECT warehouse_code, warehouse_name
+		SELECT DISTINCT warehouse_code, warehouse_name
 		FROM mt_stock_detail
 	  ]]>
 	</select>

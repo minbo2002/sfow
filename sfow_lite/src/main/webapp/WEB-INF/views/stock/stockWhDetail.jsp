@@ -395,14 +395,50 @@
 
 <script>
 //modal에 띄워지는 grid2
+var grid2=null;	 //추가된 부분!!
+	function uncheck2() {
+	  if (grid2) {
+	    grid2.uncheckAll();
+	  }
+	}
+
+
+	function apply() {
+		  if (grid2 && grid2.getData().length > 0) { // grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
+		    grid2.on('check', function(ev) {
+		      const rowKey = ev.rowKey;
+		      const columnName = ev.columnName;
+		      var updatedData = {};
+		      const rowData = grid2.getRow(rowKey);
+		      console.log('Row data: ', rowData);
+		      if (grid2.getCheckedRows().length == 1) {
+		        var warehouse_code = document.getElementById('warehouse_code');
+		        var test = rowData.warehouse_code;
+		        alert(test);
+		        warehouse_code.value = test;
+		        modal.classList.toggle('show');
+		        body.style.overflow = 'auto';
+		      }
+		    });
+		  }
+		}
+
+
+
+
 
 $(document).ready(function() {
-	var grid2=null;	 //추가된 부분!!
+	
 	//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
-	function uncheck2(){
-		grid2.uncheckAll();
-	};
-  $('.btn-open-popup').dblclick(function(event) {
+// 	function uncheck2(){
+// 		grid2.uncheckAll();
+// 	};
+
+	
+  //$('.btn-open-popup').dblclick(function(event) {
+  $('.btnFas').dblclick(function(event) {
+	  
+  
 	  event.preventDefault();
 	//추가된 부분!!
 	  if(grid2){
@@ -438,14 +474,14 @@ $(document).ready(function() {
     	}
   	]
 	});
-
+  	
 
 $.ajax({
     type:"POST", //요청방식 
     dataType:"JSON",
     url: '<%=request.getContextPath()%>/searchWh',
 	      success: function(data) {
-    	 	gridData2=data
+	    	gridData2=data
   	  		grid2.resetData(data)
   	   	
   	  },
@@ -458,16 +494,12 @@ $.ajax({
 
 });
 	
-
-  //const body = document.querySelector('body');
-  //const modal = document.querySelector('.modal');
-  //const btnOpenPopup = document.querySelector('.btn-open-popup');
   //modal 띄우기
   var body = document.querySelector('body');
   var modal = document.querySelector('.modal');
-  var btnOpenPopup = document.querySelector('.btn-open-popup');
-  //const fasearch = document.querySelector('.fas fa-search');
+  var btnOpenPopup = document.querySelector('.btnFas');
 
+  
   btnOpenPopup.addEventListener('dblclick', () => {
     modal.classList.toggle('show');
 
@@ -475,6 +507,8 @@ $.ajax({
     	body.style.overflow = 'hidden';
     }
   });
+  
+  
 
   //modal 클릭 이벤트 리스너
   modal.addEventListener('click', (event) => {
@@ -491,6 +525,8 @@ $.ajax({
   
   
 });
+
+
 </script>
 
 
@@ -555,7 +591,8 @@ $.ajax({
 	}
 	
 	#modalGrid {
-	  position: absolute;
+	position: relative; /* 변경된 부분 */
+/* 	  position: absolute; */
 	  top: 50%;
 	  left: 50%;
 	
@@ -572,6 +609,19 @@ $.ajax({
 	
 	  transform: translateX(-50%) translateY(-50%);
 	}
+	
+	.modal-wrapper {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+	
+	
 	
 
   .search_wh .form-title{
@@ -617,6 +667,31 @@ $.ajax({
   }
 	
 
+#apply {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 250px; /* 버튼 위치 조정 */
+}
+
+#resetBtn2 {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 160px; /* 버튼 위치 조정 */
+}
+
+
 
 </style>
 
@@ -640,7 +715,7 @@ $.ajax({
 
 <div class="search_wh" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
   <input type="text" class="form-title" id="lens_sh" value="창고검색" disabled/>
-  <span style="position: relative;">
+  <span style="position: relative;" class="btnFas">
     <input type="text" class="btn-open-popup" id="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/>
     <i class='fas fa-search' style="position: absolute; transform: translateY(-50%);"></i>
   </span>
@@ -696,12 +771,19 @@ $.ajax({
 <div id="grid"></div>
 
 
-
-   <div class="modal">
-   <!-- modal에 grid 띄우기 -->
-     <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;"></div>
-
-     </div>
+<div class="modal">
+  <!-- modal에 grid 띄우기 -->
+  <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+    <!-- reset 버튼 추가 -->
+    <button type="button" id="apply" onclick="apply()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
+    </button>
+    
+    <button type="reset" id="resetBtn2" onclick="uncheck2()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
+    </button>
+  </div>
+</div>
   
     
 </body>
