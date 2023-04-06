@@ -435,12 +435,15 @@ var grid2=null;	 //추가된 부분!!
 	    	    //warehouseCodes.push(el.value);
 	    	   grid2.getCheckedRows().forEach(rowData => {
         		warehouseCodes.push(rowData.warehouse_code);
-	    	    
 	    	  });
-	    	  const warehouseCodesString = warehouseCodes.join('@N@');// @로 구분된 문자열
+	    	  //const warehouseCodesString = warehouseCodes.join('@N@');// @로 구분된 문자열
+	    	  const warehouseCodesString = warehouseCodes.map(code => code.trim()).join('@N@');
+	    	  //.map() 메소드는 자바스크립트 배열에서 사용 가능한 메소드 중 하나. 이 메소드는 배열의 모든 요소에 대해 주어진 함수를 호출하고, 그 결과를 새로운 배열로 반환.
+	    	  //위 코드에서는 warehouseCodes 배열의 모든 요소에 대해 trim() 함수를 호출하여 문자열 앞뒤 공백을 제거한 후, @N@ 구분자로 연결한 문자열을 생성.
+			  //여기서 code는 콜백 함수의 매개변수로서, 현재 배열 요소를 가리키고, 코드 내에서는 이 요소의 문자열 앞뒤 공백을 제거한 후 반환.
 	    	  const warehouse_code = document.getElementById('warehouse_code');
 	    	  warehouse_code.value = warehouseCodesString; // input 요소에 문자열 할당
-	    	  //console.log(warehouseCodesString);
+	    	  console.log(warehouseCodesString);
 	      }   
 	      
 	         modal.classList.remove('show');
