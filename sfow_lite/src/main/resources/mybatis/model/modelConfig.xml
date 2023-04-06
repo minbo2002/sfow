@@ -7,6 +7,7 @@
 	<typeAliases>
 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
  		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />
-<!--  		<typeAlias type="com.yeonoo.sfow.reqMgmt.ReqMgmtVO" alias="reqMgmtVO" /> -->
+ 		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
 	</typeAliases>
 </configuration>

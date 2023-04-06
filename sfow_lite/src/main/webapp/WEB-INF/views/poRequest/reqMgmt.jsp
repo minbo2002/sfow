@@ -955,7 +955,7 @@ $(document).ready(function() {
   	autoWidth: true,
   	rowHeaders: [{
    	   type: 'rowNum',
-   	   header: "  ",
+   	   header: "",
    	   width: 50
   	},{type : 'checkbox'}],
   	columns: [
