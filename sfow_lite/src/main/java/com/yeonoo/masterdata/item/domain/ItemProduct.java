@@ -21,8 +21,6 @@ public class ItemProduct {
 	private String item_specification;
 	private String item_stock_unit;
 	private String lotsize;
-	private int buy_price;
-	private int sales_price;
 	private String memo;
 	private String useyn;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-hh-mm",timezone="Asia/Seoul")

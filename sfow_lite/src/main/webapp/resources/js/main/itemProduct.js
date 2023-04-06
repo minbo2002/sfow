@@ -241,28 +241,6 @@ $(document).ready(window.onload=function() {
                      },
           },
           {
-            header: '매입가격',
-            name: 'buy_price',
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     }, 
-          },
-          {
-            header: '매출가격',
-            name: 'sales_price',
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     }, 
-          },
-          {
             header: '비고',
             name: 'memo',
             editor: 'text',
