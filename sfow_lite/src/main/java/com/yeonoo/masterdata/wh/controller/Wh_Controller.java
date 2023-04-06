@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.service.WhService;
@@ -42,16 +45,17 @@ public class Wh_Controller {
 	        return results;
 	    }
 	    
-	    /*
+	    
 	    //update WH
-	    @PostMapping("/warehouse/updateWH")
-	    public ModelAndView updateWHform(@RequestParam("warehouse_code") WH wh, ModelAndView mv) throws Exception {
+	    @PutMapping("/warehouse/updateWH")
+	    @ResponseBody
+	    public void updateWH(@RequestParam WH rowData) throws Exception {
 	    	
-	    	int cnt =whService.updateWHform(wh);
-	    		mv.setViewName("redirect:/warehouse/whinfo");
-	    	return  mv;
+	    	System.out.println("행테이터"+rowData);
+	    	whService.updateWH(rowData);
+	    	
 	    }
-	    */
+	    
 	  //area 보여주기
 	    @PostMapping("/warehouse/whArea")
 	    public String getAreaList() throws Exception {

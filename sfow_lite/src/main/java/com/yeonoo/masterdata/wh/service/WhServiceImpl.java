@@ -19,13 +19,6 @@ public class WhServiceImpl implements WhService{
 		
 		return whRepository.getWhAllList();
 	}
-	//수정하기update
-	@Override
-	public int updateWHform(WH wh) throws Exception {
-		
-		return whRepository.updateWHform(wh);
-	}
-	
 	@Override
 	public String getAreaList(String st) throws Exception {
 		return whRepository.getAreaList(st);
@@ -40,6 +33,13 @@ public class WhServiceImpl implements WhService{
 	public List<WH> WHarea(WH wharea) throws Exception {
 		
 		return whRepository.getwharea(wharea);
+	}
+	
+	//수정하기update
+	@Override
+	public void updateWH(WH rowData) throws Exception {
+		
+		return;
 	}
 	
 	
