@@ -14,6 +14,12 @@
 <title>Insert title here</title>
 </head>
 <script>
+
+
+$(document).ready(function() {
+	
+	
+	
      const grid = new tui.Grid({
        el: document.getElementById('grid'),
        scrollX: false,
@@ -38,6 +44,12 @@
                  name: 'client_Name',
                  align: 'center',// [필수] 컬럼 매핑 이름 값
                  editor: 'text',
+                 sortable: true,
+                 filter: {
+                     type: 'text',
+                     showApplyBtn: true,
+                     showClearBtn: true 
+                 }
                  
                 },
 
@@ -70,43 +82,60 @@
                  name: 'update_Date',
                  align: 'center',
                  }
+               	
         ]
+     
         
      });
+     
+     
       
      
-    //행 추가
-     $('#add-row-btn').on('click', function() {
-          // 새로운 데이터 생성
-          const newRowData = {
-        		  client_Code: '',
-        		  client_Name: '',
-        		  ceo_Name: '',
-        		  client_Phone: '',
-        		  client_Email: '',
-        		  create_Date: '',
-        		  update_Date: '',
-          };
-          console.log("newRowData", newRowData);
-            
-          // 새로운 행 추가
-          const newRowKey = grid.appendRow(newRowData); 
-          console.log("newRowKey",newRowKey);
-          // 새로운 행의 정보 전송
-          $.ajax({
-              url: '${ContextPath}/insert',
-              type: 'POST',
-              data: JSON.stringify(newRowData),
-              contentType: 'application/json',
-              success: function(result) {
-                  console.log(result);
-              },
-              error: function(xhr, status, error) {
-                  console.log(xhr.responseText);
-              }
-          });
-      }); 
+     
+     $('#add-row-btn').on('click', function(event) {
+    	    event.preventDefault(); // 기본 동작 막기
 
+    	    // 새로운 데이터 생성
+    	    const newRowData = {
+    	        client_Code: '',
+    	        client_Name: '',
+    	        ceo_Name: '',
+    	        client_Phone: '',
+    	        client_Email: '',
+    	        create_Date: '',
+    	        update_Date: '',
+    	    };
+    	    console.log("newRowData", newRowData);
+    	      
+    	    // 새로운 행 추가
+    	    const newRowKey = grid.appendRow(newRowData); 
+    	    console.log("newRowKey",newRowKey);
+    	    
+    	    // 새로운 행의 정보 전송
+    	    $.ajax({
+    	        url: '${ContextPath}/insert',
+    	        type: 'POST',
+    	        data: JSON.stringify(newRowData),
+    	        contentType: 'application/json',
+    	        success: function(result) {
+    	            console.log(result);
+    	            
+    	            $.ajax({
+    	                url: '${ContextPath}/cpm',
+    	                method: 'GET',
+    	                dataType: 'JSON',
+    	                success: function(result) {
+    	                    console.dir(result); //배열인지 확인.
+    	                    grid.resetData(result);
+    	                },
+    	                error: function(xhr, status, error) {
+    	                    console.log(xhr.responseText);
+    	                }
+    	            });
+    	            alert('사용자가 추가되었습니다.');
+    	        }
+    	    }); 
+    	});
 
      
      
@@ -125,8 +154,6 @@
                  var updatedData = {};
                  const rowData = grid.getRow(rowKey);
                  console.log('Row data: ', rowData);
-                 
-               
 
                  $.ajax({
                 	  url: '${ContextPath}/update',
@@ -159,17 +186,17 @@
 
 
 
-     
   // 행 삭제
-     $('#delete-row-btn').on('click', function() {
+     $('#delete-row-btn').on('click', function(event) {
+       event.preventDefault(); // 기본 동작 막기
        const checkedRows = grid.getCheckedRows();
        var no = [];
        var client_Codes = [];
        for (var i = 0; i < checkedRows.length; i++) {
-    	   client_Codes.push(checkedRows[i].no);
+         client_Codes.push(checkedRows[i].no);
        }
        console.log("no",no);
-       
+
        $.ajax({
          url: '${ContextPath}/deletecpm',
          type: 'DELETE',
@@ -195,7 +222,10 @@
          }
        });
      });
-     
+
+  
+  
+});
 
 
    
@@ -205,14 +235,18 @@
 <form name="userListFrm" id="userListFrm" >
  <div class="btn-wrapper" style="margin-bottom: 10px;">
 
+
          <!-- 테이블 버튼 구성 -->
+          <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
         <div class="btn-wrapper" style="margin-bottom: 10px;">
             <button id="add-row-btn"> 추가</button>
             <button id="delete-row-btn">삭제</button>
-
         </div>
+        </c:if>
         <!-- Toast Grid Load -->
   <div id="grid"></div>
+  
+  
   </div>
  </form>
 </body>
