@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="raw">
+
+	<select id="rawList" resultType="rawDTO">
+		<![CDATA[
+		select i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_type as itemType,i.item_specification as itemSpecification,c.client_name as clientName,i.buy_price as buyPrice,i.sales_price as salesPrice,w.warehouse_code as warehouseCode,w.warehouse_name as warehouseName,i.memo,i.useyn,i.createdate,i.updatedate
+			from ma_item i, ma_client_company c, wh h
+		where useyn='Y'	
+		order by item_code 
+		]]>	
+	</select>
+
+	<insert id="insertRaw" parameterType="rawDTO">
+		INSERT INTO RAW (mem_no,MEM_ID, passwd, MEM_NAME, GENDER, EMAIL, POSTCODE,ADDRESS,EXTRAADDRESS, GRADE) 
+		values (seq_member.nextval ,#{memId}, #{passwd}, #{memName}, #{gender}, #{email}, #{postcode},#{address},#{extraAddress}, 0)
+	</insert>
+	
+	<update id="updateRaw" parameterType="rawDTO">
+		update ma_item
+		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit},buy_price=#{buyPrice}, sales_price=#{salesPrice}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} 
+		where item_code=#{itemCode}
+	</update>
+
+	<delete id="deleteRaw">
+		delete from member
+		where mem_id=#{memId}
+	</delete>
+	
+
+
+</mapper>  
