@@ -46,255 +46,9 @@ div.whbox1{
 </style>
  
 </head>
+<script src="${conPath}/resources/js/warehouse/wh_main.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-window.onload = function() {
-     
-   var gridData=[];
-   var grid = new tui.Grid({
-         el: document.getElementById('grid'),
-         data: gridData,
-         scrollX: true,
-         scrollY: true,
-         
-         rowHeaders: [{
-             type: 'rowNum',
-             header: "",
-             width: 50,
-         },'checkbox'],
-           columns: [
-        	 {
-                 header: '회사코드',            // [필수] 컬럼 이름
-                 name: 'company_code',                 // [필수] 컬럼 매핑 이름 값
-                 hidden: true,                   // [선택] 숨김 여부
-             },
-            	{
-                header: '창고구분',
-                sortable: true, //정렬하는거 옆에 삼각형 2개생김
-                editor:'text', //텍스트 수정 (아직 db까지 안가고 화면에서만 가능)
-                align:'center', //텍스트 가운데정렬
-                name: 'warehouse_type'
-              },
-           {
-             header: '창고코드',
-             sortable: true,
-             editor:'text',
-             filter: {
-                 type: 'text',
-                 showApplyBtn: true,
-                 showClearBtn: true
-             },
-             align:'center',
-             name: 'warehouse_code',
-           
-           },
-           {
-             header: '창고명',
-             sortable: true,
-             editor:'text',
-             align:'center',
-             name: 'warehouse_name',
-             filter: {
-                 type: 'text',
-                 showApplyBtn: true,
-            	 showClearBtn: true
-             },
-           },
-           {
-             header: '거래처코드',
-             sortable: true,
-             editor:'text',
-             align:'center',
-             name: 'customer_code'
-           },
-           {
-             header: '비고',
-             sortable: true,
-             editor:'text',
-             width:'auto',
-             align:'center',
-             name: 'memo'
-           },
-           {
-             header: '사용여부',
-             sortable: true,
-             editor:'text',
-             align:'center',
-             width:'90',
-             name: 'useyn',
-          //formatter: 'listItemText',     // [선택] 값을 기반으로 select box 옵션
-             editor: {
-                 type: 'select',
-                 options: {
-                     listItems: [
-                         {text: "Y", value: "Y"},
-                         {text: "N", value: "N"},
-                     ]
-                 }
-             },
-           },
-           {
-               header: '등록일',
-               sortable: true,
-               align:'center',
-               width:'150',
-               name: 'createdate'
-             },
-             {
-               header: '등록자',
-               sortable: true,
-               editor:'text',
-               align:'center',
-               name: 'createuser'
-             },
-             {
-                 header: '수정일시',
-                 sortable: true,
-                 align:'center',
-                 width:'150',
-                 name: 'updatedate'
-               },
-             {
-                 header: '수정자',
-                 sortable: true,
-                 editor:'text',
-                 align:'center',
-                 name: 'updateuser'
-               }
-             
-         ]
 
-       }); //그리드 컬럼끝
-   
-   
-    $.ajax({
-      url : "${conPath}/warehouse/whinfoAJ",
-      method : "GET",
-      dataType : "JSON",
-      success : function(result) {
-         console.dir(result);
-        grid.resetData(result);
-      } 
-      
-      
-   });
-       //insert 저장하기
-	 var saveBtn = document.getElementById('saveBtn');
-	saveBtn.addEventListener('click',function() {
-		
-		});
-       
- //행 추가
-	var addRowBtn = document.getElementById('addRowBtn');
-	addRowBtn.addEventListener('click', function() {
-	  var newRowData = {
-		warehouse_type:'',
-		warehouse_code:'',
-		warehouse_name:'',
-		customer_code:'',
-		 memo: '',
-		 useyn: '',
-		 createdate: '',
-		 createuser:'',
-		 updatedate: '',
-		 updateuser:''
-		 };
-	  grid.appendRow(newRowData);
-		 
-	}); 
-
-//};
-	var gridData2=[];
-	   var grid2 = new tui.Grid({
-	         el: document.getElementById('areaGrid'),
-	         data: gridData2,
-	         scrollX: false,
-	         scrollY: false,
-	         align:'center',
-	         width: '500px',
-	         rowHeaders: [{
-	             type: 'rowNum',
-	             header: "",
-	             width: 50,
-	         },'checkbox'],
-	           columns: [
-	        	 {
-	        		 header: '구역코드',
-		                sortable: true, //정렬하는거 옆에 삼각형 2개생김
-		                editor:'text', //텍스트 수정 (아직 db까지 안가고 화면에서만 가능)
-		                align:'center', //텍스트 가운데정렬
-		                width: '150',
-		                name: 'area_code'              
-	             },
-	            	{
-	                header: '구역명',
-	                sortable: true, //정렬하는거 옆에 삼각형 2개생김
-	                editor:'text', //텍스트 수정 (아직 db까지 안가고 화면에서만 가능)
-	                align:'center', //텍스트 가운데정렬
-	                width: '150',
-	                name: 'area_name'
-	              }
-	         ]
-	       }); //area 그리드 컬럼끝
-	       
-	  //행 추가
-		var addRowBtn2 = document.getElementById('addRowBtn2');
-		addRowBtn2.addEventListener('click', function() {
-		  var newRowData =[{area_code:''},{ area_name:''}];
-		  grid2.appendRow(newRowData);
-		});
-		
-		// 그리드 
- 		/*grid.on('click', (ev) => {
-			  const { rowKey } = grid.getFocusedCell();
-			  const rowData = grid.getRow(rowKey);
-			  
-			  const whcode= rowData.warehouse_code;
-			  
-			//alert(whcode); 
-		});
-		*/
-		
-		//조회 버튼 클릭하면 특정 내용 검색(빈내용이면 전부 검색)
-		$(document).ready(function(){
-			
-			  $('#searchBtn').click(function(event) {
-				  event.preventDefault(); // prevent form submission
-				  var Grid = tui.Grid;
-				    // get search parameters
-				    var warehouse_type = $('#warehouse_type').val();
-				    var warehouse_code = $('#warehouse_code').val();
-				    var warehouse_name = $('#warehouse_name').val();
-				   // alert(warehouse_type);
-				     
-				    // make AJAX call to server
-				    $.ajax({
-				      url:'${conPath}/warehouse/searchWH',
-				      type: 'get',
-				      dataType:'JSON',
-				      data: {
-			    	  warehouse_type: warehouse_type,
-			    	  warehouse_code: warehouse_code,
-			    	  warehouse_name: warehouse_name
-			      },
-			      success: function(data) {
-			    	 	console.dir(data);
-			    	 	grid.clear();
-			    	 	grid.resetData(data);
-			    	  	
-			    	  	
-			      }
-			    	   	 });
-			 	});
-			});
-		
-		
-		
-		
-		
-		
-};//윈로드 스크립트 시작,종료
-</script>
 
 
 
@@ -307,7 +61,7 @@ window.onload = function() {
 		
 		<div class="whbox1">
 	<!-- 	<input type="button" name="serchBtn" id="serchBtn" value="조회"> -->
-		<input type="submit" name="saveBtn" id="saveBtn" value="저장">
+		<input type="button" name="saveBtn" id="saveBtn" value="저장">
 		<input type="button" name="delBtn" id="delBtn" value="삭제">
 		<input type="button" name="clearBtn" id="clearBtn" value="초기화" onClick="window.location.reload()">
 		</div>
@@ -359,7 +113,7 @@ window.onload = function() {
 				<input type="text" name="warehouse_name" id="warehouse_name">
 			</td>
 			<td id="td4">
-				<input type="submit" name="searchBtn" id="searchBtn" value="조회">
+				<input type="button" name="searchBtn" id="searchBtn" value="조회">
 			</td>
 			
 		</tr>
@@ -371,6 +125,7 @@ window.onload = function() {
 		
 		<br/>
 		<input type="button" name="addRowBtn" id="addRowBtn" value="+">
+		<button type="button" id="deleteRow">ㅡ</button>
 		<div style="margin-top:30px;">창고</div>
 		<div id="grid"></div>
 		
@@ -379,7 +134,9 @@ window.onload = function() {
 	
 	
 <hr>
-		<div style="display: flex; margin:10px;">구역(Area)<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" ></div>
+		<div style="display: flex; margin:10px;">구역(Area)
+		<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" >
+		<button type="button" name="deleteRow2" id="deleteRow2" >-</button></div>
 		
 		
 		<div id="areaGrid"></div>

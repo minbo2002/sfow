@@ -27,12 +27,14 @@ public class WhRepositoryImpl implements WhRepository {
 		return list;
 	}
 	
-	//업데이트 그리드 1
-	@Override
-	public void updateWH(WH warehouse_code) throws Exception {
-		sqlSession.update("mapper.warehouse.updateWH", warehouse_code);
-		
-	}
+	/*
+	 * //업데이트 그리드 1
+	 * 
+	 * @Override public void updateWH(WH warehouse_code) throws Exception {
+	 * sqlSession.update("mapper.warehouse.updateWH", warehouse_code);
+	 * 
+	 * }
+	 */
 	
 	
 	@Override
@@ -52,6 +54,10 @@ public class WhRepositoryImpl implements WhRepository {
 	public List<WH> getwharea(WH wharea) {
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.wharea",wharea);
 		return list;
+	}
+	@Override
+	public int writeWH(WH elements) {
+		return sqlSession.update("mapper.warehouse.insertWH", elements);
 	}
 
 	
