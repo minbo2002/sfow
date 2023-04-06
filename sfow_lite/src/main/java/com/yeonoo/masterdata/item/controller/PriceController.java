@@ -28,7 +28,7 @@ public class PriceController {
 	// 전체 조회 page mapping
 	@RequestMapping("/list") //get
 	public String allList() {
-		return "item/gridPriceList";
+		return "price/gridPriceList";
 	}
 	
 	@ResponseBody

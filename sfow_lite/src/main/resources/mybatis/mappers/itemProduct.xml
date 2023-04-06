@@ -42,14 +42,14 @@
   <!-- 품목등록(제품) 등록 -->
  <insert id="insertProduct" parameterType="ItemProduct">
  <![CDATA[
- 	INSERT INTO ma_item(company_code,item_category,item_name,item_no,item_type,item_specification,item_stock_unit,useyn,lotsize,buy_price,sales_price,memo,createdate)
-	VALUE('1','제품',#{item_name},#{item_no},#{item_type},#{item_specification},#{item_stock_unit},#{useyn},#{lotsize},#{buy_price},#{sales_price},#{memo},CURRENT_TIMESTAMP)
+ 	INSERT INTO ma_item(company_code,item_category,item_name,item_no,item_type,item_specification,item_stock_unit,useyn,lotsize,memo,createdate)
+	VALUE('1','제품',#{item_name},#{item_no},#{item_type},#{item_specification},#{item_stock_unit},#{useyn},#{lotsize},#{memo},CURRENT_TIMESTAMP)
  ]]>
 </insert>
 <!-- 품목등록(제품) 수정 -->
 <update id="updateProduct" parameterType="ItemProduct">
  <![CDATA[
- update ma_item set item_name=#{item_name},item_no=#{item_no},item_type=#{item_type},item_specification=#{item_specification},item_stock_unit=#{item_stock_unit},lotsize=#{lotsize},memo=#{memo},buy_price=#{buy_price},sales_price=#{sales_price},useyn=#{useyn},updatedate=CURRENT_TIMESTAMP
+ update ma_item set item_name=#{item_name},item_no=#{item_no},item_type=#{item_type},item_specification=#{item_specification},item_stock_unit=#{item_stock_unit},lotsize=#{lotsize},memo=#{memo},useyn=#{useyn},updatedate=CURRENT_TIMESTAMP
  where item_code=#{item_code}
  ]]>
  </update>

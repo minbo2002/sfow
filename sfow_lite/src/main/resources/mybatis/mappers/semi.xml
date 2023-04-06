@@ -14,8 +14,6 @@
         <result property="itemSpecification" column="item_specification"/>
         <result property="itemStockUnit" column="item_stock_unit"/>
         <result property="lotSize" column="lotsize"/>
-        <result property="buyPrice" column="buy_price"/>
-        <result property="salesPrice" column="sales_price"/>
         <result property="memo" column="memo"/>
         <result property="useyn" column="useyn"/>
         <result property="createdate" column="createdate"/>
@@ -25,9 +23,9 @@
 
 	<select id="semiList" resultType="semiDTO">
 		<![CDATA[
-		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type as itemType,item_specification as itemSpecification,item_stock_unit as itemStockUnit,buy_price as buyPrice,sales_price as salesPrice,lotsize,memo,useyn,createdate,updatedate
-			from ma_item
-			where useyn='Y'
+		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type as itemType,item_specification as itemSpecification,item_stock_unit as itemStockUnit,lotsize,memo,useyn,createdate,updatedate
+			from ma_item  
+			where item_category='반제품' AND (useyn='Y' or useyn is null)
 						
 		order by item_code 
 		]]>	
@@ -35,9 +33,9 @@
 
 	<select id="semiListSearch" resultMap="semiDTO" parameterType="semiDTO">
 		<![CDATA[
-		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type as itemType,item_specification as itemSpecification,item_stock_unit as itemStockUnit,buy_price as buyPrice,sales_price as salesPrice,lotsize,memo,useyn,createdate,updatedate
+		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type as itemType,item_specification as itemSpecification,item_stock_unit as itemStockUnit,lotsize,memo,useyn,createdate,updatedate
 			from ma_item
-			where useyn='Y'
+			where (useyn='Y' or useyn is null)
 						 AND COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
 						 AND COALESCE(item_name, '') LIKE CONCAT('%', #{itemName}, '%')
 						 AND COALESCE(item_no, '') LIKE CONCAT('%', #{itemNo}, '%') 
@@ -47,14 +45,14 @@
 
 	<insert id="insertSemi" parameterType="semiDTO">
 
-		INSERT INTO ma_item (item_name, item_no, item_type, item_specification, item_stock_unit, buy_price,sales_price,lotsize, memo,useyn,createdate) 
-		values (#{itemName}, #{itemNo}, #{itemType}, #{itemSpecification}, #{itemStockUnit}, #{lotSize},#{buyPrice},#{salesPrice}, #{memo}, #{useyn},now())
+		INSERT INTO ma_item (item_name, item_no, item_type, item_specification, item_stock_unit, lotsize, memo,useyn,createdate) 
+		values (#{itemName}, #{itemNo}, #{itemType}, #{itemSpecification}, #{itemStockUnit}, #{lotSize}, #{memo}, #{useyn},now())
 	</insert>
 	
 	
 	<update id="updateSemi" parameterType="semiDTO">
 		update ma_item
-		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit},buy_price=#{buyPrice}, sales_price=#{salesPrice}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=now()
+		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=now()
 		where item_code=#{itemCode}
 	</update>
 

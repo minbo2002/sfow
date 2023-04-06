@@ -120,8 +120,6 @@
       align:'center'
       },
     { header: 'lot size' , name: 'lotSize' 			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
-	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
 	{ header: '사용여부',
 	  name: 'useyn', 
@@ -273,8 +271,6 @@
     itemSpecification: '',
     itemStockUnit: '',
     lotSize: '',
-    buyPrice: '',
-    salesPrice: '',
     memo: '',
     useyn: '',
     createdate:'',
