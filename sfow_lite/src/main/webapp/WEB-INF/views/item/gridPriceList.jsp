@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>품목등록(반제품)</title>
+<title>품목단가관리</title>
 
 <style>
 		.form-title{
@@ -47,16 +47,22 @@
         <div class="form-code">
 		
             	<form id="semiSearch">
-            	<div class="form-title">ITEM코드</div><input type="text" class="form-data" id ="itemCode" name = "itemCode" style="margin-right: 20px; margin-left:20px; " placeholder='자동완성';>
+            	<div class="form-title">품목구분</div><input type="text" class="form-data" id ="itemCategory" name = "itemCategory" style="margin-right: 20px; margin-left:20px; " placeholder='--';>
+            	<div class="form-title">품목검색</div><input type="text" class="form-data" id ="itemCode" name = "itemCode" style="margin-right: 20px; margin-left:20px; " placeholder='자동완성';>
               	<div class="form-title">품명</div><input type="text" class="form-data" id = "itemName" name = "itemName" style="margin-right: 20px; margin-left:20px;">
               	<div class="form-title">품번</div><input type="text" class="form-data" id="itemNo" name = "itemNo" style="margin-right: 20px; margin-left:20px; ">
+              	<div class="form-title">규격</div><input type="text" class="form-data" id = "itemSpecification" name = "itemSpecification" style="margin-right: 20px; margin-left:20px;">
+              	<div class="form-title">거래처코드</div><input type="text" class="form-data" id = "clientCode" name = "clientCode" style="margin-right: 20px; margin-left:20px;">
+              	<div class="form-title">거래처명</div><input type="text" class="form-data" id = "clientName" name = "clientName" style="margin-right: 20px; margin-left:20px;">
+              	<div class="form-title">사용여부</div><input type="text" class="form-data" id = "useyn" name = "useyn" style="margin-right: 20px; margin-left:20px;">
+              	
               	</form>
     </div>
 </div>
 
 
 
-<font size='7px';>기준정보</font>
+<font size='7px';>품목단가관리</font>
   <div id="grid">
 				<button id="searchBtn">조회</button>
 				<button id="addRowBtn">+</button>
@@ -80,46 +86,28 @@
 
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
-    { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, editor: 'text' ,align:'center' },	    	
+    { header: '품목구분',
+	      name: 'itemCategory',
+	      sortable: true,
+	      editor: {type: 'select',
+	    	  options: {
+	              listItems: [
+	                  {text: '제품', value: "제품"},
+	                  {text: '반제품', value: "반제품"},
+	                  {text: '원제품', value: "원자재"}
+	                  
+	             			 ] 
+	      				}
+	      }
+	      ,align:'center' },
+    { header: '품목검색'	 , name: 'itemCode'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '유형',
-      name: 'itemType',
-      sortable: true,
-      editor: {type: 'select',
-    	  options: {
-              listItems: [
-                  {text: '제품', value: "제품"},
-                  {text: '반제품', value: "반제품"},
-                  {text: '원제품', value: "원제품"}
-                  
-             			 ] 
-      				}
-      }
-      ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
-    { 
-      header: '재고단위',
-      name: 'itemStockUnit',
-      sortable: true,
-      editor: {type: 'select',
-    	  options: {
-              listItems: [
-                  {text: 'EA', value: "EA"},
-                  {text: 'g', value: "g"},
-                  {text: 'KG', value: "KG"},
-                  {text: 'Ton', value: "Ton"},
-                  {text: '㎖', value: "㎖"},
-                  {text: 'ℓ', value: "ℓ"},
-                  {text: '㎡', value: "㎡"},
-                  {text: 'm', value: "m"},
-                  
-             			 ] 
-      				}
-      },
-      align:'center'
-      },
-    { header: 'lot size' , name: 'lotSize' 			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: 'text' ,align:'center' },
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
@@ -135,10 +123,8 @@
       				}
       		   },
       align:'center'
-	  },
-	{ header: '등록일자'	 , name: 'createdate'		, sortable: true, 				  align:'center' },
-	{ header: '수정일자'	 , name: 'updatedate'		, sortable: true, 				  align:'center' }
-	  	  
+	  }
+	  	  // itemCode,itemName itemNo itemSpecification clientCode clientName startDate endDate buyPrice salesPrice memo
 	]
 	
 	});
@@ -151,11 +137,18 @@
         const rowData = grid.getRow(rowKey);
         console.log('Row data: ', rowData);
         if(grid.getCheckedRows().length==1){
+        var itemCategory = document.getElementById('itemCategory');
    		var itemCode = document.getElementById('itemCode');
    		var itemName = document.getElementById('itemName');
   		var itemNo = document.getElementById('itemNo');
-	
+  		var itemSpecification = document.getElementById('itemSpecification');
+  		var clientCode = document.getElementById('clientCode');
+  		var clientName = document.getElementById('clientName');
+  		var useyn = document.getElementById('useyn');
     	
+  		itemCategory.value=rowData.itemCategory;
+  		itemCategory.readOnly=true;
+  		
     	itemCode.value=rowData.itemCode;
     	itemCode.readOnly=true;
 
@@ -166,23 +159,52 @@
     	
     	itemNo.value=rowData.itemNo;
     	itemNo.readOnly=true;
+    	
+    	itemSpecification.value=rowData.itemSpecification;
+    	itemSpecification.readOnly=true;
+    	
+    	clientCode.value=rowData.clientCode;
+    	clientCode.readOnly=true;
+    	
+    	clientName.value=rowData.clientName;
+    	clientName.readOnly=true;
+    	
+    	useyn.value=rowData.useyn;
+    	useyn.readOnly=true;
+    	
         }else{
-        	
+        	var itemCategory = document.getElementById('itemCategory');
        		var itemCode = document.getElementById('itemCode');
        		var itemName = document.getElementById('itemName');
       		var itemNo = document.getElementById('itemNo');	
-        	
+      		var itemSpecification = document.getElementById('itemSpecification');
+      		var clientCode = document.getElementById('clientCode');
+      		var clientName = document.getElementById('clientName');
+      		var useyn = document.getElementById('useyn');
 
+      		itemCategory.value="";
+      		itemCategory.readOnly=true;
+      		
         	itemCode.value="";
     		itemCode.readOnly=true;
         	
-    		
     		itemName.value="";
     		itemName.readOnly=false;
 
-    		
         	itemNo.value="";
         	itemNo.readOnly=false;
+        	
+        	itemSpecification.value="";
+        	itemSpecification.readOnly=false;
+        	
+        	clientCode.value="";
+        	clientCode.readOnly=false;
+        	
+        	clientName.value="";
+        	clientName.readOnly=false;
+        	
+        	useyn.value="";
+        	useyn.readOnly=false;
         	
         	}
         
@@ -190,20 +212,39 @@
 	
 	//checkbox 체크 해제 시에 input 태그 내에 해당 value 제거 & 다중 선택 시에 input 태그 내에 value 제거
 	grid.on('uncheck', (ev) => {
+    	var itemCategory = document.getElementById('itemCategory');
    		var itemCode = document.getElementById('itemCode');
    		var itemName = document.getElementById('itemName');
-  		var itemNo = document.getElementById('itemNo');
-	
+  		var itemNo = document.getElementById('itemNo');	
+  		var itemSpecification = document.getElementById('itemSpecification');
+  		var clientCode = document.getElementById('clientCode');
+  		var clientName = document.getElementById('clientName');
+  		var useyn = document.getElementById('useyn');
 	
     	
+  		itemCategory.value="";
+  		itemCategory.readOnly=true;
+  		
     	itemCode.value="";
 		itemCode.readOnly=true;
     	
 		itemName.value="";
 		itemName.readOnly=false;
-	
+
     	itemNo.value="";
     	itemNo.readOnly=false;
+    	
+    	itemSpecification.value="";
+    	itemSpecification.readOnly=false;
+    	
+    	clientCode.value="";
+    	clientCode.readOnly=false;
+    	
+    	clientName.value="";
+    	clientName.readOnly=false;
+    	
+    	useyn.value="";
+    	useyn.readOnly=false;
 	
 	
 	});
@@ -213,7 +254,7 @@
 	// 목록 조회(첫 페이지 출력시 자동 조회)
 	
 	$.ajax({
-		url : "semi/toastSemiDataList",		//toastDataList
+		url : "price/toastPriceDataList",		//toastDataList
 		method :"GET",
 		dataType : "JSON",
 		contentType : "application/json; charset=utf-8",
@@ -227,11 +268,15 @@
 	
 	//목록 조회 버튼(검색 추가)
 	$('#searchBtn').on('click', function() { 
-		
+		// itemCode,itemName itemNo itemSpecification clientCode clientName startDate endDate buyPrice salesPrice memo
 		var searchData = {
+				itemCategory: $("#itemCategory").val(),
 				itemCode: $("#itemCode").val(),
 				itemName: $("#itemName").val(),
 				itemNo: $("#itemNo").val(),
+				itemSpecification: $("#itemSpecification").val(),
+				clientCode: $("#clientCode").val(),
+				clientName: $("#clientName").val(),
 				useyn: $("#useyn").val()
 			    
 		}
@@ -240,7 +285,7 @@
 		event.preventDefault();	// 새 창 열림 방지
 		
 	$.ajax({
-		url : "semi/toastSemiDataList",		//toastDataList
+		url : "price/toastPriceDataList",		//toastDataList
 		method :"POST",
 		data:searchData,
 		dataType : "JSON",
@@ -271,18 +316,18 @@
     itemNo: '',
     itemType: '',
     itemSpecification: '',
-    itemStockUnit: '',
-    lotSize: '',
+    clientCode: '',
+    clientName: '',
+    startDate:'',
+    endDate: '',
     buyPrice: '',
     salesPrice: '',
     memo: '',
-    useyn: '',
-    createdate:'',
-    updatedate: ''
+    useyn: ''
  	};
  	 grid.appendRow(newRowData);
 	});	
-
+	// itemCode,itemName itemNo itemSpecification clientCode clientName startDate endDate buyPrice salesPrice memo
 	//행 삭제
 	   function deleteRow() {
 

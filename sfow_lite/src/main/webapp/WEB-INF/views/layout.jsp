@@ -93,7 +93,7 @@
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">품목단가관리</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/price/list');">품목단가관리</a>
                            </div>
 
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"

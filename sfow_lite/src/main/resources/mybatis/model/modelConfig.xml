@@ -9,5 +9,6 @@
 		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="com.yeonoo.masterdata.item.domain.RawDTO" alias="rawDTO" />
 		<typeAlias type="com.yeonoo.masterdata.item.domain.SemiDTO" alias="semiDTO" />
+		<typeAlias type="com.yeonoo.masterdata.item.domain.PriceDTO" alias="priceDTO" />
   	</typeAliases>
 </configuration>

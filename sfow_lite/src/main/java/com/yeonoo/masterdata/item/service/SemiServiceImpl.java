@@ -44,7 +44,7 @@ public class SemiServiceImpl implements SemiService{
 
 	}
 	
-	// 삭제하기
+	// 삭제하기(상태업데이트)
 	@Override
 	@Transactional
 	public int deleteSemi(String itemCode) {
