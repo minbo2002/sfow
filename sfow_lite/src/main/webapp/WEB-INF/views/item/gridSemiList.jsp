@@ -80,23 +80,10 @@
 
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
-    { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, editor: 'text' ,align:'center' },	    	
+    { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '유형',
-      name: 'itemType',
-      sortable: true,
-      editor: {type: 'select',
-    	  options: {
-              listItems: [
-                  {text: '제품', value: "제품"},
-                  {text: '반제품', value: "반제품"},
-                  {text: '원제품', value: "원제품"}
-                  
-             			 ] 
-      				}
-      }
-      ,align:'center' },
+    { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { 
       header: '재고단위',

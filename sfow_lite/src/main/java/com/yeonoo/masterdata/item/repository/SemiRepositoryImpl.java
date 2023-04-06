@@ -46,7 +46,7 @@ public class SemiRepositoryImpl implements SemiRepository{
 		@Override
 		public int insertSemi(SemiDTO elements) {
 			
-			return sqlSession.update("semi.insertSemi", elements);
+			return sqlSession.insert("semi.insertSemi", elements);
 		}
 
 
