@@ -70,16 +70,21 @@
 	        listHtml += "<td colspan='4'>";
 	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'></textarea>";
 	        listHtml += "<br/>";
+	        listHtml += "<c:if test='${sessionScope.AUTHUSER.adminRole==999}'>";
 	        listHtml += "<span id='ub" + notice.no + "'><button class='btn btn-success btn-sm' onclick='updateNoticeForm(" + notice.no + ")'>수정화면</button></span>&nbsp;";
 	        listHtml += "<button class='btn btn-warning btn-sm' onclick='deleteNotice(" + notice.no + ", " + pageMaker.criteria.page + ")'>삭제</button>";
+	        listHtml += "</c:if>";
 	        listHtml += "</td>";
 	        listHtml += "</tr>";
 	    });
-	    listHtml += "<tr>";
+
+	    listHtml += "</table>";
+
+	   /*  listHtml += "<tr>";
 	    listHtml += "<td colspan='5'>";
 	    listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
 	    listHtml += "</td>";
-	    listHtml += "</tr>";
+	    listHtml += "</tr>"; */
 	    listHtml += "</table>";
 
 	     // 페이징 처리
@@ -127,6 +132,7 @@
 		  $("#view").css("display","none");
 		  $("#wfrom").css("display","block");
 		  $("#searchFormDiv").css("display","none");
+		  $(".btn-primary").hide(); // Hide the "글쓰기" button
 		}
     
       function inserNotice() {
@@ -273,10 +279,37 @@
 
 <div class="container">
   <h2>공지사항</h2>
-  <div class="panel panel-default">
-    <div class="panel-body">
+   <div class="card">
+    <div class="card-body">
+       
+    <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+ <button id="writeButton" class='btn btn-primary btn-sm' onclick='goForm()' style='margin-bottom: 10px;'>글쓰기</button>
+</c:if>
       <div id="view"></div>
+  
+       <div class="text-right" >
+<div class="search-form" id="searchFormDiv">
+  <form class="form-inline" id="searchForm" method="get">
+    <div class="form-group">
+      <select name="type" class="form-control">
+        <option value="title" ${data.criteria.type == 'title' ? 'selected' : ''}>제목</option>
+        <option value="no" ${data.criteria.type == 'no' ? 'selected' : ''}>번호</option>
+        <option value="writername" ${data.criteria.type == 'writername' ? 'selected' : ''}>작성자</option>
+      </select>
     </div>
+    <div class="form-group">
+      <input type="text" class="form-control" name="keyword" value="${data.criteria.keyword}">
+    </div>
+ <div class="form-group" style="margin-bottom: 20px;">
+  <button type="submit" class="btn btn-success"  style="margin-top: 20px;">검색</button>
+</div>
+  </form>
+</div>
+<div style="height: 10px;"></div>
+    <div class="panel-footer"></div>
+  </div>
+</div>
+
     <div class="panel-body" id="wfrom" style="display: none">
      <form id="frm">
       <table class="table">
@@ -290,7 +323,7 @@
          </tr>
          <tr>
            <td>작성자</td>
-           <td><input type="text" id="writername" name="writername" class="form-control" /></td>
+           <td><input type="text" id="writername" name="writername" class="form-control" value="${sessionScope.AUTHUSER.id}" readonly/></td>
          </tr>
          <tr>
            <td colspan="2" align="center">
@@ -303,30 +336,6 @@
      </form>
     </div>
  
-      
-   
-  <div class="text-right">
-<div class="search-form" id="searchFormDiv">
-  <form class="form-inline" id="searchForm" method="get">
-    <div class="form-group">
-      <select name="type" class="form-control">
-        <option value="title" ${data.criteria.type == 'title' ? 'selected' : ''}>제목</option>
-        <option value="no" ${data.criteria.type == 'no' ? 'selected' : ''}>번호</option>
-        <option value="writername" ${data.criteria.type == 'writername' ? 'selected' : ''}>작성자</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <input type="text" class="form-control" name="keyword" value="${data.criteria.keyword}">
-    </div>
-    <button type="submit" class="btn btn-success">검색</button>
-  </form>
-</div>
-<div style="height: 80px;"></div>
-    <div class="panel-footer"></div>
-  </div>
-</div>
-
-     
 
 
 </body>

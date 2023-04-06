@@ -35,8 +35,7 @@ public class CpmController {
 			public List<CpmVO> cpmlist(Model model,HttpSession session){
 				List<CpmVO> list=cpmSericeImpl.cpmlist();
 				
-				session.setAttribute("isLogOn",true);
-		    	session.setAttribute("AUTHUSER_ID", "admin");
+		
 				
 				return list; // JSON 데이터 형식으로 변환(API)해서 리턴(응답)하겠다.
 			}	
