@@ -2,21 +2,23 @@ package com.yeonoo.sfow.basicinfo.service;
 
 import java.util.List;
 
+import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 
 public interface UserInfoService {
 	
-	//public UserInfo userInfoList(int no)  throws Exception;
+	//유저 정보 불러오기
+	public UserInfo updateUserInfo(String id) throws Exception;
 	
 	//로그인
 	public UserInfo userLogin(UserInfo userInfo) throws Exception;
 	
 	//일반 계정 수정
-	public UserInfo userInfoModify(UserInfo userInfo) throws Exception;
+	public UserInfo userInfoModify(UpdateUser updateUser) throws Exception;
 	
 	//관리자 계정 수정
-	public UserInfo mainUserModify(UserInfo userInfo) throws Exception;
+	public UserInfo mainUserModify(UpdateUser updateUser) throws Exception;
 	
 	//사용자 목록 
 	public List<UserInfo> userListAll(String companyCode) throws Exception;
@@ -29,5 +31,9 @@ public interface UserInfoService {
 	
 	//계정 삭제(그리드)
 	public int removeUser(String deleteId) throws Exception;
+	
+	//유저 검색
+	public List<UserInfo> searchUser(String id) throws Exception;
+	
 	
 }

@@ -1,51 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set value="<%=request.getContextPath()%>" var="ContextPath"/>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
- 	<script src="${ContextPath}/resources/js/tui-grid.js"></script>
-	<link rel="stylesheet" href="${ContextPath}/resources/css/tui-grid.css" type="text/css"/>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<title>Insert title here</title>
-  <style>
-  .btn-wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .btn-wrapper button {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 5px 8px; /* 버튼 내부 여백 수정 */
-    border-radius: 4px;
-    cursor: pointer;
-    width: 70px; /* 버튼 너비 조정 */
-    height: 30px; /* 버튼 높이 조정 */
-    font-size: 12px; /* 폰트 크기 조정 */
-  }
-
-  #delete-row-btn {
-    background-color: #ff8a80;
-    color: #fff;
-    border: 1px solid #ff8a80;
-  }
-
-  #delete-row-btn:hover {
-    background-color: #ff7043;
-    border: 1px solid #ff7043;
-  }
-  
-  .inputBox, .searchKeywordBtn {
-  display: inline-block;
-	}
-</style>
-</head>
-<script>
 $(document).ready(function() {
 		const EMAIL_AT_REQUIRED = '올바른 이메일 주소를 입력해주세요.';
 		const EMPTY_FIELD_ERROR_MSG ='값을 입력해주세요';
@@ -291,6 +243,7 @@ $(document).ready(function() {
 	      contentType: 'application/json',
 	      success: function(result) {
 	        console.log(result);
+	        alert(DELETE_SUCCESS);
 	        
 	        // 삭제된 행 재로딩
 	        $.ajax({
@@ -309,55 +262,4 @@ $(document).ready(function() {
 	      }
 	    });
 	  });
-		
-			
-		  $('#searchKeywordBtn, #searchKeyword').on('keyup', function(e) {
-			    if (e.keyCode === 13) { // 엔터 키를 눌렀을 때
-			        search();
-					    }
-					});
-		
-					$('#searchKeywordBtn').click(function(){
-					    search();
-					});
-		
-					function search() {
-			    var searchKeyword = $("#searchKeyword").val();// input 태그의 값을 가져옵니다.
-			    
-			    // ajax 요청
-			    $.ajax({
-			      url: "${ContextPath}/search", // 서버 url을 입력하세요.
-			      type: "GET", // 요청 방식을 입력하세요. (POST, GET 등)
-			      data: { keyword: searchKeyword }, // 넘겨줄 데이터를 입력하세요.
-			      success: function(response) {
-			    	  console.log(response);
-			    	  grid.resetData(response);// 그리드 데이터 업데이트
-			      },
-			      error: function(jqXHR, textStatus, errorThrown) {
-			        // 실패 시 동작할 코드를 입력하세요.
-			        console.log(textStatus, errorThrown);
-			      }
-			    });
-			  }
-		});
-</script>
-<body>
-        <!-- 테이블 버튼 구성 -->
-        <div class="wrapper">
-				  <div class="btn-wrapper" style="margin-bottom: 10px;">
-				  	  <div class="inputBox">
-				      <input type="text" name="searchKeyword" id="searchKeyword">
-				      <div class="searchKeywordBtn">
-				        <button id="searchKeywordBtn">이름 검색</button>
-				      </div>
-				    </div>
-				    <div class="wrapper_rowBtn">
-						  <button id="add-row-btn"><i class="fas fa-plus"></i></button>
-						  <button id="delete-row-btn"><i class="fas fa-minus"></i></button>
-						</div>
-				  </div>
-				</div>
-        <!-- Toast Grid Load -->
-  <div id="grid"></div>
-</body>
-</html>
+});

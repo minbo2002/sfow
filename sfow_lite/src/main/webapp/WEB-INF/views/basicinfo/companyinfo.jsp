@@ -10,7 +10,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <title>Company Information Form</title>
-   <link href="${ContextPath}/resources/css/companyinfo/companyinfo.css" rel="stylesheet" />
+   <link href="${ContextPath}/resources/css/basicinfo/companyinfo/companyinfo.css" rel="stylesheet" />
    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
 <script>
 $(document).ready(function() {
@@ -144,10 +144,3 @@ $(document).ready(function() {
     </body>
 </html>
 
-
-<%--      ${'#submit-btn'}.click(function(){
-    	$('input:not(#companyCode), textarea').attr('readonly', true);
-    	$('#cancel-btn, button[type="submit"]').hide();
-    	$('#edit-btn').show();
-    });
- --%>

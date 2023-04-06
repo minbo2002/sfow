@@ -36,10 +36,11 @@ public class UserInfoController {
 	public @ResponseBody String userLogin(UserInfo userInfo,Model model,HttpSession session) throws Exception {
 		
 		UserInfo loginUser = userInfoService.userLogin(userInfo);
+		session.setAttribute("AUTHUSER", loginUser);
+		
 		if(loginUser==null) {
 			return "1";
 		} else {
-			session.setAttribute("AUTHUSER", loginUser);
 			return "2";
 		}
 	}
