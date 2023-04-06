@@ -10,5 +10,7 @@
 		<typeAlias type="com.yeonoo.masterdata.item.domain.RawDTO" alias="rawDTO" />
 		<typeAlias type="com.yeonoo.masterdata.item.domain.SemiDTO" alias="semiDTO" />
 		<typeAlias type="com.yeonoo.masterdata.item.domain.PriceDTO" alias="priceDTO" />
+		<typeAlias type="com.yeonoo.masterdata.wh.domain.WH" alias="warehouse"/>
   	</typeAliases>
+
 </configuration>

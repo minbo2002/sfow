@@ -100,7 +100,7 @@
                         aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
                                   <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">창고등록</a>
-                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/main');">창고정보</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/warehouse/whinfo');">창고정보</a>
                           </div>
                     </div>
                 </div>
