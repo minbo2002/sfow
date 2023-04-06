@@ -72,7 +72,7 @@ public class SemiController {
 		     @ResponseBody
 		     @RequestMapping(value="insertSemi", method=RequestMethod.POST)
 		     public List<SemiDTO> insertSemi(@RequestBody List<SemiDTO> dto) {
-
+ 
 
 		        Iterator<SemiDTO> iterator = dto.iterator();
 		        while(iterator.hasNext()) {
