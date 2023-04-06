@@ -17,8 +17,21 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
+		return "login";
+	}
+	
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String layout(Locale locale, Model model) {
+		
 		return "layout";
 	}
+	
+	@RequestMapping(value = "/springSecurity", method = RequestMethod.GET)
+	public String springSecurity(Locale locale, Model model) {
+		
+		return "basicinfo/springSecurity";
+	}
+	
 	
 	@RequestMapping("/main")
 	public String reqMainContent() {

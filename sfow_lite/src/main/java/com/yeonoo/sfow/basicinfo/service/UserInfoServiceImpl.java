@@ -2,8 +2,12 @@ package com.yeonoo.sfow.basicinfo.service;
 
 import java.util.List;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.sfow.basicinfo.repository.UserInfoRepository;
 
@@ -16,25 +20,19 @@ public class UserInfoServiceImpl implements UserInfoService{
 
 	private final UserInfoRepository userInfoRepository; 
 
-	/*
-	 * // @Override // public UserInfo userInfoList(int no) throws Exception { //
-	 * return userInfoRepository.userInfoSelect(no); // }
-	 */
-	
-	
 	@Override
 	public UserInfo userLogin(UserInfo userInfo) throws Exception {
 		return userInfoRepository.userValidate(userInfo);
 	}
 
 	@Override
-	public UserInfo userInfoModify(UserInfo userInfo) throws Exception {
-		return userInfoRepository.userInfoUpdate(userInfo);
+	public UserInfo userInfoModify(UpdateUser updateUser) throws Exception {
+		return userInfoRepository.userInfoUpdate(updateUser);
 	}
 	
 	@Override
-	public UserInfo mainUserModify(UserInfo userInfo) throws Exception {
-		return userInfoRepository.mainUserInfoUpdate(userInfo);
+	public UserInfo mainUserModify(UpdateUser updateUser) throws Exception {
+		return userInfoRepository.mainUserInfoUpdate(updateUser);
 	}
 
 	@Override
@@ -55,6 +53,17 @@ public class UserInfoServiceImpl implements UserInfoService{
 	@Override
 	public int removeUser(String deleteId) throws Exception {
 		return userInfoRepository.deleteUser(deleteId);
+	}
+
+	@Override
+	public List<UserInfo> searchUser(String userName) throws Exception {
+		return userInfoRepository.searchData(userName);
+	}
+
+
+	@Override
+	public UserInfo updateUserInfo(String id) throws Exception {
+		return userInfoRepository.updateUserSelect(id);
 	}
 
 }

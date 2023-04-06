@@ -2,6 +2,7 @@ package com.yeonoo.sfow.basicinfo.repository;
 
 import java.util.List;
 
+import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 public interface UserInfoRepository{
@@ -12,10 +13,10 @@ public interface UserInfoRepository{
 	public UserInfo userValidate(UserInfo userInfo) throws Exception;
 	
 	//일반 계정 수정
-	public UserInfo userInfoUpdate(UserInfo userInfo) throws Exception;
+	public UserInfo userInfoUpdate(UpdateUser updateUser) throws Exception;
 	
 	//관리자 계정 수정
-	public UserInfo mainUserInfoUpdate(UserInfo userInfo) throws Exception;
+	public UserInfo mainUserInfoUpdate(UpdateUser updateUser) throws Exception;
 	
 	public List<UserInfo> userInfoSelectAll(String companyCode) throws Exception;
 	
@@ -25,5 +26,11 @@ public interface UserInfoRepository{
 	public int newUserInsert(UserInfo newUserInfo) throws Exception;
 	
 	public int deleteUser(String deleteId) throws Exception;
+	
+	//사용자 이름 검색
+	public List<UserInfo> searchData(String userName) throws Exception;
+	
+	//개인정보수정 데이터 조회
+	public UserInfo updateUserSelect(String id) throws Exception;
 
 }

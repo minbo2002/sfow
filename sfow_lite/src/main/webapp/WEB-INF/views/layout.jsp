@@ -71,7 +71,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/updateUser');">개인정보수정</a>
+                        <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/userManagement');">사용자 계정관리</a>
+                        </c:if>
                     </div>
                 </div>
             </li>
@@ -94,7 +96,8 @@
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapsecompany"
                       aria-expanded="false" aria-controls="collapseItem">거래처정보</a>
                         <div id="collapsecompany" class="collapse" aria-labelledby="collapsecompany" data-parent="#collapseUtilities">
-                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/main2');">거래처정보등록</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/main2');">거래처정보등록</a></div>
+                        
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseCompanyInfo"
                       aria-expanded="false" aria-controls="collapseCompanyInfo">회사정보</a>
                         <div id="collapseCompanyInfo" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
@@ -321,7 +324,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.AUTHUSER.userName}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.AUTHUSER.id}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${conPath}/resources/img/undraw_profile.svg">
                             </a>
@@ -391,7 +394,6 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
                     <a class="btn btn-primary" href="${conPath}/userLogout">로그아웃</a>

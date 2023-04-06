@@ -8,6 +8,7 @@
 		<typeAlias type="com.yeonoo.sfow.model.NoticeVO" alias="noticeVO"/>	
 		<typeAlias type="com.yeonoo.sfow.model.CpmVO" alias="cpmVO"/>	
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.MainUserInfo" alias="mainUserInfo"/>
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.CompanyInfo" alias="companyInfo"/>
 	</typeAliases>
 </configuration>

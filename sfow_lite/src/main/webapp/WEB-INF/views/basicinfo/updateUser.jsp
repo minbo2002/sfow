@@ -8,30 +8,121 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-table {
-  border-collapse: collapse;
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+
+html,
+body {
   width: 100%;
-  margin-bottom: 1rem;
-  background-color: #fff;
-  color: #212529;
-  font-size: 0.9rem;
-  font-weight: 400;
-  line-height: 1.6;
-  text-align: center;
+  height: 100%;
 }
-th, td {
-  padding: 0.75rem;
-  vertical-align: middle;
-  border-top: 1px solid #dee2e6;
+
+input[type="text"], input[type="password"],textarea {
+	width: 250px;
+
+
+  border: 0px solid black;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 450;
 }
-th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  border-bottom: 2px solid #dee2e6;
+
+
+.wrapper{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	
 }
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+
+.wrapperBody{
+	width: 500px;
+  height: 600px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+	
+	
+	background: #ffffff;
+  border: 1px solid rgb(218, 212, 205);
+  box-shadow: 7px 7px 39px rgb(218, 212, 205);
+  border-radius: 20px;
+  
+  padding: 20px 0px 0px 15px;
 }
+
+.wrapperBody_title{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+
+.wrapperTitle_sub{
+	padding-left: 5px;
+	font-weight: 400;
+	font-color: gray;
+	font-size: 11px;
+}
+
+.wrapperTitle,.titleInput,.inputButton{
+	padding-left: 30px;
+}
+
+
+.wrapperTitle{
+	font-weight: 600;
+	color: #2a4dc1;
+}
+
+.titleInput{
+	width: 200px;
+	border: 0px solid black;
+	border-radius: ;
+}
+
+.divideLine {
+	width: 90%;
+  border-top: 1px solid #bdbdc1;
+  padding: 30px 0px 0px 100px;
+  margin: 0 auto;
+}
+
+.btn-primary-custom,
+.btn-primary {
+  color: #fff;
+  background-color: #007bff !important;
+  border-color: #007bff;
+}
+
+
+.btn-primary-custom {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-success-custom {
+  color: #fff;
+  background-color: #2a4dc1;
+  border-color: #2a4dc1;
+}
+
+.rounded-pill-custom {
+  border-radius: 20px;
+}
+
+.wrapper_button{
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 30px;
+	}
 </style>
 
 
@@ -43,52 +134,119 @@ $(document).ready(function() {
 	const ERROR_MESSAGE = '수정 실패 정보를 다시 입력해주세요.';
 	
 	
-    $("form").submit(function(e) {
-        e.preventDefault();
-        
-        var formData = $(this).serialize(); // form 데이터를 일반 객체로 직렬화
-        
-        console.log('formData',formData);
-        
-        $.ajax({
-            type: "POST",
-            url: "${ContextPath}/updateUserAjax",
-            data: formData,
-            success: function(response) {
-                console.log(response);
-                if (response == "1") {
-                		alert(SUCCESS_MESSAGE);
-                } else if (response == "2") {
-                    alert(ERROR_MESSAGE);
-                }
-            }
-        });
-    });
+	 $(function() {
+		    $('#edit-btn').click(function() {
+		    	$('input:not(#companyCode):not([name="id"]), textarea').attr('readonly', false);
+		      $('#edit-btn').hide();
+		      $('button[type="submit"]').show();
+		    });
+		  });
+	
+	
+	  $.ajax({
+	        type: "GET",
+	        url: "${ContextPath}/userInfoAjax?id=${sessionScope.AUTHUSER.id}",
+	        success: function(data) {
+	        	console.log(data);
+	        	  	$("input[name='companyCode']").val(data.companyCode);
+	              $("input[name='companyName']").val(data.companyName);
+	              $("input[name='id']").val(data.id);
+	              $("input[name='userName']").val(data.userName);
+	              $("input[name='email']").val(data.email);
+	              $("input[name='phoneNum']").val(data.phoneNum);
+	        }
+	    });
+	  
+	  
+	  $("#updateFrm").submit(function(e) {
+		 			 e.preventDefault();
+	        var formData = $(this).serialize();
+	        $.ajax({
+	            type: "POST",
+	            url: "${ContextPath}/updateUserAjax",
+	            data: formData,
+	            success: function(data) {
+	                console.log(data);
+	                // update the input fields with generalUserInfo data
+	                $("input[name='companyName']").val(data.companyName);
+	                $("input[name='id']").val(data.id);
+	                $("input[name='userName']").val(data.userName);
+	                $("input[name='email']").val(data.email);
+	                $("input[name='phoneNum']").val(data.phoneNum);
+	                
+	                $('#edit-btn').show();
+	                $('button[type="submit"]').hide();
+	            },
+	            error: function(xhr, status, error) {
+	                console.log(error);
+	            }
+	        });
+	    });
+	
 });
-
 
 	</script>
 </head>
 <body>
 	<form id="updateFrm">
-							회사코드
-							<input type="text" name="companyCode" value="${sessionScope.AUTHUSER.companyCode}" disabled="disabled">
-						
-						
-							회사명
-							<input type="text" name="companyName" value="${sessionScope.AUTHUSER.companyName }">
-						
-						
-							아이디
-							<input type="text" name="id" value="${sessionScope.AUTHUSER.id }" readonly="readonly">
-							이름
-							<input type="text" name="userName"value="${sessionScope.AUTHUSER.userName }" >
-							이메일
-							<input type="text" name="email" value="${sessionScope.AUTHUSER.email }">
-							전화번호
-							<input type="text" name="phoneNum" value="${sessionScope.AUTHUSER.phoneNum }">
-			<input type="submit" value="저장">
-			<input type="reset" value="취소">
+			<div class="wrapper">
+				<div class="wrapperBody">
+						<div class="wrapperBody_title">
+		          <div class="wrapperTitle">회사코드</div>
+	          	<div class="wrapperTitle_sub">Company code</div>
+	          </div>
+	          <div class="titleInput">
+							<input type="text" name="companyCode" value="" disabled="disabled">
+						</div>
+						<div class="divideLine"></div>
+						<div class="wrapperBody_title">
+		          <div class="wrapperTitle">회사명</div>
+	          	<div class="wrapperTitle_sub">Company name</div>
+	          </div>
+	          <div class="titleInput">
+							<input type="text" name="companyName" value="" readonly="readonly">
+						</div>
+					 	<div class="divideLine"></div>
+					 	<div class="wrapperBody_title">
+		          <div class="wrapperTitle">아이디</div>
+		          <div class="wrapperTitle_sub">ID</div>
+          	</div>
+	          <div class="titleInput">
+							<input type="text" name="id" value="" readonly="readonly">
+						</div>
+						<div class="divideLine"></div>
+						<div class="wrapperBody_title">
+		          <div class="wrapperTitle">이름</div>
+		          <div class="wrapperTitle_sub">Name</div>
+	          </div>
+	           <div class="titleInput">
+								<input type="text" name="userName"value="" readonly="readonly">
+							</div>
+						<div class="divideLine"></div>
+						<div class="wrapperBody_title">
+		          <div class="wrapperTitle">이메일</div>
+		          <div class="wrapperTitle_sub">E-Mail</div>
+	          </div>
+	          <div class="titleInput">
+							<input type="text" name="email" value="" readonly="readonly">
+						</div>
+						<div class="divideLine"></div>
+					  <div class="wrapperBody_title">
+		          <div class="wrapperTitle">전화번호</div>
+		          <div class="wrapperTitle_sub">Phone-Number</div>
+	          </div>
+	           <div class="titleInput">
+							<input type="text" name="phoneNum" value="" readonly="readonly">
+							</div>
+							<div class="divideLine"></div>
+							  <div class="wrapper_button">
+			          <div class="inputButton">
+			              <button type="button" id="edit-btn" class="btn btn-primary rounded-pill mr-2">수정</button>
+			              <button type="submit" id="submit-btn" class="btn btn-success-custom rounded-pill-custom" style="display: none">저장</button>
+			          </div>
+		          </div>
+				</div>
+			</div>
 		</form>
 </body>
 </html>

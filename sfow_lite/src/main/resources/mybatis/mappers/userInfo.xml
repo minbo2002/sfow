@@ -19,8 +19,29 @@
 	</resultMap>
 
 
+	<select id="searchData" parameterType="String" resultMap="userInfo">
+		<![CDATA[
+			SELECT company_code, company_name, user_name, id, update_key, password, admin_role, phone_num, email, create_date, update_date
+	    FROM cm_userinfo
+	    WHERE user_name LIKE CONCAT('%', #{userName}, '%')
+		]]>
+	</select>
+	
+	
+	<!-- 회사코드로 개인정보 조회 -->
+	<select id="updateUserSelect" resultMap="userInfo">
+		<![CDATA[
+			SELECT company_code, company_name, user_name, id, password, phone_num, admin_role,email, create_date
+			FROM cm_userinfo
+			WHERE id=#{id}
+			UNION
+			SELECT company_code, company_name, user_name, id, password, phone_num, admin_role,email, create_date
+			FROM cm_main_userinfo
+			WHERE id=#{id}
+		]]>
+	</select>
 
-	<!-- 회사코드로 회원 정보조회 -->
+	<!-- 회사코드로 전체회원 목록 조회 -->
 	<select id="userInfoSelect" parameterType="Integer" resultMap="userInfo">
 			<![CDATA[
 			select company_code,company_name,user_name,id,phone_num,email,create_date 
@@ -98,8 +119,6 @@
 	</select>
 	
 	
-	
-	
 
 	<!-- 사용자 계정 관리 메뉴-->
 	
@@ -128,5 +147,27 @@
 			where update_key=#{deleteId}
 		]]>
 	</delete>
+	
+	
+	
+	
+	<!-- 세션 초기화 -->
+	<select id="updateUserSession" resultMap="userInfo">
+		<![CDATA[
+			SELECT company_code,company_name,user_name,id,update_key,password,admin_role,phone_num,email,create_date,update_date
+			FROM cm_userinfo 
+			WHERE id=#{userId}
+		]]>
+	</select>
+	
+	
+		<!-- 세션 초기화 -->
+	<select id="updateMainUserSession" resultMap="userInfo">
+		<![CDATA[
+			SELECT company_code,company_name,user_name,id,password,admin_role,phone_num,email,create_date,update_date
+			FROM cm_main_userinfo 
+			WHERE id=#{userId}
+		]]>
+	</select>
 
 </mapper>

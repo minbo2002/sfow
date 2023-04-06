@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
@@ -19,30 +20,24 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 	//사용자 정보 확인
 	@Override
 	public UserInfo userInfoSelect(int no) throws Exception {
-		UserInfo userInfo=sqlSession.selectOne("userInfoSelect",no);
+		UserInfo userInfo=sqlSession.selectOne("mapper.userInfo.userInfoSelect",no);
 		return userInfo;
 	}
 
 	//로그인 검사
 	@Override
 	public UserInfo userValidate(UserInfo userInfo) throws Exception {
-		System.out.println(userInfo);
-		UserInfo loginUser=sqlSession.selectOne("userLogin",userInfo);
-		
-		System.out.println("loginUser======"+loginUser);
+		UserInfo loginUser=sqlSession.selectOne("mapper.userInfo.userLogin",userInfo);
 		return loginUser;
 	}
 
 	//사용자 정보 변경
 	@Override
-	public UserInfo userInfoUpdate(UserInfo userInfo) throws Exception {
-		int result = sqlSession.update("updateUserInfo",userInfo);
+	public UserInfo userInfoUpdate(UpdateUser updateUser) throws Exception {
+		int result = sqlSession.update("mapper.userInfo.updateUserInfo",updateUser);
 		if(result==1) {
-		String id = userInfo.getId();
-		
-		System.out.println("generalid========"+id);
-		
-		UserInfo generalUserInfo = sqlSession.selectOne("generalUserInfo", id);
+		String id = updateUser.getId();
+		UserInfo generalUserInfo = sqlSession.selectOne("mapper.userInfo.generalUserInfo", id);
 		return generalUserInfo;
 		} else {
 			return null;
@@ -51,14 +46,11 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 	
 	//메인 관리자 정보 수정
 	@Override
-	public UserInfo mainUserInfoUpdate(UserInfo userInfo) throws Exception {
-		int result = sqlSession.update("mainUserInfoUpdate",userInfo);
+	public UserInfo mainUserInfoUpdate(UpdateUser updateUser) throws Exception {
+		int result = sqlSession.update("mapper.userInfo.mainUserInfoUpdate",updateUser);
 		if(result==1) {
-			String id = userInfo.getId();
-			
-			System.out.println("mainid========"+id);
-			
-			UserInfo mainUserInfo = sqlSession.selectOne("mainUserInfo", id);
+			String id = updateUser.getId();
+			UserInfo mainUserInfo = sqlSession.selectOne("mapper.userInfo.mainUserInfo", id);
 			return mainUserInfo;
 		} else {
 			return null;
@@ -68,29 +60,45 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 	//사용자 목록 조회
 	@Override
 	public List<UserInfo> userInfoSelectAll(String companyCode) throws Exception {
-		List<UserInfo> userInfoList =sqlSession.selectList("userInfoSelectAll",companyCode);
+		List<UserInfo> userInfoList =sqlSession.selectList("mapper.userInfo.userInfoSelectAll",companyCode);
 		return userInfoList;
 	}
 
 	//사용자 계정 관리 - 수정
 	@Override
 	public int userListUpdate(UserInfo userInfo) throws Exception {
-		int result=sqlSession.update("userListUpdate",userInfo);
+		int result=sqlSession.update("mapper.userInfo.userListUpdate",userInfo);
 		return result;
 	}
 	
 	//그리드 행 추가
 	@Override
 	public int newUserInsert(UserInfo newUserInfo) throws Exception {
-		int result=sqlSession.insert("newUserAdd",newUserInfo);
+		int result=sqlSession.insert("mapper.userInfo.newUserAdd",newUserInfo);
 		return result;
 	}
 	
 	//그리드 행 삭제
 	@Override
 	public int deleteUser(String deleteId) throws Exception {
-			int result=sqlSession.delete("deleteUser",deleteId);
+		int result=sqlSession.delete("mapper.userInfo.deleteUser",deleteId);
 		return result;
+	}
+
+	
+	//유저 이름 검색
+	@Override
+	public List<UserInfo> searchData(String userName) throws Exception {
+		List<UserInfo> list = sqlSession.selectList("mapper.userInfo.searchData",userName);
+		return list;
+	}
+
+	
+	//로그인 사용자 데이터 조회
+	@Override
+	public UserInfo updateUserSelect(String id) throws Exception {
+			UserInfo userInfo=sqlSession.selectOne("mapper.userInfo.updateUserSelect",id);
+		return userInfo;
 	}
 
 	
