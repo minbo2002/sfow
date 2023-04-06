@@ -509,6 +509,7 @@ $.ajax({
 	    var updatedData = {};
 	    const rowData = grid2.getRow(rowKey);
 	    console.log('Row data: ', rowData);
+	    console.dir('Row data: ', rowData);
 		}); 
 
 	});//double클릭 이벤트 끝
