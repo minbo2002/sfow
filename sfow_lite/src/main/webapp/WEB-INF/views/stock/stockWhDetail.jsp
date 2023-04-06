@@ -395,42 +395,53 @@
 
 <script>
 //modal에 띄워지는 grid2
+
+  var body = document.querySelector('body');
+  var modal = document.querySelector('.modal');
+  var btnOpenPopup = document.querySelector('.btnFas');
+
 var grid2=null;	 //추가된 부분!!
-	function uncheck2() {
+	function resetCheck() {
 	  if (grid2) {
 	    grid2.uncheckAll();
 	  }
 	}
-
-
-	function apply() {
-		  if (grid2 && grid2.getData().length > 0) { // grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
-		    grid2.on('check', function(ev) {
-		      const rowKey = ev.rowKey;
-		      const columnName = ev.columnName;
-		      var updatedData = {};
-		      const rowData = grid2.getRow(rowKey);
-		      console.log('Row data: ', rowData);
-		      if (grid2.getCheckedRows().length == 1) {
-		        var warehouse_code = document.getElementById('warehouse_code');
-		        var test = rowData.warehouse_code;
-		        alert(test);
-		        warehouse_code.value = test;
-		        modal.classList.toggle('show');
-		        body.style.overflow = 'auto';
-		      }
-		    });
-		  }
-		}
-
-
+	
+	//modal 닫기 함수
+	function closeModal() {
+		  modal.classList.remove('show');
+	         body.style.overflow = 'auto';
+		}	
+	
+	
+	
+	//modal 안에 grid2의 checkbox 체크된 row데이터 input태그에 찍기
+	function applyModal() {
+		// grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
+		// if (grid2 && grid2.getData().length > 0) {   
+		        //modal.classList.toggle('show');
+		        //body.style.overflow = 'auto';
+	      if (grid2 && grid2.getCheckedRows().length > 0) {
+	   	    const checkedRows = grid2.getCheckedRows();
+	   	    const warehouse_code = document.getElementById('warehouse_code');
+	   	    warehouse_code.value = checkedRows[0].warehouse_code;
+	        //alert(warehouse_code.value);
+//	         var warehouse_code = document.getElementById('warehouse_code');
+//	         var test = rowData.warehouse_code;
+//	         warehouse_code.value = test;
+	      }        
+	         modal.classList.remove('show');
+	         body.style.overflow = 'auto';
+		   // });
+		}	
+	
 
 
 
 $(document).ready(function() {
 	
 	//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
-// 	function uncheck2(){
+// 	function resetCheck(){
 // 		grid2.uncheckAll();
 // 	};
 
@@ -490,14 +501,22 @@ $.ajax({
       console.log(error);
     }
   });
+  
+	  //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
+		grid2.on('check', function(ev) {
+	    const rowKey = ev.rowKey;
+	    const columnName = ev.columnName;
+	    var updatedData = {};
+	    const rowData = grid2.getRow(rowKey);
+	    console.log('Row data: ', rowData);
+		}); 
+
+	});//double클릭 이벤트 끝
+});//document.ready끝	
 
 
-});
-	
   //modal 띄우기
-  var body = document.querySelector('body');
-  var modal = document.querySelector('.modal');
-  var btnOpenPopup = document.querySelector('.btnFas');
+
 
   
   btnOpenPopup.addEventListener('dblclick', () => {
@@ -507,11 +526,10 @@ $.ajax({
     	body.style.overflow = 'hidden';
     }
   });
-  
-  
 
-  //modal 클릭 이벤트 리스너
-  modal.addEventListener('click', (event) => {
+  //modal 클릭 이벤트 리스너(modal 밖의 바탕을 누르면 modal 창 닫히는 이벤트 리스너 = 닫기 버튼 생성으로 주석처리)
+  
+/*   modal.addEventListener('click', (event) => {
     if (event.target === modal) {
       modal.classList.toggle('show');
 
@@ -519,12 +537,8 @@ $.ajax({
         body.style.overflow = 'auto';
       }
     }
-  });
+  }); */
   
-
-  
-  
-});
 
 
 </script>
@@ -667,7 +681,7 @@ $.ajax({
   }
 	
 
-#apply {
+#applyBtn {
   height: 35px;
   width: 80px;
   font-size: 13px;
@@ -676,10 +690,10 @@ $.ajax({
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 250px; /* 버튼 위치 조정 */
+  right: 300px; /* 버튼 위치 조정 */
 }
 
-#resetBtn2 {
+#resetMdBtn {
   height: 35px;
   width: 80px;
   font-size: 13px;
@@ -688,7 +702,20 @@ $.ajax({
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 160px; /* 버튼 위치 조정 */
+  right: 210px; /* 버튼 위치 조정 */
+}
+
+
+#closeBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 120px; /* 버튼 위치 조정 */
 }
 
 
@@ -775,12 +802,16 @@ $.ajax({
   <!-- modal에 grid 띄우기 -->
   <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
     <!-- reset 버튼 추가 -->
-    <button type="button" id="apply" onclick="apply()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
       <img src="<%=request.getContextPath()%>/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
     </button>
     
-    <button type="reset" id="resetBtn2" onclick="uncheck2()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
       <img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
+    </button>
+    
+    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\ex.png" width="11px"/>&nbsp;&nbsp;닫기
     </button>
   </div>
 </div>
