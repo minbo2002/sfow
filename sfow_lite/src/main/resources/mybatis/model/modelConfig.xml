@@ -4,4 +4,9 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
+	<typeAliases>
+		<!-- 구매요청 -->
+		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
+	</typeAliases>
 </configuration>
