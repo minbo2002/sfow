@@ -33,9 +33,9 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 
 	// 삭제여부 상태변경
 	@Override
-	public int updateStatus(String outCode) {
+	public int deleteStatus(String outCode) {
 		
-		return sqlSession.update("mapper.shipout.updateStatus", outCode);
+		return sqlSession.update("mapper.shipout.deleteStatus", outCode);
 	}
 
 	// 등록
@@ -47,15 +47,21 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 
 	// 특정 출하번호의 ITEM 상세정보 조회
 	@Override
-	public ItemShipOutDTO selectItem(String outCode) {
-		logger.info("4) outCode : " + outCode);
-		return sqlSession.selectOne("mapper.shipout.selectItem", outCode);
+	public List<ItemShipOutDTO> selectItem(String orderNumber) {
+		logger.info("Item 4) orderNumber : " + orderNumber);
+		return sqlSession.selectList("mapper.shipout.getOrderNumber", orderNumber);
 	}
 
 	@Override
 	public LotShipOutDTO selectLot(String itemCode) {
 		logger.info("4) itemCode : " + itemCode);
-		return sqlSession.selectOne("mapper.shipout.selectLot", itemCode);
+		return sqlSession.selectOne("mapper.shipout.getLot", itemCode);
+	}
+
+	@Override
+	public int statusUpdate(String outCode) {
+		
+		return sqlSession.update("mapper.shipout.statusUpdate", outCode);
 	}
 
 }

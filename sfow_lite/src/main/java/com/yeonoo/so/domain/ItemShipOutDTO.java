@@ -10,10 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemShipOutDTO {
 
-	private String outCode;     // 출하코드    PK  (출하 테이블)
-	private String itemCode;	// ITEM코드 PK  (기준정보 테이블)
-	private String itemName;    // 품명		  (기준정보 테이블)	
-	private String itemNo;   	// 품번                   (기준정보 테이블)
-	private Integer requestQuantity;  // 수량     (구매요청상세보기 테이블)
-	private Integer amount;     // 공급가액	  (구매요청상세보기 테이블)	 
+	private String outCode;     	// 출하코드    PK  (so_shipout 테이블)
+	private String orderNumber; 	// 수주번호    PK  (so_order_detail 테이블)
+	private String itemCode;		// ITEM코드 PK  (so_order_detail 테이블)
+	private String quantity;    	// 수량                  (so_order_detail 테이블)
+	private String price;           // 단가                  (so_order_detail 테이블)
+	private String amount;          // 총액	      (so_order_detail 테이블)
+	private String itemStockUnit;   // 재고단위	  (so_order_detail 테이블)
+	private String itemName;        // 품명		  (ma_item 테이블)	
+	private String itemNo;   	    // 품번                   (ma_item 테이블)
+		 
 }

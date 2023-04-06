@@ -19,7 +19,7 @@
 		    var searchData = {
 		    		"outCode" : $("#outCode").val(),
 		    		"orderNumber" : $("#orderNumber").val(),
-		    		"clientCode" : $("#clientCode").val(),
+		    		"customerCode" : $("#customerCode").val(),
 		    		"companyCode" : $("#companyCode").val(),
 		    		"itemCode" : $("#itemCode").val(),
 		    		"outType" : $("#outType").val(),
@@ -59,12 +59,12 @@
 	      columns: [
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
 			{header:"수주번호", name:"orderNumber", align:"center", width:"auto"},
-			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
+			{header:"거래처코드", name:"customerCode", align:"center", width:"auto"},
 			{header:"회사코드", name:"companyCode", align:"center", width:"auto"},
 			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
 			{header:"출하유형", name:"outType", editor:"text", align:"center"},  // filter:"text"
 			{header:"수불타입", name:"transType", editor:"text", align:"center"},
-			{header:"출하계획일", name:"outPlanDate", editor:"text", align:"center"},
+			{header:"출하계획일", name:"outPlanDate", editor: "text", align:"center"},
 			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
 			{header: "상태", name:"outStatus", align:"center"},
 			{header: "비고", name:"memo", editor:"text", align:"center"},
@@ -74,36 +74,6 @@
 			{header: "수정자", name:"updateUser", editor:"text", align:"center"},
 			{header: "삭제여부", name:"deleteYesNo", align:"center"}
 	      ]
-	
-		  /*
-		  onGridMounted (e) {
-		    	console.log('mounted' + e);
-		    	const grid = e.detail;
-		    	
-		    	// 각 행에 검색창 추가
-		    	grid.on('check', function(ev) {
-		    	var rowKey = ev.rowKey;
-		    	var columnName = ev.columnName;
-		    		if (columnName === 'outType') { // 검색창이 추가된 컬럼 클릭 시
-		    			var row = grid.getRow(rowKey);
-		    			var cellEl = row.getCellElement(columnName);
-		    			var inputEl = document.createElement('input');
-		    			inputEl.type = 'text';
-		    			inputEl.value = row.getValue(columnName);
-		    			inputEl.style.width = '100%';
-		    			inputEl.addEventListener('blur', function() {
-		    			  row.setValue(columnName, inputEl.value);
-		    			  cellEl.textContent = inputEl.value;
-		    			  inputEl.remove();
-		    			});
-		    			cellEl.textContent = '';
-		    			cellEl.appendChild(inputEl);
-		    			inputEl.focus();
-		    		}
-		    	});
-			  }
-	
-			  */
 	});
 
 	// 체크박스 클릭시 검색창에 PK, FK값 출력
@@ -117,7 +87,7 @@
 		
 		var outCode = document.getElementById("outCode");  			// 출하코드
 		var orderNumber = document.getElementById("orderNumber");   // 수주번호
-		var clientCode = document.getElementById("clientCode");   	// 거래처코드
+		var customerCode = document.getElementById("customerCode");   	// 거래처코드
 		var companyCode = document.getElementById("companyCode");   // 회사코드
 		var itemCode = document.getElementById("itemCode");   		// ITEM코드
 
@@ -136,8 +106,8 @@
 			orderNumber.value=rowData.orderNumber;
 			orderNumber.readOnly=true;
 
-			clientCode.value=rowData.clientCode;
-			clientCode.readOnly=true;
+			customerCode.value=rowData.customerCode;
+			customerCode.readOnly=true;
 			
 			companyCode.value=rowData.companyCode;
 			companyCode.readOnly=true;
@@ -180,8 +150,8 @@
         	orderNumber.value="";
         	orderNumber.readOnly=false;
 
-        	clientCode.value="";
-        	clientCode.readOnly=false;
+        	customerCode.value="";
+        	customerCode.readOnly=false;
 			
         	companyCode.value="";
         	companyCode.readOnly=false;
@@ -195,7 +165,6 @@
 		grid.removeCheckedRows(true);
 	});
 	
-	
 	var gridItemData = [];
 	var gridItem = new tui.Grid({
 	      el: document.getElementById('gridItem'),
@@ -203,12 +172,16 @@
 	      scrollX: false,
 	      scrollY: false,
 	      columns: [
-			{header: "출하코드", name: "outCode"},		   // 출하 테이블
-			{header: "ITEM코드", name: "itemCode"},     // 기준정보 테이블	 
-			{header: "품명", name: "itemName"},		   // 기준정보 테이블		
-			{header: "품번", name: "itemNo"},			   // 기준정보 테이블	
-			{header: "수량", name: "requestQuantity"},  // 구매요청상세보기 테이블
-			{header: "공급가액", name: "amount"},        // 구매요청상세보기 테이블
+			{header: "출하코드", name: "outCode"},		    // 출하 테이블(so_shipout)
+			{header: "수주번호", name: "orderNumber"},    // 수주서상세 테이블(so_order_detail)	 
+			{header: "ITEM코드", name: "itemCode"},      // 수주서상세 테이블(so_order_detail)
+			{header: "수량", name: "quantity"},          // 수주서상세 테이블(so_order_detail)
+			{header: "단가", name: "price"},             // 수주서상세 테이블(so_order_detail)
+			{header: "총액", name: "amount"},            // 수주서상세 테이블(so_order_detail)
+			{header: "재고단위", name: "itemStockUnit"},  // 수주서상세 테이블(so_order_detail)
+			{header: "품명", name: "itemName"},		   // 아이템정보 테이블(ma_item)	
+			{header: "품번", name: "itemNo"}			   // 아이템정보 테이블(ma_item)	
+
 	      ]
 	});
 	
@@ -235,7 +208,7 @@
 		var newRowData = {
 			outCode: '',
 			orderNumber: '',
-			clientCode: '',
+			customerCode: '',
 			companyCode: '',
 			itemCode: '',
 			outType: '',
@@ -287,7 +260,7 @@
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
 				alert(result); // result는 반환받은 json형태의 객체 
-				alert('성공');
+				alert('등록성공');
 			},
 			error: function() {
 		        console.log("실패");
@@ -321,6 +294,42 @@
 		grid.removeCheckedRows([jsonRowKeys]);
 
 		$.ajax({
+			url : "shipout/deleteShipOut",
+			method : "post",
+			data : jsonRowDatas,
+			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+			dataType: "json",			// 서버에서 받을 데이터타입
+			success : function (result) {
+				alert(result); // result는 반환받은 json형태의 객체 
+				alert('삭제성공');
+				gridItem.clear();
+				gridLot.clear();
+			},
+			error: function() {
+		        console.log("실패");
+		    }
+		});
+	}
+	
+	// 상태 변경실행
+	$("#changeStatus").click(function() {
+		let d = confirm('상태를 변경하시겠습니까?');
+		if(d) {
+			changeStatusFunction();
+		}else {
+			return false;
+		}
+	});
+	
+	// 상태변경 함수
+	function changeStatusFunction() {
+
+		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
+		alert("rowDatas : " + rowDatas);
+		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+
+		$.ajax({
 			url : "shipout/statusUpdate",
 			method : "post",
 			data : jsonRowDatas,
@@ -328,18 +337,20 @@
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
 				alert(result); // result는 반환받은 json형태의 객체 
-				alert('성공');
+				alert('상태변경 성공');
 			},
 			error: function() {
 		        console.log("실패");
 		    }
 		});
 	}
-
+	
 	// 조회결과 초기화
 	var resetRow = document.getElementById("resetRow");
 	resetRow.addEventListener("click", function() {
 			grid.clear();
+			gridItem.clear();
+			gridLot.clear();
 	});
 	
 	// 검색조건 초기화
@@ -348,13 +359,14 @@
 		$("#shipOutSearch")[0].reset();
 		document.getElementById("outPlanDate").valueAsDate = new Date();
 		document.getElementById("createDate").valueAsDate = new Date();
-		document.getElementById("updateDate").valueAsDate = new Date();
+		//document.getElementById("updateDate").valueAsDate = new Date();
 	});
 	
+	// 검색창의 출하계획일, 등록일에 오늘날짜 계속 표시
 	document.getElementById("outPlanDate").valueAsDate = new Date();
 	document.getElementById("createDate").valueAsDate = new Date();
-	document.getElementById("updateDate").valueAsDate = new Date();
-
+	//document.getElementById("updateDate").valueAsDate = new Date();
+	
 	</script>
 	
 </head>
@@ -368,8 +380,8 @@
 		<input type="text" name="outCode" id="outCode" value="">
 		<label for="orderNumber">수주번호:</label>
 		<input type="text" name="orderNumber" id="orderNumber" value="">
-		<label for="clientCode">거래처코드:</label>
-		<input type="text" name="clientCode" id="clientCode" value="">
+		<label for="customerCode">거래처코드:</label>
+		<input type="text" name="customerCode" id="customerCode" value="">
 		<label for="companyCode">회사코드:</label>
 		<input type="text" name="companyCode" id="companyCode" value=""> <br>
 		<label for="itemCode">ITEM코드:</label>
@@ -432,14 +444,34 @@
 		<button type="button" id="addRowBtn" style="background-color: #33F6FF">등록</button>
 		<button type="button" id="deleteRowBtn" style="background-color: #FF3333">삭제</button>
 		<button type="button" id="resetRow">조회 초기화</button>
+		<button type="button" id="changeStatus">상태변경</button>
 		<button type="button" id="addRow">+</button>
 		<button type="button" id="deleteRow">ㅡ</button>
 	</div> <br><hr>
 	<div id="gridItem"></div>   <br><hr>
 	<div id="gridLot"></div>    <br><hr>
 	
-	<div class="modal"></div>    <br><hr>
-	<div class="btn-open-popup"></div>    <br><hr>
+	
+	
+	<div class="modal">   
+	    <!-- modal에 grid 띄우기 -->
+	    <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+	    
+	    <!-- reset 버튼 추가 -->
+	    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+	      <img src="${conPath}/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
+	    </button>
+	    
+	    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+	      <img src="${conPath}/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
+	    </button>
+	    
+	    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+	      <img src="${conPath}/resources\img\stock\ex.png" width="11px"/>&nbsp;&nbsp;닫기
+	    </button>
+	    
+    	</div>
+	</div>
 
 </body>
 </html>

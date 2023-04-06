@@ -11,11 +11,13 @@ public interface ShipOutRepository {
 
 	List<ShipOut> getList(SearchDTO searchDTO);
 	
-	int updateStatus(String outCode);
+	int deleteStatus(String outCode);
 	
 	int writeShipOut(ShipOut elements);
 	
-	ItemShipOutDTO selectItem(String outCode);
+	List<ItemShipOutDTO> selectItem(String orderNumber);
 	
 	LotShipOutDTO selectLot(String itemCode);
+	
+	int statusUpdate(String outCode);
 }

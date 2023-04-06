@@ -3,28 +3,38 @@
 
 <mapper namespace="mapper.shipout">
 	<select id="getList" resultType="shipOut">
-			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode,
+		<![CDATA[
+			SELECT out_code AS outCode, order_number AS orderNumber, customer_code AS customerCode, company_code AS companyCode,
 				   item_code AS itemCode, out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate,
 				   out_manager AS outManager, out_status AS outStatus, memo, create_date AS createDate, create_user AS createUser,
 				   update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
 			FROM so_shipout
  			where COALESCE(out_code, '') LIKE CONCAT('%', #{outCode}, '%') AND  
  				  COALESCE(order_number, '') LIKE CONCAT('%', #{orderNumber}, '%') AND 
-				  COALESCE(client_code, '') LIKE CONCAT('%', #{clientCode}, '%') AND 
+				  COALESCE(customer_code, '') LIKE CONCAT('%', #{customerCode}, '%') AND 
 				  COALESCE(company_code, '') LIKE CONCAT('%', #{companyCode}, '%') AND 
 				  COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%') AND 
 				  COALESCE(out_type, '') LIKE CONCAT('%', #{outType}, '%') AND 
 				  COALESCE(trans_type, '') LIKE CONCAT('%', #{transType}, '%') AND 
- 				  COALESCE(out_plan_date, '') = DATE(#{outPlanDate}) AND 
+		]]>		  
+				  <if test="outPlanDate != null and outPlanDate != ''">
+ 				  COALESCE(out_plan_date, '') = DATE(#{outPlanDate}) AND
+ 				  </if>
+ 		<![CDATA[		   
  				  COALESCE(out_manager, '') LIKE CONCAT('%', #{outManager}, '%') AND 
 				  COALESCE(out_status, '') LIKE CONCAT('%', #{outStatus}, '%') AND 
 				  COALESCE(memo, '') LIKE CONCAT('%', #{memo}, '%') AND 
- 				  COALESCE(create_date, '') = DATE(#{createDate}) AND 
+ 		]]>
+ 				  <if test="createDate != null and createDate != ''">
+ 				  COALESCE(create_date, '') = DATE(#{createDate}) AND
+ 				  </if> 
+ 		<![CDATA[		  
  				  COALESCE(create_user, '') LIKE CONCAT('%', #{createUser}, '%') AND 
 				  delete_yes_no='N'
+		]]>		  
 	</select>
 
-	<update id="updateStatus" parameterType="String">
+	<update id="deleteStatus" parameterType="String">
 		<![CDATA[
 			update so_shipout
 			set delete_yes_no='Y'
@@ -37,23 +47,23 @@
 			SELECT so_shipout_seq_12('SOUT') FROM DUAL
 		</selectKey>
 		<![CDATA[
-			insert into so_shipout (out_code, order_number, client_code, company_code, item_code,
+			insert into so_shipout (out_code, order_number, customer_code, company_code, item_code,
 									out_type, trans_type, out_plan_date, out_manager, memo, create_user, update_user)
-			values (#{outCode}, #{orderNumber}, #{clientCode}, #{companyCode}, #{itemCode}, 
+			values (#{outCode}, #{orderNumber}, #{customerCode}, #{companyCode}, #{itemCode}, 
 					#{outType}, #{transType}, #{outPlanDate}, #{outManager}, #{memo}, #{createUser}, #{updateUser})
 		]]>
 	</insert>
 	
-	<select id="selectItem" parameterType="String" resultType="itemShipOutDTO">
+	<select id="getOrderNumber" parameterType="String" resultType="itemShipOutDTO">
 		<![CDATA[
-			SELECT a.out_code AS outCode, b.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
-				   c.request_quantity AS requestQuantity, c.amount
-			FROM so_shipout a left join ma_item b on a.item_code=b.item_code JOIN po_request_detail c ON b.item_code=c.item_code
-			where a.out_code=#{outCode}
+			SELECT a.out_code AS outCode, b.order_number AS orderNumber, b.item_code AS itemCode, b.quantity AS quantity,
+				   b.price AS price, b.amonut AS amount, b.item_stock_unit AS itemStockUnit, c.item_name AS itemName, c.item_no AS itemNo
+			FROM so_shipout a left join test_so_order_detail b ON a.order_number=b.order_number JOIN ma_item c ON b.item_code=c.item_code
+			WHERE a.order_number=#{orderNumber}
 		]]>
 	</select>
 	
-	<select id="selectLot" parameterType="String" resultType="lotShipOutDTO">
+	<select id="getLot" parameterType="String" resultType="lotShipOutDTO">
 		<![CDATA[
 			SELECT a.lot_no AS lotNo, a.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
 	    		   b.item_specification AS itemSpec, b.quantity AS quantity, b.warehouse_code AS warehouseCode
@@ -61,4 +71,17 @@
 			WHERE a.item_code=#{itemCode}
 		]]>
 	</select>
+	
+	<update id="statusUpdate" parameterType="String">
+		<![CDATA[
+			update so_shipout
+			  set out_status =
+				CASE out_status
+				  WHEN '등록' THEN '확정'
+				  WHEN '확정' THEN '등록'
+				  ELSE out_status
+				END  	
+			where out_code=#{outCode}
+		]]>
+	</update>
 </mapper>

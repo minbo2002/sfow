@@ -1,6 +1,5 @@
 package com.yeonoo.so.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,24 +50,27 @@ public class ShipOutController {
 	
 	/*-------------------------------------------------------------------------------------*/
 
-	// 삭제여부 상태 업데이트
+	// 출하정보 삭제(삭제여부 상태 업데이트됨)
 	@ResponseBody
-	@RequestMapping(value="statusUpdate", method=RequestMethod.POST)
-	public List<ShipOut> useUpdate(@RequestBody List<ShipOut> shipout) {
+	@RequestMapping(value="deleteShipOut", method=RequestMethod.POST)
+	public int deleteStatus(@RequestBody List<ShipOut> shipout) {
 
-		logger.info("상태변경을 위한 shipout 정보 = " + shipout);
+		logger.info("삭제를 위한 shipout 정보 = " + shipout);
 
 		Iterator<ShipOut> iterator = shipout.iterator();
+		
+		int updateCnt = 0;
 		
 		while(iterator.hasNext()) {
 			
 			ShipOut elements = iterator.next();
 			logger.info("출하코드 outCode = " + elements.getOutCode());
 
-			shipOutService.updateStatus(elements.getOutCode());
+			updateCnt = shipOutService.deleteStatus(elements.getOutCode());
+			logger.info("삭제한 row개수 = " + updateCnt);
 		}
 		
-		return shipout;
+		return updateCnt;
 	}
 	
 	/*-------------------------------------------------------------------------------------*/
@@ -92,11 +94,13 @@ public class ShipOutController {
 		return shipout;
 	}
 	
+	/*-------------------------------------------------------------------------------------*/
+	
 	// 특정 수주번호에 있는 ITEM 정보조회
 	@ResponseBody
 	@RequestMapping(value="selectItems", method=RequestMethod.POST)
 	public List<ItemShipOutDTO> selectItem(@RequestBody List<ShipOut> shipOutList) {	
-		logger.info("1) 체크한 row의 List<ShipOut> 정보 = " + shipOutList);	
+		logger.info("Item 1) 체크한 row의 List<ShipOut> 정보 = " + shipOutList);	
 
 		List<ItemShipOutDTO> itemShipOutList = new ArrayList<ItemShipOutDTO>();
 		
@@ -104,21 +108,27 @@ public class ShipOutController {
 		while(iterator.hasNext()) {
 			
 			ShipOut elements = iterator.next();
-			logger.info("2) 체크한 row의 ShipOut 정보 iterator변환 = " + elements + ", 그리고 그중에서 출하코드 추출 = " + elements.getOutCode());
+			logger.info("Item 2) 체크한 row의 ShipOut 정보를 iterator변환 = " + elements + ", 그리고 그중에서 수주번호 추출 = " + elements.getOrderNumber());
 			
-			ItemShipOutDTO itemShipOut = shipOutService.selectItem(elements.getOutCode());
-			logger.info("5) 3개테이블 join 정보 : " + itemShipOut);
-			itemShipOutList.add(itemShipOut);
-
+			List<ItemShipOutDTO> itemShipOut = shipOutService.selectItem(elements.getOrderNumber());
+			logger.info("Item 5) 3개테이블 join 정보 : " + itemShipOut);
+			
+			Iterator<ItemShipOutDTO> iterator2 = itemShipOut.iterator();
+			while(iterator2.hasNext()) {
+				ItemShipOutDTO itemElements = iterator2.next();
+				itemShipOutList.add(itemElements);
+			}
 		}
 		return itemShipOutList; 
 	}
+	
+	/*-------------------------------------------------------------------------------------*/
 	
 	// 특정 ITEM 코드에 있는 LOT 정보조회
 	@ResponseBody
 	@RequestMapping(value="selectLots", method=RequestMethod.POST)
 	public List<LotShipOutDTO> selectLot(@RequestBody List<ShipOut> shipOutList) {	
-		logger.info("1) 체크한 row의 List<ShipOut> 정보 = " + shipOutList);	
+		logger.info("LOT 1) 체크한 row의 List<ShipOut> 정보 = " + shipOutList);	
 
 		List<LotShipOutDTO> lotShipOutList = new ArrayList<LotShipOutDTO>();
 		
@@ -126,14 +136,36 @@ public class ShipOutController {
 		while(iterator.hasNext()) {
 			
 			ShipOut elements = iterator.next();
-			logger.info("2) 체크한 row의 ShipOut 정보 iterator변환 = " + elements + ", 그리고 그중에서 ITEM코드 추출 = " + elements.getItemCode());
+			logger.info("LOT 2) 체크한 row의 ShipOut 정보 iterator변환 = " + elements + ", 그리고 그중에서 ITEM코드 추출 = " + elements.getItemCode());
 
 			LotShipOutDTO lotShipOutDTO = shipOutService.selectLot(elements.getItemCode());
-			logger.info("5) 2개테이블 join 정보 : " + lotShipOutDTO);
+			logger.info("LOT 5) 2개테이블 join 정보 : " + lotShipOutDTO);
 			lotShipOutList.add(lotShipOutDTO);   
 
 		}
 		return lotShipOutList; 
+	}
+
+	/*-------------------------------------------------------------------------------------*/
+	
+	// 상태 변경
+	@ResponseBody
+	@RequestMapping(value="statusUpdate", method=RequestMethod.POST)
+	public List<ShipOut> statusUpdate(@RequestBody List<ShipOut> shipout) {
+
+		logger.info("상태변경을 위한 shipout 정보 = " + shipout);
+
+		Iterator<ShipOut> iterator = shipout.iterator();
+		
+		while(iterator.hasNext()) {
+			
+			ShipOut elements = iterator.next();
+			logger.info("출하코드 outCode = " + elements.getOutCode());
+
+			shipOutService.statusUpdate(elements.getOutCode());
+		}
+		
+		return shipout;
 	}
 
 }
