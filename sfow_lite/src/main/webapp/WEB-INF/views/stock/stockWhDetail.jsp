@@ -421,7 +421,7 @@ var grid2=null;	 //추가된 부분!!
 		// if (grid2 && grid2.getData().length > 0) {   
 		        //modal.classList.toggle('show');
 		        //body.style.overflow = 'auto';
-	      if (grid2 && grid2.getCheckedRows().length > 0) {
+	      if (grid2 && grid2.getCheckedRows().length == 1) {
 	   	    const checkedRows = grid2.getCheckedRows();
 	   	    const warehouse_code = document.getElementById('warehouse_code');
 	   	    warehouse_code.value = checkedRows[0].warehouse_code;
@@ -429,7 +429,20 @@ var grid2=null;	 //추가된 부분!!
 //	         var warehouse_code = document.getElementById('warehouse_code');
 //	         var test = rowData.warehouse_code;
 //	         warehouse_code.value = test;
-	      }        
+	      }else if(grid2 && grid2.getCheckedRows().length > 1){
+	    	  const warehouseCodes = [];
+	    	  //document.querySelectorAll('input[name=warehouse_code]:checked').forEach((el) => {
+	    	    //warehouseCodes.push(el.value);
+	    	   grid2.getCheckedRows().forEach(rowData => {
+        		warehouseCodes.push(rowData.warehouse_code);
+	    	    
+	    	  });
+	    	  const warehouseCodesString = warehouseCodes.join('@N@');// @로 구분된 문자열
+	    	  const warehouse_code = document.getElementById('warehouse_code');
+	    	  warehouse_code.value = warehouseCodesString; // input 요소에 문자열 할당
+	    	  //console.log(warehouseCodesString);
+	      }   
+	      
 	         modal.classList.remove('show');
 	         body.style.overflow = 'auto';
 		   // });
@@ -802,7 +815,7 @@ $.ajax({
 <div class="modal">
   <!-- modal에 grid 띄우기 -->
   <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
-    <!-- reset 버튼 추가 -->
+    <!-- modal 창 내에 기능 버튼 추가 -->
     <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
       <img src="<%=request.getContextPath()%>/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
     </button>
