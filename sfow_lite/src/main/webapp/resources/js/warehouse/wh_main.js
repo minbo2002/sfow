@@ -190,7 +190,8 @@ window.onload = function() {
 		});
 		
 		// 그리드 클릭하면 정보 데려오기
- 		/* grid.on('click', (ev) => {
+ 		/*
+ 		 grid.on('click', (ev) => {
 			  const { rowKey } = grid.getFocusedCell();
 			  const rowData = grid.getRow(rowKey);
 			  
@@ -272,12 +273,17 @@ window.onload = function() {
 	    const rowKey = ev.rowKey;
     	const columnName = ev.columnName;
     	const rowData = grid.getRow(rowKey);
+    	 const createdate = rowData.createdate;
 			//console.log('check!', ev);
 			//console.log('check!', rowData);
 			
     Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
 	      el.addEventListener('click', ev => {
-
+			
+			 alert(createdate); 
+			  
+			if(createdate == ''){
+		
 				$.ajax({
                  url: '../warehouse/insertWH',
                  method :'POST',
@@ -292,16 +298,39 @@ window.onload = function() {
                      console.log('Error:', error);
                      location.href = "../warehouse/whinfo";
                  	}
-             }); //ajax(/item/typeInsertAjax)끝
+             }); //insert ajax 끝
+             
+           }
+
+			else {
+           
+            const rowKey2 = ev.rowKey;
+    		const columnName2 = ev.columnName;
+    		const rowData2 = grid.getRow(rowKey);
+           
+	           $.ajax({
+	                 url: '../warehouse/updateWH',
+	                 method :'PUT',
+	                 dataType: 'JSON',
+	                 data: JSON.stringify(rowData2),
+	                 contentType: 'application/json',
+	                 success: function(response) {
+	                     console.log('Success:', response);
+	                     location.href = "../warehouse/whinfo";
+	                 	},
+	                 error: function(error) {
+	                     console.log('Error:', error);
+	                     location.href = "../warehouse/whinfo";
+	                 	}
+	             }); //update ajax 끝
+           }
+           
+             
           }); //addEventListener끝
-    	}); //insertRow 끝
+    	 }); //insertRow 끝
 	}); //grid.on('check')끝 	
 		
 	
-	
-	
-	
-	
-	
-	
 };	//최초시작
+
+

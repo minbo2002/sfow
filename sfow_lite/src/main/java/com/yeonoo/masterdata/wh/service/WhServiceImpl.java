@@ -37,11 +37,11 @@ public class WhServiceImpl implements WhService {
 		return whRepository.getwharea(wharea);
 	}
 	
-	//수정하기update
+	//수정하기 update(insert와같은버튼)
 	@Override
-	public void updateWH(WH rowData) throws Exception {
-		
-		return;
+	public int updateWH(WH wh) throws Exception {
+		int cnt = whRepository.updateWH(wh);
+		return cnt;
 	}
 	//insert 등록
 	public int insertWH(WH wh) throws Exception{

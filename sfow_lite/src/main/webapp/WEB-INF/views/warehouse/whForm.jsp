@@ -61,9 +61,8 @@ div.whbox1{
 		
 		<div class="whbox1">
 	<!-- 	<input type="button" name="serchBtn" id="serchBtn" value="조회"> -->
-		<input type="button" name="saveBtn" id="saveBtn" value="저장">
-		<input type="button" name="delBtn" id="delBtn" value="삭제">
-		<input type="button" name="clearBtn" id="clearBtn" value="초기화" onClick="window.location.reload()">
+		
+		
 		</div>
 		
 		
@@ -114,7 +113,11 @@ div.whbox1{
 			</td>
 			<td id="td4">
 				<input type="button" name="searchBtn" id="searchBtn" value="조회">
+				<input type="button" name="saveBtn" id="saveBtn" value="저장">
+				<input type="button" name="delBtn" id="delBtn" value="삭제">
+				<input type="button" name="clearBtn" id="clearBtn" value="초기화" onClick="window.location.reload()">
 			</td>
+			
 			
 		</tr>
 		</table>

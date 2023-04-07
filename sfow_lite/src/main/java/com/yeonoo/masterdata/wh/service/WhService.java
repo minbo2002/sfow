@@ -27,7 +27,7 @@ public interface WhService {
 
 	public List<WH> WHarea(WH wharea)throws Exception;
 
-	public void updateWH(WH rowData) throws Exception ;
+	public int updateWH(WH wh) throws Exception ;
 
 	// 행 추가 등록하기 
 	public int insertWH(WH wh) throws Exception ;

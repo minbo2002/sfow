@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.service.WhService;
 
@@ -53,22 +54,7 @@ public class Wh_RestController {
 		return results;
     	
     }
-   /* 
-    //행 추가 등록(인서트)
-    @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
-    public List<WH> insertWH(@RequestBody List<WH> wh){
-    	
-    	Iterator<WH> iterator = wh.iterator();
-    	while(iterator.hasNext()){
-    		WH elements = iterator.next();
-    		//logger.info("elements=="+elements);
-    		int insertCnt = whService.writeWH(elements);
-    		//logger.info("insertCnt==="+insertCnt);
-    	}
-    	return wh;
-    }
-    */
-	
+  	
     //행 추가 등록(인서트 "저장" 버튼)
     @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH",consumes="application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> insertWH(@RequestBody WH wh,HttpSession session) throws Exception{
@@ -84,9 +70,8 @@ public class Wh_RestController {
 	        String id1 = (String) session.getAttribute("id"); //세션에서 user_id 받아오기
         }
         
-        
         wh.setCompany_code(company_code); //받아온 company_code를 wh 객체에 설정
-        wh.setCreateuser(createuser); //받아온 user_id를 wh 객체에 설정
+        wh.setCreateuser(createuser); //받아온 id를 wh 객체에 설정, createuser로 이름 변경
         
     	return whService.insertWH(wh)==1
     			? new ResponseEntity<String> ("success", HttpStatus.OK) :
@@ -94,6 +79,28 @@ public class Wh_RestController {
     		
     }
 	
+    //전체 행 업데이트 기능  구역(area)까지
+  	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value= "/warehouse/updateWH", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+  	public ResponseEntity<String> updateWH(@RequestBody WH wh) throws Exception {
+  			return whService.updateWH(wh)==1 
+                      ? new ResponseEntity<String> ("success", HttpStatus.OK):
+                              new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+  	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   //품목등록(제품) 관리자용 삭제(delete)
   	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH} , value = "/item/deleteWH" ,consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
   	public ResponseEntity<String> deleteWH(@RequestBody WH wh) throws Exception {
