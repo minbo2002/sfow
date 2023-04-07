@@ -48,8 +48,8 @@ public class UserInfoController {
 	//로그아웃
 	 @RequestMapping("/userLogout") 
 	 public String userLogout(HttpSession session) { 
-			session.invalidate(); 
-			return "/login"; 
+			session.invalidate();
+			return "redirect:/login"; 
 	}
 	
 	//회원 정보 변경 페이지

@@ -9,6 +9,8 @@
 <meta charset="UTF-8">
  	<script src="${ContextPath}/resources/js/tui-grid.js"></script>
 	<link rel="stylesheet" href="${ContextPath}/resources/css/tui-grid.css" type="text/css"/>
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
   <style>
@@ -53,6 +55,12 @@ $(document).ready(function() {
 		const DELETE_FAILED ='삭제에 실패했습니다.';
 	  const ADD_SUCCESS = '추가에 성공했습니다.';
     const ADD_FAILED = '추가에 실패했습니다.';
+    const EXISTING_ID_MSG = '이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.';
+    
+    
+    
+    /* 정규식  */
+     const tel_rule = /^\d{2,3}-\d{3,4}-\d{4}$/;
 			
 		 
 		var gridData = [];
@@ -80,7 +88,8 @@ $(document).ready(function() {
             	{
                 header: '이름',   
                 name: 'userName',  
-                editor: 'text',                
+                editor: 'text', 
+                sortable: true,
                 validation: {
                     dataType: 'string',
                     required: true
@@ -92,6 +101,7 @@ $(document).ready(function() {
                 header: '아이디',         
                 name: 'id',  
                 editor: 'text',
+                sortable: true,
                 align: 'center', 
             },
             
@@ -106,7 +116,8 @@ $(document).ready(function() {
             {
                 header: '비밀번호',         
                 name: 'password',            
-                editor: 'text',               
+                editor: 'text',  
+                sortable: true,
                 align: 'center',
                 validation: {
 	                dataType: 'string',
@@ -119,7 +130,8 @@ $(document).ready(function() {
                 header: '전화번호',            
                 name: 'phoneNum',             
                 editor: 'text', 
-                align: 'center',              
+                align: 'center',
+                sortable: true,
 		            validation: {
 		                dataType: 'string',
 		                required: true
@@ -130,7 +142,8 @@ $(document).ready(function() {
             	{
                 header: '이메일',           
                 name: 'email',             
-                align: 'center',              
+                align: 'center', 
+                sortable: true,
                 editor: 'text',
 	            	validation: {
 	                dataType: 'string',
@@ -138,17 +151,42 @@ $(document).ready(function() {
 	              }
               },
               
+              {
+            	  header: '관리자 권한',
+            	  name: 'adminRole',
+            	  formatter: 'listItemText',
+            	  sortable: true,
+            	  align: 'center',
+            	  editor: {
+            	      type: 'select',
+            	      options: {
+            	        listItems: [
+            	          {
+            	            text: 'Y',
+            	            value: '999'
+            	          },
+            	          {
+            	            text: 'N',
+            	            value: '1'
+            	          }
+            	        ]
+            	      }
+            	  }
+              },
+              
            		// [생성일 ]
               {
                   header: '생성일',            
                   name: 'createDate',
+                  hidden: true
                 },
                 
                 
                 // 수정일[]
                 {
                     header: '수정일',            
-                    name: 'updateDate',            
+                    name: 'updateDate',  
+                    hidden: true
                   },
 			        ]
 	  });
@@ -160,9 +198,7 @@ $(document).ready(function() {
 		  
 		  
 		  var now = new Date();
-		  var currentDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2) + '-' + ('0' + now.getHours()).slice(-2);
-
-		  
+		  var currentDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 		  
 		    // 행 추가할 때 필수 데이터 입력
 		    var newRowData = {
@@ -237,23 +273,57 @@ $(document).ready(function() {
 	    	  console.log("컬럼이름",columnName);
 	    	  
 	    	  
-	    	  //값 필수 입력 유효성 검사
-	    	  if (!rowData[columnName]) {
-	    		  alert(EMPTY_FIELD_ERROR_MSG);
-	    		  return;
-	    		}  
 	    	  
-	    	  //이메일 유효성 검사
-	    	  if (columnName === 'email') {
-	    		  var emailValue = rowData[columnName];
-	    		  if (!emailValue || emailValue.indexOf('@') === -1) {
-	    		    alert(EMAIL_AT_REQUIRED);
-	    		    return;
-	    		  }
-	    		}
-					
+	    	  // ID 유효성 검사
+	    	  if(columnName == 'id' && data != null){
+	    		 
+	    		  $.ajax({
+		    		    url: '${ContextPath}/userListCheckDuplicate',
+		    		    method: 'POST',
+		    		    async : true,
+		    		    dataType: 'JSON',
+		    		    data: JSON.stringify(rowData),
+		    		    contentType: 'application/json',
+		    		    success: function(response) {
+		    		    	if(response === 2) {
+										alert(EXISTING_ID_MSG);    		    		
+						    	}
+		    		        console.log('Success:', response);
+		    		    },
+		    		    error: function(error) {
+		    		        console.log('Error:', error);
+		    		    }
+		    		});
+	    	  }
+	    	  
 	    	  //회원정보 변경
-	    	  if (columnName === 'id') {
+	    	  if (columnName !== 'id') {
+	    		  
+	    		  //값 필수 입력 유효성 검사
+		    	  if (!rowData[columnName]) {
+		    		  alert(EMPTY_FIELD_ERROR_MSG);
+		    		  return;
+		    		}  
+		    	  
+		    	  //이메일 유효성 검사
+		    	  if (columnName === 'email') {
+		    		  var emailValue = rowData[columnName];
+		    		  if (!emailValue || emailValue.indexOf('@') === -1) {
+		    		    alert(EMAIL_AT_REQUIRED);
+		    		    return;
+		    		  }
+		    		}
+		    	  //전화번호 유효성 검사
+		    	  if(columnName ==='phoneNum'){
+		    		  var phoneNum = rowData[columnName];
+		    		  if(!tel_rule.test(phoneNum)) {
+		    			  alert("올바른 번호를 입력해주세요.");
+		    			  return;
+		    		  }
+		    	  }
+	    		  
+	    		  
+	    		  
 	    	  $.ajax({
 	    		    url: '${ContextPath}/userListUpdate',
 	    		    method: 'PUT',
@@ -262,13 +332,37 @@ $(document).ready(function() {
 	    		    data: JSON.stringify(rowData),
 	    		    contentType: 'application/json',
 	    		    success: function(response) {
+	    		    	alert("id 아닌 컬럼 넘기기"+response);
 	    		        console.log('Success:', response);
 	    		    },
 	    		    error: function(error) {
 	    		        console.log('Error:', error);
 	    		    }
 	    		});
-	    	  }
+	    	  }	//회원정보 변경 ajax
+	    	  
+	    	  
+	    	  //관리자 권한 부여
+	    	  if (columnName === 'adminRole') {
+	    		  
+	    		  var dataToSend = { "adminRoll": rowData[columnName], "id": rowData['id'] };
+	    		  console.log(dataToSend)
+	    		  
+	    		  $.ajax({
+	    		    url: '${ContextPath}/userAdminRollUpdate',
+	    		    method: 'PUT',
+	    		    async: true,
+	    		    data: JSON.stringify(dataToSend),
+	    		    contentType: 'application/json',
+	    		    success: function(response) {
+	    		      console.log('success:', response);
+	    		    },
+	    		    error: function(error) {
+	    		      console.log('Error:', error);
+	    		    }
+	    		  });
+	    		}
+	    	  
 	    	});
 	    }
 	  });
@@ -310,7 +404,7 @@ $(document).ready(function() {
 	    });
 	  });
 		
-			
+			// 검색 기능
 		  $('#searchKeywordBtn, #searchKeyword').on('keyup', function(e) {
 			    if (e.keyCode === 13) { // 엔터 키를 눌렀을 때
 			        search();
@@ -324,7 +418,7 @@ $(document).ready(function() {
 					function search() {
 			    var searchKeyword = $("#searchKeyword").val();// input 태그의 값을 가져옵니다.
 			    
-			    // ajax 요청
+			    // 검색 keyword ajax 요청
 			    $.ajax({
 			      url: "${ContextPath}/search", // 서버 url을 입력하세요.
 			      type: "GET", // 요청 방식을 입력하세요. (POST, GET 등)
@@ -338,6 +432,7 @@ $(document).ready(function() {
 			        console.log(textStatus, errorThrown);
 			      }
 			    });
+			    
 			  }
 		});
 </script>

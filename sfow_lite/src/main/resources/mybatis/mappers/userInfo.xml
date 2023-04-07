@@ -18,7 +18,7 @@
 	  <result property="updateDate" column="update_date"/>
 	</resultMap>
 
-
+	<!-- 유저명으로 검색 -->
 	<select id="searchData" parameterType="String" resultMap="userInfo">
 		<![CDATA[
 			SELECT company_code, company_name, user_name, id, update_key, password, admin_role, phone_num, email, create_date, update_date
@@ -119,14 +119,14 @@
 	</select>
 	
 	
-
+	
 	<!-- 사용자 계정 관리 메뉴-->
 	
 	<!-- 회원 정보 변경 -->
 	<update id="userListUpdate">
 			<![CDATA[
 				update cm_userinfo 
-				set company_name=#{companyName}, id=#{id},user_name=#{userName},password=#{password},email=#{email},phone_num=#{phoneNum}
+				set company_name=#{companyName}, id=#{id},user_name=#{userName},password=#{password},email=#{email},phone_num=#{phoneNum},update_date=CURRENT_TIMESTAMP
 				where update_key=#{updateKey}
 			]]>
 	</update>
@@ -149,25 +149,27 @@
 	</delete>
 	
 	
-	
-	
-	<!-- 세션 초기화 -->
-	<select id="updateUserSession" resultMap="userInfo">
+	<!-- id중복 체크  -->
+	<select id="checkDuplicate" resultMap="userInfo">
 		<![CDATA[
-			SELECT company_code,company_name,user_name,id,update_key,password,admin_role,phone_num,email,create_date,update_date
-			FROM cm_userinfo 
-			WHERE id=#{userId}
+		SELECT company_code, company_name, user_name, id, password, phone_num, admin_role,email, create_date
+		FROM cm_userinfo
+		WHERE id=#{id}
+		UNION
+		SELECT company_code, company_name, user_name, id, password, phone_num, admin_role,email, create_date
+		FROM cm_main_userinfo
+		WHERE id=#{id}
 		]]>
 	</select>
 	
+	<!-- 관리자 권한 부여 -->
+	<update id="userAdminRollUpdate">
+			<![CDATA[
+			UPDATE cm_userinfo 
+			set admin_role=#{adminRoll}
+			where id=#{id}
+			]]>
+	</update>
 	
-		<!-- 세션 초기화 -->
-	<select id="updateMainUserSession" resultMap="userInfo">
-		<![CDATA[
-			SELECT company_code,company_name,user_name,id,password,admin_role,phone_num,email,create_date,update_date
-			FROM cm_main_userinfo 
-			WHERE id=#{userId}
-		]]>
-	</select>
-
+	
 </mapper>

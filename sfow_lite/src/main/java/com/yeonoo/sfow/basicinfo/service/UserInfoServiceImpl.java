@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.yeonoo.sfow.basicinfo.domain.AdminRollUser;
 import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.sfow.basicinfo.repository.UserInfoRepository;
@@ -64,6 +65,17 @@ public class UserInfoServiceImpl implements UserInfoService{
 	@Override
 	public UserInfo updateUserInfo(String id) throws Exception {
 		return userInfoRepository.updateUserSelect(id);
+	}
+
+	@Override
+	public UserInfo checkDuplicateUserId(String updateId) throws Exception {
+		return userInfoRepository.checkDuplicateUserId(updateId);
+	}
+
+	@Override
+	public int userAdminRollUpdate(AdminRollUser adminRollUser) throws Exception {
+		
+		return userInfoRepository.userAdminRollUpdate(adminRollUser);
 	}
 
 }
