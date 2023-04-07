@@ -8,7 +8,7 @@ public interface RawRepository {
 
 	
 	// 전체 조회
-	public List<RawDTO> rawList();
+	public List<RawDTO> rawList(RawDTO dto);
 
 	// 반제품 등록
 	public int insertRaw(RawDTO dto);
@@ -17,5 +17,5 @@ public interface RawRepository {
 	public int updateRaw(RawDTO dto);
 	
 	// 반제품 삭제
-	public void deleteRaw(String itemCode);
+	public int deleteRaw(String itemCode);
 }
