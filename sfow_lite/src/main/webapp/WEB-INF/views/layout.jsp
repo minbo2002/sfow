@@ -91,7 +91,7 @@
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
-
+ 
                            </div>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
