@@ -16,9 +16,10 @@ public class ShipOut {
 
 	private String outCode;     // 출하코드    PK
 	private String orderNumber; // 수주번호    FK
-	private String customerCode;  // 거래처코드 FK
+	private String clientCode;  // 거래처코드 FK
 	private String companyCode; // 회사코드    FK
 	private String itemCode;	// ITEM코드 FK
+	private Integer outQuantity; // 출하수량
 	private String outType;     // 출하유형    택1(기타출고, 반품출고, 생산출고, 판매출고)
 	private String transType;	// 수불타입    택1(일반, 사급, 샘플, 불량)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")

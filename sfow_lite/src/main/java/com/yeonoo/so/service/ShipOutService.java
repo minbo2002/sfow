@@ -1,6 +1,8 @@
 package com.yeonoo.so.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
@@ -10,13 +12,17 @@ public interface ShipOutService {
 
 	List<ShipOut> getList(SearchDTO searchDTO);
 	
+	List<Map<String, Object>> getModalItem();
+	
 	int deleteStatus(String outCode);
 	
 	int writeShipOut(ShipOut elements);
 	
 	List<ItemShipOutDTO> selectItem(String orderNumber);
 	
-	LotShipOutDTO selectLot(String itemCode);
+	List<LotShipOutDTO> selectLot(String itemCode);
 	
 	int statusUpdate(String outCode);
+	
+	int updateShipOut(ShipOut elements);
 }

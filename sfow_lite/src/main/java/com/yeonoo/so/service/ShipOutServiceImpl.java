@@ -1,6 +1,7 @@
 package com.yeonoo.so.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,13 @@ public class ShipOutServiceImpl implements ShipOutService {
 		return shipOutRepository.getList(searchDTO);
 	}
 
+	// Modal Item조회
+	@Override
+	public List<Map<String, Object>> getModalItem() {
+		
+		return shipOutRepository.getModalItem();
+	}
+	
 	// 삭제여부 상태변경
 	@Override
 	@Transactional
@@ -57,8 +65,8 @@ public class ShipOutServiceImpl implements ShipOutService {
 	}
 
 	@Override
-	public LotShipOutDTO selectLot(String itemCode) {
-		logger.info("3) itemCode : " + itemCode);
+	public List<LotShipOutDTO> selectLot(String itemCode) {
+		logger.info("LOT 3) itemCode : " + itemCode);
 		return shipOutRepository.selectLot(itemCode);
 	}
 
@@ -66,6 +74,12 @@ public class ShipOutServiceImpl implements ShipOutService {
 	public int statusUpdate(String outCode) {
 		
 		return shipOutRepository.statusUpdate(outCode);
+	}
+	
+	@Override
+	public int updateShipOut(ShipOut elements) {
+		logger.info("3) elements : " + elements);
+		return shipOutRepository.updateShipOut(elements);
 	}
 
 }

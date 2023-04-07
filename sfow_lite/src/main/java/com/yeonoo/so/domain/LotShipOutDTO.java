@@ -15,6 +15,6 @@ public class LotShipOutDTO {
 	private String itemName;	// 품명
 	private String itemNo;		// 품번
 	private String itemSpec;	// 규격
-	private String quantity;	// 재고수량
+	private Integer quantity;	// 재고수량
 	private String warehouseCode;	// 창고코드
 }

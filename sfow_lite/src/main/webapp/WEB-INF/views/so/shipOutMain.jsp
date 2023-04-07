@@ -5,6 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<!-- 순서주의 -->
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" /> <!-- date-picker -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /><!-- jQuery Modal -->
+	<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script> <!-- date-picker -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script><!-- include jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script><!-- jQuery Modal -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<title>출하등록</title>
 	
 	<style>
@@ -19,7 +28,7 @@
 		    var searchData = {
 		    		"outCode" : $("#outCode").val(),
 		    		"orderNumber" : $("#orderNumber").val(),
-		    		"customerCode" : $("#customerCode").val(),
+		    		"clientCode" : $("#clientCode").val(),
 		    		"companyCode" : $("#companyCode").val(),
 		    		"itemCode" : $("#itemCode").val(),
 		    		"outType" : $("#outType").val(),
@@ -36,7 +45,7 @@
 			event.preventDefault(); // prevent form submission
 
 			$.ajax({
-				url : "shipout/list",
+				url : "${conPath}/shipout/list",
 				method : "post",
 				data : JSON.stringify(searchData),
 				dataType : "json",
@@ -59,12 +68,13 @@
 	      columns: [
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
 			{header:"수주번호", name:"orderNumber", align:"center", width:"auto"},
-			{header:"거래처코드", name:"customerCode", align:"center", width:"auto"},
+			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
 			{header:"회사코드", name:"companyCode", align:"center", width:"auto"},
 			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
-			{header:"출하유형", name:"outType", editor:"text", align:"center"},  // filter:"text"
+			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
+			{header:"출하유형", name:"outType", editor:"text", align:"center"},
 			{header:"수불타입", name:"transType", editor:"text", align:"center"},
-			{header:"출하계획일", name:"outPlanDate", editor: "text", align:"center"},
+			{header:"출하계획일", name:"outPlanDate", editor:"text", align:"center"},
 			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
 			{header: "상태", name:"outStatus", align:"center"},
 			{header: "비고", name:"memo", editor:"text", align:"center"},
@@ -79,6 +89,9 @@
 	// 체크박스 클릭시 검색창에 PK, FK값 출력
 	grid.on('check', function(ev) {
 		
+		gridItem.clear();
+		gridLot.clear();
+		
 		const rowKey = ev.rowKey;
 		const columnName = ev.columnName;
 		var updatedData = {};
@@ -87,14 +100,14 @@
 		
 		var outCode = document.getElementById("outCode");  			// 출하코드
 		var orderNumber = document.getElementById("orderNumber");   // 수주번호
-		var customerCode = document.getElementById("customerCode");   	// 거래처코드
+		var clientCode = document.getElementById("clientCode");   	// 거래처코드
 		var companyCode = document.getElementById("companyCode");   // 회사코드
 		var itemCode = document.getElementById("itemCode");   		// ITEM코드
 
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
+		//alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 		var jsonRowDatas2 = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 		
 		if(rowDatas.length==1){
@@ -106,8 +119,8 @@
 			orderNumber.value=rowData.orderNumber;
 			orderNumber.readOnly=true;
 
-			customerCode.value=rowData.customerCode;
-			customerCode.readOnly=true;
+			clientCode.value=rowData.clientCode;
+			clientCode.readOnly=true;
 			
 			companyCode.value=rowData.companyCode;
 			companyCode.readOnly=true;
@@ -117,7 +130,7 @@
 			console.log('itemCode: ', rowData.itemCode);
 
 			$.ajax({
-				url : "shipout/selectItems",
+				url : "${conPath}/shipout/selectItems",
 				method : "post",
 				data : jsonRowDatas,
 				dataType : "json",
@@ -130,7 +143,7 @@
 			});
 			
 			$.ajax({
-				url : "shipout/selectLots",
+				url : "${conPath}/shipout/selectLots",
 				method : "post",
 				data : jsonRowDatas2,
 				dataType : "json",
@@ -150,8 +163,8 @@
         	orderNumber.value="";
         	orderNumber.readOnly=false;
 
-        	customerCode.value="";
-        	customerCode.readOnly=false;
+        	clientCode.value="";
+        	clientCode.readOnly=false;
 			
         	companyCode.value="";
         	companyCode.readOnly=false;
@@ -161,9 +174,29 @@
 		}
     });
 	
+	// client_code 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'orderNumber') {
+            window.open('${conPath}/shipout/modalItem', 'childWindow', 'width=500,height=500');
+        }
+    });
+	
+	// 
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'orderNumber', selectedRow.orderNumber);
+        grid.setValue(focusedCell.rowKey, 'clientCode', selectedRow.clientCode);
+        grid.setValue(focusedCell.rowKey, 'companyCode', selectedRow.companyCode);
+        grid.setValue(focusedCell.rowKey, 'itemCode', selectedRow.itemCode);
+        grid.setValue(focusedCell.rowKey, 'outQuantity', selectedRow.outQuantity);
+    });
+
+	/*
 	grid.off('check', function(ev) {
 		grid.removeCheckedRows(true);
 	});
+	*/
 	
 	var gridItemData = [];
 	var gridItem = new tui.Grid({
@@ -208,7 +241,7 @@
 		var newRowData = {
 			outCode: '',
 			orderNumber: '',
-			customerCode: '',
+			clientCode: '',
 			companyCode: '',
 			itemCode: '',
 			outType: '',
@@ -248,18 +281,18 @@
 	function addBtn() {
 
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		alert("rowDatas : " + rowDatas);
+		//alert("rowDatas : " + rowDatas);
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 		
 		$.ajax({
-			url : "shipout/write",
+			url : "${conPath}/shipout/write",
 			method : "post",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
-				alert(result); // result는 반환받은 json형태의 객체 
+				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('등록성공');
 			},
 			error: function() {
@@ -282,25 +315,25 @@
 	function deleteFunction() {
 		
 		var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
-		alert("rowKeys : " + rowKeys);
+		//alert("rowKeys : " + rowKeys);
 		var jsonRowKeys = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
-		alert("JSON.stringify(rowKeys) : " + jsonRowKeys);
+		//alert("JSON.stringify(rowKeys) : " + jsonRowKeys);
 		
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		alert("rowDatas : " + rowDatas);
+		//alert("rowDatas : " + rowDatas);
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 
 		grid.removeCheckedRows([jsonRowKeys]);
 
 		$.ajax({
-			url : "shipout/deleteShipOut",
+			url : "${conPath}/shipout/deleteShipOut",
 			method : "post",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
-				alert(result); // result는 반환받은 json형태의 객체 
+				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('삭제성공');
 				gridItem.clear();
 				gridLot.clear();
@@ -325,19 +358,54 @@
 	function changeStatusFunction() {
 
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		alert("rowDatas : " + rowDatas);
+		//alert("rowDatas : " + rowDatas);
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 
 		$.ajax({
-			url : "shipout/statusUpdate",
+			url : "${conPath}/shipout/statusUpdate",
 			method : "post",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
-				alert(result); // result는 반환받은 json형태의 객체 
+				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('상태변경 성공');
+			},
+			error: function() {
+		        console.log("실패");
+		    }
+		});
+	}
+	
+	
+	// 데이터 수정
+	$("#updateRow").click(function() {
+		let d = confirm('수정 하시겠습니까?');
+		if(d) {
+			updateFunction();
+		}else {
+			return false;
+		}
+	});
+	
+	// 데이터 수정함수
+	function updateFunction() {
+
+		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
+		//alert("rowDatas : " + rowDatas);
+		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+
+		$.ajax({
+			url : "${conPath}/shipout/updateShipOut",
+			method : "patch",
+			data : jsonRowDatas,
+			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+			dataType: "json",			// 서버에서 받을 데이터타입
+			success : function (result) {
+				//alert(result); // result는 반환받은 json형태의 객체 
+				alert('데이터 수정성공');
 			},
 			error: function() {
 		        console.log("실패");
@@ -380,8 +448,8 @@
 		<input type="text" name="outCode" id="outCode" value="">
 		<label for="orderNumber">수주번호:</label>
 		<input type="text" name="orderNumber" id="orderNumber" value="">
-		<label for="customerCode">거래처코드:</label>
-		<input type="text" name="customerCode" id="customerCode" value="">
+		<label for="clientCode">거래처코드:</label>
+		<input type="text" name="clientCode" id="clientCode" value="">
 		<label for="companyCode">회사코드:</label>
 		<input type="text" name="companyCode" id="companyCode" value=""> <br>
 		<label for="itemCode">ITEM코드:</label>
@@ -443,8 +511,9 @@
 	<div id="grid">
 		<button type="button" id="addRowBtn" style="background-color: #33F6FF">등록</button>
 		<button type="button" id="deleteRowBtn" style="background-color: #FF3333">삭제</button>
-		<button type="button" id="resetRow">조회 초기화</button>
 		<button type="button" id="changeStatus">상태변경</button>
+		<button type="button" id="updateRow">데이터수정</button>
+		<button type="button" id="resetRow">조회결과 초기화</button>
 		<button type="button" id="addRow">+</button>
 		<button type="button" id="deleteRow">ㅡ</button>
 	</div> <br><hr>
@@ -452,7 +521,8 @@
 	<div id="gridLot"></div>    <br><hr>
 	
 	
-	
+
+
 	<div class="modal">   
 	    <!-- modal에 grid 띄우기 -->
 	    <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
@@ -472,6 +542,6 @@
 	    
     	</div>
 	</div>
-
+	
 </body>
 </html>

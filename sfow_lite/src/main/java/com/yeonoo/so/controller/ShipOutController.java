@@ -3,6 +3,8 @@ package com.yeonoo.so.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,24 @@ public class ShipOutController {
 		
 		return "so/shipOutMain";
 	}
+	
+	// modal Item창
+	@RequestMapping(value="modalItem")
+	public String modalItem() {
+		
+		return "so/modalItem";
+	}
+	
+	// modal Item값 조회
+	@RequestMapping(value="getModalItem")
+	@ResponseBody
+	public List<Map<String, Object>> getModalItem() {
+		
+		List<Map<String, Object>> result = shipOutService.getModalItem();
+		logger.info("1) modalItem = " + result);
+		
+		return result;
+	}
 
 	/*-------------------------------------------------------------------------------------*/
 
@@ -58,7 +78,6 @@ public class ShipOutController {
 		logger.info("삭제를 위한 shipout 정보 = " + shipout);
 
 		Iterator<ShipOut> iterator = shipout.iterator();
-		
 		int updateCnt = 0;
 		
 		while(iterator.hasNext()) {
@@ -109,7 +128,8 @@ public class ShipOutController {
 			
 			ShipOut elements = iterator.next();
 			logger.info("Item 2) 체크한 row의 ShipOut 정보를 iterator변환 = " + elements + ", 그리고 그중에서 수주번호 추출 = " + elements.getOrderNumber());
-			
+			logger.info("상태값(등록, 확정) = " + elements.getOutStatus());
+
 			List<ItemShipOutDTO> itemShipOut = shipOutService.selectItem(elements.getOrderNumber());
 			logger.info("Item 5) 3개테이블 join 정보 : " + itemShipOut);
 			
@@ -117,8 +137,9 @@ public class ShipOutController {
 			while(iterator2.hasNext()) {
 				ItemShipOutDTO itemElements = iterator2.next();
 				itemShipOutList.add(itemElements);
-			}
+			}	
 		}
+		
 		return itemShipOutList; 
 	}
 	
@@ -138,11 +159,16 @@ public class ShipOutController {
 			ShipOut elements = iterator.next();
 			logger.info("LOT 2) 체크한 row의 ShipOut 정보 iterator변환 = " + elements + ", 그리고 그중에서 ITEM코드 추출 = " + elements.getItemCode());
 
-			LotShipOutDTO lotShipOutDTO = shipOutService.selectLot(elements.getItemCode());
-			logger.info("LOT 5) 2개테이블 join 정보 : " + lotShipOutDTO);
-			lotShipOutList.add(lotShipOutDTO);   
-
+			List<LotShipOutDTO> lotShipOut = shipOutService.selectLot(elements.getItemCode());
+			logger.info("LOT 5) 2개테이블 join 정보 : " + lotShipOut);
+			
+			Iterator<LotShipOutDTO> iterator2 = lotShipOut.iterator();
+			while(iterator2.hasNext()) {
+				LotShipOutDTO itemElements = iterator2.next();
+				lotShipOutList.add(itemElements);
+			}
 		}
+		
 		return lotShipOutList; 
 	}
 
@@ -151,21 +177,46 @@ public class ShipOutController {
 	// 상태 변경
 	@ResponseBody
 	@RequestMapping(value="statusUpdate", method=RequestMethod.POST)
-	public List<ShipOut> statusUpdate(@RequestBody List<ShipOut> shipout) {
+	public int statusUpdate(@RequestBody List<ShipOut> shipout) {
 
 		logger.info("상태변경을 위한 shipout 정보 = " + shipout);
 
 		Iterator<ShipOut> iterator = shipout.iterator();
+		int statuseCnt = 0;
 		
 		while(iterator.hasNext()) {
 			
 			ShipOut elements = iterator.next();
 			logger.info("출하코드 outCode = " + elements.getOutCode());
 
-			shipOutService.statusUpdate(elements.getOutCode());
+			statuseCnt = shipOutService.statusUpdate(elements.getOutCode());
+			logger.info("상태변경된 row수 = " + statuseCnt);
 		}
 		
-		return shipout;
+		return statuseCnt;
 	}
+	
+	/*-------------------------------------------------------------------------------------*/
+	
+	// 데이터 수정
+	@ResponseBody
+	@RequestMapping(value="updateShipOut", method=RequestMethod.PATCH)
+	public int updateShipOut(@RequestBody List<ShipOut> shipout) {
 
+		logger.info("1) 상태변경을 위한 shipout 정보 = " + shipout);
+
+		Iterator<ShipOut> iterator = shipout.iterator();
+		int updateCnt = 0;
+		
+		while(iterator.hasNext()) {
+			
+			ShipOut elements = iterator.next();
+			logger.info("2) 출하코드 outCode = " + elements.getOutCode());
+
+			updateCnt = shipOutService.updateShipOut(elements);
+			logger.info("5) 수정된 행 개수 = " + updateCnt);
+		}
+		
+		return updateCnt;
+	}
 }

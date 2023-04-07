@@ -31,6 +31,13 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 		return sqlSession.selectList("mapper.shipout.getList", searchDTO);
 	}
 
+	// Modal Item조회
+	@Override
+	public List<Map<String, Object>> getModalItem() {
+		
+		return sqlSession.selectList("mapper.shipout.getModalItem");
+	}
+	
 	// 삭제여부 상태변경
 	@Override
 	public int deleteStatus(String outCode) {
@@ -53,15 +60,21 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 	}
 
 	@Override
-	public LotShipOutDTO selectLot(String itemCode) {
-		logger.info("4) itemCode : " + itemCode);
-		return sqlSession.selectOne("mapper.shipout.getLot", itemCode);
+	public List<LotShipOutDTO> selectLot(String itemCode) {
+		logger.info("LOT 4) itemCode : " + itemCode);
+		return sqlSession.selectList("mapper.shipout.getLot", itemCode);
 	}
 
 	@Override
 	public int statusUpdate(String outCode) {
 		
 		return sqlSession.update("mapper.shipout.statusUpdate", outCode);
+	}
+
+	@Override
+	public int updateShipOut(ShipOut elements) {
+		logger.info("4) elements : " + elements);
+		return sqlSession.update("mapper.shipout.updateShipOut", elements);
 	}
 
 }

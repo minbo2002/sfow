@@ -4,14 +4,14 @@
 <mapper namespace="mapper.shipout">
 	<select id="getList" resultType="shipOut">
 		<![CDATA[
-			SELECT out_code AS outCode, order_number AS orderNumber, customer_code AS customerCode, company_code AS companyCode,
-				   item_code AS itemCode, out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate,
+			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode, company_code AS companyCode,
+				   item_code AS itemCode, out_quantity AS outQuantity ,out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate,
 				   out_manager AS outManager, out_status AS outStatus, memo, create_date AS createDate, create_user AS createUser,
 				   update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
 			FROM so_shipout
  			where COALESCE(out_code, '') LIKE CONCAT('%', #{outCode}, '%') AND  
  				  COALESCE(order_number, '') LIKE CONCAT('%', #{orderNumber}, '%') AND 
-				  COALESCE(customer_code, '') LIKE CONCAT('%', #{customerCode}, '%') AND 
+				  COALESCE(client_code, '') LIKE CONCAT('%', #{clientCode}, '%') AND 
 				  COALESCE(company_code, '') LIKE CONCAT('%', #{companyCode}, '%') AND 
 				  COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%') AND 
 				  COALESCE(out_type, '') LIKE CONCAT('%', #{outType}, '%') AND 
@@ -32,6 +32,13 @@
  				  COALESCE(create_user, '') LIKE CONCAT('%', #{createUser}, '%') AND 
 				  delete_yes_no='N'
 		]]>		  
+	</select>  
+
+	<select id="getModalItem" resultType="Map">
+		<![CDATA[
+			SELECT a.order_number AS orderNumber, b.client_code AS clientCode, a.company_code AS companyCode, b.item_code AS itemCode, b.quantity AS outQuantity
+			FROM so_order a LEFT JOIN so_order_detail b ON a.order_number=b.order_number
+		]]>
 	</select>
 
 	<update id="deleteStatus" parameterType="String">
@@ -47,18 +54,18 @@
 			SELECT so_shipout_seq_12('SOUT') FROM DUAL
 		</selectKey>
 		<![CDATA[
-			insert into so_shipout (out_code, order_number, customer_code, company_code, item_code,
+			insert into so_shipout (out_code, order_number, client_code, company_code, item_code,
 									out_type, trans_type, out_plan_date, out_manager, memo, create_user, update_user)
-			values (#{outCode}, #{orderNumber}, #{customerCode}, #{companyCode}, #{itemCode}, 
+			values (#{outCode}, #{orderNumber}, #{clientCode}, #{companyCode}, #{itemCode}, 
 					#{outType}, #{transType}, #{outPlanDate}, #{outManager}, #{memo}, #{createUser}, #{updateUser})
 		]]>
 	</insert>
 	
 	<select id="getOrderNumber" parameterType="String" resultType="itemShipOutDTO">
 		<![CDATA[
-			SELECT a.out_code AS outCode, b.order_number AS orderNumber, b.item_code AS itemCode, b.quantity AS quantity,
-				   b.price AS price, b.amonut AS amount, b.item_stock_unit AS itemStockUnit, c.item_name AS itemName, c.item_no AS itemNo
-			FROM so_shipout a left join test_so_order_detail b ON a.order_number=b.order_number JOIN ma_item c ON b.item_code=c.item_code
+			SELECT a.out_code AS outCode, b.order_number AS orderNumber, b.item_code AS itemCode, b.quantity,
+				   b.price, b.amount, b.item_st_unit AS itemStockUnit, c.item_name AS itemName, c.item_no AS itemNo
+			FROM so_shipout a left join so_order_detail b ON a.order_number=b.order_number JOIN ma_item c ON b.item_code=c.item_code
 			WHERE a.order_number=#{orderNumber}
 		]]>
 	</select>
@@ -67,7 +74,7 @@
 		<![CDATA[
 			SELECT a.lot_no AS lotNo, a.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
 	    		   b.item_specification AS itemSpec, b.quantity AS quantity, b.warehouse_code AS warehouseCode
-			FROM test_pp_perform a left JOIN mt_stock_detail b ON a.item_code=b.item_code
+			FROM pp_perform a left JOIN mt_stock_detail b ON a.item_code=b.item_code
 			WHERE a.item_code=#{itemCode}
 		]]>
 	</select>
@@ -84,4 +91,14 @@
 			where out_code=#{outCode}
 		]]>
 	</update>
+	
+	<update id="updateShipOut" parameterType="shipOut">
+		<![CDATA[
+			update so_shipout
+			set order_number=#{orderNumber}, out_type=#{outType}, trans_type=#{transType}, out_plan_date=current_timestamp,
+				out_manager=#{outManager}, memo=#{memo}, create_user=#{createUser}, update_date=current_timestamp, update_user=#{updateUser} 
+			where out_code=#{outCode}
+		]]>
+	</update>
+	
 </mapper>
