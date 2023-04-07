@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>품목단가관리</title>
+ <link rel="stylesheet" href="https://uicdn.toast.com/tui-date-picker/latest/tui-date-picker.css" />
+ <script src="https://uicdn.toast.com/tui-date-picker/latest/tui-date-picker.min.js"></script>
 
 <style>
 		.form-title{
@@ -35,10 +37,6 @@
 	
 	
 </style>
-<script type="module">
-  import 'tui-date-picker/dist/tui-date-picker.css';
-  import 'tui-time-picker/dist/tui-time-picker.css';
-</script>
 </head>
 <body>
 	
@@ -138,7 +136,6 @@
 	]
 	
 	});
-	
 	//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
 	grid.on('check', function(ev) {
         const rowKey = ev.rowKey;
