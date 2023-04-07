@@ -14,7 +14,9 @@ var grid1 = new tui.Grid({
     el: document.getElementById('grid1'),
     scrollX: true,
     scrollY: true,
+    bodyHeight : 650,
     rowHeaders: ['rowNum'],
+    columnOptions: {resizable: true}, 
     columns: [
       {
         header: 'ITEM코드',
@@ -26,7 +28,8 @@ var grid1 = new tui.Grid({
         header: '품명',
         name: 'item_name',
         sortingType: 'desc',
-        sortable: true
+        sortable: true,
+        minWidth : 200
       },
       {
         header: '품목코드',
@@ -57,6 +60,10 @@ var grid1 = new tui.Grid({
 	        url : "/ma/getBomTree?ppitem_cd="+rowData.item_code,
 	        dataType: "json",
 	        success: function(data) {
+	        	$("#form-item-code").val(data[0].item_code);
+	        	$("#form-item-name").val(data[0].item_name);
+	        	$("#form-item-no").val(data[0].item_no);
+	        	$("#form-item-category").val(data[0].item_category);
 		        grid2.resetData(data);
 		        grid3.resetData(data[0]._children);
 		    },
@@ -70,6 +77,7 @@ var grid1 = new tui.Grid({
 var grid2 = new tui.Grid({
     el: document.getElementById('grid2'),
     rowHeaders: ['checkbox'],
+    bodyHeight : 280,
     treeColumnOptions: {
       name: 'item_code',
       useCascadingCheckbox: true
@@ -135,6 +143,7 @@ var grid3 = new tui.Grid({
    el: document.getElementById('grid3'),
    scrollX: true,
    scrollY: true,
+   bodyHeight : 280,
    rowHeaders: ['checkbox'],
    columns: [
      {
@@ -167,6 +176,7 @@ var grid3 = new tui.Grid({
          name: 'item_qty',
          sortingType: 'desc',
          sortable: true,
+         editor: 'text'
      },
      {
          header: '단위',
@@ -186,11 +196,6 @@ var grid3 = new tui.Grid({
 //행 추가 버튼
 var addRowBtn = document.getElementById('addRowBtn');
 addRowBtn.addEventListener('click', function() {
-	const { rowKey } = grid1.getFocusedCell();
-	const rowData = grid1.getRow(rowKey);
-	if(rowData == null) {
-		alert("품목 선택 후 소요항목을 입력 해 주십시오.");
-	}else{
 		var newRowData = {
 				 item_name: '',
 				 item_code: '',
@@ -201,41 +206,60 @@ addRowBtn.addEventListener('click', function() {
 				 item_category: '',
 				 };
 				  grid3.appendRow(newRowData);
-	}
 
+});
+
+$('#delRowBtn').click(function() {
+	grid3.removeCheckedRows();
 });
 
 //저장버튼
 $("#saveBtn").click(function() {
-    let i = confirm('등록하시겠습니까?');
-    if(i) {
-       addToDB();
-    }else {
-       return false;
-    }
+	var rowData = grid3.getCheckedRows();
+	if(rowData == ""){
+		alert("원자재를 선택해주세요")
+	}else{
+		let i = confirm('등록하시겠습니까?');
+		if(i) {
+			addToDB();
+		}else {
+			return false;
+		}
+	}
  });
 
 //저장 함수
 function addToDB() {
 	const { rowKey } = grid1.getFocusedCell();
 	const ppitem_cd = grid1.getRow(rowKey).item_code;
-    var rowDatas = grid3.getCheckedRows();   // 선택한 row에 해당하는 객체값
-    alert("rowDatas : " + rowDatas);
-    var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-    alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
-    
+    var rowData = grid3.getCheckedRows();   // 선택한 row에 해당하는 객체값
     $.ajax({
        url : "/ma/addTree",
        method : "post",
        data : JSON.stringify({
    			ppitem_cd : ppitem_cd,
-   			checkedRow : rowDatas
+   			rowData : rowData
 	   		}),
        contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
        dataType: "json",         // 서버에서 받을 데이터타입
        success : function (result) {
-          alert(result); // result는 반환받은 json형태의 객체 
-          alert('성공');
+    	   if(result == 1){
+    		   alert('등록에 성공했습니다'); // result는 반환받은 json형태의 객체 
+    	   }
+    	   const { rowKey } = grid1.getFocusedCell();
+	   		const rowData = grid1.getRow(rowKey);
+	   		$.ajax({
+	   			type: "GET",
+	   	        url : "/ma/getBomTree?ppitem_cd="+rowData.item_code,
+	   	        dataType: "json",
+	   	        success: function(data) {
+	   		        grid2.resetData(data);
+	   		        grid3.resetData(data[0]._children);
+	   		    },
+	   		    error: function(jqXHR, textStatus, errorThrown) {
+	   		        console.log(textStatus, errorThrown);
+	   		    } 
+	   	    });
        },
        error: function() {
             console.log("실패");
@@ -363,15 +387,16 @@ function modalController(data){
 
 //모달창에서 적용버튼
 $(".applyBtn").click(function() {
-    var checkedRow = grid_popup.getCheckedRows();
+    const rowData = grid_popup.getCheckedRows();
     const { rowKey } = grid1.getFocusedCell();
 	const ppitem_cd = grid1.getRow(rowKey).item_code;
+	//중복검사
     $.ajax({
         url : "/ma/dupTest",
         method : "post",
         data : JSON.stringify({
         		ppitem_cd : ppitem_cd,
-        		checkedRow : checkedRow
+        		rowData : rowData
         	   }),
         contentType : "application/json",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
         dataType: "text",         // 서버에서 받을 데이터타입
@@ -380,9 +405,9 @@ $(".applyBtn").click(function() {
         	   alert("이미 포함된 원자재입니다.")
            }else{
         	   var { rowKey } = grid3.getFocusedCell();
-        	    const endCnt = rowKey + checkedRow.length - 1;
-        	    checkedRow.forEach(function(rowData) {
-        	    	  grid3.setRow(rowKey, rowData);
+        	    const endCnt = rowKey + rowData.length - 1;
+        	    rowData.forEach(function(rowData2) {
+        	    	  grid3.setRow(rowKey, rowData2);
         	    	  if(rowKey != endCnt) {
         	    		  grid3.appendRow();
         	    	  }

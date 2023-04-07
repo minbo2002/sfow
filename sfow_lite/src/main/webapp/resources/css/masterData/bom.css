@@ -48,3 +48,23 @@
 	float: right;
 }
 
+.btnGroup {
+	float: right;
+	margin-right: 20px;
+}
+.origin-div {
+	margin-top: 20px;
+}
+.bom-title {
+	margin-bottom: 7px;
+	margin-left: 10px;
+}
+.form-div {
+	width : 1630px;
+	height : 60px;
+	display: flex;
+	background-color: #ececec;
+	justify-content: center;
+ 	align-items: center;
+}
+

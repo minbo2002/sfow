@@ -24,6 +24,7 @@ public class BomItem {
 	//BOM
 	private int item_qty;
 	private String item_stock_unit;
+	private String item_type;
 	
 	//Tree 객체용
 	private Map _attributes;

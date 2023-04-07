@@ -5,7 +5,7 @@
 
 	<select id="getItemList" resultType="BomItem" parameterType="int">
 		<![CDATA[
-			SELECT a.item_code,a.item_name,a.item_no,a.item_specification,b.item_category
+			SELECT a.item_code,a.item_name,a.item_no,a.item_specification,a.item_type,b.item_category
 			FROM ma_item a, ma_itemtype b
 			WHERE a.item_type = b.item_type AND NOT b.item_category = '원자재' AND company_code = #{company_code}
 		]]> 	
@@ -13,15 +13,15 @@
 	
 	<select id="selectItem" resultType="BomItem" parameterType="String">
 		<![CDATA[
-			SELECT item_code,item_name,item_no,item_specification
-			FROM ma_item
-			WHERE item_code = #{item_code}
+			SELECT a.item_code,a.item_name,a.item_no,a.item_specification,a.item_type,b.item_category
+			FROM ma_item a, ma_itemtype b
+			WHERE a.item_type = b.item_type AND a.item_code = #{item_code}
 		]]> 	
 	</select>
 	
 	<select id="getBomTree" resultType="BomItem" parameterType="String">
 		<![CDATA[
-			SELECT a.sitem_cd AS item_code, a.item_name, a.item_no, a.item_specification, a.item_qty, a.item_stock_unit, b.item_category
+			SELECT a.sitem_cd AS item_code, a.item_name, a.item_no, a.item_specification, a.item_qty, a.item_stock_unit,a.item_type, b.item_category
 			FROM ma_bom_tree a, ma_itemtype b
 			WHERE a.item_type = b.item_type AND ppitem_cd = #{ppitem_cd}
 		]]> 	
@@ -29,7 +29,7 @@
 	
 	<select id="getItemListByName" resultType="BomItem" parameterType="String">
 		<![CDATA[
-			SELECT a.item_name, a.item_code, a.item_no, a.item_stock_unit, b.item_category
+			SELECT a.item_name, a.item_code, a.item_no, a.item_stock_unit,a.item_type, b.item_category
 			FROM ma_item a, ma_itemtype b
 			WHERE a.item_type = b.item_type AND a.item_name LIKE CONCAT('%',#{item_name},'%') AND NOT b.item_category = '제품'
 		]]> 	
@@ -37,17 +37,15 @@
 	
 	<update id="updateTree" parameterType="map">
 		<![CDATA[
-			SELECT a.item_name, a.item_code, a.item_no, a.item_stock_unit, b.item_category
-			FROM ma_item a, ma_itemtype b
-			WHERE a.item_type = b.item_type AND a.item_name LIKE CONCAT('%',#{item_name},'%') AND NOT b.item_category = '제품'
+			UPDATE ma_bom_tree
+			SET sitem_cd = #{bomItem.item_code},
 		]]>
 	</update>
 	
 	<insert id="insertTree" parameterType="map">
 		<![CDATA[
-			SELECT a.item_name, a.item_code, a.item_no, a.item_stock_unit, b.item_category
-			FROM ma_item a, ma_itemtype b
-			WHERE a.item_type = b.item_type AND a.item_name LIKE CONCAT('%',#{item_name},'%') AND NOT b.item_category = '제품'
+			INSERT INTO ma_bom_tree(company_code,ppitem_cd,sitem_cd,item_name,item_no, item_specification, item_qty, item_stock_unit, item_type)
+			VALUES (1,#{ppitem_cd},#{bomItem.item_code},#{bomItem.item_name},#{bomItem.item_no},#{bomItem.item_specification},#{bomItem.item_qty},#{bomItem.item_stock_unit},#{bomItem.item_type})
 		]]>
 	</insert>
 

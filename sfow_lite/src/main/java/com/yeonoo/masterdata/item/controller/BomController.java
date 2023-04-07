@@ -55,7 +55,6 @@ public class BomController {
 		if(childList.isEmpty()) {
 			//빈 객체
 			item = bomService.selectItem(ppitem_cd);
-			System.out.println(item);
 			treeData.add(item);
 			return treeData;
 		}else {
@@ -91,12 +90,14 @@ public class BomController {
 	@RequestMapping(value = "/ma/dupTest", method = RequestMethod.POST)
 	public int dupTest(@RequestBody DupDto dupDto) throws Exception {
 		String ppitem_cd = dupDto.getPpitem_cd();
+		//부모 트리 검색
 		List<BomItem> list = bomService.getBomTree(ppitem_cd);
-		List<BomItem> checkedRow = dupDto.getRowData();
+		//체크해서 가져온 리스트
+		List<BomItem> rowData = dupDto.getRowData();
 		for(int i = 0; i < list.size(); i++) {
 			String treeItem_code = list.get(i).getItem_code();
-			for(int j = 0; j < checkedRow.size(); j++) {
-				String chkItem_code = checkedRow.get(j).getItem_code();
+			for(int j = 0; j < rowData.size(); j++) {
+				String chkItem_code = rowData.get(j).getItem_code();
 				if(treeItem_code.equals(chkItem_code)) {
 					return 1;
 				}
