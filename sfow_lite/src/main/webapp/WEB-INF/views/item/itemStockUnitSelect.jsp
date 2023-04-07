@@ -52,23 +52,19 @@ window.onload = function(){
 			const rowKey = ev.rowKey;
           	const columnName = ev.columnName;
           	const rowData = grid.getRow(rowKey);
+          	const item_stock_unit = rowData.item_stock_unit;
     		
           	console.log('check!', ev);
-          	console.log('check!', columnName);
     		console.log('check!', rowData);
-    		console.log('check!', rowData.item_type);
+    		console.log('check!', rowData.item_stock_unit);
 
     		  Array.prototype.forEach.call(document.querySelectorAll('#subBtn'), el => {
 			      el.addEventListener('click', ev => {  
 			    	
-			    	 //$("item_type", opener.document).val(rowData.item_category);
-			    	 //opener.grid.setColumnValues('item_type',rowData.item_category,false);
-			    	 //opener.document.getElementById("grid").value = rowData.item_category;
-    				 console.log('opener!', opener.rowData);
-			    	 //opener.document.getElementById("item_type").value = rowData.item_category;
+			    	console.log('item_stock_unit!', item_stock_unit);
+			    	grid.setValue(sp.rowKey,sp.columnName,item_stock_unit) 
 			    	 window.close();
 			    	 
-			    	  //opener.rowData.value = rowData.item_category;  
 		          }); //addEventListener끝
 		    	}); //subBtn 끝
 			    	  

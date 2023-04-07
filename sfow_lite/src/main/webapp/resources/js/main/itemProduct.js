@@ -1,8 +1,5 @@
 $(document).ready(window.onload=function() {
 	
-	const opener=$(this)
-	console.log(opener)
-	
 	class CustomTextEditor {
 		  constructor(props) {
 		    const el = document.createElement('input');
@@ -74,60 +71,139 @@ $(document).ready(window.onload=function() {
           {
             header: '유형',
             name: 'item_type',
-            id: 'item_type',
-            onBeforeChange(ev) {
+            onBeforeChange(tp) {
+                	
             	openModal();
             	
-            	function openModal() {
-         		   var modal = document.createElement('div');
-         		   modal.classList.add('modal');
-         		   
-         		   // 모달창 드래그 이벤트 핸들러 등록
-         		   var isDragging = false;
-         		   var mouseOffsetX = 0;
-         		   var mouseOffsetY = 0;
-         		   var modalX = 0;
-         		   var modalY = 0;
-         		   var handleMouseDown = function (e) {
-         		     isDragging = true;
-         		     mouseOffsetX = e.clientX;
-         		     mouseOffsetY = e.clientY;
-         		     modalX = modal.offsetLeft;
-         		     modalY = modal.offsetTop;
-         		   };
-         		   var handleMouseMove = function (e) {
-         		     if (!isDragging) {
-         		       return;
-         		     }
-         		     var deltaX = e.clientX - mouseOffsetX;
-         		     var deltaY = e.clientY - mouseOffsetY;
-         		     modal.style.left = modalX + deltaX + 'px';
-         		     modal.style.top = modalY + deltaY + 'px';
-         		   };
-         		   var handleMouseUp = function (e) {
-         		     isDragging = false;
-         		   };
-         		   modal.addEventListener('mousedown', handleMouseDown);
-         		   document.addEventListener('mousemove', handleMouseMove);
-         		   document.addEventListener('mouseup', handleMouseUp);
-         		   
-         		   modal.innerHTML = `
-         			   <button type="button" class="close-modal">Close</button>	
-         			   <iframe src="./item/typeSelect" width="100%" height="100%" style="border: none;"></iframe>
-         		   `;
-         		   document.body.appendChild(modal);
+            	function openModal(){
+            		
+            	  var body = document.querySelector('body');
+            	  var modal = document.querySelector('.modal');
+            	  
+            	  //modalGrid 초기화
+            	  var modalGrid = document.getElementById("modalGrid");
+            	  modalGrid.innerHTML = "";
+  
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "applyBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "적용";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "reset");
+            	  applyBtn.setAttribute("id", "resetMdBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "초기화";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "closeBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "닫기";
+            	  modalGrid.appendChild(applyBtn);
+            	  
+            	  modal.classList.toggle('show');
+            	 
+    			const Grid = tui.Grid;
+    			const grid2 = new Grid({
+    				
+    		  	el: document.getElementById('modalGrid'),
+    		  	scrollX: false,
+    		  	scrollY: false,
+    		  	autoWidth: true,
+    		  	rowHeaders: [
+    			      { type: 'rowNum', align: 'center'},
+    		    	  { type: 'checkbox' }
+    		        ],
+    		        columns: [
+    		            {
+    		              header: '유형',
+    		              name: 'item_type',
+    		              align: 'center',
+    		              editor:'text'
+    		            }
+    		          ]
+    			});       		  	
+    		$.ajax({
+    			url : './item/typeSelectAjax',
+    	        method :'GET',
+    	        dataType : 'JSON',
+    		  	  success: function(result) {
+    		  		console.log('result', result);
+    		  	  		grid2.resetData(result)
+    		  	  },
+    		    error: function(xhr, status, error) {
+    		      console.log(error);
+    		    }
+    		  });
+    		
+    				grid2.on('check', function(ev) {
+    					
+    			    const rowKey = ev.rowKey;
+    			    const columnName = ev.columnName;
+    			    const rowData = grid2.getRow(rowKey);
+    			    const item_type = rowData.item_type;
+    			        			    
+    			    
+    			   Array.prototype.forEach.call(document.querySelectorAll('#applyBtn'), el => {
+    				      el.addEventListener('click', ev => {
+    				    	  console.log('item_type!', item_type);
+    				    	  	grid.setValue(tp.rowKey,tp.columnName,item_type)
+    	    			    	modal.classList.remove('show');
+    	    			    	body.style.overflow = 'auto';
+    						});
+    					});
+    				}); 
+    				
+    			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
+  				      el.addEventListener('click', ev => {
+  				    	  modal.classList.remove('show');
+  				    	  body.style.overflow = 'auto';
+  				      });
+    			  });
+    			  //검색
+    			  grid2.on('click', function(ev) {
+    					
+    					const rowKey = ev.rowKey;
+    		        	const columnName = ev.columnName;
+    		        	const rowData = grid2.getRow(rowKey);
+    		        	
+    		        	console.log("rowData.item_type",rowData.item_type);
+    		        	
+    		        	$('input[name=item_type]').attr('value',rowData.item_type);
+    					});
+    					
+    					 Array.prototype.forEach.call(document.querySelectorAll('#searchBtn'), el => {   
+    			           	 el.addEventListener('click', ev => {
+    			           		 
+    			           var item_type = $("#search_area input[name='item_type']").val();
+    			           		           
+    			           console.log('item_type:', item_type);
+    			           
+    			           $.ajax({
+    			       		type: 'POST',
+    			       		dataType: 'JSON',
+    			       		url: './item/typeSelectSearchAjax',
+    			       		contentType: 'application/json',
+    			       	    data: JSON.stringify({	
+    			       	    	"item_type": item_type
+    			       	        }),
+    			       		success: function(data) {
+    			       			 //gridData=data
+    			       	         grid2.resetData(data)      
+    			               	},
+    			               error: function(error) {
+    			                   console.log('Error:', error);
+    			               	}
+    			           });	         
+    			           	 });
+    			           });		
+            	  
+            	}//openModal끝
 
-         		   modal.style.display = 'block';
-
-         		   var closeModalButton = modal.querySelector('.close-modal');
-         		   closeModalButton.addEventListener('click', () => {
-         		     modal.remove();
-         		   });   
-         		 }
-              },
-              editor: {
-                  type: CustomTextEditor
-                  },
+                },
+            editor: 'text',    
             align: 'center',
             filter: {
                       type: 'text',
@@ -138,21 +214,96 @@ $(document).ready(window.onload=function() {
           {
             header: '규격',
             name: 'item_specification',
-            onBeforeChange(ev) {
-            
-            	const rowKey = ev.rowKey;
-             	const columnName = ev.columnName;
-             	const rowData = grid.getRow(rowKey);
-
-             	openModal();
-/*            	
-            	function openModal() {
-            		window.open("./item/itemSpecificationSelect", "itemSpecificationSelect", "width=450, height=250, top=150, left=200");
-            	} //openModal 끝	
-            	item_specificaion = '<%= session.getAttribute("param1") %>';
-            	console.log('rowData.item_specification!',item_specification);            	
-            	grid.resetData(item_specificaion)
-*/            	
+            onBeforeChange(sp) {
+            	
+            	openModal();
+            	
+            	function openModal(){
+            		
+            	  var body = document.querySelector('body');
+            	  var modal = document.querySelector('.modal');
+            	  //modalGrid 초기화
+            	  var modalGrid = document.getElementById("modalGrid");
+            	  modalGrid.innerHTML = "";
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "applyBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "적용";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "reset");
+            	  applyBtn.setAttribute("id", "resetMdBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "초기화";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "closeBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "닫기";
+            	  modalGrid.appendChild(applyBtn);
+            	  
+            	  console.log('sp', sp.value)
+            	  modal.classList.toggle('show');
+            	 
+    			const Grid = tui.Grid;
+    			const grid2 = new Grid({
+    		  		
+    		  	el: document.getElementById('modalGrid'),
+    		  	scrollX: false,
+    		  	scrollY: false,
+    		  	autoWidth: true,
+    		  	rowHeaders: [
+    			      { type: 'rowNum', align: 'center'},
+    		    	  { type: 'checkbox' }
+    		        ],
+    		        columns: [
+    		            {
+    		              header: '규격',
+    		              name: 'item_specification',
+    		              align: 'center',
+    		              editor:'text'
+    		            }
+    		          ]
+    			});       		  	
+    		$.ajax({
+    			url : './item/specificationListAjax',
+    	        method :'GET',
+    	        dataType : 'JSON',
+    		  	  success: function(result) {
+    		  		console.log('result', result);
+    		  	  		grid2.resetData(result)
+    		  	  },
+    		    error: function(xhr, status, error) {
+    		      console.log(error);
+    		    }
+    		  });
+    		
+    				grid2.on('check', function(ev) {
+    					
+    			    const rowKey = ev.rowKey;
+    			    const columnName = ev.columnName;
+    			    const rowData = grid2.getRow(rowKey);
+    			    const item_specification = rowData.item_specification;
+    			    
+    			   Array.prototype.forEach.call(document.querySelectorAll('#applyBtn'), el => {
+    				      el.addEventListener('click', ev => {
+    				    	  console.log('item_specification!', item_specification);
+    				    	  	grid.setValue(sp.rowKey,sp.columnName,item_specification)
+    	    			    	body.style.overflow = 'auto';
+    						});
+    					});
+    				}); 
+    				
+    			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
+  				      el.addEventListener('click', ev => {
+  				    	  modal.classList.remove('show');
+  				    	  body.style.overflow = 'auto';
+  				      });
+    			  });
+            	  
+            	}//openModal끝
             },
             editor: 'text',
             align: 'center',
@@ -165,62 +316,99 @@ $(document).ready(window.onload=function() {
           {
             header: '재고단위',
             name: 'item_stock_unit',
-            callback: {
-                onClick: function(e) {
-                	
-                	openModal();
-                	
-                	function openModal() {
-             		   var modal = document.createElement('div');
-             		   modal.classList.add('modal');
-             		   
-             		   // 모달창 드래그 이벤트 핸들러 등록
-             		   var isDragging = false;
-             		   var mouseOffsetX = 0;
-             		   var mouseOffsetY = 0;
-             		   var modalX = 0;
-             		   var modalY = 0;
-             		   var handleMouseDown = function (e) {
-             		     isDragging = true;
-             		     mouseOffsetX = e.clientX;
-             		     mouseOffsetY = e.clientY;
-             		     modalX = modal.offsetLeft;
-             		     modalY = modal.offsetTop;
-             		   };
-             		   var handleMouseMove = function (e) {
-             		     if (!isDragging) {
-             		       return;
-             		     }
-             		     var deltaX = e.clientX - mouseOffsetX;
-             		     var deltaY = e.clientY - mouseOffsetY;
-             		     modal.style.left = modalX + deltaX + 'px';
-             		     modal.style.top = modalY + deltaY + 'px';
-             		   };
-             		   var handleMouseUp = function (e) {
-             		     isDragging = false;
-             		   };
-             		   modal.addEventListener('mousedown', handleMouseDown);
-             		   document.addEventListener('mousemove', handleMouseMove);
-             		   document.addEventListener('mouseup', handleMouseUp);
-             		   
-             		   modal.innerHTML = `
-             			   <button type="button" class="close-modal">Close</button>	
-             			   <iframe src="./item/itemStockUnitSelect" width="100%" height="100%" style="border: none;"></iframe>
-             		   `;
-             		   document.body.appendChild(modal);
-
-             		   modal.style.display = 'block';
-
-             		   var closeModalButton = modal.querySelector('.close-modal');
-             		   closeModalButton.addEventListener('click', () => {
-             		   console.log('item_specification~~', item_specification); 
-             		   document.getElementById("item_specification").value = modal.item_specification;
-             		   //modal.remove();
-             		   });
-             		 }
-                }
-              },
+            onBeforeChange(su) {
             	
+            	openModal();
+            	
+            	function openModal(){
+            		
+            	  var body = document.querySelector('body');
+            	  var modal = document.querySelector('.modal');
+            	  //modalGrid 초기화
+            	  var modalGrid = document.getElementById("modalGrid");
+            	  modalGrid.innerHTML = "";
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "applyBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "적용";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "reset");
+            	  applyBtn.setAttribute("id", "resetMdBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "초기화";
+            	  modalGrid.appendChild(applyBtn);
+            	  var applyBtn = document.createElement("button");
+            	  applyBtn.setAttribute("type", "button");
+            	  applyBtn.setAttribute("id", "closeBtn");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.innerText = "닫기";
+            	  modalGrid.appendChild(applyBtn);
+            	  
+            	  console.log('su', su.value)
+            	  modal.classList.toggle('show');
+            	 
+    			const Grid = tui.Grid;
+    			const grid3 = new Grid({
+    		  		
+    		  	el: document.getElementById('modalGrid'),
+    		  	scrollX: false,
+    		  	scrollY: false,
+    		  	autoWidth: true,
+    		  	rowHeaders: [
+    			      { type: 'rowNum', align: 'center'},
+    		    	  { type: 'checkbox' }
+    		        ],
+    		        columns: [
+    		            {
+    		              header: '재고단위',
+    		              name: 'item_stock_unit',
+    		              align: 'center',
+    		              editor:'text'
+    		            }
+    		          ]
+    			});       		  	
+    		$.ajax({
+    			url : './item/stockunitListAjax',
+    	        method :'GET',
+    	        dataType : 'JSON',
+    		  	  success: function(result) {
+    		  		console.log('result', result);
+    		  	  		grid3.resetData(result)
+    		  	  },
+    		    error: function(xhr, status, error) {
+    		      console.log(error);
+    		    }
+    		  });
+    		
+    				grid3.on('check', function(ev) {
+    					
+    			    const rowKey = ev.rowKey;
+    			    const columnName = ev.columnName;
+    			    const rowData = grid3.getRow(rowKey);
+    			    const item_stock_unit = rowData.item_stock_unit;
+    			    console.log('item_stock_unit!', item_stock_unit);
+    			    
+    			   Array.prototype.forEach.call(document.querySelectorAll('#applyBtn'), el => {
+    				      el.addEventListener('click', ev => {
+    				    	  console.log('item_stock_unit!', item_stock_unit);
+    				    	  	grid.setValue(su.rowKey,su.columnName,item_stock_unit)
+    				    	  	modal.classList.remove('show');
+    				    	  	body.style.overflow = 'auto';
+    						});
+    					});
+    				}); 
+    				
+    			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
+  				      el.addEventListener('click', ev => {
+  				    	  modal.classList.remove('show');
+  				    	  body.style.overflow = 'auto';
+  				      });
+    			  });
+            	  
+            	}//openModal끝
+            },
             editor: 'text',
             align: 'center',
             filter: {
@@ -288,7 +476,7 @@ $(document).ready(window.onload=function() {
           }
         ]       
       });
-    
+ //행추가   
     Array.prototype.forEach.call(document.querySelectorAll('#addRow'), el => {
 	      el.addEventListener('click', ev => {
 	             
@@ -302,13 +490,14 @@ $(document).ready(window.onload=function() {
 			});
 			grid.enable();
 		}); //addRow끝
-      
+ //목록      
      $.ajax({
         url : './item/productListAjax',
         method :'GET',
         dataType : 'JSON',
         contentType : 'application/json',
         success : function(result){
+        	console.log('result', result);
             grid.resetData(result);
             
         } //success끝 
@@ -319,85 +508,68 @@ $(document).ready(window.onload=function() {
 	    const rowKey = ev.rowKey;
     	const columnName = ev.columnName;
     	const rowData = grid.getRow(rowKey);
+    	var updatedData = {};
 			console.log('check!', ev);
-			console.log('check!', rowData);
+			console.log('item_code!', rowData.item_code);
 			
     Array.prototype.forEach.call(document.querySelectorAll('#insertRow'), el => {
 	      el.addEventListener('click', ev => {
-
-				$.ajax({
-                 url: './item/productInsertAjax',
-                 method :'POST',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     location.href="javascript:acyncMovePage('./item/productList');"
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href="javascript:acyncMovePage('./item/productList');"
-                 	}
-             }); //ajax(/item/typeInsertAjax)끝
-          }); //addEventListener끝
-    	}); //insertRow 끝
-	}); //grid.on('check')끝 
-    
-    grid.on('editingFinish', function(ev) {
-    	
-        const rowKey = ev.rowKey;
-        const columnName = ev.columnName;
-        var updatedData = {};
-        const rowData = grid.getRow(rowKey);
-
-		$.ajax({
-	                 url: './item/productUpdateAjax',
-	                 method :'PUT',
+	    	  if(!rowData.item_code){
+		    		 $.ajax({
+	                 url: './item/productInsertAjax', //입력
+	                 method :'POST',
 	                 dataType: 'JSON',
 	                 data: JSON.stringify(rowData),
 	                 contentType: 'application/json',
 	                 success: function(response) {
 	                     console.log('Success:', response);
-	                     //location.href = "../item/productList";
-	                 },
+	                     location.href="javascript:acyncMovePage('./item/productList');"
+	                 	},
 	                 error: function(error) {
 	                     console.log('Error:', error);
-	                     //location.href = "../item/productList";
-	                 }
-	             }); //ajax(/item/productUpdateAjax)끝
-  }); //grid.on('editingFinish')끝
-    
-    grid.on('check', function(ev) {
-     	const rowKey = ev.rowKey;
-    	const columnName = ev.columnName;
-    	const rowData = grid.getRow(rowKey);
-    	
-			console.log('check!', ev);
-			console.log('check!', rowData);
-			
-	  Array.prototype.forEach.call(document.querySelectorAll('#deleteRow'), el => {
-	      el.addEventListener('click', ev => {
-
-				$.ajax({
-                 url: './item/productDeleteAjax',
-                 method :'PUT',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     location.href="javascript:acyncMovePage('./item/productList');"
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href="javascript:acyncMovePage('./item/productList');"
-                 	}
-             }); //ajax(/item/productDeleteAjax)끝
+	                     location.href="javascript:acyncMovePage('./item/productList');"
+	                 	}
+	             }); //ajax(/item/typeInsertAjax)끝
+	    	  }else{
+			    	$.ajax({
+		                url: './item/productUpdateAjax', //수정
+		                method :'PUT',
+		                dataType: 'JSON',
+		                data: JSON.stringify(rowData),
+		                contentType: 'application/json',
+		                success: function(response) {
+		                    console.log('Success:', response);
+		                    location.href="javascript:acyncMovePage('./item/productList');"
+		                },
+		                error: function(error) {
+		                    console.log('Error:', error);
+		                    location.href="javascript:acyncMovePage('./item/productList');"
+		                }
+		            }); //ajax(/item/productUpdateAjax)끝
+	    	  }//else끝	 
           }); //addEventListener끝
-    	}); //deleteRow 끝
-    }); //grid.on('check')끝 
-    
+    	}); //insertRow 끝
+    Array.prototype.forEach.call(document.querySelectorAll('#deleteRow'), el => {
+	      el.addEventListener('click', ev => {
+				$.ajax({
+               url: './item/productDeleteAjax', //삭제(수정)
+               method :'PUT',
+               dataType: 'JSON',
+               data: JSON.stringify(rowData),
+               contentType: 'application/json',
+               success: function(response) {
+                   console.log('Success:', response);
+                   location.href="javascript:acyncMovePage('./item/productList');"
+               	},
+               error: function(error) {
+                   console.log('Error:', error);
+                   location.href="javascript:acyncMovePage('./item/productList');"
+               	}
+           }); //ajax(/item/productDeleteAjax)끝
+        }); //addEventListener끝
+  	}); //deleteRow 끝
+}); //grid.on('check')끝 
+
 	grid.on('click', function(ev) {
 		
 		const rowKey = ev.rowKey;
@@ -442,9 +614,6 @@ $(document).ready(window.onload=function() {
                console.log('Error:', error);
            	}
        });
-     
        	 });
        });
-	 
-      
   }); //window.onload끝
