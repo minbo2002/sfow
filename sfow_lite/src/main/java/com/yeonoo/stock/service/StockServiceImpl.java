@@ -39,8 +39,14 @@ public class StockServiceImpl implements StockService {
 	}
 
     @Override
-	public List<Stock> searchWh() throws Exception {
-    	List<Stock> result = stockRepository.searchWh();
+	public List<Stock> searchWhList() throws Exception {
+    	List<Stock> result = stockRepository.searchWhList();
+		return result;
+	}
+
+	@Override
+	public List<Stock> searchWh(Stock data) throws Exception {
+		List<Stock> result = stockRepository.searchWh(data);
 		return result;
 	}
 	

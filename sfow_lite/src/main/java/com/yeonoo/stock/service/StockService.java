@@ -12,5 +12,7 @@ public interface StockService {
 
 	public List<Stock> searchWhStock(Stock data)  throws Exception;
 
-	public List<Stock> searchWh() throws Exception;
+	public List<Stock> searchWhList() throws Exception;
+	
+	public List<Stock> searchWh(Stock data) throws Exception;
 }

@@ -83,19 +83,29 @@ public class StockController {
   }
 
   
-  //창고코드, 창고이름 만 select 하는 controller
+  //창고코드, 창고이름 만 select해서 보여주는 List 하는 controller
   @ResponseBody
-  @RequestMapping(value="/searchWh", method=RequestMethod.POST)
-  public List<Stock> searchWh(Model model) throws Exception{
+  @RequestMapping(value="/searchWhList", method=RequestMethod.POST)
+  public List<Stock> searchWhList(Model model) throws Exception{
 	  
-	  List<Stock> results = stockService.searchWh();
+	  List<Stock> results = stockService.searchWhList();
 	  
 	  
 	  System.out.println("2가지 열의 결과"+results);
 	  
 	  return results;
   }
-    
+  
+  //창고코드, 창고이름 만 select 하는 controller
+  @ResponseBody
+  @RequestMapping(value="/searchWh", method=RequestMethod.POST)
+  public List<Stock> searchWh(Model model, Stock data) throws Exception{
+	  
+	  List<Stock> results = stockService.searchWh(data);
+	  System.out.println("modal의 search data"+results);
+	  return results;
+  }
+  
     
 }//stockController
 	

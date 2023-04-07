@@ -15,5 +15,7 @@ public interface StockRepository {
 
 	public List<Stock> searchWhStock(Stock data) throws DataAccessException;
 	
-	public List<Stock> searchWh() throws DataAccessException;
+	public List<Stock> searchWhList() throws DataAccessException;
+	
+	public List<Stock> searchWh(Stock data) throws DataAccessException;
 }
