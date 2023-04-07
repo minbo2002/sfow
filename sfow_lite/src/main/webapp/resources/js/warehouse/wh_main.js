@@ -10,6 +10,7 @@ window.onload = function() {
          rowHeaders: [{
              type: 'rowNum',
              header: "",
+             align: 'center',
              width: 50,
          },'checkbox'],
            columns: [
@@ -189,17 +190,30 @@ window.onload = function() {
 		  grid2.appendRow(newRowData);
 		});
 		
-		// 그리드 클릭하면 정보 데려오기
- 		/*
- 		 grid.on('click', (ev) => {
-			  const { rowKey } = grid.getFocusedCell();
-			  const rowData = grid.getRow(rowKey);
-			  
-			  const whcode= rowData.warehouse_code;
-			  
-			//alert(whcode); 
+		// 그리드 내용 클릭하면 자동 체크 & 두번누르면 해제
+		
+		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
+		
+		grid.on('click', function(ev) {
+		    const rowKey = ev.rowKey;
+		    const columnName = ev.columnName;
+		    const rowData = grid.getRow(rowKey);
+		
+		    // 체크된 행인지 여부를 checkedRows 배열로 확인
+		    const isChecked = checkedRows.includes(rowKey);
+		
+		    if (isChecked) {
+		        // 체크된 상태에서 클릭하면 언체크
+		        const index = checkedRows.indexOf(rowKey);
+		        checkedRows.splice(index, 1);
+		        grid.uncheck(rowKey);
+		    } else {
+		        // 체크되지 않은 상태에서 클릭하면 체크
+		        checkedRows.push(rowKey);
+		        grid.check(rowKey);
+		    }
 		});
-		*/
+				
 		
 	//조회 버튼 클릭하면 특정 내용 검색(빈내용이면 전부 검색)
 	$(document).ready(function(){
@@ -267,7 +281,7 @@ window.onload = function() {
 		
 		
 		
-	//체크 버튼 눌린 행 데이터 추가하기 (insert grid)	
+	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
 	grid.on('check', function(ev) {	
 	      
 	    const rowKey = ev.rowKey;

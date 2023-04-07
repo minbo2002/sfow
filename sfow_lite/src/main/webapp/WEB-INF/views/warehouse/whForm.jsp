@@ -20,14 +20,25 @@ div#grid{
  margin-top: 15px; 
 }
 
-button{
+/* button{
  width: 100px;
  
-}
+} */
 input#addRowBtn{
-	margin-top: 15px;
-	margin-bottom: 10px;
-	float: right;
+	width: 25px;
+	height: 25px;
+}
+input#deleteRow{
+	width: 25px;
+	height: 25px;
+}
+input#addRowBtn2{
+	width: 25px;
+	height: 25px;
+}
+input#deleteRow2{
+	width: 25px;
+	height: 25px;
 }
 table{
 	width:100%;
@@ -117,8 +128,6 @@ div.whbox1{
 				<input type="button" name="delBtn" id="delBtn" value="삭제">
 				<input type="button" name="clearBtn" id="clearBtn" value="초기화" onClick="window.location.reload()">
 			</td>
-			
-			
 		</tr>
 		</table>
 		
@@ -127,9 +136,11 @@ div.whbox1{
 		<input type="hidden" name="warehouse_name" id="warehouse_name"> -->
 		
 		<br/>
+		
+		<div style="margin-top:30px;display: flex;">창고
 		<input type="button" name="addRowBtn" id="addRowBtn" value="+">
-		<button type="button" id="deleteRow">ㅡ</button>
-		<div style="margin-top:30px;">창고</div>
+		<input type="button" name="deleteRow" id="deleteRow" value="-">
+		</div>
 		<div id="grid"></div>
 		
 	
@@ -139,7 +150,8 @@ div.whbox1{
 <hr>
 		<div style="display: flex; margin:10px;">구역(Area)
 		<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" >
-		<button type="button" name="deleteRow2" id="deleteRow2" >-</button></div>
+		<input type="button" name="deleteRow2" id="deleteRow2" value="-">
+		</div>
 		
 		
 		<div id="areaGrid"></div>
