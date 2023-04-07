@@ -92,12 +92,12 @@
                     
                     
                     
-                    <!-- 승 -->
+                    <!-- 승 -->   <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapsecompany"
                       aria-expanded="false" aria-controls="collapseItem">거래처정보</a>
                         <div id="collapsecompany" class="collapse" aria-labelledby="collapsecompany" data-parent="#collapseUtilities">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/main2');">거래처정보등록</a></div>
-                        
+                        </c:if>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseCompanyInfo"
                       aria-expanded="false" aria-controls="collapseCompanyInfo">회사정보</a>
                         <div id="collapseCompanyInfo" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
