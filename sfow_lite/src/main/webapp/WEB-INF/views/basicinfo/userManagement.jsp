@@ -70,7 +70,7 @@ $(document).ready(function() {
 	    scrollX: false,
 	    scrollY: true,
 	    rowHeaders: ['checkbox','rowNum'],
-	    bodyHeight: 300,
+	    bodyHeight: 700,
 	    columns: [
 	    			// [회사코드 ] 
             {
@@ -138,7 +138,7 @@ $(document).ready(function() {
 		              }
             },
             
-         		// [이메일 ]
+         			// [이메일 ]
             	{
                 header: '이메일',           
                 name: 'email',             
@@ -189,7 +189,7 @@ $(document).ready(function() {
                     hidden: true
                   },
 			        ]
-	  });
+	  	});
 		
 		
 	  
