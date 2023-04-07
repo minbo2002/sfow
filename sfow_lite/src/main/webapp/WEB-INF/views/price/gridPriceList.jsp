@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,10 +35,11 @@
 	
 	
 </style>
-
+<script type="module">
+  import 'tui-date-picker/dist/tui-date-picker.css';
+  import 'tui-time-picker/dist/tui-time-picker.css';
+</script>
 </head>
-
-
 <body>
 	
 
@@ -74,7 +75,6 @@
 
 </body>
 <script>
-
 	var newRowData ="";
 	var gridData=[]; 
 	var grid = new tui.Grid({
@@ -106,8 +106,18 @@
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true,  editor: {
+        type: 'datePicker',
+        options: {
+          selectableRanges: [[new Date(2014, 3, 10), new Date(2014, 5, 20)]]
+        }
+      } ,align:'center' },
+    { header: '종료일' 	 , name: 'endDate' 			, sortable: true,  editor: {
+        type: 'datePicker',
+        options: {
+          selectableRanges: [[new Date(2014, 3, 10), new Date(2014, 5, 20)]]
+        }
+      } ,align:'center' },
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
