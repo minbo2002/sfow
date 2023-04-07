@@ -2,11 +2,14 @@ package com.yeonoo.masterdata.wh.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.yeonoo.masterdata.wh.domain.WH;
 
-
+@Service
 public interface WhService {
 
+	
 	
 	//전체 목록 조회
 	
@@ -26,7 +29,10 @@ public interface WhService {
 
 	public void updateWH(WH rowData) throws Exception ;
 
-	public int writeWH(WH elements);
+	// 행 추가 등록하기 
+	public int insertWH(WH wh) throws Exception ;
+
+	public int deleteWH(WH wh) throws Exception;
 		
 	
 	

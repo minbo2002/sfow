@@ -55,25 +55,28 @@ public class WhRepositoryImpl implements WhRepository {
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.wharea",wharea);
 		return list;
 	}
+	
+	//저장버튼 insert
 	@Override
-	public int writeWH(WH elements) {
-		return sqlSession.update("mapper.warehouse.insertWH", elements);
+	public int insertWH(WH wh) throws DataAccessException {
+		
+		int cnt = sqlSession.insert("mapper.warehouse.insertWH", wh);
+		
+		if (cnt != 0) {
+			
+		 cnt = sqlSession.update("mapper.warehouse.updateWH", wh);
+		
+		}
+		return cnt;
+	}
+
+	public int deleteWH(WH wh) {
+		
+		int cnt = sqlSession.delete("mapper.warehouse.deleteWH", wh);
+		
+		return cnt;
 	}
 
 	
-
-	
-	
-	
-	/*
-	@Override
-	public void insertwhService(WH wh) throws DataAccessException{
 		
-		
-		sqlSession.insert("mapper.warehouse.insertwh", wh);
-	}
-	
-	
-	*/
-	
 }

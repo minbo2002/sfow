@@ -61,7 +61,7 @@ window.onload = function() {
              header: '비고',
              sortable: true,
              editor:'text',
-             width:'auto',
+             width:100,
              align:'center',
              name: 'memo'
            },
@@ -128,8 +128,7 @@ window.onload = function() {
       
       
    });
- 
-       
+        
  //행 추가
 	var addRowBtn = document.getElementById('addRowBtn');
 	addRowBtn.addEventListener('click', function() {
@@ -234,45 +233,70 @@ window.onload = function() {
 			 	});
 			});
 		
+		//체크된 행 삭제하기 (update 삭제)
+		grid.on('check', function(ev) {	
+	      
+	    const rowKey = ev.rowKey;
+    	const columnName = ev.columnName;
+    	const rowData = grid.getRow(rowKey);
+			//console.log('check!', ev);
+			//console.log('check!', rowData);
 		
-		// 행 삭제
-		var deleteRow2 = document.getElementById("deleteRow2");
-		deleteRow2.addEventListener("click", function() {
-	
-			areaGrid.removeCheckedRows(true);
-			// grid.blur();
-		});
+		Array.prototype.forEach.call(document.querySelectorAll('#delBtn'), el => {
+	      el.addEventListener('click', ev => {
+
+				$.ajax({
+                 url: '../item/deleteWH',
+                 method :'PUT',
+                 dataType: 'JSON',
+                 data: JSON.stringify(rowData),
+                 contentType: 'application/json',
+                 success: function(response) {
+                     console.log('Success:', response);
+                      location.href = "../warehouse/whinfo";
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                     location.href = "../warehouse/whinfo";
+                 	}
+             }); //ajax(/item/productDeleteAjax)끝
+          }); //addEventListener끝
+    	}); //deleteRow 끝
+    }); //grid.on('check')끝 
 		
-		//창고 등록
 		
-		$(document).ready(function(){
+		
+	//체크 버튼 눌린 행 데이터 추가하기 (insert grid)	
+	grid.on('check', function(ev) {	
+	      
+	    const rowKey = ev.rowKey;
+    	const columnName = ev.columnName;
+    	const rowData = grid.getRow(rowKey);
+			//console.log('check!', ev);
+			//console.log('check!', rowData);
 			
-			$("#saveBtn").click(function(){
-			
-			var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-			alert("rowDatas : " + rowDatas);
-			var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-			alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
-			
-			
-		 	$.ajax({
-				url : '../warehouse/insertWH',
-				method : 'post',
-				data : jsonRowDatas,
-				contentType : 'application/json; charset=utf-8',  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-				dataType: 'json',			// 서버에서 받을 데이터타입
-				success : function (result) {
-					alert(result); // result는 반환받은 json형태의 객체 
-					alert('성공');
-					
-					
-				},
-				error: function() {
-			        console.log("실패");
-			    }
-			});
-		 	});
-	 	}); 
+    Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
+	      el.addEventListener('click', ev => {
+
+				$.ajax({
+                 url: '../warehouse/insertWH',
+                 method :'POST',
+                 dataType: 'JSON',
+                 data: JSON.stringify(rowData),
+                 contentType: 'application/json',
+                 success: function(response) {
+                     console.log('Success:', response);
+                     location.href = "../warehouse/whinfo";
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                     location.href = "../warehouse/whinfo";
+                 	}
+             }); //ajax(/item/typeInsertAjax)끝
+          }); //addEventListener끝
+    	}); //insertRow 끝
+	}); //grid.on('check')끝 	
+		
 	
 	
 	

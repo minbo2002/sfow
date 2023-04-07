@@ -20,6 +20,7 @@ public interface WhRepository {
 		
 	public String getAreaList(String st) throws DataAccessException;
 
-	int writeWH(WH elements);
+	public int insertWH(WH wh) throws DataAccessException ;
+
 	
 }
