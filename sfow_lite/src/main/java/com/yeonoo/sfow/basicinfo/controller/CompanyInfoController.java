@@ -26,7 +26,6 @@ public class CompanyInfoController {
 	// 회사 정보 확인
 		@GetMapping("/companyInfo")
 		public String companyinfo(@RequestParam("companyCode") String code, Model model,HttpServletResponse response) throws Exception {
-			System.out.println("code=========="+code);
 			CompanyInfo companyInfo=companyInfoService.companyInfoRead(code);
 			model.addAttribute("companyInfo",companyInfo);
 			return "basicinfo/companyinfo";

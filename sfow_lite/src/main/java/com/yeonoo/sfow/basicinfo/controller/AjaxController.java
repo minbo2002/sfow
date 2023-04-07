@@ -71,7 +71,6 @@ public class AjaxController {
 		if(updatedData.getId() != null) {
 			String updateId=updatedData.getId();
 		    UserInfo userInfo=userInfoService.checkDuplicateUserId(updateId);
-		    System.out.println(userInfo);
 		    if(userInfo != null) {
 		    	return 2;
 		    } else if (userInfo == null){
@@ -93,7 +92,6 @@ public class AjaxController {
 	//새로운 유저 생성
 	@RequestMapping("/newUserAjax")
 	public String newUserAdd(@RequestBody UserInfo newUserData) throws Exception {
-		System.out.println("newUserDatanewUserData===="+newUserData);
 		
 		int result=userInfoService.newUserAdd(newUserData);
 		return "1";
@@ -129,8 +127,6 @@ public class AjaxController {
 	//관리자 권한 부여
 	@RequestMapping("/userAdminRollUpdate")
 	public int userAdminRollUpdate(@RequestBody AdminRollUser adminRollUser) throws Exception {
-		System.out.println("adminRoll========"+adminRollUser);
-		
 		int result=userInfoService.userAdminRollUpdate(adminRollUser);
 		return result;
 	}

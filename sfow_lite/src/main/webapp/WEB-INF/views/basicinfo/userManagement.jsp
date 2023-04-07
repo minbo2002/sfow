@@ -213,11 +213,9 @@ $(document).ready(function() {
 		        createDate: currentDate,
 		        updateDate: currentDate
 		    };
-		    console.log("newRowData", newRowData);
 				
 		    // 새로운 행 추가
 		    var newRowKey = grid.appendRow(newRowData); 
-		    console.log("newRowKey",newRowKey);
 		   
 		    
 		    // 새로운 행의 정보 전송
@@ -228,24 +226,20 @@ $(document).ready(function() {
 		        data: JSON.stringify(newRowData),
 		        contentType: 'application/json',
 		        success: function(result) {
-		            console.log(result);
 		            
 		            $.ajax({
 		                url: '${ContextPath}/userManagementAjax?companyCode=${sessionScope.AUTHUSER.companyCode}',
 		                type: 'GET',
 		                dataType: 'JSON',
 		                success: function(result) {
-		                    console.log(result);
 		                    grid.resetData(result);
 		                },
 		                error: function(xhr, status, error) {
-		                    console.log(xhr.responseText);
 		                    alert('Error: ' + error);
 		                }
 		            });
 		        },
 		        error: function(xhr, status, error) {
-		            console.log(xhr.responseText);
 		            alert(ADD_FAILED);
 		        }
 		    });
@@ -260,7 +254,6 @@ $(document).ready(function() {
 	    async : true,
 	    dataType: 'JSON',
 	    success: function(data) {
-	      console.dir(data);		//배열인지 확인.
 	      gridData=data;
 	      grid.resetData(gridData);
 
@@ -269,8 +262,6 @@ $(document).ready(function() {
 	    	  var columnName = ev.columnName;
 	    	  var updatedData = {};
 	    	  var rowData = grid.getRow(rowKey);
-	    	  console.log('Row data: ', rowData);
-	    	  console.log("컬럼이름",columnName);
 	    	  
 	    	  
 	    	  
@@ -288,10 +279,8 @@ $(document).ready(function() {
 		    		    	if(response === 2) {
 										alert(EXISTING_ID_MSG);    		    		
 						    	}
-		    		        console.log('Success:', response);
 		    		    },
 		    		    error: function(error) {
-		    		        console.log('Error:', error);
 		    		    }
 		    		});
 	    	  }
@@ -332,11 +321,8 @@ $(document).ready(function() {
 	    		    data: JSON.stringify(rowData),
 	    		    contentType: 'application/json',
 	    		    success: function(response) {
-	    		    	alert("id 아닌 컬럼 넘기기"+response);
-	    		        console.log('Success:', response);
 	    		    },
 	    		    error: function(error) {
-	    		        console.log('Error:', error);
 	    		    }
 	    		});
 	    	  }	//회원정보 변경 ajax
@@ -346,7 +332,6 @@ $(document).ready(function() {
 	    	  if (columnName === 'adminRole') {
 	    		  
 	    		  var dataToSend = { "adminRoll": rowData[columnName], "id": rowData['id'] };
-	    		  console.log(dataToSend)
 	    		  
 	    		  $.ajax({
 	    		    url: '${ContextPath}/userAdminRollUpdate',
@@ -355,10 +340,8 @@ $(document).ready(function() {
 	    		    data: JSON.stringify(dataToSend),
 	    		    contentType: 'application/json',
 	    		    success: function(response) {
-	    		      console.log('success:', response);
 	    		    },
 	    		    error: function(error) {
-	    		      console.log('Error:', error);
 	    		    }
 	    		  });
 	    		}
@@ -375,7 +358,6 @@ $(document).ready(function() {
 		    for (var i = 0; i < checkedRows.length; i++) {
 		      ids.push(checkedRows[i].updateKey);
 		    }
-		    console.log("ids",ids);
 	    
 	    $.ajax({
 	      url: '${ContextPath}/deleteUserAjax',
@@ -384,7 +366,6 @@ $(document).ready(function() {
 	      data: JSON.stringify(ids),
 	      contentType: 'application/json',
 	      success: function(result) {
-	        console.log(result);
 	        
 	        // 삭제된 행 재로딩
 	        $.ajax({
@@ -392,13 +373,11 @@ $(document).ready(function() {
 	          method: 'GET',
 	          dataType: 'JSON',
 	          success: function(result) {
-	            console.dir(result);
 	            grid.resetData(result);
 	          }
 	        });
 	      },
 	      error: function(xhr, status, error) {
-	        console.log(xhr.responseText);
 	        alert(DELETE_FAILED);
 	      }
 	    });
@@ -424,12 +403,10 @@ $(document).ready(function() {
 			      type: "GET", // 요청 방식을 입력하세요. (POST, GET 등)
 			      data: { keyword: searchKeyword }, // 넘겨줄 데이터를 입력하세요.
 			      success: function(response) {
-			    	  console.log(response);
 			    	  grid.resetData(response);// 그리드 데이터 업데이트
 			      },
 			      error: function(jqXHR, textStatus, errorThrown) {
 			        // 실패 시 동작할 코드를 입력하세요.
-			        console.log(textStatus, errorThrown);
 			      }
 			    });
 			    
