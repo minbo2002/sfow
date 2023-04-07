@@ -147,7 +147,6 @@ $(document).ready(function() {
 	        type: "GET",
 	        url: "${ContextPath}/userInfoAjax?id=${sessionScope.AUTHUSER.id}",
 	        success: function(data) {
-	        	console.log(data);
 	        	  	$("input[name='companyCode']").val(data.companyCode);
 	              $("input[name='companyName']").val(data.companyName);
 	              $("input[name='id']").val(data.id);
@@ -166,7 +165,6 @@ $(document).ready(function() {
 	            url: "${ContextPath}/updateUserAjax",
 	            data: formData,
 	            success: function(data) {
-	                console.log(data);
 	                // update the input fields with generalUserInfo data
 	                $("input[name='companyName']").val(data.companyName);
 	                $("input[name='id']").val(data.id);
@@ -178,7 +176,6 @@ $(document).ready(function() {
 	                $('button[type="submit"]').hide();
 	            },
 	            error: function(xhr, status, error) {
-	                console.log(error);
 	            }
 	        });
 	    });

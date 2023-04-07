@@ -35,7 +35,6 @@ $(document).ready(function() {
 		 
 		 var formData = $(this).serialize();
 		 
-		 console.log(formData);
 		 
 		 $.ajax({
 			 type : "POST",
@@ -43,7 +42,6 @@ $(document).ready(function() {
 			 data : formData,
 			 success : function(response){
 				 
-				 console.log(response);
 				 
 				 if(response == "1") {
 					 alert("성공");
@@ -59,7 +57,6 @@ $(document).ready(function() {
 			 },
 			 error: function(xhr, status, error ){
 					
-					console.log(xhr.responseText);
 				}
 		 });
 	 });
