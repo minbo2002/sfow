@@ -170,8 +170,11 @@
                 </a>
                 <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">품목별 재고현황</a>
+
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockSearch');">창고별 재고현황</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockByItem');">품목별 재고현황</a>
+                      
+
                     </div>
                 </div>
             </li>
