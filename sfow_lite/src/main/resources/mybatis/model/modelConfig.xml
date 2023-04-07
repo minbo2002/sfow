@@ -6,5 +6,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.yeonoo.so.domain.ReturnAdd" alias="returnAdd"/>
+		<typeAlias type="com.yeonoo.so.domain.ReturnDetail" alias="returnDetail"/>
 	</typeAliases>
 </configuration>

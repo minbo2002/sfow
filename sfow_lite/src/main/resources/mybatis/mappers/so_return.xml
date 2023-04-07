@@ -36,6 +36,39 @@
 	    ]]>
 	</select>
 	
+	<!-- 선택한 행 삭제 -->
+    <delete id="deleteByReturnNumber" parameterType="String">
+        <![CDATA[
+	        DELETE FROM so_return_add
+	        WHERE return_number = #{returnNumber}
+        ]]>
+    </delete>
+    
+    <!-- 추가된 열에 insert -->
+    <insert id="insertReturnAdd" parameterType="map">
+        <![CDATA[
+        INSERT INTO so_return_add (company_code, client_code, client_name, return_date, out_status, memo)
+        VALUES (#{company_code}, #{client_code}, #{client_name}, #{return_date}, #{out_status}, #{memo})
+        ]]>
+    </insert>
+
+	<!-- 수정된 열에 update -->
+    <update id="updateReturnAdd" parameterType="map">
+        <![CDATA[
+        UPDATE so_return_add
+        SET company_code = #{company_code}, client_code = #{client_code}, client_name = #{client_name},
+        return_date = #{return_date}, out_status = #{out_status}, memo = #{memo}
+        WHERE return_number = #{return_number}
+        ]]>
+    </update>
+    
+   	<!-- 전체조회  -->
+	<select id="getClient" resultType="java.util.Map">
+	  <![CDATA[
+	    select client_code, client_name
+	    from ma_client_company
+	  ]]>
+	</select>
 	
 
 </mapper>
