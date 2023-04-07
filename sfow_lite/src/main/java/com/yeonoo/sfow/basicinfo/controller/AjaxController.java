@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yeonoo.sfow.basicinfo.domain.AdminRollUser;
 import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.sfow.basicinfo.service.UserInfoService;
@@ -47,35 +48,53 @@ public class AjaxController {
 		return null;
 		
 	}
-	
+	// 개인정보 조회
 	@RequestMapping("/userInfoAjax")
 	public UserInfo userInfoAjax(String id) throws Exception {
-		System.out.println("companyCode========"+id);
 		UserInfo userInfo=userInfoService.updateUserInfo(id);
-		System.out.println(userInfo);
 		return userInfo;
 	}
 	
 	
-	
+	// 회원 목록 조회
 	@RequestMapping("/userManagementAjax")
 	public List<UserInfo> userManagementAjax(String companyCode) throws Exception {
 		List<UserInfo> userInfoList =userInfoService.userListAll(companyCode);
 		return userInfoList;
+	}
+ 	
+	
+	
+	// ID 중복 체크
+	@RequestMapping(value = "/userListCheckDuplicate")
+	public int userListCheckDuplicate(@RequestBody UserInfo updatedData) throws Exception {
+		if(updatedData.getId() != null) {
+			String updateId=updatedData.getId();
+		    UserInfo userInfo=userInfoService.checkDuplicateUserId(updateId);
+		    System.out.println(userInfo);
+		    if(userInfo != null) {
+		    	return 2;
+		    } else if (userInfo == null){
+		    	int result = userInfoService.userListModify(updatedData);
+		    	return result;
+		    }
+		}
+		return 2;
 	}
 	
 	
 	//계정 정보 수정
 	@RequestMapping(value = "/userListUpdate")
 	public int userListUpdate(@RequestBody UserInfo updatedData) throws Exception {
-	    int result = userInfoService.userListModify(updatedData);
-
+		int result = userInfoService.userListModify(updatedData);
 	    return result;
 	}
 	
 	//새로운 유저 생성
 	@RequestMapping("/newUserAjax")
 	public String newUserAdd(@RequestBody UserInfo newUserData) throws Exception {
+		System.out.println("newUserDatanewUserData===="+newUserData);
+		
 		int result=userInfoService.newUserAdd(newUserData);
 		return "1";
 	}
@@ -105,5 +124,19 @@ public class AjaxController {
 			return null;
 		}
 	}
+	
+	
+	//관리자 권한 부여
+	@RequestMapping("/userAdminRollUpdate")
+	public int userAdminRollUpdate(@RequestBody AdminRollUser adminRollUser) throws Exception {
+		System.out.println("adminRoll========"+adminRollUser);
+		
+		int result=userInfoService.userAdminRollUpdate(adminRollUser);
+		return result;
+	}
+	
+	
+	
+	
 
 	}

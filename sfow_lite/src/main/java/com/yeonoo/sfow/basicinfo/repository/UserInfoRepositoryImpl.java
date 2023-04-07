@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.yeonoo.sfow.basicinfo.domain.AdminRollUser;
 import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
@@ -99,6 +100,22 @@ public class UserInfoRepositoryImpl implements UserInfoRepository{
 	public UserInfo updateUserSelect(String id) throws Exception {
 			UserInfo userInfo=sqlSession.selectOne("mapper.userInfo.updateUserSelect",id);
 		return userInfo;
+	}
+
+	
+	//유저 ID 중복 검사
+	@Override
+	public UserInfo checkDuplicateUserId(String updateId) throws Exception {
+		UserInfo userInfo=sqlSession.selectOne("mapper.userInfo.checkDuplicate",updateId);
+		return userInfo;
+	}
+
+	
+	//관리자 권한 부여
+	@Override
+	public int userAdminRollUpdate(AdminRollUser adminRollUser) throws Exception {
+		int result =sqlSession.update("mapper.userInfo.userAdminRollUpdate",adminRollUser);
+		return result;
 	}
 
 	

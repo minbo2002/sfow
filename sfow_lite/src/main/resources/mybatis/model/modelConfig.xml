@@ -10,5 +10,6 @@
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.MainUserInfo" alias="mainUserInfo"/>
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.CompanyInfo" alias="companyInfo"/>
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.AdminRollUser" alias="adminRollUser"/>
 	</typeAliases>
 </configuration>

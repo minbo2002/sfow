@@ -21,9 +21,9 @@ public class UserInfo {
 	private String adminRole;
 	private String phoneNum;
 	private String email;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-HH")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date createDate;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-HH")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date updateDate;
 	
 	

@@ -2,6 +2,7 @@ package com.yeonoo.sfow.basicinfo.service;
 
 import java.util.List;
 
+import com.yeonoo.sfow.basicinfo.domain.AdminRollUser;
 import com.yeonoo.sfow.basicinfo.domain.UpdateUser;
 import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
@@ -34,6 +35,13 @@ public interface UserInfoService {
 	
 	//유저 검색
 	public List<UserInfo> searchUser(String id) throws Exception;
+	
+	
+	//유저 ID 중복 검사
+	public UserInfo checkDuplicateUserId(String updateId) throws Exception;
+	
+	//유저 관리자 권한 부여
+	public int userAdminRollUpdate(AdminRollUser adminRollUser) throws Exception;
 	
 	
 }
