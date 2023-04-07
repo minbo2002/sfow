@@ -3,9 +3,9 @@ package com.yeonoo.masterdata.item.repository;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.masterdata.item.domain.RawDTO;
 
@@ -16,18 +16,20 @@ public class RawRepositoryImpl implements RawRepository{
 		@Autowired
 		private SqlSession sqlSession;
 		
-		// 전체 반제품 조회
+		// 전체 원자재 조회
 		@Override
-		public List<RawDTO> rawList() {
+		@ResponseBody
+		public List<RawDTO> rawList(RawDTO dto) {
 			
-			return sqlSession.selectList("raw.rawList");
+			List<RawDTO> List = sqlSession.selectList("raw.rawListSearch",dto);
+			return List;
 		}
 
 		// 반제품 등록
 		@Override
-		public int insertRaw(RawDTO dto) {
+		public int insertRaw(RawDTO elements) {
 			
-			return sqlSession.insert("raw.insertRaw", dto);
+			return sqlSession.insert("raw.insertRaw", elements);
 		}
 
 
@@ -41,9 +43,9 @@ public class RawRepositoryImpl implements RawRepository{
 
 		// 반제품 품목 삭제
 		@Override
-		public void deleteRaw(String itemCode) {
+		public int deleteRaw(String itemCode) {
 			
-			sqlSession.delete("raw.deleteRaw", itemCode);
+			return sqlSession.update("raw.useUpdate", itemCode);
 		}
 
 

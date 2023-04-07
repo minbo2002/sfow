@@ -41,6 +41,11 @@ public class WhServiceImpl implements WhService{
 		
 		return;
 	}
+	@Override
+	public int writeWH(WH elements) {
+		
+		return whRepository.writeWH(elements);
+	}
 	
 	
 	

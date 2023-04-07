@@ -37,24 +37,20 @@ public class SemiRepositoryImpl implements SemiRepository{
 				
 		}
 
-	
-		
-		
-		
 		
 		// 반제품 등록
 		@Override
 		public int insertSemi(SemiDTO elements) {
-			
-			return sqlSession.update("semi.insertSemi", elements);
+			 
+			return sqlSession.insert("semi.insertSemi", elements);
 		}
 
 
 		// 반제품 정보 수정
 		@Override
-		public int updateSemi(SemiDTO dto) {
+		public int updateSemi(SemiDTO elements) {
 		
-			int cnt = sqlSession.update("semi.updateSemi", dto);
+			int cnt = sqlSession.update("semi.updateSemi", elements);
 			return cnt;
 		}
 

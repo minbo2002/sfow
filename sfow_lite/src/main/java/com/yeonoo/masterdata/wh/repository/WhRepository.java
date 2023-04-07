@@ -14,9 +14,12 @@ public interface WhRepository {
 
 	// public void insertwhService(WH wh) throws DataAccessException;
 	
-	//수정하기 update
-	public void updateWH(WH rowData) throws Exception;
+	/*
+	 * //수정하기 update public void updateWH(WH rowData) throws Exception;
+	 */
 		
 	public String getAreaList(String st) throws DataAccessException;
+
+	int writeWH(WH elements);
 	
 }

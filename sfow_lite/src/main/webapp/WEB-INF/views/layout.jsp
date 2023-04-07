@@ -165,7 +165,8 @@
                   <i class="fas fa-fw fa-folder"></i>
                     <span>생산관리</span>
                 </a>
-                <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo3" class="collapse" aria-la
+                belledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
                     </div>

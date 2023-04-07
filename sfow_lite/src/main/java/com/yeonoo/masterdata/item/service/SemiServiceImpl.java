@@ -37,8 +37,8 @@ public class SemiServiceImpl implements SemiService{
 	//수정하기
 	@Override
 	@Transactional
-	public int updateSemi(SemiDTO dto) {
-		return semiRepository.updateSemi(dto);
+	public int updateSemi(SemiDTO elements) {
+		return semiRepository.updateSemi(elements);
 		 
 		 
 
