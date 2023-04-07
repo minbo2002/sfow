@@ -9,29 +9,94 @@
 <title>품목등록(제품)</title>
 <script src="<%=request.getContextPath()%>/resources/js/main/itemProduct.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <style>
-.modal {
+.modal{
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1200px;
-  height: 600px;
-  background-color: white;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  box-sizing: border-box;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+	  width: 100%;
+	  height: 100%;
+	
+	  display: none;
+	  background-color: rgba(0, 0, 0, 0.4);
+	  justify-content:center;
+  	  align-items:center;
+	}
+	 
+	.modal.show {
+	  display: block;
+	}
+	
+	#modalGrid {
+	  position: fixed;
+	  top: 50%; /* 모달이 수직 중앙에 위치하도록 top 값을 50%로 지정 */
+  	  left: 50%;
+	  width: 500px;
+	  height: 500px;
+	
+	  padding: 40px;
+	  justify-content:center;
+  	  align-items:center;
+	  text-align: center;
+	  background-color: rgb(255, 255, 255);
+	  border-radius: 10px;
+	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	  transform: translateX(-50%) translateY(-50%);
+	}
+	.modal-wrapper {
+	  position: fixed;
+ 	  top: 100%;
+  	  left: 100%;
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+#applyBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 300px; /* 버튼 위치 조정 */
+}
+#resetMdBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 210px; /* 버튼 위치 조정 */
+}
+
+#closeBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 120px; /* 버튼 위치 조정 */
 }
 </style>
 </head>
 <body>
-<div>
 <button id="insertRow">저장</button>
 <button id="addRow">추가</button>
 <button id="deleteRow">삭제</button>
 <button id="searchBtn">조회</button>
-<button id="openBtn" data-toggle="modal" onclick="openModal()">모달창</button>
 <br><br>
 <div id="search_area">
 	<label for="item_code">ITEM코드</label>
@@ -48,15 +113,12 @@
 <h1 style="margin-bottom: 50px; margin-top: 50px; text-align: center">품목등록(제품)</h1>
 </div>
 <div id="grid"></div>
-</div>
-<script>
-function openModal() {
-    document.querySelector('.modal_wrap').style.display ='block';
-    
-}    
-</script>
-<div class="modal_wrap">
-<div id="grid"></div>
+<div class="modal">
+  <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+    <button type="button" id="applyBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;적용</button>
+    <button type="reset" id="resetMdBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;초기화</button>
+    <button type="button" id="closeBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;닫기</button>
+  </div>
 </div>
 </body>
 </html>
