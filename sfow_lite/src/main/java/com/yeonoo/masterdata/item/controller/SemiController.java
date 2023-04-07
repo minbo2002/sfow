@@ -71,7 +71,7 @@ public class SemiController {
 		    		 SemiDTO elements= iterator.next();
 		    		 semiService.deleteSemi(elements.getItemCode());
 		    	 }
-		    	 
+		    	  
 		    	 return dto;
 		     }
 
