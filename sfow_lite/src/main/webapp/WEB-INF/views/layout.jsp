@@ -83,7 +83,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                     
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
-                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
+                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a> 
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
