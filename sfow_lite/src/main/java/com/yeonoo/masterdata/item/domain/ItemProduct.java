@@ -23,9 +23,9 @@ public class ItemProduct {
 	private String lotsize;
 	private String memo;
 	private String useyn;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-hh-mm",timezone="Asia/Seoul")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm",timezone="Asia/Seoul")
 	private Date createdate;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-hh-mm",timezone="Asia/Seoul")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm",timezone="Asia/Seoul")
 	private Date updatedate;
 	private String item_it;
 	private String warehouse_code;

@@ -106,7 +106,10 @@
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {
+											      				  	  type: 'datePicker',
+											        			      options: {
+											          				  format: 'yyyy-MM-dd'} ,align:'center' } },
     { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: 'text' ,align:'center' },
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },

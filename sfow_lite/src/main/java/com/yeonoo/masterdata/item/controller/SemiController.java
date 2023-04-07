@@ -45,12 +45,20 @@ public class SemiController {
 			// 반제품 정보 수정
 		    
 		  //수정하기
-		     @ResponseBody
-		     @RequestMapping(value="/updateSemi", method=RequestMethod.PATCH)
-		     public void update(@RequestBody SemiDTO dto) throws Exception {
-		        semiService.updateSemi(dto);
-
-		     }	    
+		    @ResponseBody
+		    @RequestMapping(value="updateSemi", method=RequestMethod.POST)
+		    public List<SemiDTO> updateSemi(@RequestBody List<SemiDTO> dto) {
+		
+		
+		       Iterator<SemiDTO> iterator = dto.iterator();
+		       while(iterator.hasNext()) {
+		       	SemiDTO elements = iterator.next();
+		          
+		          int insertCnt = semiService.updateSemi(elements);
+		       }
+		       
+		       return dto;
+		    }
 		     
 		  // 삭제하기(useyn 상태 변경)
 		     @ResponseBody
