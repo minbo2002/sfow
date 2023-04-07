@@ -68,7 +68,7 @@
 	        listHtml += "<tr id='c" + notice.no + "' style='display:none'>";
 	        listHtml += "<td>내용</td>";
 	        listHtml += "<td colspan='4'>";
-	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'></textarea>";
+	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'>" + notice.content + "</textarea>";
 	        listHtml += "<br/>";
 	        listHtml += "<c:if test='${sessionScope.AUTHUSER.adminRole==999}'>";
 	        listHtml += "<span id='ub" + notice.no + "'><button class='btn btn-success btn-sm' onclick='updateNoticeForm(" + notice.no + ")'>수정화면</button></span>&nbsp;";
@@ -141,14 +141,13 @@
     	    alert("제목을 입력해주세요.");
     	    return;
     	  }
-    	/*  if ($("#content").val().trim() === "") {
-    		    alert("내용을 입력해주세요.");
-    		    return;
-    		  }*/
-    	  if (!$("#writername").val()) {
-    	    alert("작성자를 입력해주세요.");
-    	    return;
+    	// 내용이 입력되지 않은 경우
+    	  if ($(".content").val().trim() === "") {
+    	      alert("내용을 입력해주세요.");
+    	      return;
     	  }
+
+    	  
 
     	  var fData = $("#frm").serialize();
     	  $.ajax({
@@ -156,10 +155,15 @@
     	    type: "post",
     	    data: fData,
     	    success: loadList,
-    	    error: function() {
-    	      alert("error");
-    	    }
-    	  });
+    	    	success: function() {
+
+    	    	      // 등록 성공 알림
+    	    	      alert("등록되었습니다.");
+    	    	    },
+    	    	    error: function() {
+    	    	      alert("error");
+    	    	    }
+    	    	  });
 
     	  // 폼 초기화
     	  $("#frm")[0].reset();
@@ -319,7 +323,7 @@
          </tr>
          <tr>
            <td>내용</td>
-           <td><textarea rows="7" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요" ></textarea> </td>
+           <td><textarea rows="7" class="form-control content" id="content" name="content" placeholder="내용을 입력해주세요" ></textarea> </td>
          </tr>
          <tr>
            <td>작성자</td>
