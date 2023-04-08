@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.yeonoo.masterdata.wh.domain.WH;
+import com.yeonoo.masterdata.wh.domain.WH_detail;
 
 @Service
 public interface WhService {
@@ -21,11 +22,8 @@ public interface WhService {
 		
 	//수정 update
 
-	public String getAreaList(String st) throws Exception;
 
 	public List<WH> searchWH(WH searchwh) throws Exception;
-
-	public List<WH> WHarea(WH wharea)throws Exception;
 
 	public int updateWH(WH wh) throws Exception ;
 
@@ -33,6 +31,8 @@ public interface WhService {
 	public int insertWH(WH wh) throws Exception ;
 
 	public int deleteWH(WH wh) throws Exception;
+
+	public List<WH_detail> WHarea(String warehouse_code) throws Exception ;
 		
 	
 	

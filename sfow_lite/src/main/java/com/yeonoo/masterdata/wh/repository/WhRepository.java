@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.yeonoo.masterdata.wh.domain.WH;
+import com.yeonoo.masterdata.wh.domain.WH_detail;
 
 
 public interface WhRepository {
@@ -16,7 +17,7 @@ public interface WhRepository {
 	public int updateWH(WH wh) throws DataAccessException;
 	
 	//구역 정보 가져오기
-	public String getAreaList(String st) throws DataAccessException;
+	public List<WH_detail> WHarea(String warehouse_code) throws DataAccessException;
 
 	//새로운 데이터 입력하기 
 	public int insertWH(WH wh) throws DataAccessException ;

@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.yeonoo.masterdata.wh.domain.WH;
+import com.yeonoo.masterdata.wh.domain.WH_detail;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,24 +26,19 @@ public class WhRepositoryImpl implements WhRepository {
 		
 		return list;
 	}
-	@Override
-	public String getAreaList(String st) throws DataAccessException {
-		String list =sqlSession.selectOne("mapper.warehouse.AreaList",st);
-		
-		return list;
-	}
-
+	
 	public List<WH> getsearchWH(WH searchwh) throws DataAccessException{
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.searchWH",searchwh);
 		
 		return list;
 	}
 
-
-	public List<WH> getwharea(WH wharea) throws DataAccessException {
-		List<WH> list =	sqlSession.selectList("mapper.warehouse.wharea",wharea);
+	//그리드1 에서 특정 행 warehouse_code 로  Area 정보 가져오기
+	@Override
+	public List<WH_detail> WHarea(String warehouse_code) throws DataAccessException {
+		return	sqlSession.selectList("mapper.warehouse.wharea",warehouse_code);
 		
-		return list;
+		
 	}
 	
 	//저장버튼 insert
@@ -65,5 +61,6 @@ public class WhRepositoryImpl implements WhRepository {
 	}
 
 	
+
 		
 }

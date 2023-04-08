@@ -31,15 +31,14 @@
 	</select>
   
   <!-- 특정 창고 코드 내부 area 검색 -->
-  <select id="wharea" resultType="String" parameterType="String">
+  <select id="wharea" resultType="Wh_Detail" parameterType="String">
 	 	<![CDATA[
-			select area_code,area_name
-			from wh_detail
+			select * from wh_detail
 			where warehouse_code=#{warehouse_code}
 		]]>
 	</select>
+	
   <!-- 창고구분, 코드,명으로 검색하기 -->
-  
   <select id="searchWH" resultType="warehouse">
 	  <![CDATA[
 		  SELECT  company_code,warehouse_type,warehouse_code,warehouse_name,customer_code,memo,useyn,

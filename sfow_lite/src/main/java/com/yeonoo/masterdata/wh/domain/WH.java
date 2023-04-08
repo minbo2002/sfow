@@ -3,6 +3,7 @@ package com.yeonoo.masterdata.wh.domain;
 import java.util.Date;
 
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -26,13 +27,6 @@ public class WH {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private Date updatedate;		//수정일
 	private String updateuser;		//수정자
-	
-	//창고디테일(구역Area)
-	private int sorder;			//순서
-	private String area_code;		//구역코드
-	private String area_name;		//구역명
-
-	
 	
 	
 }
