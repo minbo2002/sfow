@@ -366,6 +366,15 @@ $(document).ready(window.onload=function() {
 			});
 			grid.enable();
 		}); //addRow끝
+    
+    Array.prototype.forEach.call(document.querySelectorAll('#minusRow'), el => {
+	      el.addEventListener('click', ev => {
+	             
+	    	 grid.removeRow(grid.getRowCount()-1);
+	    	 grid.refreshLayout();
+	      });
+		}); //minusRow끝
+  
  //목록      
      $.ajax({
         url : './item/productListAjax',
@@ -378,7 +387,7 @@ $(document).ready(window.onload=function() {
             
         } //success끝 
     }); //ajax(/item/productListAjax)끝
-        
+     
     grid.on('check', function(ev) {	
 	      
 	    const rowKey = ev.rowKey;
@@ -499,6 +508,17 @@ $(document).ready(window.onload=function() {
 		    	$('input[name=item_name]').attr('value',null);
 		    	$('input[name=item_no]').attr('value',null);
 		    	$('input[name=item_type]').attr('value',null);
+		    	 $.ajax({
+		    	        url : './item/productListAjax',
+		    	        method :'GET',
+		    	        dataType : 'JSON',
+		    	        contentType : 'application/json',
+		    	        success : function(result){
+		    	        	console.log('result', result);
+		    	            grid.resetData(result);
+		    	            
+		    	        } //success끝 
+		    	    }); //ajax(/item/productListAjax)끝
 		  });
 	  });
 	 //유형검색시 모달

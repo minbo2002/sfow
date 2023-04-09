@@ -35,12 +35,16 @@ public interface ItemRepository {
 	public List<ItemStockUnit> stockunitListAjax() throws DataAccessException;
 	//재고단위 등록
 	public int StockUnitInsert(ItemStockUnit itemstockunit) throws DataAccessException;
+	//재고단위 삭제
+	public int deleteStockUnit(ItemStockUnit itemstockunit) throws DataAccessException;
 	//재고단위 검색
 	public List<ItemStockUnit> stockunitSearchAjax(ItemStockUnit itemstockunit) throws DataAccessException;
 	//규격 목록
 	public List<ItemSpecification> specificationListAjax() throws DataAccessException;
 	//규격 등록
 	public int specificationInsert(ItemSpecification itemspecification) throws DataAccessException;
+	//규격 삭제
+	public int deleteSpecification(ItemSpecification itemspecification) throws DataAccessException;
 	//규격 검색
 	public List<ItemSpecification> specificationSearchAjax(ItemSpecification itemspecification) throws DataAccessException;
 	//품목유형등록(제품) 검색

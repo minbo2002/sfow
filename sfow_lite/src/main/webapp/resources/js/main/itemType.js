@@ -60,7 +60,15 @@ $(document).ready(window.onload=function() {
 			});
 			grid.enable();
 		}); //addRow끝
-		 
+    
+    Array.prototype.forEach.call(document.querySelectorAll('#minusRow'), el => {
+	      el.addEventListener('click', ev => {
+	             
+	    	 grid.removeRow(grid.getRowCount()-1);
+	    	 grid.refreshLayout();
+	      });
+		}); //minusRow끝	 
+    
 $.ajax({
 url : './item/typeAjax',
 method :'GET',
@@ -175,6 +183,14 @@ Array.prototype.forEach.call(document.querySelectorAll('#insertRow'), el => {
 			  grid.uncheckAll();
 			  $('select[name=item_category]').prop('value',null);
 			  $('input[name=item_type]').attr('value',null);
+			  $.ajax({
+				  url : './item/typeAjax',
+				  method :'GET',
+				  dataType : 'JSON',
+				  success : function(result){
+				    grid.resetData(result);
+				     } //success끝 
+				  }); //ajax(/item/typeAjax)끝
 		  });
 	  });
   }); //window.onload끝
