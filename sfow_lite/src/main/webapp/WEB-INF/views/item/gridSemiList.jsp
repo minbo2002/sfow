@@ -77,7 +77,7 @@
 	    scrollY: false,
 		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
-
+ 
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
