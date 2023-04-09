@@ -31,15 +31,14 @@
 	</select>
   
   <!-- 특정 창고 코드 내부 area 검색 -->
-  <select id="wharea" resultType="String" parameterType="String">
+  <select id="wharea" resultType="Wh_Detail" parameterType="String">
 	 	<![CDATA[
-			select area_code,area_name
-			from wh_detail
+			select * from wh_detail
 			where warehouse_code=#{warehouse_code}
 		]]>
 	</select>
+	
   <!-- 창고구분, 코드,명으로 검색하기 -->
-  
   <select id="searchWH" resultType="warehouse">
 	  <![CDATA[
 		  SELECT  company_code,warehouse_type,warehouse_code,warehouse_name,customer_code,memo,useyn,
@@ -51,25 +50,32 @@
 		  ]]>
   </select>
   
- <!--  <update id="updateWH" parameterType="com.yeonoo.masterdata.wh.domain.WH">
-  		<![CDATA[
-			update wh
-			set company_code=#{company_code},warehouse_type=#{warehouse_type},warehouse_name=#{warehouse_name},customer_code=#{customer_code},memo=#{memo},useyn=#{useyn}
-			,createdate,createuser=#{createuser},updatedate=NOW(),updateuser=#{updateuser}
-			where warehouse_code=#{warehouse_code}
-		]]>
-  
-  </update> -->
- <insert id="insertWH" parameterType="com.yeonoo.masterdata.wh.domain.WH" >
+
+ 	<insert id="insertWH" parameterType="com.yeonoo.masterdata.wh.domain.WH" >
   
  		 <![CDATA[
 			INSERT INTO wh(company_code ,warehouse_type,warehouse_code,warehouse_name,customer_code,memo,useyn,createdate,createuser,updatedate,updateuser)
-			VALUES(#{company_code},#{warehouse_type},#{warehouse_code},#{warehouse_name},#{customer_code},#{memo},#{useyn},#{createdate},#{createuser},#{updatedate},#{updateuser})
+			VALUES(#{company_code},#{warehouse_type},#{warehouse_code},#{warehouse_name},#{customer_code},#{memo},#{useyn},NOW(),#{createuser},NULL,#{updateuser})
 		]]>
-  </insert> 
+  	</insert> 
   
+    <update id="updateWH" parameterType="com.yeonoo.masterdata.wh.domain.WH">
+    
+  		<![CDATA[
+			update wh
+			set company_code=#{company_code},warehouse_type=#{warehouse_type},warehouse_name=#{warehouse_name},customer_code=#{customer_code},memo=#{memo},useyn=#{useyn}
+			,createdate=#{createdate},createuser=#{createuser},updatedate=NOW(),updateuser=#{updateuser}
+			where warehouse_code=#{warehouse_code}
+		]]>
   
+ 	 </update>
   
+ 	<delete id="deleteWH" parameterType="com.yeonoo.masterdata.wh.domain.WH" >
+	 	<![CDATA[
+	 		 delete from wh
+   			 where warehouse_code=#{warehouse_code}
+	 	]]>
+ 	</delete>
   
   
   </mapper>

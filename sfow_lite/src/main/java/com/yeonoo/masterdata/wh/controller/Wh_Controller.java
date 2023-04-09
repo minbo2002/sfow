@@ -23,14 +23,16 @@ public class Wh_Controller {
 		      return "/warehouse/whForm";
 		   }
 		   
-		    //area 보여주기
-			@PostMapping("/warehouse/whArea")
-			public String getAreaList() throws Exception {
-			       
-			       //전체 목록 조회
-			   
-				return "/warehouse/whForm";
-			}
+			/*
+			 * //area 보여주기
+			 * 
+			 * @PostMapping("/warehouse/whArea") public String getAreaList() throws
+			 * Exception {
+			 * 
+			 * //전체 목록 조회
+			 * 
+			 * return "/warehouse/whForm"; }
+			 */
 		    
 	    
 	    
