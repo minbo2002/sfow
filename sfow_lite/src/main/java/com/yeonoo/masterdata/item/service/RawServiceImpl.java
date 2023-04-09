@@ -1,6 +1,7 @@
 package com.yeonoo.masterdata.item.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,12 @@ public class RawServiceImpl implements RawService{
 	@Transactional
 	public int deleteRaw(String itemCode) {
 		return rawRepository.deleteRaw(itemCode);
+	}
+	
+	// 거래처 모달 데이터처리
+	@Override
+	public List<Map<String, Object>> getModalClient() {
+		return rawRepository.getModalClient();
 	}
 
 }

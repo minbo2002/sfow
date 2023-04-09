@@ -65,6 +65,12 @@
 		]]>
 	</update>
 	
-
+	<!-- Client modal   -->
+	<select id="getModalClient" resultType="Map">
+      <![CDATA[
+         SELECT client_code,client_name
+		 FROM ma_client_company
+      ]]>
+   </select>
 
 </mapper>  

@@ -12,8 +12,8 @@
         <result property="itemNo" column="item_no"/>
         <result property="itemType" column="item_type"/>
         <result property="itemSpecification" column="item_specification"/>
-        <result property="item_stock_unit" column="item_stock_unit"/>
-        <result property="clientName" column="client_code"/>
+        <result property="itemStockUnit" column="item_stock_unit"/>
+        <result property="clientCode" column="client_code"/>
         <result property="clientName" column="client_name"/>
         <result property="warehouseCode" column="warehouseCode"/>
         <result property="warehouseName" column="warehouseName"/>
@@ -67,6 +67,13 @@
 		]]>
 	</update>
 	
-
+	<!-- Client modal   -->
+	<select id="getModalClient" resultType="Map">
+      <![CDATA[
+         SELECT client_code as clientCode,client_name as clientName
+		 FROM ma_client_company
+      ]]>
+   </select>
+   
 
 </mapper>  

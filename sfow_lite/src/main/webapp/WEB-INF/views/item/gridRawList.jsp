@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- conpath 추가 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="conPath"  value="${pageContext.request.contextPath}"/>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,6 +112,7 @@
       },
       align:'center'
       },
+    { header: '거래처코드' , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },  
     { header: '거래처명' , name: 'clientName' 			, sortable: true, editor: 'text' ,align:'center' },
     { header: '입고창고' , name: 'warehouseCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '창고명' , name: 'warehouseName' 		, sortable: true, editor: 'text' ,align:'center' },
@@ -380,7 +385,21 @@
    }
 
 
-	
+   /* modal 삽입 */
+   // client_code 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'clientCode') {
+            window.open('${conPath}/raw/modalList', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'clientCode', selectedRow.clientCode);
+        grid.setValue(focusedCell.rowKey, 'clientName', selectedRow.clientName);
+    });
 
 
 </script>

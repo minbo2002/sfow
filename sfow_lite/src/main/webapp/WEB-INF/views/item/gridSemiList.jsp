@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- conpath 추가 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="conPath"  value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,12 +67,13 @@
 				<button  type="button" id="delRowBtn" onclick="deleteRow()">-(DB삭제)</button>
 				<button type="button" id="insertRowBtn" style="background-color: #33F6FF">등록</button>
 				<button id="updateRowBtn" onclick="updateRow()">저장</button>
-				<button id="resetRow">초기화</button> 
+				<button id="resetRow">초기화</button>
+	
+
   </div>
 
 </body>
 <script>
-
 	var newRowData ="";
 	var gridData=[]; 
 	var grid = new tui.Grid({
@@ -78,13 +83,19 @@
 		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
 
+	    /*  아래부터 그리드 컬럼 */
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
+    
+    /* 유형 칼럼 시작 */
+    { header: '유형', name: 'itemType', sortable: true, editor: 'text' ,align:'center' },	// 유형 컬럼 끝 
+    
+    	
+    	
+    	{ header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { 
       header: '재고단위',
       name: 'itemStockUnit',
@@ -126,7 +137,9 @@
 	  	  
 	]
 	
-	});
+	});			/* 그리드 컬럼 끝 */
+
+	
 	
 	//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
 	grid.on('check', function(ev) {
@@ -313,7 +326,6 @@
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 	      alert(jsonRowDatas);
 	      
-	      grid.removeCheckedRows([test]);		// 그리드 인덱스 제거용 (한 줄 제거용)
 
 	      $.ajax({
 	         url : "semi/updateSemi",
@@ -368,7 +380,26 @@
       });
    }
 
-
+   
+   /* modal 삽입 */
+   // client_code 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'orderNumber') {
+            window.open('${conPath}/semi/modalList', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'orderNumber', selectedRow.orderNumber);
+        grid.setValue(focusedCell.rowKey, 'clientCode', selectedRow.clientCode);
+        grid.setValue(focusedCell.rowKey, 'companyCode', selectedRow.companyCode);
+        grid.setValue(focusedCell.rowKey, 'itemCode', selectedRow.itemCode);
+        grid.setValue(focusedCell.rowKey, 'outQuantity', selectedRow.outQuantity);
+    });
+   
 	
 
 

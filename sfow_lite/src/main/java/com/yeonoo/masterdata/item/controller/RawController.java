@@ -2,6 +2,7 @@ package com.yeonoo.masterdata.item.controller;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,27 @@ public class RawController {
 	@Autowired
 	RawService rawService;
 
+	// modal 
+	// modal form
+	@RequestMapping("/modalList") //get
+	public String modalList() {
+		return "item/modalList";
+	}
+	
+// modal data process
+	
+// modal Item값 조회
+   @RequestMapping(value="getModalClient")
+   @ResponseBody
+   public List<Map<String, Object>> getModalClient() {
+      
+      List<Map<String, Object>> result = rawService.getModalClient();
+      System.out.println(result);
+      return result;
+   }
+// --------------------------------------------------------   
+   
+	
 	// 원제품 리스트 ( 그리드버젼, 수정까지 완료 후 매핑 수정 및 테이블버젼 삭제 예정) 전체 조회
 	@RequestMapping("/list") //get
 	public String allList() {

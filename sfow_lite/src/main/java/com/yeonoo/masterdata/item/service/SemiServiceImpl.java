@@ -1,6 +1,7 @@
 package com.yeonoo.masterdata.item.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,12 @@ public class SemiServiceImpl implements SemiService{
 	@Transactional
 	public int deleteSemi(String itemCode) {
 		return semiRepository.deleteSemi(itemCode);
+	}
+
+	// 거래처 모달 데이터처리
+	@Override
+	public List<Map<String, Object>> getModalClient() {
+		return semiRepository.getModalClient();
 	}
 
 }

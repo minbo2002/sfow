@@ -2,6 +2,7 @@ package com.yeonoo.masterdata.item.controller;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,26 @@ public class SemiController {
 	SemiService semiService;
 	private final Logger logger = LoggerFactory.getLogger(SemiController.class);
 	
+	// modal form
+	@RequestMapping("/modalList") //get
+	public String modalList() {
+		return "item/modalList";
+	}
+	
+// modal data process
+	
+// modal Item값 조회
+   @RequestMapping(value="getModalClient")
+   @ResponseBody
+   public List<Map<String, Object>> getModalClient() {
+      
+      List<Map<String, Object>> result = semiService.getModalClient();
+      logger.info("1) modalItem = " + result);
+      
+      return result;
+   }
+	
+	
 	// 전체 조회 page mapping
 	@RequestMapping("/list") //get
 	public String allList() {
@@ -51,7 +72,7 @@ public class SemiController {
 		
 		
 		       Iterator<SemiDTO> iterator = dto.iterator();
-		       while(iterator.hasNext()) {
+		       		while(iterator.hasNext()) {
 		       	SemiDTO elements = iterator.next();
 		          
 		          int insertCnt = semiService.updateSemi(elements);

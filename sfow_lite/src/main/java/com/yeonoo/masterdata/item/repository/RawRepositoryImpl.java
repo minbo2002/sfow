@@ -1,6 +1,7 @@
 package com.yeonoo.masterdata.item.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class RawRepositoryImpl implements RawRepository{
 			return sqlSession.update("raw.useUpdate", itemCode);
 		}
 
+		// 거래처 모달 데이터처리
+		@Override
+		public List<Map<String, Object>> getModalClient() {
+			
+			return sqlSession.selectList("raw.getModalClient");
+		}
 
 
 
