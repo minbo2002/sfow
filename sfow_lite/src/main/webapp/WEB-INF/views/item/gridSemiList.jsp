@@ -82,7 +82,7 @@
 	    scrollY: false,
 		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
- 
+  
 	    /*  아래부터 그리드 컬럼 */
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
