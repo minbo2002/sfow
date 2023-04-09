@@ -31,7 +31,7 @@
 <h6 style="color:black; font-weight:bold; font-size:15px;">&nbsp;규격 등록</h6>
 <div style="display:flex; justify-content:flex-end; align-items:center;">
 <button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" id="addRow"><i class="fas fa-plus"></i></button>
-<button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; margin-left:5px;" style="font-size:15px; color:black;" id="minusRow"><i class="fas fa-minus"></i></button>
+<button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; margin-left:5px;" style="font-size:15px; color:black;" id="minusRow"><i class="fas fa-minus"></i></button>&nbsp;
 </div>
 </div>
 <div id="grid"></div>

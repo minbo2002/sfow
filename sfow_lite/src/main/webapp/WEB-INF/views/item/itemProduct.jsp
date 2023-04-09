@@ -103,7 +103,7 @@
 <button type="reset" id="resetBtn" style="height:35px; width:70px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><i class="fas fa-power-off"></i>&nbsp;초기화</button>
 <br><br>
 <div id="search_area" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
-    <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="ITEM코드" disabled/><input type="text" class="form-data" id ="item_code" name="item_code" placeholder="&nbsp;&nbsp;자동완성"/></div>  
+    <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="ITEM코드" disabled/><input type="text" class="form-data" id ="item_code" name="item_code" placeholder="&nbsp;&nbsp;자동완성" disabled/></div>  
     <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="품명" disabled/><input type="text" class="form-data" id ="item_name" name="item_name"/></div>  
     <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="품목코드" disabled/><input type="text" class="form-data" id ="item_no" name="item_no"/></div>  
 <div class="search_tp" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
@@ -121,7 +121,7 @@
 <h6 style="color:black; font-weight:bold; font-size:15px;">&nbsp;품목등록(제품)</h6>
 <div style="display:flex; justify-content:flex-end; align-items:center;">
 <button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" id="addRow"><i class="fas fa-plus"></i></button>
-<button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; margin-left:5px;" style="font-size:15px; color:black;" id="minusRow"><i class="fas fa-minus"></i></button>
+<button type="button" style="height:25px; width:25px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; margin-left:5px;" style="font-size:15px; color:black;" id="minusRow"><i class="fas fa-minus"></i></button>&nbsp;
 </div>
 </div>
 <div id="grid"></div>

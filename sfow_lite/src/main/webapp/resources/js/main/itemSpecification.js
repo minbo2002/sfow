@@ -15,7 +15,14 @@ $(document).ready(window.onload=function() {
           {
             header: '규격',
             name: 'item_specification',
-            editor:'text'
+            editor:'text',
+            validation:{required: true},
+            align: 'center',
+            filter: {
+                      type: 'text',
+                      showApplyBtn: true,
+                      showClearBtn: true
+                     }
           }
         ]
       });

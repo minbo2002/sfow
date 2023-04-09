@@ -13,8 +13,8 @@ $(document).ready(window.onload=function() {
         ],
         columns: [
           {  header: 'ITEM코드', name: 'item_code', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
-          {  header: '품명', name: 'item_name', align: 'center', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
-          {  header: '품번', name: 'item_no', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          {  header: '품명', name: 'item_name', align: 'center', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
+          {  header: '품번', name: 'item_no', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
           {  header: '유형', name: 'item_type',
             onBeforeChange(tp) {
         	  

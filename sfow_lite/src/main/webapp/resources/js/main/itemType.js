@@ -24,7 +24,8 @@ $(document).ready(window.onload=function() {
                     { text: '반제품', value: '반제품' },
                     { text: '원자재', value: '원자재' }
                   ]
-                }
+                },
+            validation:{required: true}    
               },
             align: 'center',
             filter: {
@@ -37,6 +38,7 @@ $(document).ready(window.onload=function() {
             header: '품목유형',
             name: 'item_type',
             editor: 'text',
+            validation:{required: true},
             align: 'center',
             filter: {
                       type: 'text',

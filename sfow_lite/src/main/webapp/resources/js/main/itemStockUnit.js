@@ -15,7 +15,14 @@ $(document).ready(window.onload=function() {
           {
             header: '재고단위',
             name: 'item_stock_unit',
-            editor:'text'
+            editor:'text',
+            validation:{required: true},
+            align: 'center',
+            filter: {
+                      type: 'text',
+                      showApplyBtn: true,
+                      showClearBtn: true
+                     }
           }
         ]
       });
