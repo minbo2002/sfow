@@ -19,7 +19,6 @@
 <button type="button" id="insertRow" style="height:35px; width:70px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><i class="fas fa-arrow-down"></i>&nbsp;저장</button>
 &nbsp;<button type="button" style="height:35px; width:70px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" id="deleteRow"><i class="fas fa-trash"></i>&nbsp;삭제</button>&nbsp;
 <button type="reset" id="resetBtn" style="height:35px; width:70px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><i class="fas fa-power-off"></i>&nbsp;초기화</button>
-&nbsp;<button type="button" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" id="addRow">&nbsp;&nbsp;추가</button>&nbsp;
 <br/><br/>
 <div id="search_area" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
 <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="규격" disabled/><input type="text" class="form-data" id ="item_specification" name="item_specification"/></div>  

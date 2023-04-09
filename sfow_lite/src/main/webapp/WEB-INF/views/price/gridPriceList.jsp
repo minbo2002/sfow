@@ -3,8 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <meta charset="UTF-8">
 <title>품목단가관리</title>
 <style>
@@ -71,12 +69,12 @@
   </div>
 
 </body>
-<script>
+<script> 
+
 	var grid = new tui.Grid({
 	el: document.getElementById('grid'),
 	    scrollX: false,
 	    scrollY: false,
-		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
 
 	columns: [
@@ -101,8 +99,8 @@
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {type: 'datePicker',options: {format: 'yyyy-MM-dd'}}},
-    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: {type: 'datePicker',options: {format: 'yyyy-MM-dd'}}},
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {type: 'datePicker',options: { format:'yyyy-MM-dd'}}},
+    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: {type: 'datePicker',options: { format:'yyyy-MM-dd'}}},
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
@@ -248,7 +246,7 @@
 	// 목록 조회(첫 페이지 출력시 자동 조회)
 	
 	$.ajax({
-		url : "price/toastPriceDataList",		//toastDataList
+		url : "./price/toastPriceDataList",		//toastDataList
 		method :"GET",
 		dataType : "JSON",
 		contentType : "application/json; charset=utf-8",

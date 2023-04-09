@@ -8,22 +8,15 @@ $(document).ready(window.onload=function() {
         scrollY: true,
        
         rowHeaders: [
-	      { type: 'rowNum', align: 'center'},
-    	  { type: 'checkbox' }
+	      { type: 'rowNum', align: 'center'},{ type: 'checkbox' }
         ],
         columns: [
-          {
-            header: '규격',
+          { header: '규격',
             name: 'item_specification',
             editor:'text',
             validation:{required: true},
             align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     }
-          }
+            filter: { type: 'text', showApplyBtn: true, showClearBtn: true}}
         ]
       });
   
