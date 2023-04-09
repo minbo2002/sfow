@@ -33,12 +33,16 @@ public interface ItemService {
 	public List<ItemStockUnit> stockunitListAjax() throws Exception;
 	//재고단위 등록
 	public int StockUnitInsert(ItemStockUnit itemstockunit) throws Exception;
+	//재고단위 삭제
+	public int deleteStockUnit(ItemStockUnit itemstockunit) throws Exception;
 	//재고단위 검색
 	public List<ItemStockUnit> stockunitSearchAjax(ItemStockUnit itemstockunit) throws Exception;
 	//규격 목록
 	public List<ItemSpecification> specificationListAjax() throws Exception;
 	//규격 등록
 	public int specificationInsert(ItemSpecification itemspecification) throws Exception;
+	//규격 삭제
+	public int deleteSpecification(ItemSpecification itemspecification) throws Exception;
 	//규격 검색
 	public List<ItemSpecification> specificationSearchAjax(ItemSpecification itemspecification) throws Exception;
 	//품목유형등록(제품) 검색

@@ -84,6 +84,11 @@ public class ItemRepositoryImpl implements ItemRepository {
 		int cnt = sqlSession.insert("mapper.item.StockUnitInsert",itemstockunit);
 		return cnt;
 	}
+	//재고단위 삭제
+	public int deleteStockUnit(ItemStockUnit itemstockunit) throws DataAccessException {
+		int cnt = sqlSession.delete("mapper.item.deleteStockUnit", itemstockunit);	
+		return cnt;
+	}
 	//재고단위 검색
 	public List<ItemStockUnit> stockunitSearchAjax(ItemStockUnit itemstockunit) throws DataAccessException{
 		List<ItemStockUnit> itemstockunitlist = sqlSession.selectList("mapper.item.ItemStockUnitSearch",itemstockunit);
@@ -97,6 +102,11 @@ public class ItemRepositoryImpl implements ItemRepository {
 	//규격 등록
 	public int specificationInsert(ItemSpecification itemspecification) throws DataAccessException{
 		int cnt = sqlSession.insert("mapper.item.spInsert",itemspecification);
+		return cnt;
+	}
+	//규격 삭제
+	public int deleteSpecification(ItemSpecification itemspecification) throws DataAccessException {
+		int cnt = sqlSession.delete("mapper.item.deleteSpecification", itemspecification);	
 		return cnt;
 	}
 	//규격 검색

@@ -24,7 +24,7 @@
 
 	<select id="priceList" resultType="priceDTO">
 		<![CDATA[
-		select i.company_code as companyCode, i.item_code as itemCode,item_name as itemName,i.item_no as itemNo,item_specification as itemSpecification,c.client_code as clientCode,c.client_name as clientName ,start_date as startDate,end_date as endDate,buy_price as buyPrice,sales_price as salesPrice,p.memo,p.useyn
+		select i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,c.client_code as clientCode,c.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
 			from ma_item_price p, ma_item i ,ma_client_company c
 			where p.item_code=i.item_code AND p.useyn='Y'
 		order by i.item_code 
