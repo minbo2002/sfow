@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yeonoo.stock.domain.Stock;
-import com.yeonoo.stock.repository.StockRepositoryImpl;
+import com.yeonoo.stock.repository.StockByWhRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class StockServiceImpl implements StockService {
+public class StockByWhServiceImpl implements StockByWhService {
 
-    private final StockRepositoryImpl stockRepository;
+    private final StockByWhRepositoryImpl stockRepository;
 
     @Override
     public List<Stock> searchAll() throws Exception{

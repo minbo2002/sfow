@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.yeonoo.stock.domain.Stock;
 
-public interface StockService {
+public interface StockByWhService {
 	
 	public List<Stock> searchAll() throws Exception;
 		

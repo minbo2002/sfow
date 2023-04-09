@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.stock.domain.Stock;
-import com.yeonoo.stock.service.StockServiceImpl;
+import com.yeonoo.stock.service.StockByWhServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class StockController {
+public class StockByWhController {
 	
-	private final StockServiceImpl stockService;
+	private final StockByWhServiceImpl stockService;
 	
     
-    @RequestMapping(value="/stockSearch", method=RequestMethod.GET)
+    @RequestMapping(value="/stockByWh", method=RequestMethod.GET)
     public String stockSearch() {
     	
     	//return "stock/stockSearch";
-    	return "stock/stockWhDetail";
+    	return "stock/stockByWhMain";
     	//return "stock/NewFile";
     }//stockSearch() 끝 8o
 

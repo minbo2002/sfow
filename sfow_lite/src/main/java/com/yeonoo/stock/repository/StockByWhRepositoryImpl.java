@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class StockRepositoryImpl implements StockRepository{
+public class StockByWhRepositoryImpl implements StockByWhRepository{
 	
 	private final SqlSession sqlSession;
 	
@@ -55,9 +55,9 @@ public class StockRepositoryImpl implements StockRepository{
 			System.out.println("스톡리포지토리 리저트1"+result);
 			return result;
 		}else {
-			
-		    String warehouseCode = data.getWarehouse_code();
-		    if (warehouseCode != null && warehouseCode.contains("@N@")) {
+			//모든 input태그의 값이 null 또는 "" 이 아닌 값이 있을 때 동작
+		    String warehouseCode = data.getWarehouse_code();	//data라는 객체에 getter로 warehouse_code가져와 String 변수에 저장
+		    if (warehouseCode != null && warehouseCode.contains("@N@")) {	//만약 위에 저장한 String 변수의 값이 null이 아니면서 @N@구분자가 포함되어있으면 true
 		        String[] warehouseCodes = warehouseCode.split("@N@");
 		        System.out.println("warehouseCodes 배열"+warehouseCodes);
 		        data.setWarehouse_code(null);

@@ -27,43 +27,67 @@
 	          header: '회사코드',
 	          name: 'company_code',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: 'ITEM코드',
 	          name: 'item_code',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: '창고코드',
 	          name: 'warehouse_code',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: '구역코드',
 	          name: 'area_code',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: 'LOT번호',
 	          name: 'lot_no',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
-// 	        {
-// 	          header: '품목구분',
-// 	          name: 'item_category',
-// 	          sortable: true,
-// 	          align:'center'
-// 	        },
 			{
               header: '품목구분',
                 sortable: true,
                 editor:'text', 
                 align:'center', 
+                filter: {
+                    type: 'text',
+                    showApplyBtn: true,
+                    showClearBtn: true
+                },
                 name: 'item_category',
                 editor: {
                           type: 'select',
@@ -88,18 +112,33 @@
 		       header: '품명',
 		       name: 'item_name',
 		       sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 		       align:'center'
 		      },
 	        {
 	          header: '창고이름',
 	          name: 'warehouse_name',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: '규격', 
 	          name: 'item_specification',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
             {
@@ -120,6 +159,11 @@
 	          name: 'pass_quantity',
 	          sortable: true,
 	          editor:'text',
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	          
 	        },
@@ -128,6 +172,11 @@
 	          name: 'fail_quantity',
 	          sortable: true,
 	          editor:'text',
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
@@ -135,12 +184,22 @@
 	          name: 'quantity',
 	          sortable: true,
 	          editor:'text',
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        },
 	        {
 	          header: '재고상태',
 	          name: 'stock_status',
 	          sortable: true,
+	             filter: {
+	                  type: 'text',
+	                  showApplyBtn: true,
+	                  showClearBtn: true
+	              },
 	          align:'center'
 	        }
 	      ]
@@ -503,6 +562,11 @@ $(document).ready(function() {
     	header: '창고코드',
       	name: 'warehouse_code',
       	sortable: true,
+        filter: {
+            type: 'text',
+            showApplyBtn: true,
+            showClearBtn: true
+        },
       	align:'center',
       	width:165
     	},
@@ -510,6 +574,11 @@ $(document).ready(function() {
       	header: '창고명',
       	name: 'warehouse_name',
       	sortable: true,
+        filter: {
+            type: 'text',
+            showApplyBtn: true,
+            showClearBtn: true
+        },
       	align:'center',
       	width:165
     	}
@@ -909,8 +978,10 @@ function whSearch(){
   <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
   	<!-- modal창 내 창고코드 & 창고이름 검색 창 및 버튼-->
     <form id="modalSearch" name="modalSearch">
-    <input type="text" id="whCdSearch" name="whCdSearch" placeholder="창고코드 입력 후 검색 실행"/>
-    <input type="text" id="whNmSearch" name="whNmSearch" placeholder="창고이름 입력 후 검색 실행"/>
+    <input type="text" id="whCdSearch" name="whCdSearch" placeholder="창고코드 입력"/>
+    <span>&nbsp;OR&nbsp;</span>
+    <input type="text" id="whNmSearch" name="whNmSearch" placeholder="창고이름 입력"/>
+    &nbsp;
     <button type="button" id="whSearchBtn" name="whSearchBtn" onclick="whSearch()">검색</button>
     </form>
     <br/>

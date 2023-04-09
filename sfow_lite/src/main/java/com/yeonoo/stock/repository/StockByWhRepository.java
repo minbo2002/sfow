@@ -6,7 +6,7 @@ import org.springframework.dao.DataAccessException;
 
 import com.yeonoo.stock.domain.Stock;
 
-public interface StockRepository {
+public interface StockByWhRepository {
 	
 	
 	public List<Stock> searchAll() throws DataAccessException;
