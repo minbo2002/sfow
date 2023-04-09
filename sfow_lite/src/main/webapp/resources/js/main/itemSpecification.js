@@ -105,9 +105,14 @@ $(document).ready(window.onload=function() {
 		               error: function(error) {
 		                   console.log('Error:', error);
 		               	}
-		           });	         
+		           		});	         
 		           	 });
 		           });			
-	
-		 
+				 Array.prototype.forEach.call(document.querySelectorAll('#resetBtn'), el => {
+					  el.addEventListener('click', ev => {
+						  console.log('click')
+						  $('input[name=item_specification]').attr('value',null);
+						  grid.uncheckAll();
+					  });
+				});
   }); //window.onload끝

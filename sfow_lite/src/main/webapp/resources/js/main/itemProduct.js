@@ -1,27 +1,4 @@
 $(document).ready(window.onload=function() {
-	
-	class CustomTextEditor {
-		  constructor(props) {
-		    const el = document.createElement('input');
-
-		    el.type = 'text';
-		    el.value = String(props.value);
-
-		    this.el = el;
-		  }
-
-		  getElement() {
-		    return this.el;
-		  }
-
-		  getValue() {
-		    return this.el.value;
-		  }
-
-		  mounted() {
-		    this.el.select();
-		  }
-		}
 
     const Grid = tui.Grid;
     const grid = new Grid({    
@@ -35,73 +12,41 @@ $(document).ready(window.onload=function() {
     	   { type: 'checkbox' }
         ],
         columns: [
-          {
-            header: 'ITEM코드',
-            name: 'item_code',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '품명',
-            name: 'item_name',
-            align: 'center',
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '품번',
-            name: 'item_no',
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '유형',
-            name: 'item_type',
+          {  header: 'ITEM코드', name: 'item_code', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          {  header: '품명', name: 'item_name', align: 'center', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          {  header: '품번', name: 'item_no', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          {  header: '유형', name: 'item_type',
             onBeforeChange(tp) {
-                	
+        	  
             	openModal();
             	
             	function openModal(){
             		
             	  var body = document.querySelector('body');
             	  var modal = document.querySelector('.modal');
-            	  
             	  //modalGrid 초기화
             	  var modalGrid = document.getElementById("modalGrid");
             	  modalGrid.innerHTML = "";
-  
+            	  const keyword = document.getElementById("keyword");
+            	  keyword.value="";
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
             	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "reset");
-            	  applyBtn.setAttribute("id", "resetMdBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "초기화";
-            	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "button");
-            	  applyBtn.setAttribute("id", "closeBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "닫기";
-            	  modalGrid.appendChild(applyBtn);
+            	  var resetMdBtn = document.createElement("button");
+            	  resetMdBtn.setAttribute("type", "reset");
+            	  resetMdBtn.setAttribute("id", "resetMdBtn");
+            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.innerText = "초기화";
+            	  modalGrid.appendChild(resetMdBtn);
+            	  var closeBtn = document.createElement("button");
+            	  closeBtn.setAttribute("type", "button");
+            	  closeBtn.setAttribute("id", "closeBtn");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.innerText = "닫기";
+            	  modalGrid.appendChild(closeBtn);
             	  
             	  modal.classList.toggle('show');
             	 
@@ -112,39 +57,27 @@ $(document).ready(window.onload=function() {
     		  	scrollX: false,
     		  	scrollY: false,
     		  	autoWidth: true,
-    		  	rowHeaders: [
-    			      { type: 'rowNum', align: 'center'},
-    		    	  { type: 'checkbox' }
-    		        ],
-    		        columns: [
-    		            {
-    		              header: '유형',
-    		              name: 'item_type',
-    		              align: 'center',
-    		              editor:'text'
-    		            }
-    		          ]
-    			});       		  	
+    		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
+    		    columns: [{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
+    			
     		$.ajax({
     			url : './item/typeSelectAjax',
     	        method :'GET',
     	        dataType : 'JSON',
     		  	  success: function(result) {
     		  		console.log('result', result);
-    		  	  		grid2.resetData(result)
+    		  	  	grid2.resetData(result)
     		  	  },
     		    error: function(xhr, status, error) {
     		      console.log(error);
     		    }
     		  });
-    		
     				grid2.on('check', function(ev) {
     					
     			    const rowKey = ev.rowKey;
     			    const columnName = ev.columnName;
     			    const rowData = grid2.getRow(rowKey);
     			    const item_type = rowData.item_type;
-    			        			    
     			    
     			   Array.prototype.forEach.call(document.querySelectorAll('#applyBtn'), el => {
     				      el.addEventListener('click', ev => {
@@ -155,32 +88,17 @@ $(document).ready(window.onload=function() {
     						});
     					});
     				}); 
-    				
     			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
   				      el.addEventListener('click', ev => {
   				    	  modal.classList.remove('show');
   				    	  body.style.overflow = 'auto';
   				      });
     			  });
-    			  //검색
-    			  grid2.on('click', function(ev) {
-    					
-    					const rowKey = ev.rowKey;
-    		        	const columnName = ev.columnName;
-    		        	const rowData = grid2.getRow(rowKey);
-    		        	
-    		        	console.log("rowData.item_type",rowData.item_type);
-    		        	
-    		        	$('input[name=item_type]').attr('value',rowData.item_type);
-    					});
-    					
-    					 Array.prototype.forEach.call(document.querySelectorAll('#searchBtn'), el => {   
+    			  		//검색
+    					 Array.prototype.forEach.call(document.querySelectorAll('#mdshBtn'), el => {   
     			           	 el.addEventListener('click', ev => {
-    			           		 
-    			           var item_type = $("#search_area input[name='item_type']").val();
-    			           		           
+    			           var item_type = $("#modal_search input[name='keyword']").val();
     			           console.log('item_type:', item_type);
-    			           
     			           $.ajax({
     			       		type: 'POST',
     			       		dataType: 'JSON',
@@ -199,23 +117,12 @@ $(document).ready(window.onload=function() {
     			           });	         
     			           	 });
     			           });		
-            	  
-            	}//openModal끝
-
+            		}//openModal끝
                 },
-            editor: 'text',    
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '규격',
-            name: 'item_specification',
+            editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: '규격', name: 'item_specification',
             onBeforeChange(sp) {
-            	
+        	  
             	openModal();
             	
             	function openModal(){
@@ -225,48 +132,38 @@ $(document).ready(window.onload=function() {
             	  //modalGrid 초기화
             	  var modalGrid = document.getElementById("modalGrid");
             	  modalGrid.innerHTML = "";
+            	  const keyword = document.getElementById("keyword");
+            	  keyword.value="";
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
             	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "reset");
-            	  applyBtn.setAttribute("id", "resetMdBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "초기화";
-            	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "button");
-            	  applyBtn.setAttribute("id", "closeBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "닫기";
-            	  modalGrid.appendChild(applyBtn);
+            	  var resetMdBtn = document.createElement("button");
+            	  resetMdBtn.setAttribute("type", "reset");
+            	  resetMdBtn.setAttribute("id", "resetMdBtn");
+            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.innerText = "초기화";
+            	  modalGrid.appendChild(resetMdBtn);
+            	  var closeBtn = document.createElement("button");
+            	  closeBtn.setAttribute("type", "button");
+            	  closeBtn.setAttribute("id", "closeBtn");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.innerText = "닫기";
+            	  modalGrid.appendChild(closeBtn);
             	  
-            	  console.log('sp', sp.value)
             	  modal.classList.toggle('show');
             	 
     			const Grid = tui.Grid;
     			const grid2 = new Grid({
-    		  		
+    				
     		  	el: document.getElementById('modalGrid'),
     		  	scrollX: false,
     		  	scrollY: false,
     		  	autoWidth: true,
-    		  	rowHeaders: [
-    			      { type: 'rowNum', align: 'center'},
-    		    	  { type: 'checkbox' }
-    		        ],
-    		        columns: [
-    		            {
-    		              header: '규격',
-    		              name: 'item_specification',
-    		              align: 'center',
-    		              editor:'text'
-    		            }
-    		          ]
-    			});       		  	
+    		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
+    		    columns: [{ header: '규격', name: 'item_specification', align: 'center', editor:'text'}]});       		  	
     		$.ajax({
     			url : './item/specificationListAjax',
     	        method :'GET',
@@ -279,7 +176,6 @@ $(document).ready(window.onload=function() {
     		      console.log(error);
     		    }
     		  });
-    		
     				grid2.on('check', function(ev) {
     					
     			    const rowKey = ev.rowKey;
@@ -295,98 +191,107 @@ $(document).ready(window.onload=function() {
     						});
     					});
     				}); 
-    				
     			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
   				      el.addEventListener('click', ev => {
   				    	  modal.classList.remove('show');
   				    	  body.style.overflow = 'auto';
   				      });
     			  });
+    			  Array.prototype.forEach.call(document.querySelectorAll('#resetMdBtn'), el => {
+    				  el.addEventListener('click', ev => {
+    					  grid2.uncheckAll();
+    					  $("#modal_search input[name='keyword']").innerHTML = "";
+    				  });
+    			  });
+    			  		//검색
+    					 Array.prototype.forEach.call(document.querySelectorAll('#mdshBtn'), el => {   
+    			           	 el.addEventListener('click', ev => {
+    			           var item_specification = $("#modal_search input[name='keyword']").val();
+    			           console.log('item_specification:', item_specification);
+    			           $.ajax({
+    			       		type: 'POST',
+    			       		dataType: 'JSON',
+    			       		url: './item/specificationSearchAjax',
+    			       		contentType: 'application/json',
+    			       	    data: JSON.stringify({	
+    			       	    	"item_specification": item_specification
+    			       	        }),
+    			       		success: function(data) {
+    			       			 //gridData=data
+    			       	         grid2.resetData(data)      
+    			               	},
+    			               error: function(error) {
+    			                   console.log('Error:', error);
+    			               	}
+    			           });	         
+    			           	 });
+    			           });	
             	  
             	}//openModal끝
             },
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     }, 
-          },
-          {
-            header: '재고단위',
-            name: 'item_stock_unit',
+            editor: 'text', align: 'center',
+            filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: '재고단위', name: 'item_stock_unit',
             onBeforeChange(su) {
-            	
+        	  
             	openModal();
             	
             	function openModal(){
-            		
             	  var body = document.querySelector('body');
             	  var modal = document.querySelector('.modal');
             	  //modalGrid 초기화
             	  var modalGrid = document.getElementById("modalGrid");
             	  modalGrid.innerHTML = "";
+            	  const keyword = document.getElementById("keyword");
+            	  keyword.value="";
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
             	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "reset");
-            	  applyBtn.setAttribute("id", "resetMdBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "초기화";
-            	  modalGrid.appendChild(applyBtn);
-            	  var applyBtn = document.createElement("button");
-            	  applyBtn.setAttribute("type", "button");
-            	  applyBtn.setAttribute("id", "closeBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
-            	  applyBtn.innerText = "닫기";
-            	  modalGrid.appendChild(applyBtn);
+            	  var resetMdBtn = document.createElement("button");
+            	  resetMdBtn.setAttribute("type", "reset");
+            	  resetMdBtn.setAttribute("id", "resetMdBtn");
+            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.innerText = "초기화";
+            	  modalGrid.appendChild(resetMdBtn);
+            	  var closeBtn = document.createElement("button");
+            	  closeBtn.setAttribute("type", "button");
+            	  closeBtn.setAttribute("id", "closeBtn");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.innerText = "닫기";
+            	  modalGrid.appendChild(closeBtn);
             	  
             	  console.log('su', su.value)
             	  modal.classList.toggle('show');
             	 
     			const Grid = tui.Grid;
-    			const grid3 = new Grid({
-    		  		
+    			const grid2 = new Grid({
+    				
     		  	el: document.getElementById('modalGrid'),
     		  	scrollX: false,
     		  	scrollY: false,
     		  	autoWidth: true,
-    		  	rowHeaders: [
-    			      { type: 'rowNum', align: 'center'},
-    		    	  { type: 'checkbox' }
-    		        ],
-    		        columns: [
-    		            {
-    		              header: '재고단위',
-    		              name: 'item_stock_unit',
-    		              align: 'center',
-    		              editor:'text'
-    		            }
-    		          ]
-    			});       		  	
+    		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
+    		        columns: [{ header: '재고단위', name: 'item_stock_unit', align: 'center', editor:'text' }]});
     		$.ajax({
     			url : './item/stockunitListAjax',
     	        method :'GET',
     	        dataType : 'JSON',
     		  	  success: function(result) {
     		  		console.log('result', result);
-    		  	  		grid3.resetData(result)
+    		  	  		grid2.resetData(result)
     		  	  },
     		    error: function(xhr, status, error) {
     		      console.log(error);
     		    }
     		  });
-    		
-    				grid3.on('check', function(ev) {
-    					
-    			    const rowKey = ev.rowKey;
+    				grid2.on('check', function(ev) {
+
+    				const rowKey = ev.rowKey;
     			    const columnName = ev.columnName;
-    			    const rowData = grid3.getRow(rowKey);
+    			    const rowData = grid2.getRow(rowKey);
     			    const item_stock_unit = rowData.item_stock_unit;
     			    console.log('item_stock_unit!', item_stock_unit);
     			    
@@ -399,81 +304,52 @@ $(document).ready(window.onload=function() {
     						});
     					});
     				}); 
-    				
     			  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
   				      el.addEventListener('click', ev => {
   				    	  modal.classList.remove('show');
   				    	  body.style.overflow = 'auto';
   				      });
     			  });
-            	  
+    			  Array.prototype.forEach.call(document.querySelectorAll('#resetMdBtn'), el => {
+    				  el.addEventListener('click', ev => {
+    					  grid2.uncheckAll();
+    					  $("#modal_search input[name='keyword']").innerHTML = "";
+    				  });
+    			  });
+    			  		//검색
+    					 Array.prototype.forEach.call(document.querySelectorAll('#mdshBtn'), el => {   
+    			           	 el.addEventListener('click', ev => {
+    			           		 
+    			           var item_stock_unit = $("#modal_search input[name='keyword']").val();
+    			           		           
+    			           console.log('item_stock_unit:', item_stock_unit);
+    			           
+    			           $.ajax({
+    			       		type: 'POST',
+    			       		dataType: 'JSON',
+    			       		url: './item/stockunitSearchAjax',
+    			       		contentType: 'application/json',
+    			       	    data: JSON.stringify({	
+    			       	    	"item_stock_unit": item_stock_unit
+    			       	        }),
+    			       		success: function(data) {
+    			       	         grid2.resetData(data)      
+    			               	},
+    			               error: function(error) {
+    			                   console.log('Error:', error);
+    			               	}
+    			           });	         
+    			           	 });
+    			           });	
             	}//openModal끝
             },
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: 'lot_Size',
-            name: 'lotsize',
-            editor: 'text',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '비고',
-            name: 'memo',
-            editor: 'text',
-            align: 'center'
-          },
-          {
-            header: '사용여부',
-            name: 'useyn',
-            formatter: 'listItemText',
-            editor: {
-                type: 'select',
-                options: {
-                  listItems: [
-                    { text: 'Y', value: 'Y' },
-                    { text: 'N', value: 'N' }
-                  ]
-                }
-              },
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '등록일시',
-            name: 'createdate',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     },
-          },
-          {
-            header: '수정일시',
-            name: 'updatedate',
-            align: 'center',
-            filter: {
-                      type: 'text',
-                      showApplyBtn: true,
-                      showClearBtn: true
-                     }, 
-          }
+            editor: 'text',align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: 'lot_Size', name: 'lotsize', editor: 'text',align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: '비고', name: 'memo', editor: 'text', align: 'center' },
+          { header: '사용여부', name: 'useyn', formatter: 'listItemText', editor: { type: 'select', options: { listItems: [{ text: 'Y', value: 'Y' },{ text: 'N', value: 'N' } ]}},
+            align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: '등록일시', name: 'createdate', align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
+          { header: '수정일시', name: 'updatedate', align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
         ]       
       });
  //행추가   
@@ -613,7 +489,123 @@ $(document).ready(window.onload=function() {
            error: function(error) {
                console.log('Error:', error);
            	}
-       });
+       		});
        	 });
        });
+	  Array.prototype.forEach.call(document.querySelectorAll('#resetBtn'), el => {
+		  el.addEventListener('click', ev => {
+			  grid.uncheckAll();
+				$('input[name=item_code]').attr('value',null);
+		    	$('input[name=item_name]').attr('value',null);
+		    	$('input[name=item_no]').attr('value',null);
+		    	$('input[name=item_type]').attr('value',null);
+		  });
+	  });
+	 //유형검색시 모달
+	 Array.prototype.forEach.call(document.querySelectorAll('#btnFas'), el => {   
+       	 el.addEventListener('dblclick', ev => {
+       		 
+       	  var body = document.querySelector('body');
+    	  var modal = document.querySelector('.modal');
+    	  //modalGrid 초기화
+    	  var modalGrid = document.getElementById("modalGrid");
+    	  modalGrid.innerHTML = "";
+    	  const keyword = document.getElementById("keyword");
+    	  keyword.value="";
+    	  var applyBtn = document.createElement("button");
+    	  applyBtn.setAttribute("type", "button");
+    	  applyBtn.setAttribute("id", "applyBtn");
+    	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  applyBtn.innerText = "적용";
+    	  modalGrid.appendChild(applyBtn);
+    	  var resetMdBtn = document.createElement("button");
+    	  resetMdBtn.setAttribute("type", "reset");
+    	  resetMdBtn.setAttribute("id", "resetMdBtn");
+    	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  resetMdBtn.innerText = "초기화";
+    	  modalGrid.appendChild(resetMdBtn);
+    	  var closeBtn = document.createElement("button");
+    	  closeBtn.setAttribute("type", "button");
+    	  closeBtn.setAttribute("id", "closeBtn");
+    	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  closeBtn.innerText = "닫기";
+    	  modalGrid.appendChild(closeBtn);
+    	  
+    	  modal.classList.toggle('show');
+    	  
+    	  const Grid = tui.Grid;
+		  const grid2 = new Grid({
+				
+		  	el: document.getElementById('modalGrid'),
+		  	scrollX: false,
+		  	scrollY: false,
+		  	autoWidth: true,
+		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
+		    columns: [{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
+			
+		$.ajax({
+			url : './item/typeSelectAjax',
+	        method :'GET',
+	        dataType : 'JSON',
+		  	  success: function(result) {
+		  		console.log('result', result);
+		  	  	grid2.resetData(result)
+		  	  },
+		    error: function(xhr, status, error) {
+		      console.log(error);
+		    }
+		  });
+		
+		grid2.on('check', function(ev) {
+			
+		    const rowKey = ev.rowKey;
+		    const columnName = ev.columnName;
+		    const rowData = grid2.getRow(rowKey);
+		    
+		   Array.prototype.forEach.call(document.querySelectorAll('#applyBtn'), el => {
+			      el.addEventListener('click', ev => {
+			    	  $("#btnFas input[name='item_type']").attr("value",rowData.item_type);
+    			    	modal.classList.remove('show');
+    			    	body.style.overflow = 'auto';
+					});
+				});
+			}); 
+		  Array.prototype.forEach.call(document.querySelectorAll('#closeBtn'), el => {
+			      el.addEventListener('click', ev => {
+			    	  modal.classList.remove('show');
+			    	  body.style.overflow = 'auto';
+			      });
+		  	});
+		  Array.prototype.forEach.call(document.querySelectorAll('#resetMdBtn'), el => {
+			  el.addEventListener('click', ev => {
+				  grid2.uncheckAll();
+				  $("#modal_search input[name='keyword']").attr('value',null);
+			  });
+		  });
+		  		//검색
+				 Array.prototype.forEach.call(document.querySelectorAll('#mdshBtn'), el => {   
+		           	 el.addEventListener('click', ev => {
+		           var item_type = $("#modal_search input[name='keyword']").val();
+		           console.log('item_type:', item_type);
+		           $.ajax({
+		       		type: 'POST',
+		       		dataType: 'JSON',
+		       		url: './item/typeSelectSearchAjax',
+		       		contentType: 'application/json',
+		       	    data: JSON.stringify({	
+		       	    	"item_type": item_type
+		       	        }),
+		       		success: function(data) {
+		       			 //gridData=data
+		       	         grid2.resetData(data)      
+		               	},
+		               error: function(error) {
+		                   console.log('Error:', error);
+		               	}
+		           });	         
+		           	 });
+		           });		
+       	 });
+	 });
+
   }); //window.onload끝

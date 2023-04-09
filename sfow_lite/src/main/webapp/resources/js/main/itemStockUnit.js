@@ -49,8 +49,6 @@ $(document).ready(window.onload=function() {
 		const rowKey = ev.rowKey;
      	const columnName = ev.columnName;
      	const rowData = grid.getRow(rowKey);
-			//console.log('check!', ev);
-			//console.log('check!', rowData);
 			
      Array.prototype.forEach.call(document.querySelectorAll('#insertRow'), el => {
 		      el.addEventListener('click', ev => {
@@ -105,9 +103,14 @@ $(document).ready(window.onload=function() {
 		               error: function(error) {
 		                   console.log('Error:', error);
 		               	}
-		           });	         
+		           		});	         
 		           	 });
-		           });			
-	
-		 
+		           });
+				 Array.prototype.forEach.call(document.querySelectorAll('#resetBtn'), el => {
+					  el.addEventListener('click', ev => {
+						  console.log('click')
+						  $('input[name=item_stock_unit]').attr('value',null);
+						  grid.uncheckAll();
+					  });
+				});
   }); //window.onload끝

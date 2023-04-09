@@ -3,11 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <meta charset="UTF-8">
 <title>품목단가관리</title>
- <link rel="stylesheet" href="https://uicdn.toast.com/tui-date-picker/latest/tui-date-picker.css" />
- <script src="https://uicdn.toast.com/tui-date-picker/latest/tui-date-picker.min.js"></script>
-
 <style>
 		.form-title{
 		width : 100px;
@@ -73,8 +72,6 @@
 
 </body>
 <script>
-	var newRowData ="";
-	var gridData=[]; 
 	var grid = new tui.Grid({
 	el: document.getElementById('grid'),
 	    scrollX: false,
@@ -104,26 +101,8 @@
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
-<<<<<<< HEAD
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true,  editor: {
-        type: 'datePicker',
-        options: {
-          selectableRanges: [[new Date(2014, 3, 10), new Date(2014, 5, 20)]]
-        }
-      } ,align:'center' },
-    { header: '종료일' 	 , name: 'endDate' 			, sortable: true,  editor: {
-        type: 'datePicker',
-        options: {
-          selectableRanges: [[new Date(2014, 3, 10), new Date(2014, 5, 20)]]
-        }
-      } ,align:'center' },
-=======
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {
-											      				  	  type: 'datePicker',
-											        			      options: {
-											          				  format: 'yyyy-MM-dd'} ,align:'center' } },
-    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: 'text' ,align:'center' },
->>>>>>> refs/remotes/origin/RAW
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {type: 'datePicker',options: {format: 'yyyy-MM-dd'}}},
+    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: {type: 'datePicker',options: {format: 'yyyy-MM-dd'}}},
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },

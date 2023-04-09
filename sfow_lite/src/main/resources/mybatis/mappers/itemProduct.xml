@@ -76,6 +76,7 @@
     AND COALESCE(item_no, '') LIKE CONCAT('%',#{item_no},'%')
     AND COALESCE(item_type, '') LIKE CONCAT('%',#{item_type},'%')
 	AND item_category='제품'
+	AND (useyn is NULL OR useyn = 'y')
   ]]>
  </select>
   <!-- 품목유형등록 목록-->

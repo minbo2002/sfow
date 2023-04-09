@@ -104,7 +104,7 @@ grid.on('check', function(ev) {
 
 	grid.on('check', function(ev) {	
      
-   const rowKey = ev.rowKey;
+    const rowKey = ev.rowKey;
 	const columnName = ev.columnName;
 	const rowData = grid.getRow(rowKey);
 		console.log('check!', ev);
@@ -134,12 +134,12 @@ Array.prototype.forEach.call(document.querySelectorAll('#insertRow'), el => {
 
 	grid.on('click', function(ev) {
 		
-		const rowKey = ev.rowKey;
+	const rowKey = ev.rowKey;
    	const columnName = ev.columnName;
    	const rowData = grid.getRow(rowKey);
    	
-   	$('select[name=item_category]').prop('value',rowData.item_type);
-   	$('input[name=item_type]').attr('value',rowData.item_category);
+   	$('select[name=item_category]').prop('value',rowData.item_category);
+   	$('input[name=item_type]').attr('value',rowData.item_type);
 	});
 	
 	 Array.prototype.forEach.call(document.querySelectorAll('#searchBtn'), el => {   
@@ -167,8 +167,14 @@ Array.prototype.forEach.call(document.querySelectorAll('#insertRow'), el => {
           error: function(error) {
               console.log('Error:', error);
           	}
-      });	         
+      		});	         
       	 });
       });
-	 
+	  Array.prototype.forEach.call(document.querySelectorAll('#resetBtn'), el => {
+		  el.addEventListener('click', ev => {
+			  grid.uncheckAll();
+			  $('select[name=item_category]').prop('value',null);
+			  $('input[name=item_type]').attr('value',null);
+		  });
+	  });
   }); //window.onload끝
