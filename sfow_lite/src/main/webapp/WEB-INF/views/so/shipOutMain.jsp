@@ -1,23 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="conPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
-
-	<!-- 순서주의 -->
-	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" /> <!-- date-picker -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /><!-- jQuery Modal -->
-	<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script> <!-- date-picker -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script><!-- include jQuery -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script><!-- jQuery Modal -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
 	<title>출하등록</title>
-	
-	<style>
 
+	<style>
+	.custom-button {
+	    background-color: rgba(051, 51, 102, 1);
+	    font-weight: bolder;
+	    color: #fff;
+	    border: none;
+	}
+	
+	#addRow:hover, #changeStatus:hover, #updateRow:hover {
+	  background-color: rgba(051, 102, 204, 1);
+	  opacity: 0.8;
+	}
+	
+	#deleteRowBtn:hover, #resetRow:hover, #resetBtn:hover {
+	  background-color: rgba(204, 000, 051, 1);
+	  opacity: 0.8;
+	}
+	
+	#addRowBtn:hover, #searchBtn:hover {
+	  background-color: rgba(80, 201, 141);
+	  opacity: 0.8;
+	}
 	</style>
 	
 	<script>
@@ -52,7 +63,7 @@
 				contentType : "application/json; charset=utf-8",
 				success : function (shipOutList) {
 					console.dir(shipOutList)
-					grid.resetData(shipOutList);  // result를 배열로 받는다
+					grid.resetData(shipOutList);
 				}
 			});
 	   });
@@ -62,8 +73,8 @@
 	var grid = new tui.Grid({
 	      el: document.getElementById('grid'),
 	      data: gridData,
-	      scrollX: false,
-	      scrollY: false,
+	      scrollX: true,
+	      scrollY: true,
 	      rowHeaders: ['checkbox', 'rowNum'],
 	      columns: [
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
@@ -74,7 +85,17 @@
 			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
 			{header:"출하유형", name:"outType", editor:"text", align:"center"},
 			{header:"수불타입", name:"transType", editor:"text", align:"center"},
-			{header:"출하계획일", name:"outPlanDate", editor:"text", align:"center"},
+			{
+			  header:"출하계획일", 
+			  name:"outPlanDate",
+			  align:"center",
+			  editor: {
+                	    type: "datePicker",
+                	    options: {
+                  				  format: "yyyy-MM-dd"
+                		 	     }		
+           		      }
+            },
 			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
 			{header: "상태", name:"outStatus", align:"center"},
 			{header: "비고", name:"memo", editor:"text", align:"center"},
@@ -86,7 +107,7 @@
 	      ]
 	});
 
-	// 체크박스 클릭시 검색창에 PK, FK값 출력
+	// 1개의 row 체크박스 클릭시 검색창에 출하코드, 수주번호, 거래처코드, 회사코드, ITEM코드 출력
 	grid.on('check', function(ev) {
 		
 		gridItem.clear();
@@ -136,9 +157,9 @@
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				success : function (result) {
-					alert('Items 조회성공');
+					//alert('Items 조회성공');
 					console.dir('result : ' + result);
-					gridItem.resetData(result);  // result를 배열로 받는다
+					gridItem.resetData(result);
 				}
 			});
 			
@@ -149,9 +170,9 @@
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				success : function (result) {
-					alert('Lots 조회성공');
+					//alert('Lots 조회성공');
 					console.dir('result : ' + result);
-					gridLot.resetData(result);  // result를 배열로 받는다
+					gridLot.resetData(result);
 				}
 			});
 
@@ -174,14 +195,21 @@
 		}
     });
 	
-	// client_code 더블클릭 이벤트 실행
+	// 체크박스 해제시 자식 grid 초기화
+	grid.on('uncheck', function(ev) {
+
+        gridItem.clear();
+		gridLot.clear();
+    });
+	
+	// 1개 row의 수주번호칸 더블클릭시 이벤트 실행
     grid.on('dblclick', function(ev) {
         if (ev.columnName === 'orderNumber') {
             window.open('${conPath}/shipout/modalItem', 'childWindow', 'width=500,height=500');
         }
     });
 	
-	// 
+	// modal창에서 선택한 데이터 grid에 출력 
     window.addEventListener('message', function(ev) {
         const selectedRow = ev.data;
         const focusedCell = grid.getFocusedCell();
@@ -192,18 +220,13 @@
         grid.setValue(focusedCell.rowKey, 'outQuantity', selectedRow.outQuantity);
     });
 
-	/*
-	grid.off('check', function(ev) {
-		grid.removeCheckedRows(true);
-	});
-	*/
 	
 	var gridItemData = [];
 	var gridItem = new tui.Grid({
 	      el: document.getElementById('gridItem'),
 	      data: gridItemData,
-	      scrollX: false,
-	      scrollY: false,
+	      scrollX: true,
+	      scrollY: true,
 	      columns: [
 			{header: "출하코드", name: "outCode"},		    // 출하 테이블(so_shipout)
 			{header: "수주번호", name: "orderNumber"},    // 수주서상세 테이블(so_order_detail)	 
@@ -218,12 +241,13 @@
 	      ]
 	});
 	
+	
 	var gridLotData = [];
 	var gridLot = new tui.Grid({
 	      el: document.getElementById('gridLot'),
 	      data: gridLotData,
-	      scrollX: false,
-	      scrollY: false,
+	      scrollX: true,
+	      scrollY: true,
 	      columns: [
 			{header: "LOT번호", name: "lotNo"},        // 실적등록 테이블(pp_perform)
 			{header: "ITEM코드", name: "itemCode"},    // 실적등록 테이블(pp_perform)
@@ -264,10 +288,9 @@
 	deleteRow.addEventListener("click", function() {
 
 		grid.removeCheckedRows(true);
-		// grid.blur();
 	});
 	
-	// 등록 진행
+	// 등록
 	$("#addRowBtn").click(function() {
 		let i = confirm('등록하시겠습니까?');
 		if(i) {
@@ -277,22 +300,20 @@
 		}
 	});
 	
-	// 등록 진행
+	// 등록 함수
 	function addBtn() {
 
-		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		//alert("rowDatas : " + rowDatas);
-		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		var rowDatas = grid.getCheckedRows();
+
+		var jsonRowDatas = JSON.stringify(rowDatas);
 		
 		$.ajax({
 			url : "${conPath}/shipout/write",
 			method : "post",
 			data : jsonRowDatas,
-			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-			dataType: "json",			// 서버에서 받을 데이터타입
+			contentType : "application/json; charset=utf-8",
+			dataType: "json",
 			success : function (result) {
-				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('등록성공');
 			},
 			error: function() {
@@ -301,7 +322,7 @@
 		});
 	}
 	
-	// 삭제실행
+	// 삭제
 	$("#deleteRowBtn").click(function() {
 		let d = confirm('삭제하시겠습니까?');
 		if(d) {
@@ -328,7 +349,7 @@
 
 		$.ajax({
 			url : "${conPath}/shipout/deleteShipOut",
-			method : "post",
+			method : "put",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
@@ -344,7 +365,7 @@
 		});
 	}
 	
-	// 상태 변경실행
+	// 상태 변경
 	$("#changeStatus").click(function() {
 		let d = confirm('상태를 변경하시겠습니까?');
 		if(d) {
@@ -357,19 +378,17 @@
 	// 상태변경 함수
 	function changeStatusFunction() {
 
-		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		//alert("rowDatas : " + rowDatas);
-		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		var rowDatas = grid.getCheckedRows();
+		
+		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
 			url : "${conPath}/shipout/statusUpdate",
-			method : "post",
+			method : "put",
 			data : jsonRowDatas,
-			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-			dataType: "json",			// 서버에서 받을 데이터타입
+			contentType : "application/json; charset=utf-8",
+			dataType: "json",
 			success : function (result) {
-				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('상태변경 성공');
 			},
 			error: function() {
@@ -392,19 +411,17 @@
 	// 데이터 수정함수
 	function updateFunction() {
 
-		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		//alert("rowDatas : " + rowDatas);
-		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+		var rowDatas = grid.getCheckedRows();
+		
+		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
 			url : "${conPath}/shipout/updateShipOut",
 			method : "patch",
 			data : jsonRowDatas,
-			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-			dataType: "json",			// 서버에서 받을 데이터타입
+			contentType : "application/json; charset=utf-8",
+			dataType: "json",
 			success : function (result) {
-				//alert(result); // result는 반환받은 json형태의 객체 
 				alert('데이터 수정성공');
 			},
 			error: function() {
@@ -425,35 +442,32 @@
 	var resetBtn = document.getElementById("resetBtn");
 	resetBtn.addEventListener("click", function() {
 		$("#shipOutSearch")[0].reset();
-		document.getElementById("outPlanDate").valueAsDate = new Date();
-		document.getElementById("createDate").valueAsDate = new Date();
-		//document.getElementById("updateDate").valueAsDate = new Date();
 	});
 	
 	// 검색창의 출하계획일, 등록일에 오늘날짜 계속 표시
-	document.getElementById("outPlanDate").valueAsDate = new Date();
-	document.getElementById("createDate").valueAsDate = new Date();
+	//document.getElementById("outPlanDate").valueAsDate = new Date();
+	//document.getElementById("createDate").valueAsDate = new Date();
 	//document.getElementById("updateDate").valueAsDate = new Date();
 	
 	</script>
 	
 </head>
 <body>
-
+	<h5>출하등록</h5>
  	<form id="shipOutSearch" > 
-		<input type="submit" value="조회" id="searchBtn">
-		<button type="button" id="resetBtn">검색조건 초기화</button> <br><br>
+		<input type="submit" value="조회" id="searchBtn" class="custom-button">
+		<button type="button" id="resetBtn" class="custom-button"><i class="fa fa-power-off"></i>검색조건 초기화</button><br><br>
 		
 		<label for="outCode">출하코드:</label>
-		<input type="text" name="outCode" id="outCode" value="">
+		<input type="text" name="outCode" id="outCode" value="" style="background-color: lightgray;">
 		<label for="orderNumber">수주번호:</label>
-		<input type="text" name="orderNumber" id="orderNumber" value="">
+		<input type="text" name="orderNumber" id="orderNumber" value="" style="background-color: lightgray;">
 		<label for="clientCode">거래처코드:</label>
-		<input type="text" name="clientCode" id="clientCode" value="">
+		<input type="text" name="clientCode" id="clientCode" value="" style="background-color: lightgray;">
 		<label for="companyCode">회사코드:</label>
-		<input type="text" name="companyCode" id="companyCode" value=""> <br>
+		<input type="text" name="companyCode" id="companyCode" value="" style="background-color: lightgray;"> <br>
 		<label for="itemCode">ITEM코드:</label>
-		<input type="text" name="itemCode" id="itemCode" value="">
+		<input type="text" name="itemCode" id="itemCode" value="" style="background-color: lightgray;">
 		
 		<label for="outType">출하유형:</label>
 		<select name="outType" id="outType">
@@ -509,39 +523,16 @@
 	<br><hr>
 
 	<div id="grid">
-		<button type="button" id="addRowBtn" style="background-color: #33F6FF">등록</button>
-		<button type="button" id="deleteRowBtn" style="background-color: #FF3333">삭제</button>
-		<button type="button" id="changeStatus">상태변경</button>
-		<button type="button" id="updateRow">데이터수정</button>
-		<button type="button" id="resetRow">조회결과 초기화</button>
-		<button type="button" id="addRow">+</button>
-		<button type="button" id="deleteRow">ㅡ</button>
+		<button type="button" id="addRowBtn"    class="custom-button"><i class="fa fa-save"></i>등록</button>
+		<button type="button" id="updateRow"    class="custom-button">수정</button>
+		<button type="button" id="deleteRowBtn" class="custom-button"><i class="fa fa-trash"></i>삭제</button>
+		<button type="button" id="changeStatus" class="custom-button">상태변경</button>
+		<button type="button" id="resetRow"     class="custom-button"><i class="fa fa-power-off"></i>조회결과 초기화</button>
+		<button type="button" id="addRow"       class="custom-button">+</button>
+		<button type="button" id="deleteRow"    class="custom-button">ㅡ</button>
 	</div> <br><hr>
 	<div id="gridItem"></div>   <br><hr>
 	<div id="gridLot"></div>    <br><hr>
-	
-	
 
-
-	<div class="modal">   
-	    <!-- modal에 grid 띄우기 -->
-	    <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
-	    
-	    <!-- reset 버튼 추가 -->
-	    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-	      <img src="${conPath}/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
-	    </button>
-	    
-	    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-	      <img src="${conPath}/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
-	    </button>
-	    
-	    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-	      <img src="${conPath}/resources\img\stock\ex.png" width="11px"/>&nbsp;&nbsp;닫기
-	    </button>
-	    
-    	</div>
-	</div>
-	
 </body>
 </html>

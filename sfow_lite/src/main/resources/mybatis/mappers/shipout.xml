@@ -95,7 +95,7 @@
 	<update id="updateShipOut" parameterType="shipOut">
 		<![CDATA[
 			update so_shipout
-			set order_number=#{orderNumber}, out_type=#{outType}, trans_type=#{transType}, out_plan_date=current_timestamp,
+			set order_number=#{orderNumber}, out_type=#{outType}, trans_type=#{transType}, out_plan_date=#{outPlanDate},
 				out_manager=#{outManager}, memo=#{memo}, create_user=#{createUser}, update_date=current_timestamp, update_user=#{updateUser} 
 			where out_code=#{outCode}
 		]]>

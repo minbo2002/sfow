@@ -7,6 +7,60 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ItemModal</title>
+	
+	<style type="text/css">
+	body {
+        background-color: #f1f1f1;
+        font-family: Arial, sans-serif;
+    }
+    #grid {
+        background-color: white;
+        margin: 20px;
+        border: 1px solid #ccc;
+    }
+    .tui-grid-cell-content {
+        color: #333;
+    }
+    .tui-grid-border-line-top,
+    .tui-grid-border-line-bottom,
+    .tui-grid-border-line-left,
+    .tui-grid-border-line-right {
+        border-color: #999;
+    }
+    .tui-grid-cell-header {
+        background-color: #007bff;
+        color: white;
+    }
+   
+    #confirmBtn{
+      background-color: #4e73df;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      margin-right:5px;
+      cursor: pointer;
+
+    }
+   
+    #cancelBtn{
+      background-color: #e03221;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      cursor: pointer;
+      margin-right:5px;
+    }
+   
+    .button-container {
+        text-align: center;
+    }
+	</style>
 
 	<link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
 	<script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
@@ -15,23 +69,24 @@
 	
 	$(document).ready(function(){
 
-		var contextPath = '<%= request.getContextPath() %>';
+		
 		
 		const grid = new tui.Grid({
 		    el: document.getElementById('grid'),
+		    rowHeaders: ['rowNum'],
 		    columns: [
-		        { header: '수주번호', name: 'orderNumber' },
-		        { header: '거래처코드', name: 'clientCode' },
-		        { header: '회사코드', name: 'companyCode' },
-		        { header: 'ITEM코드', name: 'itemCode' },
-		        { header: '수량', name: 'outQuantity' }
+		        { header: '수주번호', name: 'orderNumber', align:"center"},
+		        { header: '거래처코드', name: 'clientCode', align:"center"},
+		        { header: '회사코드', name: 'companyCode', align:"center" },
+		        { header: 'ITEM코드', name: 'itemCode', align:"center" },
+		        { header: '수량', name: 'outQuantity', align:"center" }
 		    ]
 		});
 		
 		// 서버에서 데이터를 가져와서 그리드에 데이터를 설정합니다.
 		function loadGridData() {
 		    $.ajax({
-		        url:contextPath + '/shipout/getModalItem', // 실제 데이터를 가져올 URL을 입력해주세요.
+		        url:'${conPath}/shipout/getModalItem', // 실제 데이터를 가져올 URL을 입력해주세요.
 		        method: 'GET',
 		        dataType : 'JSON',
 		        success: function(result) {
@@ -53,11 +108,17 @@
 		    window.close();
 		});
 		
+		$('#cancelBtn').on('click', function() {
+		       window.close();
+		   });
+		
 	});
 	</script>
 </head>
 <body>
     <div id="grid"></div>
     <button id="confirmBtn">확인</button>
+    <button id="cancelBtn">취소</button>
+    
 </body>
 </html>

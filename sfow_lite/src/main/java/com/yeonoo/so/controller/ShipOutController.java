@@ -72,7 +72,7 @@ public class ShipOutController {
 
 	// 출하정보 삭제(삭제여부 상태 업데이트됨)
 	@ResponseBody
-	@RequestMapping(value="deleteShipOut", method=RequestMethod.POST)
+	@RequestMapping(value="deleteShipOut", method=RequestMethod.PUT)
 	public int deleteStatus(@RequestBody List<ShipOut> shipout) {
 
 		logger.info("삭제를 위한 shipout 정보 = " + shipout);
@@ -83,10 +83,10 @@ public class ShipOutController {
 		while(iterator.hasNext()) {
 			
 			ShipOut elements = iterator.next();
-			logger.info("출하코드 outCode = " + elements.getOutCode());
+			logger.info("출하코드 outCode = " + elements.getOutCode() + ",  출하상태 = " + elements.getOutStatus());
 
 			updateCnt = shipOutService.deleteStatus(elements.getOutCode());
-			logger.info("삭제한 row개수 = " + updateCnt);
+			logger.info("삭제한 row개수 = " + updateCnt);				
 		}
 		
 		return updateCnt;
@@ -176,7 +176,7 @@ public class ShipOutController {
 	
 	// 상태 변경
 	@ResponseBody
-	@RequestMapping(value="statusUpdate", method=RequestMethod.POST)
+	@RequestMapping(value="statusUpdate", method=RequestMethod.PUT)
 	public int statusUpdate(@RequestBody List<ShipOut> shipout) {
 
 		logger.info("상태변경을 위한 shipout 정보 = " + shipout);
