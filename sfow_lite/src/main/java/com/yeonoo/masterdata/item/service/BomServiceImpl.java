@@ -15,32 +15,37 @@ public class BomServiceImpl implements BomService{
 	BomRepository bomRepository;
 	
 	@Override
-	public List<BomItem> getItemList(int company_code) throws Exception {
+	public List<BomItem> getItemList(String company_code) throws Exception {
 		return bomRepository.getItemList(company_code);
 	}
 	
 	@Override
-	public List<BomItem> getBomTree(String ppitem_cd) throws Exception {
-		return bomRepository.getBomTree(ppitem_cd);
+	public List<BomItem> getBomTree(String ppitem_cd, String company_code) throws Exception {
+		return bomRepository.getBomTree(ppitem_cd, company_code);
 	}
 	
 	@Override
-	public BomItem selectItem(String ppitem_cd) throws Exception {
-		return bomRepository.selectItem(ppitem_cd);
+	public BomItem selectItem(String ppitem_cd, String company_code) throws Exception {
+		return bomRepository.selectItem(ppitem_cd, company_code);
 	}
 	
 	@Override
-	public List<BomItem> getItemListByName(String item_name) throws Exception {
-		return bomRepository.getItemListByName(item_name);
+	public List<BomItem> getItemListByName(String item_name, String company_code) throws Exception {
+		return bomRepository.getItemListByName(item_name, company_code);
 	}
 	
 	@Override
-	public void updateTree(String ppitem_cd, BomItem bomItem) throws Exception {
-		bomRepository.updateTree(ppitem_cd, bomItem);
+	public void updateTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception {
+		bomRepository.updateTree(ppitem_cd, bomItem, company_code);
 	}
 	
 	@Override
-	public void insertTree(String ppitem_cd, BomItem bomItem) throws Exception {
-		bomRepository.insertTree(ppitem_cd, bomItem);
+	public void insertTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception {
+		bomRepository.insertTree(ppitem_cd, bomItem, company_code);
+	}
+	
+	@Override
+	public void deleteTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception {
+		bomRepository.deleteTree(ppitem_cd, bomItem, company_code);
 	}
 }

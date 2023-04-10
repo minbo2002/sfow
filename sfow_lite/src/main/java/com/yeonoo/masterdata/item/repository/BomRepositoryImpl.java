@@ -18,43 +18,62 @@ public class BomRepositoryImpl implements BomRepository {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<BomItem> getItemList(int company_code) throws DataAccessException {
+	public List<BomItem> getItemList(String company_code) throws DataAccessException {
 		List<BomItem> list = sqlSession.selectList("mapper.bom.getItemList", company_code);
 		return list;
 	}
 	
 	@Override
-	public List<BomItem> getBomTree(String ppitem_cd) throws DataAccessException {
-		List<BomItem> list = sqlSession.selectList("mapper.bom.getBomTree", ppitem_cd);
+	public List<BomItem> getBomTree(String ppitem_cd, String company_code) throws DataAccessException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("ppitem_cd", ppitem_cd);
+		map.put("company_code", company_code);
+		List<BomItem> list = sqlSession.selectList("mapper.bom.getBomTree", map);
 		return list;
 	}
 	
 	@Override
-	public BomItem selectItem(String ppitem_cd) throws DataAccessException {
-		String item_code = ppitem_cd;
-		BomItem item = sqlSession.selectOne("mapper.bom.selectItem", item_code);
+	public BomItem selectItem(String ppitem_cd, String company_code) throws DataAccessException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("item_code", ppitem_cd);
+		map.put("company_code", company_code);
+		BomItem item = sqlSession.selectOne("mapper.bom.selectItem", map);
 		return item;
 	}
 	
 	@Override
-	public List<BomItem> getItemListByName(String item_name) throws DataAccessException {
-		List<BomItem> list = sqlSession.selectList("mapper.bom.getItemListByName", item_name);
+	public List<BomItem> getItemListByName(String item_name, String company_code) throws DataAccessException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("item_name", item_name);
+		map.put("company_code", company_code);
+		List<BomItem> list = sqlSession.selectList("mapper.bom.getItemListByName", map);
 		return list;
 	}
 	
 	@Override
-	public void updateTree(String ppitem_cd, BomItem bomItem) throws DataAccessException {
+	public void updateTree(String ppitem_cd, BomItem bomItem, String company_code) throws DataAccessException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ppitem_cd", ppitem_cd);
 		map.put("bomItem", bomItem);
+		map.put("company_code", company_code);
 		sqlSession.update("mapper.bom.updateTree", map);
 	}
 	
 	@Override
-	public void insertTree(String ppitem_cd, BomItem bomItem) throws DataAccessException {
+	public void insertTree(String ppitem_cd, BomItem bomItem, String company_code) throws DataAccessException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ppitem_cd", ppitem_cd);
 		map.put("bomItem", bomItem);
+		map.put("company_code", company_code);
 		sqlSession.insert("mapper.bom.insertTree", map);
+	}
+	
+	@Override
+	public void deleteTree(String ppitem_cd, BomItem bomItem, String company_code) throws DataAccessException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ppitem_cd", ppitem_cd);
+		map.put("bomItem", bomItem);
+		map.put("company_code", company_code);
+		sqlSession.delete("mapper.bom.deleteTree", map);
 	}
 }

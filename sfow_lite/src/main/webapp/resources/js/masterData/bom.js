@@ -4,6 +4,7 @@ $(function(){
         url : " ma/bomGetItem",
         method :"POST",
         success : function(result){
+        	console.log(result);
         	grid1.resetData(result);
         } 
     });
@@ -22,32 +23,41 @@ var grid1 = new tui.Grid({
         header: 'ITEM코드',
         name: 'item_code',
         sortingType: 'desc',
-        sortable: true
+        sortable: true,
+        minWidth : 100,
+        align : 'center'
       },
       {
         header: '품명',
         name: 'item_name',
         sortingType: 'desc',
         sortable: true,
-        minWidth : 200
+        minWidth : 180,
+        align : 'center'
       },
       {
         header: '품목코드',
         name: 'item_no',
         sortingType: 'desc',
-        sortable: true
+        sortable: true,
+        minWidth : 80,
+        align : 'center'
       },
       {
         header: '규격',
         name: 'item_specification',
         sortingType: 'desc',
         sortable: true,
+        minWidth : 80,
+        align : 'center'
       },
       {
         header: '품목구분',
         name: 'item_category',
         sortingType: 'desc',
         sortable: true,
+        minWidth : 60,
+        align : 'center'
       }
     ],
   });
@@ -55,6 +65,7 @@ var grid1 = new tui.Grid({
 	grid1.on('click', (ev) => {
 		const { rowKey } = grid1.getFocusedCell();
 		const rowData = grid1.getRow(rowKey);
+		console.log(rowData);
 		$.ajax({
 			type: "GET",
 	        url : "/ma/getBomTree?ppitem_cd="+rowData.item_code,
@@ -64,6 +75,7 @@ var grid1 = new tui.Grid({
 	        	$("#form-item-name").val(data[0].item_name);
 	        	$("#form-item-no").val(data[0].item_no);
 	        	$("#form-item-category").val(data[0].item_category);
+	        	console.log(data);
 		        grid2.resetData(data);
 		        grid3.resetData(data[0]._children);
 		    },
@@ -76,8 +88,9 @@ var grid1 = new tui.Grid({
 //grid2 트리 구조 출력
 var grid2 = new tui.Grid({
     el: document.getElementById('grid2'),
-    rowHeaders: ['checkbox'],
+    rowHeaders: ['rowNum'],
     bodyHeight : 280,
+    columnOptions: {resizable: true},
     treeColumnOptions: {
       name: 'item_code',
       useCascadingCheckbox: true
@@ -90,15 +103,18 @@ var grid2 = new tui.Grid({
       },
       {
         header: '품명',
-        name: 'item_name'
+        name: 'item_name',
+        align : 'center'
       },
       {
         header: '품목코드',
-        name: 'item_no'
+        name: 'item_no',
+        align : 'center'
       },
       {
         header: '규격',
-        name: 'item_specification'
+        name: 'item_specification',
+        align : 'center'
       }
     ]
   });
@@ -144,51 +160,53 @@ var grid3 = new tui.Grid({
    scrollX: true,
    scrollY: true,
    bodyHeight : 280,
+   columnOptions: {resizable: true},
    rowHeaders: ['checkbox'],
    columns: [
      {
        header: '품명',
        name: 'item_name',
-       sortingType: 'desc',
        sortable: true,
-       editor: 'text'
+       editor: 'text',
+       align : 'center'
      },
      {
        header: 'ITEM코드',
        name: 'item_code',
        sortingType: 'desc',
-       sortable: true
+       sortable: true,
+       align : 'center'
      },
      {
        header: '품목코드',
        name: 'item_no',
-       sortingType: 'desc',
-       sortable: true
+       sortable: true,
+       align : 'center'
      },
      {
        header: '규격',
        name: 'item_specification',
-       sortingType: 'desc',
        sortable: true,
+       align : 'center'
      },
      {
          header: '소요량',
          name: 'item_qty',
-         sortingType: 'desc',
          sortable: true,
-         editor: 'text'
+         editor: 'text',
+         align : 'right'
      },
      {
          header: '단위',
          name: 'item_stock_unit',
-         sortingType: 'desc',
          sortable: true,
+         align : 'center'
      },
      {
        header: '품목구분',
        name: 'item_category',
-       sortingType: 'desc',
        sortable: true,
+       align : 'center'
      }
    ],
  });
@@ -215,13 +233,14 @@ $('#delRowBtn').click(function() {
 
 //저장버튼
 $("#saveBtn").click(function() {
+	grid3.finishEditing();
 	var rowData = grid3.getCheckedRows();
 	if(rowData == ""){
 		alert("원자재를 선택해주세요")
 	}else{
-		let i = confirm('등록하시겠습니까?');
+		let i = confirm('저장하시겠습니까?');
 		if(i) {
-			addToDB();
+			addData();
 		}else {
 			return false;
 		}
@@ -229,7 +248,7 @@ $("#saveBtn").click(function() {
  });
 
 //저장 함수
-function addToDB() {
+function addData() {
 	const { rowKey } = grid1.getFocusedCell();
 	const ppitem_cd = grid1.getRow(rowKey).item_code;
     var rowData = grid3.getCheckedRows();   // 선택한 row에 해당하는 객체값
@@ -267,6 +286,59 @@ function addToDB() {
     });
  }
 
+$("#delItemBtn").click(function() {
+	var rowData = grid3.getCheckedRows();
+	if(rowData == ""){
+		alert("원자재를 선택해주세요")
+	}else{
+		let i = confirm('삭제하시겠습니까?');
+		if(i) {
+			delData();
+		}else {
+			return false;
+		}
+	}
+ });
+
+//저장 함수
+function delData() {
+	const { rowKey } = grid1.getFocusedCell();
+	const ppitem_cd = grid1.getRow(rowKey).item_code;
+    var rowData = grid3.getCheckedRows();   // 선택한 row에 해당하는 객체값
+    $.ajax({
+       url : "/ma/delTree",
+       method : "post",
+       data : JSON.stringify({
+   			ppitem_cd : ppitem_cd,
+   			rowData : rowData
+	   		}),
+       contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+       dataType: "json",         // 서버에서 받을 데이터타입
+       success : function (result) {
+    	   if(result == 1){
+    		   alert('삭제되었습니다'); // result는 반환받은 json형태의 객체 
+    	   }
+    	   const { rowKey } = grid1.getFocusedCell();
+	   		const rowData = grid1.getRow(rowKey);
+	   		$.ajax({
+	   			type: "GET",
+	   	        url : "/ma/getBomTree?ppitem_cd="+rowData.item_code,
+	   	        dataType: "json",
+	   	        success: function(data) {
+	   		        grid2.resetData(data);
+	   		        grid3.resetData(data[0]._children);
+	   		    },
+	   		    error: function(jqXHR, textStatus, errorThrown) {
+	   		        console.log(textStatus, errorThrown);
+	   		    } 
+	   	    });
+       },
+       error: function() {
+            console.log("실패");
+        }
+    });
+ }
+
 //grid3 품명 입력했을 때
 /*grid3.on('click', () => {
 	  const { rowKey } = grid3.getFocusedCell();
@@ -279,12 +351,19 @@ function addToDB() {
 		}
 	})*/
 	
-grid3.on('editingFinish', () => {
+grid3.on('editingFinish', function(ev) {
 	const { rowKey } = grid3.getFocusedCell();
-	const rowData = grid3.getRow(rowKey);
-	show();
-	modalController(rowData.item_name);
-	searchItem(rowData.item_name)
+	grid3.check(rowKey);
+	var column = ev.columnName;
+	if(column === 'item_name') {
+		const rowData = grid3.getRow(rowKey);
+		show();
+		modalController(rowData.item_name);
+		searchItem(rowData.item_name);
+	   } else if(column === 'item_qty') {
+	      return false;
+	   }
+	
 	})
 
 //아이템 검색 ajax
@@ -332,7 +411,9 @@ var grid_popup = new tui.Grid({
 	   el: document.getElementById('grid_popup'),
 	   scrollX: true,
 	   scrollY: true,
+	   bodyHeight: 400,
 	   rowHeaders: ['checkbox'],
+	   columnOptions: {resizable: true},
 	   columns: [
 	     {
 	       header: '품명',

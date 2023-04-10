@@ -41,6 +41,7 @@
 						<button id="addRowBtn"><i class="fa fa-plus" aria-hidden="true"></i></button>
 						<button id="delRowBtn"><i class="fa fa-minus" aria-hidden="true"></i></button>
 						<button id="saveBtn">저장</button>
+						<button id="delItemBtn">삭제</button>
 					</span>
 				</div>
 				<div id="grid3"></div>
@@ -60,7 +61,7 @@
 			<div id="grid_popup"></div>
 			<div class="buttons">
 				<button class="closeBtn">닫기</button>
-				<button class="applyBtn">적용</button>
+				<button type="button" class="btn btn-primary applyBtn">적용</button>
 			</div>
         </div>
       </div>

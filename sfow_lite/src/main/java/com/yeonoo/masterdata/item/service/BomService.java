@@ -7,16 +7,18 @@ import com.yeonoo.masterdata.item.domain.BomItem;
 
 public interface BomService {
 
-	public List<BomItem> getItemList(int company_code) throws Exception;
+	public List<BomItem> getItemList(String company_code) throws Exception;
 
-	public List<BomItem> getBomTree(String ppitem_cd) throws Exception;
+	public List<BomItem> getBomTree(String ppitem_cd, String company_code) throws Exception;
 
-	public BomItem selectItem(String ppitem_cd) throws Exception;
+	public BomItem selectItem(String ppitem_cd, String company_code) throws Exception;
 
-	public List<BomItem> getItemListByName(String item_name) throws Exception;
+	public List<BomItem> getItemListByName(String item_name, String company_code) throws Exception;
 
-	public void updateTree(String ppitem_cd, BomItem bomItem) throws Exception;
+	public void updateTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception;
 
-	public void insertTree(String ppitem_cd, BomItem bomItem) throws Exception;
+	public void insertTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception;
+
+	public void deleteTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception;
 
 }

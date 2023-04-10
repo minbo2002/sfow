@@ -26,6 +26,8 @@ public class BomController {
 	@Autowired
 	BomService bomService;
 	
+	String company_code = "1234567890";
+	
 	private static final Logger logger = LoggerFactory.getLogger(BomController.class);
 	
 	@GetMapping("/ma/bom")
@@ -36,9 +38,7 @@ public class BomController {
 	@RequestMapping("/ma/bomGetItem")
 	@ResponseBody
 	public List<BomItem> getItem() throws Exception {
-		int company_code = 1;
 		List<BomItem> list = bomService.getItemList(company_code);
-		System.out.println(list);
 		return list;
 	}
 	
@@ -49,23 +49,23 @@ public class BomController {
 		//넘길 데이터
 		List<BomItem> treeData = new ArrayList<BomItem>();
 		//자식 데이터
-		List<BomItem> childList = bomService.getBomTree(ppitem_cd);
+		List<BomItem> childList = bomService.getBomTree(ppitem_cd, company_code);
 		//부모 데이터
 		BomItem item = null;
 		if(childList.isEmpty()) {
 			//빈 객체
-			item = bomService.selectItem(ppitem_cd);
+			item = bomService.selectItem(ppitem_cd, company_code);
 			treeData.add(item);
 			return treeData;
 		}else {
 			//부모 로우
-			item = bomService.selectItem(ppitem_cd);
+			item = bomService.selectItem(ppitem_cd, company_code);
 			Map att = new HashMap();
 			att.put("expanded", "true");
 		    item.set_attributes(att);
 		    for(int i = 0; i < childList.size(); i++ ) {
 		    	String sitem_code =  childList.get(i).getItem_code();
-		    	List<BomItem> sitem_list = bomService.getBomTree(sitem_code);
+		    	List<BomItem> sitem_list = bomService.getBomTree(sitem_code, company_code);
 		    	if(!sitem_list.isEmpty()) {
 		    		childList.get(i).set_attributes(att);
 		    		childList.get(i).set_children(sitem_list);
@@ -81,7 +81,7 @@ public class BomController {
 	@ResponseBody
 	@RequestMapping(value = "/ma/searchItem", method = RequestMethod.POST)
 	public List<BomItem> searchItem(@RequestBody String item_name) throws Exception {
-		List<BomItem> list = bomService.getItemListByName(item_name);
+		List<BomItem> list = bomService.getItemListByName(item_name, company_code);
 		return list;
 	}
 	
@@ -91,7 +91,7 @@ public class BomController {
 	public int dupTest(@RequestBody DupDto dupDto) throws Exception {
 		String ppitem_cd = dupDto.getPpitem_cd();
 		//부모 트리 검색
-		List<BomItem> list = bomService.getBomTree(ppitem_cd);
+		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
 		//체크해서 가져온 리스트
 		List<BomItem> rowData = dupDto.getRowData();
 		for(int i = 0; i < list.size(); i++) {
@@ -111,7 +111,7 @@ public class BomController {
 	@RequestMapping(value="/ma/addTree", method=RequestMethod.POST)
 	public int addTree(@RequestBody DupDto dupDto) throws Exception{
 		String ppitem_cd = dupDto.getPpitem_cd();
-		List<BomItem> list = bomService.getBomTree(ppitem_cd);
+		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
 		List<BomItem> rowData = dupDto.getRowData();
 		for(int i = 0; i < rowData.size(); i++) {
 			Boolean found = false;
@@ -119,17 +119,40 @@ public class BomController {
 			for(int j = 0; j < list.size(); j++) {
 				String treeItem_code = list.get(j).getItem_code();
 				if(treeItem_code.equals(rowItem_code)) {
-					bomService.updateTree(ppitem_cd, rowData.get(i));
+					bomService.updateTree(ppitem_cd, rowData.get(i), company_code);
 					found = true;
 					break;
 				}
 			}
 			if(!found) {
-				bomService.insertTree(ppitem_cd, rowData.get(i));
+				bomService.insertTree(ppitem_cd, rowData.get(i), company_code);
 			}
 		}
-		
 		return 1;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ma/delTree", method=RequestMethod.POST)
+	public int delTree(@RequestBody DupDto dupDto) throws Exception{
+		String ppitem_cd = dupDto.getPpitem_cd();
+		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
+		List<BomItem> rowData = dupDto.getRowData();
+		for(int i = 0; i < rowData.size(); i++) {
+			String rowItem_code = rowData.get(i).getItem_code();
+			for(int j = 0; j < list.size(); j++) {
+				String treeItem_code = list.get(j).getItem_code();
+				if(treeItem_code.equals(rowItem_code)) {
+					bomService.deleteTree(ppitem_cd, rowData.get(i), company_code);
+					break;
+				}
+			}
+		}
+		return 1;
+	}
+	
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
 	}
 
 }
