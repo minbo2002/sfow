@@ -256,10 +256,64 @@ $(document).ready(window.onload=function() {
 	border-radius:3px;
 	border:1px solid #e2e2e2;
 	display:inline-block;
-	}
 }
 
 
+	
+
+button {
+/*   background-color: rgba(60, 80, 135, 1); */
+  background-color: rgba(051, 51, 102, 1);
+  font-weight : bolder;
+  color: white;
+   border: 1px solid #8c8c8c;
+  border-radius: 5px;
+}
+
+/* 조회 */
+#search:hover {
+  background-color: rgba(051, 102, 102, 1);
+  opacity: 0.8;
+}
+
+/* 삭제 */	
+#delRowBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+/* 등록 */
+#insertRowBtn:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+/* 초기화 */
+#resetRow:hover {
+  background-color:  rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+/* +버튼 */
+#addRow-Btn{
+	color:black;
+	font-weight:bold;
+	background-color: #e2e2e2;
+}
+#addRow-Btn:hover {
+   background-color: rgba(051, 102, 204, 1);
+  color: white;
+}
+/* -버튼 */
+#delRow-Btn{
+	color:black;
+	font-weight:bold;
+	background-color: #e2e2e2;
+}
+#delRow-Btn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  color: white;
+}
 
 </style>		
 </head>
@@ -267,12 +321,14 @@ $(document).ready(window.onload=function() {
 
 	<div class="file-title" style="margin: 10px;">
         <div class="right-btn-group">
-	        <input type="submit" id="search" value="조회" style="background-color: #4e73df; color: white;">
-	  		<button type="button" id="insertRowBtn" style="background-color: #4e73df; color: white;">등록</button>
-		    <button  type="button" id="delRowBtn" onclick="deleteRow()" style="background-color: #e03221; color: white;">삭제</button>
-	        <input type="reset" id="resetRow" value="초기화" style="background-color: #e03221; color: white;">
-	    	<button id="addRow-Btn">+</button>
-			<button id="delRow-Btn">-</button>
+	       <!--  <input type="submit" class="search" id="search" value="조회" style=" background-color: rgba(051, 51, 102, 1); font-weight : bolder;color: white; "> -->
+	        <button type="button" class="search" id="search" value="조회"><i class="fa fa-search"></i> 조회</button>
+	  		<button type="button" id="insertRowBtn"><i class="fa fa-save"></i> 등록</button>
+		    <button  type="button" id="delRowBtn" onclick="deleteRow()" ><i class="fa fa-trash"></i> 삭제</button>
+	        <!-- <input type="reset" id="resetRow" value="초기화" style="background-color: rgba(051, 51, 102, 1); font-weight : bolder; color: white;"> -->
+	        <button type="reset" id="resetRow" value="초기화" ><i class="fa fa-power-off"></i> 초기화</button>
+	    	<button id="addRow-Btn"> <i class="fa fa-plus"></i></button>
+			<button id="delRow-Btn"> <i class="fa fa-minus"></i></button>
         </div>
     </div>
     
@@ -297,22 +353,7 @@ $(document).ready(window.onload=function() {
             <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="지시번호조회" disabled/><input type="text" class="form-data" id ="pp_no" name="pp_no"/></div><br/><br/>
             <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="창고" disabled/><input type="text" class="form-data" id ="warehouse_code" name="warehouse_code"/></div>
             <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="창고명" disabled/><input type="text" class="form-data" id ="warehouse_name" name="warehouse_name"/></div>
-            <!-- <div>
-                	조회시작일<input type="text"  name="po_date" id="po_date">
-            </div> 
-            <div>
-                	조회종료일<input type="text" name="end_date" id="end_date">
-            </div>
-             <div>
-                	작업지시번호조회<input type="text" name="pp_no" id="pp_no">
-            </div>
-             <div>
-                	창고<input type="text" name="warehouse_code" id="warehouse_code">
-            </div>
-             <div>
-                	창고명<input type="text" name="warehouse_name" id="warehouse_name">
-            </div>
-         -->
+
         </div>
            
      </div>
