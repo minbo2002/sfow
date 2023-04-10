@@ -296,9 +296,9 @@ button {
 
 /* +버튼 */
 #addRow-Btn{
-	color:black;
+/* 	color:black;
 	font-weight:bold;
-	background-color: #e2e2e2;
+	background-color: #e2e2e2; */
 }
 #addRow-Btn:hover {
    background-color: rgba(051, 102, 204, 1);
@@ -306,9 +306,9 @@ button {
 }
 /* -버튼 */
 #delRow-Btn{
-	color:black;
+/* 	color:black;
 	font-weight:bold;
-	background-color: #e2e2e2;
+	background-color: #e2e2e2; */
 }
 #delRow-Btn:hover {
   background-color: rgba(204, 000, 051, 1);
@@ -321,14 +321,14 @@ button {
 
 	<div class="file-title" style="margin: 10px;">
         <div class="right-btn-group">
-	       <!--  <input type="submit" class="search" id="search" value="조회" style=" background-color: rgba(051, 51, 102, 1); font-weight : bolder;color: white; "> -->
+	      
 	        <button type="button" class="search" id="search" value="조회"><i class="fa fa-search"></i> 조회</button>
 	  		<button type="button" id="insertRowBtn"><i class="fa fa-save"></i> 등록</button>
 		    <button  type="button" id="delRowBtn" onclick="deleteRow()" ><i class="fa fa-trash"></i> 삭제</button>
-	        <!-- <input type="reset" id="resetRow" value="초기화" style="background-color: rgba(051, 51, 102, 1); font-weight : bolder; color: white;"> -->
+	        
 	        <button type="reset" id="resetRow" value="초기화" ><i class="fa fa-power-off"></i> 초기화</button>
-	    	<button id="addRow-Btn"> <i class="fa fa-plus"></i></button>
-			<button id="delRow-Btn"> <i class="fa fa-minus"></i></button>
+	    	<button id="addRow-Btn"> <i class="fa fa-plus"></i> 작업지시서 행 추가</button>
+			<button id="delRow-Btn"> <i class="fa fa-minus"></i> 작업지시서 행 제거</button>
         </div>
     </div>
     
