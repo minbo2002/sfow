@@ -30,9 +30,6 @@
 		display:inline-block;
 		}
 	
-
-	
-	
 </style>
 </head>
 <body>
@@ -67,6 +64,14 @@
 				<button id="updateRowBtn">저장</button>
 				<button id="resetRow">초기화</button> 
   </div>
+  
+<div class="modal">
+  <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+    <button type="button" id="applyBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;적용</button>
+    <button type="reset" id="resetMdBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;초기화</button>
+    <button type="button" id="closeBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">&nbsp;&nbsp;닫기</button>
+  </div>
+</div>
 
 </body>
 <script> 
@@ -93,7 +98,12 @@
 	      				}
 	      }
 	      ,align:'center' },
-    { header: '품목검색'	 , name: 'itemCode'			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '품목검색'	 , name: 'itemCode',
+    	onBeforeChange() {
+    	alert("modal");
+    	openModal();
+    } 
+	  ,editor: 'text' ,align:'center' },
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
@@ -118,8 +128,7 @@
       align:'center'
 	  }
 	  	  // itemCode,itemName itemNo itemSpecification clientCode clientName startDate endDate buyPrice salesPrice memo
-	]
-	
+	]	
 	});
 	//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
 	grid.on('check', function(ev) {
@@ -378,10 +387,6 @@
 	       }); 
 	      });
 	});
-	
-	
-		
-		
 		// 등록 진행
    $("#insertRowBtn").click(function() {
       let i = confirm('등록하시겠습니까?');
@@ -416,9 +421,73 @@
       });
    }
 
+   function openModal(){
+	   
+ 	  var body = document.querySelector('body');
+ 	  var modal = document.querySelector('.modal');
+ 	  //modalGrid 초기화
+ 	  var modalGrid = document.getElementById("modalGrid");
 
-	
-
+ 	  modal.classList.toggle('show');
+ 	 
+		const Grid = tui.Grid;
+		const grid2 = new Grid({
+			
+	  	el: document.getElementById('modalGrid'),
+	  	scrollX: false,
+	  	scrollY: false,
+	  	autoWidth: true,
+	  	rowHeaders: [
+	          { type: 'rowNum', align: 'center'},
+	    	  { type: 'checkbox' }
+	        ],
+	        columns: [
+	          {
+	            header: '아이템코드',
+	            name: 'itemCode',
+	            align: 'center',
+	            editor:'text'
+	          },
+	          {
+	             header: '품목구분',
+	             name: 'itemCategory',
+	             align: 'center',
+	             editor:'text'
+	          },
+	          {
+	              header: '품명',
+	              name: 'itemName',
+	              align: 'center',
+	              editor:'text'
+	           },
+	            {
+	               header: '품번',
+	               name: 'itemNo',
+	               align: 'center',
+	               editor:'text'
+	             },
+	              {
+	                 header: '규격',
+	                 name: 'itemSpecification',
+	                 align: 'center',
+	                 editor:'text'
+	              }
+	        ]
+		});
+		
+	$.ajax({
+		url : './price/itemcodeSelectAjax',
+     method :'GET',
+     dataType : 'JSON',
+	  	  success: function(result) {
+	  		console.log('result', result);
+	  	  		grid2.resetData(result)
+	  	  },
+	    error: function(xhr, status, error) {
+	      console.log(error);
+	    }
+	  });
+ 	}//openModal끝
 
 </script>
 

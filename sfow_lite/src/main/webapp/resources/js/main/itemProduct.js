@@ -32,19 +32,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -137,19 +137,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -247,19 +247,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -352,6 +352,7 @@ $(document).ready(window.onload=function() {
           { header: '수정일시', name: 'updatedate', align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
         ]       
       });
+    
  //행추가   
     Array.prototype.forEach.call(document.querySelectorAll('#addRow'), el => {
 	      el.addEventListener('click', ev => {
@@ -374,8 +375,6 @@ $(document).ready(window.onload=function() {
 	    	 grid.refreshLayout();
 	      });
 		}); //minusRow끝
-  
- //목록      
      $.ajax({
         url : './item/productListAjax',
         method :'GET',
@@ -535,19 +534,19 @@ $(document).ready(window.onload=function() {
     	  var applyBtn = document.createElement("button");
     	  applyBtn.setAttribute("type", "button");
     	  applyBtn.setAttribute("id", "applyBtn");
-    	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  applyBtn.innerText = "적용";
     	  modalGrid.appendChild(applyBtn);
     	  var resetMdBtn = document.createElement("button");
     	  resetMdBtn.setAttribute("type", "reset");
     	  resetMdBtn.setAttribute("id", "resetMdBtn");
-    	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  resetMdBtn.innerText = "초기화";
     	  modalGrid.appendChild(resetMdBtn);
     	  var closeBtn = document.createElement("button");
     	  closeBtn.setAttribute("type", "button");
     	  closeBtn.setAttribute("id", "closeBtn");
-    	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  closeBtn.innerText = "닫기";
     	  modalGrid.appendChild(closeBtn);
     	  

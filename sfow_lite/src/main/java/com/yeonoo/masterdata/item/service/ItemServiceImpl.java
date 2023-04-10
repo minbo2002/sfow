@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yeonoo.masterdata.item.domain.CompanyCode;
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
+import com.yeonoo.masterdata.item.domain.PriceDTO;
 import com.yeonoo.masterdata.item.repository.ItemRepository;
 
 @Service
@@ -112,14 +112,5 @@ public class ItemServiceImpl implements ItemService {
 		List<ItemType> itemtypeselectsearch = itemRepository.typeSelectSearchAjax(itemtype);
 		return itemtypeselectsearch;
 	}
-	//아이템코드 목록
-	public List<ItemProduct> itemcodeSelectAjax() throws Exception {
-		List<ItemProduct> itemcodelist = itemRepository.itemcodeSelectAjax();
-		return itemcodelist;
-	}
-	//거래처명 목록
-	public List<CompanyCode> companycodeSelectAjax() throws Exception {
-		List<CompanyCode> companycodelist = itemRepository.companycodeSelectAjax();
-		return companycodelist;
-	}
+
 }

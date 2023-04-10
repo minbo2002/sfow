@@ -50,10 +50,19 @@
 		]]>	
 	</select>
 	
+<!-- 거래처명 목록 -->
+ <select id="companycodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT client_code,client_name
+	FROM ma_client_company
+ ]]>
+ </select>
+    <!-- 아이템코드 목록 -->
+ <select id="itemcodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT item_code,item_category,item_no,item_name,item_specification
+	FROM ma_item
+ ]]>
+ </select>
 	
-
-
-	
-
-
 </mapper>  

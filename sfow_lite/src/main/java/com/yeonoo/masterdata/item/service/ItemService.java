@@ -2,11 +2,11 @@ package com.yeonoo.masterdata.item.service;
 
 import java.util.List;
 
-import com.yeonoo.masterdata.item.domain.CompanyCode;
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
+import com.yeonoo.masterdata.item.domain.PriceDTO;
 
 public interface ItemService {
 	//품목유형등록 목록
@@ -47,8 +47,5 @@ public interface ItemService {
 	public List<ItemSpecification> specificationSearchAjax(ItemSpecification itemspecification) throws Exception;
 	//품목유형등록(제품) 검색
 	public List<ItemType> typeSelectSearchAjax(ItemType itemtype) throws Exception;
-	//아이템코드 목록
-	public List<ItemProduct> itemcodeSelectAjax() throws Exception;
-	//거래처명 목록
-	public List<CompanyCode> companycodeSelectAjax() throws Exception;
+
 }

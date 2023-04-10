@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.PriceDTO;
 import com.yeonoo.masterdata.item.service.PriceService;
 
@@ -38,7 +39,24 @@ public class PriceController {
 		
 		return list;
 	}
-
+	//거래처명 목록
+	@ResponseBody
+	@RequestMapping(value="companycodeSelectAjax", method= {RequestMethod.GET})
+	public List<PriceDTO> companycodeSelectAjax() throws Exception {
+		List<PriceDTO> result = priceService.companycodeSelectAjax();
+		return result;
+	}
+	@RequestMapping("companyCodeSelect")
+    public String selectCompanyCode() throws Exception {
+        return "price/gridPriceList"; // 처리 결과에 해당하는 뷰 이름 반환
+    }
+	//아이템코드 목록
+	@ResponseBody
+	@RequestMapping(value="itemcodeSelectAjax")
+	public List<PriceDTO> itemcodeSelectAjax() throws Exception {
+		List<PriceDTO> result = priceService.itemcodeSelectAjax();
+			return result;
+	}
 	// 등록
 	
 			

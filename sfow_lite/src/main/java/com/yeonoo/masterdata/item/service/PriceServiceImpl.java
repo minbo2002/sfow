@@ -25,7 +25,15 @@ public class PriceServiceImpl implements PriceService{
 	public List<PriceDTO> priceList( PriceDTO dto) {
 		return priceRepository.priceList(dto);
 	}
-	
-
+	//거래처명 목록
+	public List<PriceDTO> companycodeSelectAjax() throws Exception {
+		List<PriceDTO> companycodelist = priceRepository.companycodeSelectAjax();
+		return companycodelist;
+	}
+	//아이템코드 목록
+	public List<PriceDTO> itemcodeSelectAjax() throws Exception {
+		List<PriceDTO> itemcodelist = priceRepository.itemcodeSelectAjax();
+		return itemcodelist;
+	}
 
 }
