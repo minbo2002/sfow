@@ -1,11 +1,9 @@
 package com.yeonoo.sfow.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.sfow.model.Criteria;
 import com.yeonoo.sfow.model.NoticeVO;
 import com.yeonoo.sfow.model.PageMaker;
@@ -48,7 +47,7 @@ public class NoticeController {
 	
 	@RequestMapping(value = "/notice", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getNoticeList(Criteria criteria, HttpSession session) {
+	public Map<String, Object> getNoticeList(Criteria criteria, HttpSession session,Model model) {
 	    Map<String, Object> data = new HashMap<>();
 
 	    // 페이지 처리
@@ -62,11 +61,7 @@ public class NoticeController {
 	    // Map 객체에 데이터 추가
 	    data.put("pageMaker", pageMaker);
 	    data.put("noticeList", noticeList);
-	    
-
-	    // 로그인했을 때
-	    session.setAttribute("isLogOn", true);
-	    session.setAttribute("AUTHUSER_ID", "admin");
+	  
 
 	    return data;
 	}

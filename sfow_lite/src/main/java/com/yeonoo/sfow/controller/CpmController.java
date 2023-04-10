@@ -35,8 +35,7 @@ public class CpmController {
 			public List<CpmVO> cpmlist(Model model,HttpSession session){
 				List<CpmVO> list=cpmSericeImpl.cpmlist();
 				
-				session.setAttribute("isLogOn",true);
-		    	session.setAttribute("AUTHUSER_ID", "admin");
+		
 				
 				return list; // JSON 데이터 형식으로 변환(API)해서 리턴(응답)하겠다.
 			}	
@@ -58,11 +57,7 @@ public class CpmController {
 				@RequestMapping(value ="/update")
 				public String updatecpm(@RequestBody CpmVO cpmVO) throws Exception {
 				    // VO 객체의 이메일 주소 유효성 검사
-
-				    if (!cpmVO.isEmailValid()) {
-				        System.out.println("유효하지 않은 이메일 주소입니다.");
-				        return "invalidEmail";
-				    }
+				
 
 				    int result = cpmSericeImpl.updatecpm(cpmVO);
 				    if (result > 0) {

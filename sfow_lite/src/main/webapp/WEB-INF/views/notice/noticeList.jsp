@@ -68,18 +68,23 @@
 	        listHtml += "<tr id='c" + notice.no + "' style='display:none'>";
 	        listHtml += "<td>내용</td>";
 	        listHtml += "<td colspan='4'>";
-	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'></textarea>";
+	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'>" + notice.content + "</textarea>";
 	        listHtml += "<br/>";
+	        listHtml += "<c:if test='${sessionScope.AUTHUSER.adminRole==999}'>";
 	        listHtml += "<span id='ub" + notice.no + "'><button class='btn btn-success btn-sm' onclick='updateNoticeForm(" + notice.no + ")'>수정화면</button></span>&nbsp;";
 	        listHtml += "<button class='btn btn-warning btn-sm' onclick='deleteNotice(" + notice.no + ", " + pageMaker.criteria.page + ")'>삭제</button>";
+	        listHtml += "</c:if>";
 	        listHtml += "</td>";
 	        listHtml += "</tr>";
 	    });
-	    listHtml += "<tr>";
+
+	    listHtml += "</table>";
+
+	   /*  listHtml += "<tr>";
 	    listHtml += "<td colspan='5'>";
 	    listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
 	    listHtml += "</td>";
-	    listHtml += "</tr>";
+	    listHtml += "</tr>"; */
 	    listHtml += "</table>";
 
 	     // 페이징 처리
@@ -127,6 +132,7 @@
 		  $("#view").css("display","none");
 		  $("#wfrom").css("display","block");
 		  $("#searchFormDiv").css("display","none");
+		  $(".btn-primary").hide(); // Hide the "글쓰기" button
 		}
     
       function inserNotice() {
@@ -135,14 +141,13 @@
     	    alert("제목을 입력해주세요.");
     	    return;
     	  }
-    	/*  if ($("#content").val().trim() === "") {
-    		    alert("내용을 입력해주세요.");
-    		    return;
-    		  }*/
-    	  if (!$("#writername").val()) {
-    	    alert("작성자를 입력해주세요.");
-    	    return;
+    	// 내용이 입력되지 않은 경우
+    	  if ($(".content").val().trim() === "") {
+    	      alert("내용을 입력해주세요.");
+    	      return;
     	  }
+
+    	  
 
     	  var fData = $("#frm").serialize();
     	  $.ajax({
@@ -150,10 +155,15 @@
     	    type: "post",
     	    data: fData,
     	    success: loadList,
-    	    error: function() {
-    	      alert("error");
-    	    }
-    	  });
+    	    	success: function() {
+
+    	    	      // 등록 성공 알림
+    	    	      alert("등록되었습니다.");
+    	    	    },
+    	    	    error: function() {
+    	    	      alert("error");
+    	    	    }
+    	    	  });
 
     	  // 폼 초기화
     	  $("#frm")[0].reset();
@@ -273,39 +283,15 @@
 
 <div class="container">
   <h2>공지사항</h2>
-  <div class="panel panel-default">
-    <div class="panel-body">
+   <div class="card">
+    <div class="card-body">
+       
+    <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+ <button id="writeButton" class='btn btn-primary btn-sm' onclick='goForm()' style='margin-bottom: 10px;'>글쓰기</button>
+</c:if>
       <div id="view"></div>
-    </div>
-    <div class="panel-body" id="wfrom" style="display: none">
-     <form id="frm">
-      <table class="table">
-         <tr>
-           <td>제목</td>
-           <td><input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해주세요"/></td>
-         </tr>
-         <tr>
-           <td>내용</td>
-           <td><textarea rows="7" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요" ></textarea> </td>
-         </tr>
-         <tr>
-           <td>작성자</td>
-            <td><input type="text" id="writername" name="writername" class="form-control" value="${sessionScope.AUTHUSER.id}" readonly/></td>
-         </tr>
-         <tr>
-           <td colspan="2" align="center">
-            <button type="button" class="btn btn-success btn-sm" onclick="inserNotice()">등록</button> 
-               <button type="reset" class="btn btn-warning btn-sm" id="fclear">취소</button>
-            <!--   <button type="button" class="btn btn-info btn-sm" onclick="getNoticeList()">리스트</button> -->
-           </td>
-         </tr>
-      </table>
-     </form>
-    </div>
- 
-      
-   
-  <div class="text-right">
+  
+       <div class="text-right" >
 <div class="search-form" id="searchFormDiv">
   <form class="form-inline" id="searchForm" method="get">
     <div class="form-group">
@@ -318,15 +304,42 @@
     <div class="form-group">
       <input type="text" class="form-control" name="keyword" value="${data.criteria.keyword}">
     </div>
-    <button type="submit" class="btn btn-success">검색</button>
+ <div class="form-group" style="margin-bottom: 20px;">
+  <button type="submit" class="btn btn-success"  style="margin-top: 20px;">검색</button>
+</div>
   </form>
 </div>
-<div style="height: 80px;"></div>
+<div style="height: 10px;"></div>
     <div class="panel-footer"></div>
   </div>
 </div>
 
-     
+    <div class="panel-body" id="wfrom" style="display: none">
+     <form id="frm">
+      <table class="table">
+         <tr>
+           <td>제목</td>
+           <td><input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해주세요"/></td>
+         </tr>
+         <tr>
+           <td>내용</td>
+           <td><textarea rows="7" class="form-control content" id="content" name="content" placeholder="내용을 입력해주세요" ></textarea> </td>
+         </tr>
+         <tr>
+           <td>작성자</td>
+           <td><input type="text" id="writername" name="writername" class="form-control" value="${sessionScope.AUTHUSER.id}" readonly/></td>
+         </tr>
+         <tr>
+           <td colspan="2" align="center">
+            <button type="button" class="btn btn-success btn-sm" onclick="inserNotice()">등록</button> 
+               <button type="reset" class="btn btn-warning btn-sm" id="fclear">취소</button>
+            <!--   <button type="button" class="btn btn-info btn-sm" onclick="getNoticeList()">리스트</button> -->
+           </td>
+         </tr>
+      </table>
+     </form>
+    </div>
+ 
 
 
 </body>

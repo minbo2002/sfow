@@ -18,8 +18,8 @@
 	<!-- 거래처 등록  -->
 	<insert id="cpmInsert" parameterType="cpmVO">
 	<![CDATA[
-	insert into ma_client_company (client_Code, client_Name, ceo_Name, client_Phone, client_Email, create_Date, update_Date) 
-values ( #{client_Code}, #{client_Name}, #{ceo_Name}, #{client_Phone}, #{client_Email}, now(), now())
+	insert into ma_client_company ( client_Name, ceo_Name, client_Phone, client_Email, create_Date, update_Date) 
+values (  #{client_Name}, #{ceo_Name}, #{client_Phone}, #{client_Email}, now(), now())
 
 	]]>
 	</insert>
