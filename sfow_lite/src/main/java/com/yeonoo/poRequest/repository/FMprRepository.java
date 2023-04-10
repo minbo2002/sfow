@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 
 
 import com.yeonoo.poRequest.domain.FMpr;
+import com.yeonoo.ppOrder.domain.PPOrder;
 
 public interface FMprRepository {
 
@@ -15,6 +16,9 @@ public interface FMprRepository {
 	
 	//수정하기
 	public int updateFMpr(FMpr fMpr) throws DataAccessException;
+	
+	//등록하기
+	public int insertFMpr(FMpr fMpr) throws DataAccessException;
 }
 
 

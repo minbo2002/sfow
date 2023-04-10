@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.yeonoo.poRequest.domain.FMpr;
+import com.yeonoo.ppOrder.domain.PPOrder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,15 @@ public class FMprRepositoryImpl implements FMprRepository {
 		return list;
 	}
 }
+	// 등록하기
+	@Override
+	public int insertFMpr(FMpr elements) throws DataAccessException {
+		System.out.println("레파지토리 전=" + elements);
+		int cnt =sqlSession.insert("mapper.FMpr.insertFMpr", elements);
+		System.out.println("레파지토리 후=" + cnt);
+		return cnt;
+	}
+	
 
 	// 수정하기
 	public int updateFMpr(FMpr fMpr) throws DataAccessException {

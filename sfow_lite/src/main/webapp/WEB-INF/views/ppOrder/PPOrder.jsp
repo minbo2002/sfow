@@ -229,6 +229,34 @@ $(document).ready(window.onload=function() {
     padding: 0 0.75rem;
     font-weight: 500;
     color: #636363;
+    }
+    
+.form-title{
+	width : 100px;
+	height: 30px;
+	color:black;
+	font-weight:bold;
+	background-color: #e2e2e2;
+	
+	border:1px solid #e2e2e2;
+	text-align:center;
+	
+	line-height : 30px;
+	border-radius:3px;
+	display:inline-block;
+	}
+		
+.form-data{
+	width : 200px;
+	height: 30px;
+	background-color: rgb(230, 242, 255)
+	text-align:center;
+	
+	line-height : 30px;
+	border-radius:3px;
+	border:1px solid #e2e2e2;
+	display:inline-block;
+	}
 }
 
 
@@ -239,28 +267,21 @@ $(document).ready(window.onload=function() {
 
 	<div class="file-title" style="margin: 10px;">
         <div class="right-btn-group">
-        <input type="submit" id="search" value="조회" style="margin: 10px;">
-        <input type="reset" id="resetRow" value="초기화" style="margin: 10px;">
-  		<button type="button" id="insertRowBtn" style="margin: 10px;">등록</button>
-	    <button  type="button" id="delRowBtn" onclick="deleteRow()">삭제</button>
-	    
-	    
-		
-       
-	
+	        <input type="submit" id="search" value="조회" style="background-color: #4e73df; color: white;">
+	  		<button type="button" id="insertRowBtn" style="background-color: #4e73df; color: white;">등록</button>
+		    <button  type="button" id="delRowBtn" onclick="deleteRow()" style="background-color: #e03221; color: white;">삭제</button>
+	        <input type="reset" id="resetRow" value="초기화" style="background-color: #e03221; color: white;">
+	    	<button id="addRow-Btn">+</button>
+			<button id="delRow-Btn">-</button>
         </div>
     </div>
     
-	    <div style="margin: 10px;">
-	   		<button id="addRow-Btn">+</button>
-			<button id="delRow-Btn">-</button>
-	    </div>
     
     <div class="right-content">
-        <div class="editer-content">
-            <div>
-          			유 형
-     			<select id="pp_type" name="pp_type">
+        <div class="editer-content" style="display:inline-block; margin:5px; font-size:13px; color:black;">
+           <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="유형" disabled/>
+    
+     			<select id="pp_type" name="pp_type" class="form-data" >
                    <option value="">--선택--</option>
                    <option value="일반">일반</option>
                    <option value="재작업">재작업</option>
@@ -268,9 +289,17 @@ $(document).ready(window.onload=function() {
                  </select>
             </div>
   
-            <div>
-                	조회시작일<input type="text"  name="po_date" id="po_date">
+            <div style="display:inline; margin:5px; font-size:13px; color:black;" >
+            <input type="text" class="form-title" value="조회시작일" disabled/>
+            <input type="text" class="form-data" id ="po_date" name="po_date"/>
             </div>
+            <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="조회종료일" disabled/><input type="text" class="form-data" id ="end_date" name="end_date"/></div>
+            <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="지시번호조회" disabled/><input type="text" class="form-data" id ="pp_no" name="pp_no"/></div><br/><br/>
+            <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="창고" disabled/><input type="text" class="form-data" id ="warehouse_code" name="warehouse_code"/></div>
+            <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="창고명" disabled/><input type="text" class="form-data" id ="warehouse_name" name="warehouse_name"/></div>
+            <!-- <div>
+                	조회시작일<input type="text"  name="po_date" id="po_date">
+            </div> 
             <div>
                 	조회종료일<input type="text" name="end_date" id="end_date">
             </div>
@@ -283,7 +312,9 @@ $(document).ready(window.onload=function() {
              <div>
                 	창고명<input type="text" name="warehouse_name" id="warehouse_name">
             </div>
+         -->
         </div>
+           
      </div>
      
 	<!-- 그리드 화면 -->

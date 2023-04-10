@@ -22,7 +22,7 @@
 	
 	</resultMap>
 	
-<!-- 등록하기
+
 <insert id="insertPPOrder" parameterType="PPOrder" useGeneratedKeys="true" keyProperty="pp_no">
       <selectKey keyProperty="pp_no" resultType="String" order="BEFORE">
          SELECT pp_order_seq_12('PO')
@@ -32,7 +32,8 @@
 		values ( 
 		#{pp_no}, #{pp_type}, #{po_date}, #{end_date}, #{item_code}, #{item_name},#{item_no},#{item_specification}, #{warehouse_code}, #{warehouse_name}, #{pp_quantity}, #{pp_status})
 	</insert>
-	-->
+	
+	<!-- 등록하기
 <insert id="insertPPOrder" parameterType="PPOrder" useGeneratedKeys="true" keyProperty="pp_no">
     INSERT INTO pp_order (
         pp_no, pp_type, po_date, end_date, item_code, item_name, item_no, item_specification, warehouse_code, warehouse_name, pp_quantity, pp_status
@@ -40,7 +41,7 @@
        #{pp_no}, #{pp_type}, #{po_date}, #{end_date}, #{item_code}, #{item_name}, #{item_no}, #{item_specification}, #{warehouse_code}, #{warehouse_name}, #{pp_quantity}, #{pp_status}
     )
 </insert>
-	  
+	  -->
 		<!-- 검색하기 -->
    <select id="PPOrderList" resultMap="PPOrderResult">
       <![CDATA[

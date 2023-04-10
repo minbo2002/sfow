@@ -64,6 +64,15 @@
          
       ]]>   
    </select>
+   
+   	<!-- 등록하기-->
+<insert id="insertFMpr" parameterType="FMpr" useGeneratedKeys="true" keyProperty="request_order">
+    INSERT INTO FMpr (
+        request_order, item_type, client_name, item_code, item_name, item_no, item_specification, item_stock_unit, request_quantity, buy_price, amount
+    ) VALUES (
+       #{request_order}, #{item_type}, #{client_name}, #{item_code}, #{item_name}, #{item_no}, #{item_specification}, #{item_stock_unit}, #{request_quantity}, #{buy_price}, #{amount}
+    )
+</insert>
 	
 </mapper>    
 

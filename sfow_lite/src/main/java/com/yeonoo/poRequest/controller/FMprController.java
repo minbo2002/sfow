@@ -1,6 +1,7 @@
 package com.yeonoo.poRequest.controller;
 
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yeonoo.poRequest.domain.FMpr;
 import com.yeonoo.poRequest.service.FMprService;
+import com.yeonoo.ppOrder.domain.PPOrder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +71,23 @@ public class FMprController  {
 	     System.out.println(data);
 	     fMprService.updateFMpr(data);
 
-	  }
+	 }
+	  
+	  // 등록
+     @ResponseBody
+     @RequestMapping(value="insertFMpr", method=RequestMethod.POST)
+     public List<FMpr> insertFMpr(@RequestBody List<FMpr> fMpr) throws Exception {
+
+    	 System.out.println("컨트롤러 전"+fMpr);
+        Iterator<FMpr> iterator = fMpr.iterator();
+        while(iterator.hasNext()) {
+        	FMpr elements = iterator.next();
+           
+           int insertCnt = fMprService.insertFMpr(elements);
+           System.out.println("컨트롤러 후"+insertCnt);
+        }
+        return fMpr;
+     }
 
 	
 	  
