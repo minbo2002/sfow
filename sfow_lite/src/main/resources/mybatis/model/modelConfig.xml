@@ -4,4 +4,10 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
+	  	<typeAliases> 
+  		<typeAlias type="java.lang.Integer" alias="Integer"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="com.yeonoo.so.domain.OrderVO" alias="OrderVO"/>
+		<typeAlias type="com.yeonoo.so.domain.OrderDetailVO" alias="OrderDetailVO"/>
+  		</typeAliases>
 </configuration>

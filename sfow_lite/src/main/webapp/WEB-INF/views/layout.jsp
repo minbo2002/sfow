@@ -19,11 +19,15 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+<!-- Custom styles for this template-->    
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
 <body id="page-top">
 
@@ -113,8 +117,7 @@
                           <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">수주관리</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">견적서 등록</a>
-                            <a class="collapse-item" href="#">수주서 관리</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/orderList');">수주서 관리</a>
                            </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
                         aria-expanded="false" aria-controls="collapseWarehouse">출하관리</a>
@@ -382,7 +385,6 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="${conPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${conPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
