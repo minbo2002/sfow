@@ -410,6 +410,7 @@
     <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <script>
+    
     $(document).ready(function() {
     	
     	$.ajax({

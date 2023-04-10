@@ -1,6 +1,7 @@
 package com.yeonoo.sfow.basicinfo.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,12 @@ public class UserInfoController {
 	
 	//로그인
 	@PostMapping("/login")
-	public @ResponseBody String userLogin(UserInfo userInfo,Model model,HttpSession session) throws Exception {
+	public @ResponseBody String userLogin(UserInfo userInfo,Model model,HttpSession session,HttpServletRequest request) throws Exception {
 		
 		UserInfo loginUser = userInfoService.userLogin(userInfo);
+
+		session.setMaxInactiveInterval(60);
+		
 		session.setAttribute("AUTHUSER", loginUser);
 		
 		if(loginUser==null) {
@@ -66,6 +70,8 @@ public class UserInfoController {
 	}
 	
 	
-	
-	
+	@RequestMapping("/sessionLogout")
+	public String sessionLogout() throws Exception {
+		return "basicinfo/sessionLogout";
+	}
 }
