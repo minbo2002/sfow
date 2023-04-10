@@ -15,8 +15,9 @@
 	    var grid = new tui.Grid({
 	      el: document.getElementById('grid'),
 	      data: gridData,
-	      scrollX: false,
-	      scrollY: false,
+	      bodyHeight:900, //이속성을 주려면 modalGrid style의 값이 position: relative;가 아닌 position: fixed가 되어야 한다.; 
+          scrollX: true, //스크롤 가로 false시 고정
+          scrollY: true, //스크롤 세로
 	      rowHeaders: [{
               type: 'rowNum',
               header: "  ",
@@ -549,9 +550,11 @@ $(document).ready(function() {
   	grid2 = new tui.Grid({
   	el: document.getElementById('modalGrid'),
   	data: gridData2,
-  	scrollX: false,
-  	scrollY: false,
+  	bodyHeight:300,
+    scrollX: true, //스크롤 가로 false시 고정
+    scrollY: true, //스크롤 세로=
   	autoWidth: true,
+  	//maxheight:
   	rowHeaders: [{
    	   type: 'rowNum',
    	   header: "  ",
@@ -633,6 +636,17 @@ $.ajax({
 	    	warehouse_name.value="";
         }
 	   	});
+	
+	//checkbox 체크 해제 시에 input 태그 내에 해당 value 제거 & 다중 선택 시에 input 태그 내에 value 제거
+	grid2.on('uncheck', (ev) => {
+		var warehouse_code = document.getElementById('whCdSearch');
+    	var warehouse_name = document.getElementById('whNmSearch');
+    	warehouse_code.value="";
+    	warehouse_name.value="";
+		
+	});
+	
+	
 	});//double클릭 이벤트 끝
 	
 	
@@ -741,12 +755,13 @@ function whSearch(){
 	}
 	
 	#modalGrid {
-	position: relative; /* 변경된 부분 */
+/* 	position: relative;  */
 /* 	  position: absolute; */
+	position: fixed; /* 변경된 부분 */
 	  top: 50%;
 	  left: 50%;
 	
-	  width: 500px;
+	  width: 550px;
 	  height: 500px;
 	
 	  padding: 40px;
@@ -759,19 +774,6 @@ function whSearch(){
 	
 	  transform: translateX(-50%) translateY(-50%);
 	}
-	
-	.modal-wrapper {
-	  position: fixed;
-	  top: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 100%;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	}
-	
-	
 	
 
   .search_wh .form-title{
@@ -826,7 +828,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 300px; /* 버튼 위치 조정 */
+  right: 330px; /* 버튼 위치 조정 */
 }
 
 #resetMdBtn {
@@ -838,7 +840,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 210px; /* 버튼 위치 조정 */
+  right: 240px; /* 버튼 위치 조정 */
 }
 
 
@@ -851,7 +853,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 120px; /* 버튼 위치 조정 */
+  right: 150px; /* 버튼 위치 조정 */
 }
 
 
@@ -895,6 +897,57 @@ function whSearch(){
 	  font-style: italic;
 	  font-size:5px;
 	}
+	
+
+	
+/* 	#searchBtn:hover, #resetBtn:hover { */
+/* 	  background-color: #EF8B47; */
+/* 	} */
+	
+/* 	button:hover { */
+/*   background-color: #EF8B47; */
+/* 	} */
+	
+button {
+/*   background-color: rgba(60, 80, 135, 1); */
+  background-color: rgba(051, 51, 102, 1);
+  font-weight : bolder;
+}
+
+#searchBtn:hover {
+  background-color: rgba(051, 102, 102, 1);
+  opacity: 0.8;
+}
+
+	
+#resetBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+
+#applyBtn:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+
+#resetMdBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+
+#closeBtn:hover {
+  background-color: rgba(153, 102, 000, 1);
+  opacity: 0.8;
+}
+
+#whSearchBtn:hover {
+  background-color: rgba(102, 102, 102, 1);
+  opacity: 0.8;
+}
+
 </style>
 
 
@@ -904,10 +957,18 @@ function whSearch(){
 	<form id=stockSearch name=stockSearch>
 <!-- 		<div class=form-title></div><div><input type="text" id="tSearch" name="tSearch" /></div> -->
 <!-- 		<input type="submit" value="조회" id="searchStockList"/> -->
-		&nbsp;<button type="button" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="checkStock()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp;
+
+<%-- 		&nbsp;<button type="button" id="searchBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="checkStock()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp; --%>
+		&nbsp;<button type="button" id="searchBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black; font-weight:bolder;" onclick="checkStock()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens_h.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp;
+		
 <%-- 		&nbsp;<button type="submit" id="searchBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>&nbsp; --%>
 <%-- 					<button type="reset" onclick="item_category.disabled=false;" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button> --%>
-					<button type="reset" id="resetBtn" onclick="uncheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button>
+
+<%-- 					<button type="reset" id="resetBtn" onclick="uncheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button> --%>
+					<button type="reset" id="resetBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="uncheck()"><img src="<%=request.getContextPath()%>/resources\img\stock\reset_h.png" width="11px"/>&nbsp;&nbsp;초기화</button>
+
+
+
 
 <br/><br/>
 <!-- <input type="button" value="창고 검색" style="border:1px solid #e2e2e2;" /> -->
@@ -982,21 +1043,21 @@ function whSearch(){
     <span>&nbsp;OR&nbsp;</span>
     <input type="text" id="whNmSearch" name="whNmSearch" placeholder="창고이름 입력"/>
     &nbsp;
-    <button type="button" id="whSearchBtn" name="whSearchBtn" onclick="whSearch()">검색</button>
+    <button type="button" id="whSearchBtn" name="whSearchBtn" onclick="whSearch()" style="color:white;">검색</button>
     </form>
     <br/>
     
     <!-- modal 창 내에 기능 버튼 추가 -->
-    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-      <img src="<%=request.getContextPath()%>/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
+    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\apply_h.png" width="13px"/>&nbsp;&nbsp;적용
     </button>
     
-    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-      <img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
+    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\reset_h.png" width="11px"/>&nbsp;&nbsp;초기화
     </button>
     
-    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
-      <img src="<%=request.getContextPath()%>/resources\img\stock\ex.png" width="11px"/>&nbsp;&nbsp;닫기
+    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\ex_h.png" width="11px"/>&nbsp;&nbsp;닫기
     </button>
   </div>
 </div>
