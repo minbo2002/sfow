@@ -413,7 +413,7 @@
     $(document).ready(function() {
     	
     	$.ajax({
-    	    url: "${conPath}/main",
+    	    url: "${conPath}/main3",
     	    async : true,
             type : "GET",
             dataType : "html",

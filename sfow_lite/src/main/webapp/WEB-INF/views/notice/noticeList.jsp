@@ -290,7 +290,7 @@
          </tr>
          <tr>
            <td>작성자</td>
-           <td><input type="text" id="writername" name="writername" class="form-control" /></td>
+            <td><input type="text" id="writername" name="writername" class="form-control" value="${sessionScope.AUTHUSER.id}" readonly/></td>
          </tr>
          <tr>
            <td colspan="2" align="center">
