@@ -1,7 +1,8 @@
 $(document).ready(window.onload=function() {
 
     const Grid = tui.Grid;
-    const grid = new Grid({    
+    const grid = new Grid({   
+    	
 		
         el: document.getElementById('grid'),
         scrollX: true,

@@ -20,6 +20,7 @@
 <br/><br/>
 <div id="search_area" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
 <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="품목구분" disabled/><select class="form-data" id="item_category" name="item_category">
+    <option value="">--</option>
     <option value="제품">제품</option>
     <option value="반제품">반제품</option>
     <option value="원자재">원자재</option>
