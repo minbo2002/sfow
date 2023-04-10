@@ -48,5 +48,7 @@
 		</interceptor> -->
 	</interceptors>
 	
+	<beans:bean id="criteria" class="com.yeonoo.sfow.model.Criteria"/>
+	<beans:bean id="pageMaker" class="com.yeonoo.sfow.model.PageMaker"/>
 	
 </beans:beans>

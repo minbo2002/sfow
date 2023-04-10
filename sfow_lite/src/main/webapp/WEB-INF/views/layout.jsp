@@ -11,17 +11,19 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+
+
 <title>SFOW MAIN</title>
 
+
 <!-- Custom fonts for this template-->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="${conPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="${conPath}/resources/css/main/sb-admin-2.css" rel="stylesheet">
+    <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -35,7 +37,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}/home">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -46,16 +48,19 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="${conPath}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+           <li class="nav-item active">
+    		<a class="nav-link" href="javascript:acyncMovePage('${conPath}/main3');">
+        		<i class="fas fa-fw fa-tachometer-alt"></i>
+        		<span>공지사항</span>
+    		</a>
+		</li>
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-
+			
+			
             <!-- Nav Item -사용자관리 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -65,8 +70,10 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">개인정보수정</a>
-                        <a class="collapse-item" href="">사용자 계정관리</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/updateUser');">개인정보수정</a>
+                        <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/userManagement');">사용자 계정관리</a>
+                        </c:if>
                     </div>
                 </div>
             </li>
@@ -83,18 +90,32 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     
+                    
+                    
+                    <!-- 승 -->   <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapsecompany"
+                      aria-expanded="false" aria-controls="collapseItem">거래처정보</a>
+                        <div id="collapsecompany" class="collapse" aria-labelledby="collapsecompany" data-parent="#collapseUtilities">
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/main2');">거래처정보등록</a></div>
+                        </c:if>
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseCompanyInfo"
+                      aria-expanded="false" aria-controls="collapseCompanyInfo">회사정보</a>
+                        <div id="collapseCompanyInfo" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/companyInfo?companyCode=${sessionScope.AUTHUSER.companyCode}');">회사정보수정</a>
+                           </div>
+                    
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
                             <a class="collapse-item" href="#">품목등록</a>
                             <a class="collapse-item" href="#">품목조회</a>
                            </div>
-                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
-                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
-                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">창고등록</a>
-                                  <a class="collapse-item" href="#">창고정보</a>
-                          </div>
+	                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
+	                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
+	                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
+	                                  <a class="collapse-item" href="#">창고등록</a>
+	                                  <a class="collapse-item" href="#">창고정보</a>
+	                          </div>
                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/ma/bom');">BOM등록</a>
                     </div>
                 </div>
@@ -177,6 +198,9 @@
                     </div>
                 </div>
             </li>
+            
+
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -301,14 +325,14 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">MES 관리자</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.AUTHUSER.id}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${conPath}/resources/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="javascript:acyncMovePage('${conPath}/updateUser');">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -340,7 +364,7 @@
                 
          <!-- body -->
         <div id="bodyContents">     
-		</div>
+				</div>
 		
 		
 		
@@ -371,10 +395,9 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-                    <a class="btn btn-primary" href="login.html">로그아웃</a>
+                    <a class="btn btn-primary" href="${conPath}/userLogout">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -383,15 +406,16 @@
     <!-- Bootstrap core JavaScript-->
     <script src="${conPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${conPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
+
     <!-- Core plugin JavaScript-->
     <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <script>
+    
     $(document).ready(function() {
     	
     	$.ajax({
-    	    url: "${conPath}/main",
+    	    url: "${conPath}/main3",
     	    async : true,
             type : "GET",
             dataType : "html",

@@ -10,5 +10,12 @@
  		<typeAlias type="java.util.List"   alias="list"/> -->
 	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
 	                                     alias="BomItem"/>
-</typeAliases>
+
+		<typeAlias type="com.yeonoo.sfow.model.NoticeVO" alias="noticeVO"/>	
+		<typeAlias type="com.yeonoo.sfow.model.CpmVO" alias="cpmVO"/>	
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.MainUserInfo" alias="mainUserInfo"/>
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.CompanyInfo" alias="companyInfo"/>
+		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.AdminRollUser" alias="adminRollUser"/>
+	</typeAliases>
 </configuration>
