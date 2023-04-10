@@ -143,6 +143,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">구매요청</a>
                         <a class="collapse-item" href="#">구매입고등록</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/h');")>필드모드(구매요청)</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/hi');")>필드모드(구매입고등록)</a>
+
                     </div>
                 </div>
             </li>
@@ -157,6 +160,7 @@
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
+                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/po');">작업지시(하늘)</a>
                     </div>
                 </div>
             </li>
