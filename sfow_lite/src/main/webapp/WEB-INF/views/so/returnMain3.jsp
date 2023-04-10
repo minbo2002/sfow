@@ -9,45 +9,21 @@
 <script>
 $(document).ready(function() {
 	
-	// 사용자 정의 라디오 버튼 렌더러
-	/* class CustomRadioRenderer {
-    constructor(props) {
-        const el = document.createElement('input');
-        el.type = 'radio';
-        el.name = 'grid-row-radio';
-        el.className = 'grid-row-radio';
-
-        this.el = el;
-        this.render(props);
-    }
-
-    getElement() {
-        return this.el;
-    }
-
-    render(props) {
-    	this.el.setAttribute('data-row-key', props.rowKey);
-    }
-	} */
+	var contextPath = '<%= request.getContextPath() %>';
 	
 	 var grid = new tui.Grid({
 	    	el: document.getElementById('grid'),
-	        scrollX: false,
-	        scrollY: false,
+	        scrollX: true,
+	        scrollY: true,
+	        bodyHeight:500,
 	        rowHeaders: ['rowNum'],
 	        checkOnlyOneRow: true,
 	        columns: [
-/* 	        	{
-	        	    header: '선택',
-	        	    align: 'center',
-	        	    width: 50,
-	        	    renderer: {
-	        	        type: CustomRadioRenderer
-	        	    }
-	        	}, */
 	        	{
 	    			header: '상태',
 	    			name: 'out_status',
+	                align: 'center',
+	                width: 150, // 적절한 너비 값 설정
 	    			formatter: 'listItemText',
 	    			editor: {
 	    				type: 'select',
@@ -62,6 +38,8 @@ $(document).ready(function() {
 	    		{
 	    			header: '반품일자',
 	    			name: 'return_date',
+	                align: 'center',
+	                width: 200, // 적절한 너비 값 설정
 	    	          editor: {
 	    	        	  type: 'datePicker',
 	    	              options: {
@@ -72,31 +50,45 @@ $(document).ready(function() {
 	    		{
 	    			header: '입고번호',
 	    			name: 'return_number',
+	                align: 'center',
+	                width: 250,
 	    			editor: false
 	    		},
 	    		{
 	    			header: '거래처코드',
 	    			name: 'client_code',
-	    			editor: 'text'
+	                align: 'center',
+	                width: 200,
+	    			editor: false
 	    		},
 	    		{
 	    			header: '거래처명',
 	    			name: 'client_name',
-	    			editor: 'text'
+	    			width: 200,
+	    			editor: false
 	    		},		
 	    		{
 	    			header: '비고',
 	    			name: 'memo',
 	    			editor: 'text'
-	    		},
-	    		{
-	    			header: '회사코드',
-	    			name: 'company_code',
-	    			editor: 'text'
 	    		}
 	    	]
 	    	}); //그리드 테이블
-
+	
+	//client_code 더블클릭 이벤트
+      grid.on('dblclick', function(ev) {
+          if (ev.columnName === 'client_code') {
+              window.open(contextPath + '/so/returnMainChild', 'childWindow', 'width=500,height=500');
+          }
+      });
+	    	
+      window.addEventListener('message', function(ev) {
+          const selectedRow = ev.data;
+          const focusedCell = grid.getFocusedCell();
+          grid.setValue(focusedCell.rowKey, 'client_code', selectedRow.client_code);
+          grid.setValue(focusedCell.rowKey, 'client_name', selectedRow.client_name);
+      });
+	    	
    	/* const companyCode = getSessionParameter('company_code'); // 세션에서 company_code 가져오기, 세션 현재 없어서 주석 */
    	const company_code = "1234567890";
 	    	
@@ -309,7 +301,7 @@ $(document).ready(function() {
 	              options: {
 	                format: 'yyyy-MM-dd'
 	              }}},
-            { header : '아이템코드', name: 'item_code', editor: 'text'},
+            { header : '아이템코드', name: 'item_code', editor: false},
             { header : '품번', name: 'item_no', editor: false},
             { header : '품명', name: 'item_name', editor: false},
             { header : '품목유형', name: 'item_type', editor: false},
@@ -439,55 +431,62 @@ $(document).ready(function() {
 	    }
 	});
 	
+	//아이템코드를 더블클릭해서 품번, 품명, 품목유형, 재고단위 조회하기
+    grid2.on('dblclick', function(ev) {
+        if (ev.columnName === 'item_code') {
+            window.open(contextPath + '/so/returnDetailChild', 'childWindow', 'width=500,height=500');
+        }
+    });
+	
+	//자식창에서 전달한 값을 컬럼에 넣기
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid2.getFocusedCell();
+        grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.item_code);
+        grid2.setValue(focusedCell.rowKey, 'item_no', selectedRow.item_no);
+        grid2.setValue(focusedCell.rowKey, 'item_name', selectedRow.item_name);
+        grid2.setValue(focusedCell.rowKey, 'item_type', selectedRow.item_type);
+        grid2.setValue(focusedCell.rowKey, 'item_stock_unit', selectedRow.item_stock_unit); 
+    });
     	
+
+	
 }); //jQuery ready 끝
 
 </script>
 </head>
 <body>
 	<h1>반품관리</h1>
-	<div class="button-container">
-    	<button id="saveBtn">
-            <i class="fas fa-plus"></i>
-            저장
-        </button>
-       	<button id="search">
-           	<i class="fas fa-search"></i>
-            조회
-        </button>
-	    <button id="deleteRowBtn">
-	    	<i class="fas fa-trash-alt"></i>
-	    	삭제
-		</button>
-		<button id="reset">
-	    <i class="fas fa-undo"></i>
-	    초기화
-		</button>
+	<div class="grid_btn">
+       	<button type="button" id="search" style="background-color: #4e73df; color: white;">
+       	<i class="fa fa-search"></i> 조회</button>
+       	<button type="button" id="saveBtn" style="background-color: #4e73df; color: white;">
+       	<i class="fa fa-save"></i> 저장</button>
+       	<button type="button" id="deleteRowBtn" style="background-color: #e03221; color: white;">
+       	<i class="fa fa-trash"></i> 삭제</button>
+       	<button type="button" id="reset" style="background-color: #e03221; color: white;">
+       	<i class="fa fa-power-off"></i> 초기화</button>
+       	<button type="button" id="addRowBtn" style="background-color: #4CAF50; color: white;">
+       	<i class="fa fa-plus"></i> 반품정보 추가</button>
 	</div>
+
 	<p>반품일자 :
 	<input type="text" id="datepicker" readonly="readonly" >
 	<hr/>
-	<input type="button" value="행추가" id="addRowBtn"/>
-	<hr/>
 	<!-- 그리드 삽입장소 -->
-	<div id="grid"></div>
-	
+    <div id="grid" style="width: 100%;"></div>
 	<hr/>
 	<h1>세부항목</h1>
-	<div class="grid2-buttons">
-    <button id="addRowBtn2">
-        <i class="fas fa-plus"></i>
-        행 추가
-    </button>
-    <button id="saveBtn2">
-        <i class="fas fa-save"></i>
-        저장
-    </button>
-    <button id="deleteRowBtn2">
-        <i class="fas fa-trash-alt"></i>
-        삭제
-    </button>
-</div>
+	<div class="grid2_btn">
+   	<button type="button" id="saveBtn2" style="background-color: #4e73df; color: white;">
+   	<i class="fa fa-save"></i> 저장</button>
+   	<button type="button" id="deleteRowBtn2" style="background-color: #e03221; color: white;">
+  	<i class="fa fa-trash"></i> 삭제</button>
+   	<button type="button" id="addRowBtn2" style="background-color: #4CAF50; color: white;">
+  	<i class="fa fa-plus"></i> 세부항목 추가</button>
+
+	<hr/>
+	</div>
 	<div id="grid2"></div>
-</body>
+	</body>
 </html>

@@ -62,7 +62,7 @@
         ]]>
     </update>
     
-   	<!-- 전체조회  -->
+   	<!-- 고객사 조회  -->
 	<select id="getClient" resultType="java.util.Map">
 	  <![CDATA[
 	    select client_code, client_name

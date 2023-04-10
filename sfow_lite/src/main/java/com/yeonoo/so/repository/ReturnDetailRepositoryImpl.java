@@ -23,7 +23,7 @@ public class ReturnDetailRepositoryImpl implements ReturnDetailRepository {
 	
 	//날짜로 반품조회
 	public List<ReturnDetail> getReturnDetail(String returnNumber) throws DataAccessException{
-		 List<ReturnDetail> list = sqlSession.selectList("so_return_detail.getReturnDetail", returnNumber);
+		 List<ReturnDetail> list = sqlSession.selectList("so_return_view.getReturnDetail", returnNumber);
 		return list;
 	}
 	
@@ -44,4 +44,11 @@ public class ReturnDetailRepositoryImpl implements ReturnDetailRepository {
         int result = sqlSession.delete("so_return_detail.deleteReturnDetail", sorder);
         System.out.println(result);
     }
+	
+    //아이템조회
+	public List<Map<String, String>> getItem() throws DataAccessException{
+	    List<Map<String, String>> result = sqlSession.selectList("so_return_detail.getItem");
+	    System.out.println("Result from sqlSession: " + result);
+	    return result;
+	}
 }

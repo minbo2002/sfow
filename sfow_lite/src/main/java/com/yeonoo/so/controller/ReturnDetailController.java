@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,25 +42,28 @@ public class ReturnDetailController {
 	public List<ReturnDetail> getReturnDetail(@RequestParam("return_number") String returnNumber) throws Exception {
 		System.out.println("returnDetail컨트롤러"+returnNumber);
 		List<ReturnDetail> returnDetail = returnDetailService.getReturnDetail(returnNumber);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-	    for (ReturnDetail detail : returnDetail) {
-	        Date receiveDate = detail.getReceive_date();
-	        String formattedDate = sdf.format(receiveDate);
-	        detail.setReceive_date(sdf.parse(formattedDate));
-	    }
-		
-	    System.out.println(returnDetail);
-		
+	
 		return returnDetail;
 	}
     
     //return_detail에 저장 및 수정
     @PostMapping("/so/saveReturnDetail")
-    public void saveReturnDetail(@RequestBody Map<String, Object> data, HttpServletResponse response) {
+    public void saveReturnDetail(@RequestBody Map<String, Object> data, HttpServletResponse response, HttpSession session) {
         try {
-            List<Map<String, Object>> createRows = (List<Map<String, Object>>) data.get("createRows2");
+        	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가. 세션 없어서 임의값
+        	/* String companyCode = (String) session.getAttribute("company_code"); */
+        	String companyCode = "1234567890";
+
+        	List<Map<String, Object>> createRows = (List<Map<String, Object>>) data.get("createRows2");
             List<Map<String, Object>> updateRows = (List<Map<String, Object>>) data.get("updateRows2");
+            
+            for (Map<String, Object> row : createRows) {
+                row.put("company_code", companyCode);
+            }
+
+            for (Map<String, Object> row : updateRows) {
+                row.put("company_code", companyCode);
+            }
             
             // 로그 추가
             System.out.println(("Received data: {}"+data));
@@ -107,6 +112,20 @@ public class ReturnDetailController {
         return ResponseEntity.ok(response);
     }
 	
-
+    //더블클릭해서 returnDetailChild 연결
+	@GetMapping("/so/returnDetailChild")
+	public String ReturnDetailChild() {
+		return "/so/returnDetailChild";
+	}
+	
+    //아이템코드로 조회 자식창
+    @GetMapping("/so/getItem")
+    @ResponseBody
+    public ResponseEntity<List<Map<String, String>>> getItem() throws Exception {
+        List<Map<String, String>> result = returnDetailService.getItem();
+        System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
+        return ResponseEntity.ok(result);
+    }
+	
 }
 

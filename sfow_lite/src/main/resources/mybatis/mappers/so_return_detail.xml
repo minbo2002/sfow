@@ -15,16 +15,6 @@
 	<result property="item_quantity"  column="item_quantity"/>		
 	<result property="memo"  column="memo"/>		
 </resultMap>
-
-
-	<!-- 선택한 행으로 디테일 조회  -->
-	<select id="getReturnDetail" parameterType="String" resultMap="returnDetailResult">
-    	<![CDATA[
-		    SELECT *
-		    FROM so_return_detail
-		    WHERE return_number = #{returnNumber}
-	    ]]>
-	</select>
 	
     <!-- 추가된 열에 insert -->
     <insert id="insertReturnDetail" parameterType="map">
@@ -52,6 +42,16 @@
 	        #{sorder}
 	    </foreach>
 	</delete>
+	
+   	<!-- 아이템 조회  -->
+	<select id="getItem" resultType="java.util.Map">
+	  <![CDATA[
+	    select item_code , item_no , item_name , item_type , item_stock_unit 
+		from ma_item;
+	  ]]>
+	</select>
+	
+	
 
 
 </mapper>

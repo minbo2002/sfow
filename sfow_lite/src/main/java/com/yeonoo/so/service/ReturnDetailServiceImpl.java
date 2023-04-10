@@ -46,4 +46,9 @@ public class ReturnDetailServiceImpl implements ReturnDetailService {
         returnDetailRepository.deleteReturnDetail(sorder);
     }
 	
+    //아이템조회
+	public List<Map<String, String>> getItem() throws Exception{
+		return returnDetailRepository.getItem();
+	}
+    
 }

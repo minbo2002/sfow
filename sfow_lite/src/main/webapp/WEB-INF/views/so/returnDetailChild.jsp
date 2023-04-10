@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/so/returnMainChild.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/so/returnDetailChild.css">
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
@@ -16,19 +16,22 @@ $(document).ready(function(){
 	
 	const grid = new tui.Grid({
 	    el: document.getElementById('grid'),
-        scrollX: false,
-        scrollY: false,
-	    rowHeaders: ['rowNum'],
+        scrollX: true,
+        scrollY: true,
+        rowHeaders: ['rowNum'],
 	    columns: [
-	        { header: '거래처코드', name: 'client_code', sortable: true, align: 'center' },
-	        { header: '거래처명', name: 'client_name', sortable: true, align: 'center' }
+	        { header: '아이템코드', name: 'item_code', sortable: true, align: 'center' },
+	        { header: '품번', name: 'item_no', sortable: true, width:180, align: 'center' },
+	        { header: '품명', name: 'item_name', sortable: true, align: 'center' },
+	        { header: '품목유형', name: 'item_type', sortable: true, width:180, align: 'center' },
+	        { header: '재고단위', name: 'item_stock_unit', sortable: true, width:150, align: 'center' }
 	    ]
 	});
 	
 	// 서버에서 데이터를 가져와서 그리드에 데이터를 설정합니다.
 	function loadGridData() {
 	    $.ajax({
-	        url: contextPath + '/so/getClient', // 실제 데이터를 가져올 URL을 입력해주세요.
+	        url: contextPath + '/so/getItem', // 실제 데이터를 가져올 URL을 입력해주세요.
 	        method: 'GET',
 	        dataType : "JSON",
 	        success: function(result) {
@@ -53,7 +56,6 @@ $(document).ready(function(){
 	$('#cancelBtn').on('click', function() {
 	    window.close();
 	});
-
 	
 	grid.on('dblclick', function(ev) {
 	    if (ev.targetType === 'cell') {
@@ -65,7 +67,6 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<h3>거래처 선택</h3>
     <div id="grid"></div>
     <div class="grid_btn">
     <button id="confirmBtn" class="custom-button"><i class="fa fa-save fa-fw"></i> 확인</button>

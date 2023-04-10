@@ -10,45 +10,42 @@
 $(document).ready(function() {
 	
 	var contextPath = '<%= request.getContextPath() %>';
-	// 사용자 정의 라디오 버튼 렌더러
-	/* class CustomRadioRenderer {
-    constructor(props) {
-        const el = document.createElement('input');
-        el.type = 'radio';
-        el.name = 'grid-row-radio';
-        el.className = 'grid-row-radio';
+	
+	class ClientCodeCellRenderer {
+	    constructor(props) {
+	        const el = document.createElement('span');
+	        el.innerHTML = props.formattedValue;
+	        el.style.backgroundColor = '#85C1E9';
+	        el.style.display = 'inline-block';
+	        el.style.width = '100%';
+	        el.style.height = '100%';
+	        el.style.lineHeight = 'inherit';
+	        this.el = el;
+	    }
 
-        this.el = el;
-        this.render(props);
-    }
+	    getElement() {
+	        return this.el;
+	    }
 
-    getElement() {
-        return this.el;
-    }
-
-    render(props) {
-    	this.el.setAttribute('data-row-key', props.rowKey);
-    }
-	} */
+	    render(props) {
+	        this.el.innerHTML = props.formattedValue;
+	    }
+	}
 	
 	 var grid = new tui.Grid({
 	    	el: document.getElementById('grid'),
-	        scrollX: false,
-	        scrollY: false,
+	        scrollX: true,
+	        scrollY: true,
+	        bodyHeight:300,
 	        rowHeaders: ['rowNum'],
 	        checkOnlyOneRow: true,
 	        columns: [
-/* 	        	{
-	        	    header: '선택',
-	        	    align: 'center',
-	        	    width: 50,
-	        	    renderer: {
-	        	        type: CustomRadioRenderer
-	        	    }
-	        	}, */
 	        	{
 	    			header: '상태',
 	    			name: 'out_status',
+	                align: 'center',
+	                sortable: true,
+	                width: 150, // 적절한 너비 값 설정
 	    			formatter: 'listItemText',
 	    			editor: {
 	    				type: 'select',
@@ -63,6 +60,9 @@ $(document).ready(function() {
 	    		{
 	    			header: '반품일자',
 	    			name: 'return_date',
+	                align: 'center',
+	                sortable: true,
+	                width: 200, // 적절한 너비 값 설정
 	    	          editor: {
 	    	        	  type: 'datePicker',
 	    	              options: {
@@ -73,25 +73,40 @@ $(document).ready(function() {
 	    		{
 	    			header: '입고번호',
 	    			name: 'return_number',
+	                align: 'center',
+	                sortable: true,
+	                width: 250,
 	    			editor: false
 	    		},
 	    		{
 	    			header: '거래처코드',
 	    			name: 'client_code',
-	    			editor: false
+	                align: 'center',
+	                sortable: true,
+	                width: 200,
+	    			editor: false,
+	    		    renderer: { // custom renderer를 열에 추가합니다.
+	    		        type: ClientCodeCellRenderer
+	    		    }
 	    		},
 	    		{
 	    			header: '거래처명',
 	    			name: 'client_name',
+	    			align: 'center',
+	    			sortable: true,
+	    			width: 200,
 	    			editor: false
 	    		},		
 	    		{
 	    			header: '비고',
 	    			name: 'memo',
+	    			align: 'center',
+	    			sortable: true,
 	    			editor: 'text'
 	    		}
 	    	]
 	    	}); //그리드 테이블
+
 	
 	//client_code 더블클릭 이벤트
       grid.on('dblclick', function(ev) {
@@ -106,9 +121,6 @@ $(document).ready(function() {
           grid.setValue(focusedCell.rowKey, 'client_code', selectedRow.client_code);
           grid.setValue(focusedCell.rowKey, 'client_name', selectedRow.client_name);
       });
-	    	
-   	/* const companyCode = getSessionParameter('company_code'); // 세션에서 company_code 가져오기, 세션 현재 없어서 주석 */
-   	const company_code = "1234567890";
 	    	
 	//전체 데이터 조회	    	
     $.ajax({
@@ -312,22 +324,21 @@ $(document).ready(function() {
         rowHeaders: ['rowNum','checkbox' ],
         checkOnlyOneRow: true,
         columns: [
-            { header : 'sorder', name: 'sorder', editor: false},
-            { header : '입고일자', name: 'receive_date', 
+            { header : 'sorder', name: 'sorder', hidden: true},
+            { header : '입고일자', name: 'receive_date', align: 'center', width:200,
             	editor: {
 	        	  type: 'datePicker',
 	              options: {
 	                format: 'yyyy-MM-dd'
 	              }}},
-            { header : '아이템코드', name: 'item_code', editor: false},
-            { header : '품번', name: 'item_no', editor: false},
-            { header : '품명', name: 'item_name', editor: false},
-            { header : '품목유형', name: 'item_type', editor: false},
-            { header : '재고단위', name: 'item_stock_unit', editor: false},
-            { header : '수량', name: 'item_quantity', editor: 'text'},
-            { header : 'LOT번호', name: 'lot_number', editor: 'text'},
-            { header : '비고', name: 'memo', editor: 'text'},
-            { header : '회사코드', name: 'company_code', hidden: true}
+            { header : '아이템코드', name: 'item_code', align: 'center', sortable: true, editor: false},
+            { header : '품번', name: 'item_no', align: 'center', sortable: true, editor: false},
+            { header : '품명', name: 'item_name', align: 'center', sortable: true, editor: false},
+            { header : '품목유형', name: 'item_type', align: 'center', sortable: true, editor: false},
+            { header : '재고단위', name: 'item_stock_unit', align: 'center', sortable: true, editor: false},
+            { header : '수량', name: 'item_quantity', align: 'center', sortable: true, editor: 'text'},
+            { header : 'LOT번호', name: 'lot_number', align: 'center', sortable: true, editor: 'text'},
+            { header : '비고', name: 'memo', align: 'center', sortable: true, editor: 'text'}
     	]
     	}); //그리드 테이블
 
@@ -345,10 +356,17 @@ $(document).ready(function() {
    $('#addRowBtn2').on("click", function() {
 	    // 현재 선택된 행의 데이터를 가져옵니다.
 	   	const focusedRowData = grid.getRow(grid.getFocusedCell().rowKey);
-	   	const return_number = focusedRowData.return_number;
+	    if (focusedRowData === null || focusedRowData === undefined) {
+	        alert("반품정보를 먼저 선택해주세요");
+	        return;
+	    }
+	    
+	    const return_number = focusedRowData.return_number;
 	   	console.log(return_number);
 	   	
-	   	grid2.appendRow({ return_number: return_number, company_code: company_code });
+
+	    
+	   	grid2.appendRow({ return_number: return_number});
    });
     	
 	// grid2 저장
@@ -361,50 +379,69 @@ $(document).ready(function() {
 
 	//세이브버튼 이벤트 저장과 업데이트
 	function saveGrid2Data() {
-	    const allRows = grid2.getData(); // 그리드의 모든 로우 데이터를 가져옵니다.
-	    const modifiedRows2 = grid2.getModifiedRows();
-	    const createRows2 = modifiedRows2.createdRows;
-	    const updateRows2 = modifiedRows2.updatedRows;
+    const allRows = grid2.getData(); // 그리드의 모든 로우 데이터를 가져옵니다.
+    const modifiedRows2 = grid2.getModifiedRows();
+    const createRows2 = modifiedRows2.createdRows;
+    const updateRows2 = modifiedRows2.updatedRows;
+    
+    // 선택된 행이 없으면 알림창을 띄웁니다.
+    const focusedRowData2 = grid.getRow(grid.getFocusedCell().rowKey);
+    if (focusedRowData2 === null || focusedRowData2 === undefined) {
+        alert("반품정보를 먼저 선택해주세요");
+        return;
+    }
+    
+ // 아무 데이터도 입력하지 않거나 수정하지 않았을 경우 알림창을 띄우기
+    if (createRows2.length === 0 && updateRows2.length === 0) {
+        alert('입력하거나 수정한 데이터가 없습니다.');
+        return;
+    }
+    
+    
+    // 데이터 확인
+    console.log("createRows2:", createRows2);
+    console.log("updateRows2:", updateRows2);
+    
 
-	    // 새로 추가된 로우의 company_code 값을 확인합니다.
-	    allRows.forEach(function(row, index) {
-	        const isCreatedRow = createRows2.findIndex(function(createdRow) {
-	            return createdRow.rowKey === row.rowKey;
-	        }) !== -1;
-	        const isUpdatedRow = updateRows2.findIndex(function(updatedRow) {
-	            return updatedRow.rowKey === row.rowKey;
-	        }) !== -1;
+    // 새로운 행과 수정된 행을 서버로 전송하기 위한 AJAX 요청
+    $.ajax({
+        url: "<%=request.getContextPath()%>/so/saveReturnDetail",
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ "createRows2": createRows2, "updateRows2": updateRows2 }),
+        success: function() {
+            alert('저장되었습니다.');
+            // 저장 후 그리드 데이터를 다시 불러옵니다.
+            /* loadGridData(); */
+        },
+        error: function(xhr, status, errorThrown) {
+            console.log('Error occurred:', status, errorThrown);
+            
+            // 에러 메시지 초기화
+            let errorMessage = '';
 
-	        if (row.company_code === company_code && !isCreatedRow && !isUpdatedRow) {
-	            createRows2.push(row);
-	        }
-	    });
+            // item_code, item_quantity, receive_date 값이 없는 경우 에러 메시지 설정
+            if (createRows2.some(function(row) { return !row.item_code; })) {
+                errorMessage += '아이템코드를 입력해주세요.\n';
+            }
+            if (createRows2.some(function(row) { return !row.item_quantity; })) {
+                errorMessage += '수량을 입력해주세요.\n';
+            }
+            if (createRows2.some(function(row) { return !row.receive_date; })) {
+                errorMessage += '입고일자를 입력해주세요.\n';
+            }
 
-	    // 데이터 확인
-	    console.log("createRows2:", createRows2);
-	    console.log("updateRows2:", updateRows2);
-	    console.log(company_code);
+            // 에러 메시지가 있으면 알림창 띄우기
+            if (errorMessage) {
+                alert('에러: 다음 사항을 확인해주세요.\n\n' + errorMessage);
+            } else {
+                alert('알 수 없는 에러가 발생했습니다.');
+            }
+        }
+    });
+}
 	
-	
-	    // 새로운 행과 수정된 행을 서버로 전송하기 위한 AJAX 요청
-  	    $.ajax({
-	        url: "<%=request.getContextPath()%>/so/saveReturnDetail",
-	        method: "POST",
-	        dataType: "json",
-	        contentType: "application/json; charset=utf-8",
-	        data: JSON.stringify({ "createRows2": createRows2, "updateRows2": updateRows2 }),
-	        success: function() {
-	            alert('저장되었습니다.');
-	            // 저장 후 그리드 데이터를 다시 불러옵니다.
-	            /* loadGridData(); */
-	        },
-	        error: function(xhr, status, errorThrown) {
-	            console.log('Error occurred:', status, errorThrown);
-	            alert('에러'); 
-	        }
-	
-	    });
-	}
    
 	//체크박스 선택된 항목들 삭제
 	$('#deleteRowBtn2').on("click", function() {
@@ -450,56 +487,61 @@ $(document).ready(function() {
 	});
 	
 	//아이템코드를 더블클릭해서 품번, 품명, 품목유형, 재고단위 조회하기
+    grid2.on('dblclick', function(ev) {
+        if (ev.columnName === 'item_code') {
+            window.open(contextPath + '/so/returnDetailChild', 'childWindow', 'width=900,height=700');
+        }
+    });
 	
+	//자식창에서 전달한 값을 컬럼에 넣기
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid2.getFocusedCell();
+        grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.item_code);
+        grid2.setValue(focusedCell.rowKey, 'item_no', selectedRow.item_no);
+        grid2.setValue(focusedCell.rowKey, 'item_name', selectedRow.item_name);
+        grid2.setValue(focusedCell.rowKey, 'item_type', selectedRow.item_type);
+        grid2.setValue(focusedCell.rowKey, 'item_stock_unit', selectedRow.item_stock_unit); 
+    });
     	
+
+	
 }); //jQuery ready 끝
 
 </script>
 </head>
 <body>
-	<h1>반품관리</h1>
-	<div class="button-container">
-    	<button id="saveBtn">
-            <i class="fas fa-plus"></i>
-            저장
-        </button>
-       	<button id="search">
-           	<i class="fas fa-search"></i>
-            조회
-        </button>
-	    <button id="deleteRowBtn">
-	    	<i class="fas fa-trash-alt"></i>
-	    	삭제
-		</button>
-		<button id="reset">
-	    <i class="fas fa-undo"></i>
-	    초기화
-		</button>
+	<h4>반품관리</h4>
+	<div class="grid_btn">
+       	<button type="button" id="search" class="custom-button">
+       	<i class="fa fa-search"></i> 조회</button>
+       	<button type="button" id="saveBtn" class="custom-button">
+       	<i class="fa fa-save"></i> 저장</button>
+       	<button type="button" id="deleteRowBtn" class="custom-button">
+       	<i class="fa fa-trash"></i> 삭제</button>
+       	<button type="button" id="reset" class="custom-button">
+       	<i class="fa fa-power-off"></i> 초기화</button>
+       	<button type="button" id="addRowBtn" class="custom-button">
+       	<i class="fa fa-plus"></i> 반품정보 추가</button>
 	</div>
+
 	<p>반품일자 :
 	<input type="text" id="datepicker" readonly="readonly" >
 	<hr/>
-	<input type="button" value="행추가" id="addRowBtn"/>
-	<hr/>
 	<!-- 그리드 삽입장소 -->
-	<div id="grid"></div>
-	
+    <div id="grid" style="width: 100%;"></div>
 	<hr/>
-	<h1>세부항목</h1>
-	<div class="grid2-buttons">
-    <button id="addRowBtn2">
-        <i class="fas fa-plus"></i>
-        행 추가
-    </button>
-    <button id="saveBtn2">
-        <i class="fas fa-save"></i>
-        저장
-    </button>
-    <button id="deleteRowBtn2">
-        <i class="fas fa-trash-alt"></i>
-        삭제
-    </button>
-</div>
+	<h4>세부항목</h4>
+	<div class="grid2_btn">
+   	<button type="button" id="saveBtn2" class="custom-button">
+   	<i class="fa fa-save"></i> 저장</button>
+   	<button type="button" id="deleteRowBtn2" class="custom-button">
+  	<i class="fa fa-trash"></i> 삭제</button>
+   	<button type="button" id="addRowBtn2" class="custom-button">
+  	<i class="fa fa-plus"></i> 세부항목 추가</button>
+
+	<hr/>
+	</div>
 	<div id="grid2"></div>
-</body>
+	</body>
 </html>
