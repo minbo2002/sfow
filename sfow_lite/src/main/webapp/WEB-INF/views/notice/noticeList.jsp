@@ -132,7 +132,7 @@
 		  $("#view").css("display","none");
 		  $("#wfrom").css("display","block");
 		  $("#searchFormDiv").css("display","none");
-		  $(".btn-primary").hide(); // Hide the "글쓰기" button
+		  $("#writeButton").hide(); // Hide the "글쓰기" button
 		}
     
       function inserNotice() {
