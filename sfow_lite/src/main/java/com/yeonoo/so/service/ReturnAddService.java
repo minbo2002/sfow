@@ -28,4 +28,9 @@ public interface ReturnAddService {
     //회사 조회
 	public List<Map<String, String>> getClient() throws Exception;
     
+	//상태 확정
+    public void conFirmStatus(String returnNumber) throws Exception;
+    
+	//상태 저장
+    public void cancelStatus(String returnNumber) throws Exception;
 }

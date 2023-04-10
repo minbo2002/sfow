@@ -52,4 +52,14 @@ public class ReturnAddRepositoryImpl implements ReturnAddRepository {
 	    return result;
 	}
 	
+	//상태 확정
+	public void conFirmStatus(String returnNumber) throws DataAccessException{
+		sqlSession.update("so_return.conFirmStatus", returnNumber);
+    }
+	
+	//상태 저장
+	public void cancelStatus(String returnNumber) throws DataAccessException{
+		sqlSession.update("so_return.cancelStatus", returnNumber);
+    }
+	
 }

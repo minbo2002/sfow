@@ -51,7 +51,15 @@
 	  ]]>
 	</select>
 	
-	
+	<!-- 반품확정 조회  -->
+	<select id="getReturnInfo" resultType="java.util.Map">
+	  <![CDATA[
+		SELECT return_number, client_code, client_name, receive_date, item_code,
+		item_no, item_name, item_type, item_specification, item_quantity, lot_number, item_detail_memo 
+		FROM return_info_view
+		where out_status = 1;
+	  ]]>
+	</select>
 
 
 </mapper>

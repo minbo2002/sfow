@@ -49,6 +49,17 @@ public class ReturnAddController {
 		return "/so/returnMainChild";
 	}
 	
+	//거래처코드 조회 연결
+	@GetMapping("/so/returnInfo")
+	public String ReturnInfo() {
+		return "/so/returnInfo";
+	}
+	
+	
+	
+	
+	
+	
 	//전체 조회
 	@RequestMapping(value="/so/getReturnAdd",
 			   method=RequestMethod.POST)
@@ -136,7 +147,25 @@ public class ReturnAddController {
             }
         }
     }
-      
+    
+    //반품상태 확정으로 변경
+    @PostMapping("/so/conFirmStatus")
+    @ResponseBody
+    public ResponseEntity<Void> conFirmStatus(@RequestParam("return_number") String returnNumber) throws Exception {
+        System.out.println(returnNumber);
+    	returnAddService.conFirmStatus(returnNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    //반품상태 저장으로 변경
+    @PostMapping("/so/cancelStatus")
+    @ResponseBody
+    public ResponseEntity<Void> cancelStatus(@RequestParam("return_number") String returnNumber) throws Exception {
+        System.out.println(returnNumber);
+    	returnAddService.cancelStatus(returnNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     //거래처코드와 거래처명 조회. 자식창
     @GetMapping("/so/getClient")
     @ResponseBody
@@ -145,6 +174,6 @@ public class ReturnAddController {
         System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
         return ResponseEntity.ok(result);
     }
-    
+        
 }
 

@@ -131,7 +131,7 @@
                         aria-expanded="false" aria-controls="collapseWarehouse2">반품관리</a>
                            <div id="collapseWarehouse2" class="collapse" aria-labelledby="headingWarehouse2" data-parent="#collapseUtilities">
                                   <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnMain');">반품등록</a>
-                                  <a class="collapse-item" href="#">반품현황</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnInfo');">반품현황</a>
                           </div>
                     </div>
                 </div>

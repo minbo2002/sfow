@@ -28,4 +28,10 @@ public interface ReturnAddRepository {
 	
 	//회사 조회
 	public List<Map<String, String>> getClient() throws DataAccessException;
+	
+	//상태 확정
+	public void conFirmStatus(String returnNumber) throws DataAccessException;
+	
+	//상태 저장
+	public void cancelStatus(String returnNumber) throws DataAccessException;
 }

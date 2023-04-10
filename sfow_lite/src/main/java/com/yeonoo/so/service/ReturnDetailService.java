@@ -21,4 +21,7 @@ public interface ReturnDetailService {
     
     //아이템조회
     public List<Map<String, String>> getItem() throws Exception;
+    
+    //확정조회
+    public List<Map<String, Object>> getReturnInfo() throws Exception;
 }

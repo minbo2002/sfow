@@ -51,4 +51,11 @@ public class ReturnDetailRepositoryImpl implements ReturnDetailRepository {
 	    System.out.println("Result from sqlSession: " + result);
 	    return result;
 	}
+	
+    //아이템조회
+	public List<Map<String, Object>> getReturnInfo() throws DataAccessException{
+	    List<Map<String, Object>> result = sqlSession.selectList("so_return_detail.getReturnInfo");
+	    System.out.println("Result from sqlSession: " + result);
+	    return result;
+	}
 }

@@ -127,5 +127,14 @@ public class ReturnDetailController {
         return ResponseEntity.ok(result);
     }
 	
+    //반품확정 조회
+    @GetMapping("/so/getReturnInfo")
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> getReturnInfo() throws Exception {
+        List<Map<String, Object>> result = returnDetailService.getReturnInfo();
+        System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
+        return ResponseEntity.ok(result);
+    }
+    
 }
 

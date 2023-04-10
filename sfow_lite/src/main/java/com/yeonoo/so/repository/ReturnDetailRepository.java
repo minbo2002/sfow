@@ -25,4 +25,7 @@ public interface ReturnDetailRepository {
 	
 	//아이템조회
 	public List<Map<String, String>> getItem();
+	
+	//확정조회
+	public List<Map<String, Object>> getReturnInfo();
 }

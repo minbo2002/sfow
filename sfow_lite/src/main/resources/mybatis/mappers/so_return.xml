@@ -47,8 +47,8 @@
     <!-- 추가된 열에 insert -->
     <insert id="insertReturnAdd" parameterType="map">
         <![CDATA[
-        INSERT INTO so_return_add (company_code, client_code, client_name, return_date, out_status, memo)
-        VALUES (#{company_code}, #{client_code}, #{client_name}, #{return_date}, #{out_status}, #{memo})
+        INSERT INTO so_return_add (company_code, client_code, client_name, return_date, memo)
+        VALUES (#{company_code}, #{client_code}, #{client_name}, #{return_date}, #{memo})
         ]]>
     </insert>
 
@@ -57,7 +57,7 @@
         <![CDATA[
         UPDATE so_return_add
         SET company_code = #{company_code}, client_code = #{client_code}, client_name = #{client_name},
-        return_date = #{return_date}, out_status = #{out_status}, memo = #{memo}
+        return_date = #{return_date}, memo = #{memo}
         WHERE return_number = #{return_number}
         ]]>
     </update>
@@ -70,5 +70,22 @@
 	  ]]>
 	</select>
 	
+	<!-- 반품상태 확정 -->
+    <update id="conFirmStatus" parameterType="String">
+       <![CDATA[
+       UPDATE so_return_add
+       SET out_status = 1
+       WHERE return_number = #{return_number}
+       ]]>
+    </update>
+	
+	<!-- 반품상태 저장 -->
+    <update id="cancelStatus" parameterType="String">
+       <![CDATA[
+       UPDATE so_return_add
+       SET out_status = 0
+       WHERE return_number = #{return_number}
+       ]]>
+    </update>
 
 </mapper>

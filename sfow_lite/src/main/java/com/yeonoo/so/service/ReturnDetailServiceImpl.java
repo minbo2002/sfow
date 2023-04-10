@@ -50,5 +50,10 @@ public class ReturnDetailServiceImpl implements ReturnDetailService {
 	public List<Map<String, String>> getItem() throws Exception{
 		return returnDetailRepository.getItem();
 	}
+	
+    //확정조회
+	public List<Map<String, Object>> getReturnInfo() throws Exception{
+		return returnDetailRepository.getReturnInfo();
+	}
     
 }

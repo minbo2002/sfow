@@ -55,4 +55,13 @@ public class ReturnAddServiceImpl implements ReturnAddService {
 		return returnAddRepository.getClient();
 	}
     
+	//상태 확정
+    public void conFirmStatus(String returnNumber) throws Exception{
+    	returnAddRepository.conFirmStatus(returnNumber);
+    }
+    
+	//상태 저장
+    public void cancelStatus(String returnNumber) throws Exception{
+    	returnAddRepository.cancelStatus(returnNumber);
+    }
 }
