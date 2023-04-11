@@ -435,12 +435,27 @@ button {
     });
    
    //
-    window.addEventListener('message', function(ev) {
-        const selectedRow = ev.data;
-        const focusedCell = grid.getFocusedCell();
-        grid.setValue(focusedCell.rowKey, 'itemType', selectedRow.itemType);
-        grid.setValue(focusedCell.rowKey, 'itemCategory', selectedRow.itemCategory);
-    });
+	window.addEventListener('message', function(ev) {
+    
+	const selectedRow = ev.data;
+    const focusedCell = grid.getFocusedCell();
+    const columns = grid.getColumns();
+    const currentItem = grid.getData()[focusedCell.rowKey];
+    const selectedRowCopy = Object.assign({}, selectedRow);
+    
+    for (const column of columns) {
+    	  const columnName = column.field;
+    	  if (columnName !== 'itemType' && columnName !== 'itemCategory') {
+    	    const currentValue = currentItem[columnName];
+    	    const selectedValue = selectedRow[columnName];
+    	    selectedRowCopy[columnName] = selectedValue !== undefined ? selectedValue : currentValue;
+    	    grid.setValue(focusedCell.rowKey, columnName, selectedRowCopy[columnName]);
+    	  }
+    	}
+
+    	grid.setValue(focusedCell.rowKey, 'itemType', selectedRowCopy.itemType);
+    	grid.setValue(focusedCell.rowKey, 'itemCategory', selectedRowCopy.itemCategory);
+});
 
     // itemSpecification 더블클릭 이벤트 실행
     grid.on('dblclick', function(ev) {
