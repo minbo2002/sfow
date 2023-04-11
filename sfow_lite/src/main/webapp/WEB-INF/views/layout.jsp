@@ -444,12 +444,33 @@
 		    	$('#bodyContents').children().remove();
 	            // Contents 영역 교체
 	            $('#bodyContents').html(data);
+	            // 초기화 코드 추가
+	            if (typeof $('#bodyContents').find('#datepicker').datepicker === 'function') {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }	            
 		      },
 		      error: function(request, status, error) {
 		        alert("acyncMovePage 매핑 오류");
 		    }
 		  });
+
 	}
+
+	window.datepickerConfig = {
+		    dateFormat: 'yy-mm-dd',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    dayNames: ['일','월','화','수','목','금','토'],
+		    dayNamesShort: ['일','월','화','수','목','금','토'],
+		    dayNamesMin: ['일','월','화','수','목','금','토'],
+		    yearSuffix: '년',
+		    changeMonth: true,
+		    changeYear: true
+		};
+	
+	
 	</script>
 
 </body>

@@ -13,6 +13,10 @@ var contextPath = '<%= request.getContextPath() %>';
 
 $(document).ready(function() {
 
+	function initDatePicker() {
+	    jq("#datepicker").datepicker(datepickerConfig);
+	}
+	
 	class ClientCodeWithIconRenderer {
 	    constructor(props) {
 	        const el = document.createElement('div');
@@ -394,7 +398,7 @@ $(document).ready(function() {
 	});
    
    
-	//데이트피커 설정
+/* 	//데이트피커 설정
 	const datepickerConfig = {
 			dateFormat: 'yy-mm-dd',
 		    prevText: '이전 달',
@@ -407,11 +411,12 @@ $(document).ready(function() {
 		    yearSuffix: '년',
 	        changeMonth: true,
 	        changeYear: true
-	};
+	}; */
 	
 	//반품일자 jQuery 데이트피커
-	jq("#datepicker").datepicker(datepickerConfig);
-
+	jq("#datepicker").datepicker(window.datepickerConfig);
+	
+	
 	
 	//grid2 테이블 관련 설정
 	 var grid2 = new tui.Grid({
