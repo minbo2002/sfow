@@ -4,6 +4,7 @@ package com.yeonoo.so.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +24,14 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 	
 	// 전체조회
 	@Override
-	public List<ShipOut> getList(SearchDTO searchDTO) {	
+	public List<ShipOut> getList(SearchDTO searchDTO, String companyCode) {	
 
-		return sqlSession.selectList("mapper.shipout.getList", searchDTO);
+		Map<String, Object> map = new HashedMap();
+		map.put("searchDTO", searchDTO);
+		map.put("companyCode", companyCode);
+		System.out.println("map 정보 = " + map.toString());
+		
+		return sqlSession.selectList("mapper.shipout.getList", map);
 	}
 
 	// Modal Item조회
