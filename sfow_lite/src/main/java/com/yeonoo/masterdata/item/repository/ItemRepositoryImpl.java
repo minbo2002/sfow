@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.yeonoo.masterdata.item.domain.CompanyCode;
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
@@ -20,8 +19,8 @@ public class ItemRepositoryImpl implements ItemRepository {
 	private SqlSession sqlSession;
 	
 	//품목유형등록 목록
-	public List<ItemType> getItemTypeList() throws DataAccessException{
-		List<ItemType> itemtype = sqlSession.selectList("mapper.item.getItemType");
+	public List<ItemType> getItemTypeList(String company_code) throws DataAccessException{
+		List<ItemType> itemtype = sqlSession.selectList("mapper.item.getItemType",company_code);
 		return itemtype;
 	}	
 	//품목유형등록 등록
@@ -44,8 +43,8 @@ public class ItemRepositoryImpl implements ItemRepository {
 		return itemtypelist;
 	}
 	//품목등록(제품) 목록
-	public List<ItemProduct> productList() throws DataAccessException {
-		List<ItemProduct> itemproduct = sqlSession.selectList("mapper.item.getItemProduct");
+	public List<ItemProduct> productList(String company_code) throws DataAccessException {
+		List<ItemProduct> itemproduct = sqlSession.selectList("mapper.item.getItemProduct",company_code);
 		return itemproduct;
 	}
 	//품목등록(제품) 등록
@@ -70,13 +69,13 @@ public class ItemRepositoryImpl implements ItemRepository {
 		return itemproductlist;
 		}
 	//품목유형등록(제품) 목록
-	public List<ItemType> selectItemTypeList() throws DataAccessException{
-		List<ItemType> itemtype = sqlSession.selectList("mapper.item.selectItemType");
+	public List<ItemType> selectItemTypeList(String company_code) throws DataAccessException{
+		List<ItemType> itemtype = sqlSession.selectList("mapper.item.selectItemType",company_code);
 		return itemtype;
 	}
 	//재고단위 목록
-	public List<ItemStockUnit> stockunitListAjax() throws DataAccessException{
-		List<ItemStockUnit> itemstockunit = sqlSession.selectList("mapper.item.stockunitList");
+	public List<ItemStockUnit> stockunitListAjax(String company_code) throws DataAccessException{
+		List<ItemStockUnit> itemstockunit = sqlSession.selectList("mapper.item.stockunitList",company_code);
 		return itemstockunit;
 	}
 	//재고단위 등록
@@ -95,8 +94,8 @@ public class ItemRepositoryImpl implements ItemRepository {
 		return itemstockunitlist;
 	}
 	//규격 목록
-	public List<ItemSpecification> specificationListAjax() throws DataAccessException{
-		List<ItemSpecification> itemspecificationlist = sqlSession.selectList("mapper.item.spList");
+	public List<ItemSpecification> specificationListAjax(String company_code) throws DataAccessException{
+		List<ItemSpecification> itemspecificationlist = sqlSession.selectList("mapper.item.spList",company_code);
 		return itemspecificationlist;
 	}
 	//규격 등록
@@ -118,15 +117,5 @@ public class ItemRepositoryImpl implements ItemRepository {
 	public List<ItemType> typeSelectSearchAjax(ItemType itemtype) throws DataAccessException {
 		List<ItemType> itemtypeselectsearch = sqlSession.selectList("mapper.item.typeselectsearch",itemtype);
 				return itemtypeselectsearch;
-	}
-	//아이템코드 목록
-	public List<ItemProduct> itemcodeSelectAjax() throws DataAccessException{
-		List<ItemProduct> itemcodelist = sqlSession.selectList("mapper.item.itemcodeList");
-		return itemcodelist;
-	}
-	//거래처명 목록
-	public List<CompanyCode> companycodeSelectAjax() throws DataAccessException{
-		List<CompanyCode> companycodelist = sqlSession.selectList("mapper.item.companycodeList");
-		return companycodelist;
 	}
 }

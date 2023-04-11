@@ -11,12 +11,8 @@ $(document).ready(window.onload=function() {
 	      { type: 'rowNum', align: 'center'},{ type: 'checkbox' }
         ],
         columns: [
-          { header: '재고단위',
-        	name: 'item_stock_unit', 
-        	editor:'text', 
-        	validation:{required: true}, 
-        	align: 'center',
-            filter: { type: 'text', showApplyBtn: true, showClearBtn: true }}
+          { header: '회사코드	', name: 'company_code', hidden:true },		
+          { header: '재고단위', name: 'item_stock_unit', editor:'text', validation:{required: true}, align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }}
         ]
       });
   

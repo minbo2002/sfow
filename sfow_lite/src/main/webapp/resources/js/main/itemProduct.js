@@ -1,7 +1,8 @@
 $(document).ready(window.onload=function() {
 
     const Grid = tui.Grid;
-    const grid = new Grid({    
+    const grid = new Grid({   
+    	
 		
         el: document.getElementById('grid'),
         scrollX: true,
@@ -12,6 +13,7 @@ $(document).ready(window.onload=function() {
     	   { type: 'checkbox' }
         ],
         columns: [
+          { header: '회사코드	', name: 'company_code', hidden:true },		
           {  header: 'ITEM코드', name: 'item_code', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
           {  header: '품명', name: 'item_name', align: 'center', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
           {  header: '품번', name: 'item_no', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
@@ -32,19 +34,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -58,7 +60,7 @@ $(document).ready(window.onload=function() {
     		  	scrollY: false,
     		  	autoWidth: true,
     		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
-    		    columns: [{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
+    		    columns: [ { header: '회사코드	', name: 'company_code', hidden:true },	{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
     			
     		$.ajax({
     			url : './item/typeSelectAjax',
@@ -137,19 +139,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style","height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -163,7 +165,7 @@ $(document).ready(window.onload=function() {
     		  	scrollY: false,
     		  	autoWidth: true,
     		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
-    		    columns: [{ header: '규격', name: 'item_specification', align: 'center', editor:'text'}]});       		  	
+    		    columns: [ { header: '회사코드	', name: 'company_code', hidden:true },	{ header: '규격', name: 'item_specification', align: 'center', editor:'text'}]});       		  	
     		$.ajax({
     			url : './item/specificationListAjax',
     	        method :'GET',
@@ -247,19 +249,19 @@ $(document).ready(window.onload=function() {
             	  var applyBtn = document.createElement("button");
             	  applyBtn.setAttribute("type", "button");
             	  applyBtn.setAttribute("id", "applyBtn");
-            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  applyBtn.innerText = "적용";
             	  modalGrid.appendChild(applyBtn);
             	  var resetMdBtn = document.createElement("button");
             	  resetMdBtn.setAttribute("type", "reset");
             	  resetMdBtn.setAttribute("id", "resetMdBtn");
-            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  resetMdBtn.innerText = "초기화";
             	  modalGrid.appendChild(resetMdBtn);
             	  var closeBtn = document.createElement("button");
             	  closeBtn.setAttribute("type", "button");
             	  closeBtn.setAttribute("id", "closeBtn");
-            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+            	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
             	  closeBtn.innerText = "닫기";
             	  modalGrid.appendChild(closeBtn);
             	  
@@ -274,7 +276,7 @@ $(document).ready(window.onload=function() {
     		  	scrollY: false,
     		  	autoWidth: true,
     		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
-    		        columns: [{ header: '재고단위', name: 'item_stock_unit', align: 'center', editor:'text' }]});
+    		        columns: [ { header: '회사코드	', name: 'company_code', hidden:true },	{ header: '재고단위', name: 'item_stock_unit', align: 'center', editor:'text' }]});
     		$.ajax({
     			url : './item/stockunitListAjax',
     	        method :'GET',
@@ -346,12 +348,13 @@ $(document).ready(window.onload=function() {
             editor: 'text',align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
           { header: 'lot_Size', name: 'lotsize', editor: 'text',align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
           { header: '비고', name: 'memo', editor: 'text', align: 'center' },
-          { header: '사용여부', name: 'useyn', formatter: 'listItemText', editor: { type: 'select', options: { listItems: [{ text: 'Y', value: 'Y' },{ text: 'N', value: 'N' } ]}},
+          { header: '사용여부', name: 'useyn', formatter: 'listItemText', editor: { type: 'select', options: { listItems: [{ text: 'Y', value: 'Y' },{ text: 'N', value: 'N' } ]},validation:{required: true}},
             align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
           { header: '등록일시', name: 'createdate', align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
           { header: '수정일시', name: 'updatedate', align: 'center',filter: { type: 'text', showApplyBtn: true, showClearBtn: true },},
         ]       
       });
+    
  //행추가   
     Array.prototype.forEach.call(document.querySelectorAll('#addRow'), el => {
 	      el.addEventListener('click', ev => {
@@ -374,8 +377,6 @@ $(document).ready(window.onload=function() {
 	    	 grid.refreshLayout();
 	      });
 		}); //minusRow끝
-  
- //목록      
      $.ajax({
         url : './item/productListAjax',
         method :'GET',
@@ -474,11 +475,13 @@ $(document).ready(window.onload=function() {
        var item_name = $("#search_area input[name='item_name']").val();
        var item_no = $("#search_area input[name='item_no']").val();
        var item_type = $("#search_area input[name='item_type']").val();
+       var company_code = 1234567890;
        		           
        console.log('item_type', item_type);
        console.log('item_name', item_name);
        console.log('item_code', item_code);
        console.log('item_no', item_no);
+       console.log('company_code', company_code);
        
        $.ajax({
    		type: 'POST',
@@ -489,7 +492,8 @@ $(document).ready(window.onload=function() {
    	    	"item_type": item_type,
    	    	"item_name": item_name,
    	    	"item_code": item_code,
-   	    	"item_no": item_no
+   	    	"item_no": item_no,
+   	    	"company_code": company_code
    	        }),
    		success: function(data) {
    			 gridData=data
@@ -535,19 +539,19 @@ $(document).ready(window.onload=function() {
     	  var applyBtn = document.createElement("button");
     	  applyBtn.setAttribute("type", "button");
     	  applyBtn.setAttribute("id", "applyBtn");
-    	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  applyBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  applyBtn.innerText = "적용";
     	  modalGrid.appendChild(applyBtn);
     	  var resetMdBtn = document.createElement("button");
     	  resetMdBtn.setAttribute("type", "reset");
     	  resetMdBtn.setAttribute("id", "resetMdBtn");
-    	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  resetMdBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  resetMdBtn.innerText = "초기화";
     	  modalGrid.appendChild(resetMdBtn);
     	  var closeBtn = document.createElement("button");
     	  closeBtn.setAttribute("type", "button");
     	  closeBtn.setAttribute("id", "closeBtn");
-    	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
+    	  closeBtn.setAttribute("style", "height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;");
     	  closeBtn.innerText = "닫기";
     	  modalGrid.appendChild(closeBtn);
     	  
@@ -561,7 +565,7 @@ $(document).ready(window.onload=function() {
 		  	scrollY: false,
 		  	autoWidth: true,
 		  	rowHeaders: [{ type: 'rowNum', align: 'center'},{ type: 'checkbox' }],
-		    columns: [{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
+		    columns: [ { header: '회사코드	', name: 'company_code', hidden:true },	{ header: '유형', name: 'item_type', align: 'center', editor:'text'}]});       		
 			
 		$.ajax({
 			url : './item/typeSelectAjax',

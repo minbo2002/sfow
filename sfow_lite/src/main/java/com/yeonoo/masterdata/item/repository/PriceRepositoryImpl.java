@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.PriceDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -43,5 +45,14 @@ public class PriceRepositoryImpl implements PriceRepository{
 				
 		}
 
-	
+		//거래처명 목록
+		public List<PriceDTO> companycodeSelectAjax() throws DataAccessException {
+			List<PriceDTO> companycodelist = sqlSession.selectList("price.companycodeList");
+			return companycodelist;
+		}
+		//아이템코드 목록
+		public List<PriceDTO> itemcodeSelectAjax() throws DataAccessException{
+			List<PriceDTO> itemcodelist = sqlSession.selectList("price.itemcodeList");
+			return itemcodelist;
+		}
 }
