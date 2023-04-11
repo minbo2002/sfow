@@ -1,6 +1,6 @@
 package com.yeonoo.so.repository;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +12,6 @@ import com.yeonoo.so.domain.ShipOut;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
 import com.yeonoo.so.domain.SearchDTO;
-import com.yeonoo.so.service.ShipOutServiceImpl;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -26,8 +24,7 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 	// 전체조회
 	@Override
 	public List<ShipOut> getList(SearchDTO searchDTO) {	
-		logger.info("3) RepositoryImpl에서의  searchDTO : " + searchDTO);
-		
+
 		return sqlSession.selectList("mapper.shipout.getList", searchDTO);
 	}
 
@@ -52,28 +49,31 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 		return sqlSession.update("mapper.shipout.writeShipout", elements);
 	}
 
-	// 특정 출하번호의 ITEM 상세정보 조회
+	// 특정 수주번호에 있는 ITEM 정보조회
 	@Override
 	public List<ItemShipOutDTO> selectItem(String orderNumber) {
-		logger.info("Item 4) orderNumber : " + orderNumber);
+		
 		return sqlSession.selectList("mapper.shipout.getOrderNumber", orderNumber);
 	}
 
+	// 특정 수주번호에 있는 ITEM 코드의 LOT 정보조회
 	@Override
-	public List<LotShipOutDTO> selectLot(String itemCode) {
-		logger.info("LOT 4) itemCode : " + itemCode);
-		return sqlSession.selectList("mapper.shipout.getLot", itemCode);
+	public List<LotShipOutDTO> selectLot(String orderNumber) {
+		
+		return sqlSession.selectList("mapper.shipout.getLot", orderNumber);
 	}
 
+	// 상태 변경
 	@Override
 	public int statusUpdate(String outCode) {
 		
 		return sqlSession.update("mapper.shipout.statusUpdate", outCode);
 	}
 
+	// 출하정보 수정
 	@Override
 	public int updateShipOut(ShipOut elements) {
-		logger.info("4) elements : " + elements);
+		
 		return sqlSession.update("mapper.shipout.updateShipOut", elements);
 	}
 
