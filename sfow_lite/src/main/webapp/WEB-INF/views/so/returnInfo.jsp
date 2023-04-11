@@ -10,7 +10,7 @@ h4{
 	color: black;
 }
 
-p {
+span {
     margin-bottom: 10px;
     color: black;
     margin-left: 1%;
@@ -30,6 +30,7 @@ p {
 	font-size: 13px;
 	border-radius: 4px;
 	display: inline-block;
+	margin-left: 10px;
 }
 
 #search:hover {
@@ -40,6 +41,16 @@ p {
 #reset:hover{
   background-color: rgba(204, 000, 051, 1);
   opacity: 0.8;
+}
+
+.grid_btn{
+	display: flex;
+	align-items: center;
+}
+
+input[type="text"] {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 </style>
@@ -68,6 +79,24 @@ $(document).ready(function() {
     	]
     	}); //그리드 테이블	
     	
+    	function loadReturnInfo(){
+            $.ajax({
+                url : "<%=request.getContextPath()%>/so/getReturnInfo",
+                method :"GET",
+                dataType : "JSON",
+                contentType : "application/json; charset=utf-8",
+                success : function(result){
+                    console.dir(result);
+                    grid.resetData(result);
+                },
+    	        error: function(xhr, status, errorThrown) {
+    	            console.log('Error occurred:', status, errorThrown);
+    	            alert('에러');
+    	        }
+           }); //ajax끝
+    	}
+    	
+    	
     	//반품확정 조회	    	
         $.ajax({
             url : "<%=request.getContextPath()%>/so/getReturnInfo",
@@ -82,71 +111,81 @@ $(document).ready(function() {
 	            console.log('Error occurred:', status, errorThrown);
 	            alert('에러');
 	        }
-        
        }); //ajax끝
        
-       $("#clientPicker").click(function() {
-           window.open('<%=request.getContextPath()%>/so/getClient', 'clientPicker', 'width=600, height=400, left=100, top=50, status=no, toolbar=no, menubar=no, resizable=no, scrollbars=yes');
-       });
+        window.addEventListener('message', function(event) {
+            var selectedClient = event.data;
+            $('#clientCode').val(selectedClient.client_code);
+            $('#clientName').val(selectedClient.client_name);
+        });
 
+        // 'clientPicker' input 요소를 클릭하면 자식 창 열기
+        $('#clientCode').on('click', function() {
+            window.open('<%=request.getContextPath()%>/so/returnMainChild', 'childWindow', 'width=800,height=600');
+        });
        
-       //조회버튼 클릭시 clientPicker val가져오기
-       $('#clientPicker').on("click", function(){
-           const clientCode = $('#clientPicker').val();
-           
-           if (clientCode === '' || clientCode === null){
-               $.ajax({
-                   url : "<%=request.getContextPath()%>/so/getReturnInfo",
-                   method :"GET",
-                   dataType : "JSON",
-                   contentType : "application/json; charset=utf-8",
-                   success : function(result){
-                       console.dir(result);
-                       grid.resetData(result);
-                   },
-       	        error: function(xhr, status, errorThrown) {
-       	            console.log('Error occurred:', status, errorThrown);
-       	            alert('에러');
-       	        }
-              }); //ajax끝
-           } else{
-        	   loadClient(clientCode);   
-           }  
-       });
-       
+        window.addEventListener('message', function(event) {
+            var selectedClient = event.data;
+            $('#clientCode').val(selectedClient.client_code);
+            $('#clientName').val(selectedClient.client_name);
+        });
 
-
-       //초기화버튼 클릭해서 초기화
-       $('#reset').on("click", function() {
-		    // clientPicker 및 clientNameView input 값 지우기
-		    $('#clientPicker').val('');
-		    $('#clientNameView').val('');
-		    $.ajax({
-		        url : "<%=request.getContextPath()%>/so/getReturnInfo",
-		        method :"GET",
-		        dataType : "JSON",
-		        contentType : "application/json; charset=utf-8",
-		        success : function(result){
-		            console.dir(result);
-		            grid.resetData(result);
-		        },
-		        error: function(xhr, status, errorThrown) {
-		            console.log('Error occurred:', status, errorThrown);
-		            alert('에러');
-		        }
-		    });
-       });
-
-       
-       
+        // 'clientPicker' input 요소를 클릭하면 자식 창 열기
+        $('#clientName').on('click', function() {
+            window.open('<%=request.getContextPath()%>/so/returnMainChild', 'childWindow', 'width=800,height=600');
+        });
+		
+        //조회버튼으로 조회하기
+        $('#search').on('click', function() {
+            var client_code = $('#clientCode').val();
+            
+            if(!client_code){
+            	loadReturnInfo();
+            };
+            
+            $.ajax({
+                url: "<%=request.getContextPath()%>/so/getInfoByClient",
+                method: "GET",
+                dataType: "JSON",
+                data: { client_code: client_code },
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    console.dir(result);
+                    grid.resetData(result);
+                },
+                error: function(xhr, status, errorThrown) {
+                    console.log('Error occurred:', status, errorThrown);
+                    alert('에러');
+                }
+            });
+        });
+        
+        
+        //초기화
+        $('#reset').on("click", function() {
+         $('#clientCode').val('');
+         $('#clientName').val('');
+         
+         loadReturnInfo();
+        
+     	});
+        
 }); //jQuery 끝
 </script>
 </head>
 <body>
 	<h4>반품현황</h4>
+<div class="grid_btn">
+<span>거래처코드</span>
+<input type="text" id="clientCode" readonly="readonly" >
+<span>거래처명</span>
+<input type="text" id="clientName" readonly="readonly" >
+<button type="button" id="search" class="custom-button">
+<i class="fa fa-search"></i> 조회</button>
+<button type="button" id="reset" class="custom-button">
+<i class="fa fa-power-off"></i> 초기화</button>
+</div>
 <hr/>
 <div id="grid"></div>
-
-
 </body>
 </html>

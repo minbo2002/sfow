@@ -33,4 +33,8 @@ public interface ReturnAddService {
     
 	//상태 저장
     public void cancelStatus(String return_number, String company_code) throws Exception;
+    
+    //returnInfo에서 거채처코드로 조회
+    public List<Map<String, Object>> getInfoByClient(String client_code, String company_code) throws Exception;
+    
 }

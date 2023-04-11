@@ -12,10 +12,7 @@ var jq = jQuery.noConflict();
 var contextPath = '<%= request.getContextPath() %>';
 
 $(document).ready(function() {
-	
-	
-	
-	
+
 	class ClientCodeWithIconRenderer {
 	    constructor(props) {
 	        const el = document.createElement('div');
@@ -61,7 +58,6 @@ $(document).ready(function() {
 	        }
 	    }
 	}
-	
 	
 	 var grid = new tui.Grid({
 	    	el: document.getElementById('grid'),

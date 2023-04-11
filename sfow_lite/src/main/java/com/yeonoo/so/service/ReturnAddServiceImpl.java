@@ -64,4 +64,10 @@ public class ReturnAddServiceImpl implements ReturnAddService {
     public void cancelStatus(String returnNumber, String company_code) throws Exception{
     	returnAddRepository.cancelStatus(returnNumber, company_code);
     }
+
+	//회사코드로 반품확정 조회
+	public List<Map<String, Object>> getInfoByClient(String client_code, String company_code) throws Exception {
+		return returnAddRepository.getInfoByClient(client_code, company_code);
+		
+	}
 }
