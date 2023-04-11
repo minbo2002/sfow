@@ -10,7 +10,7 @@ public class SessionListener implements HttpSessionListener {
 	    public void sessionCreated(HttpSessionEvent event) {
 	        // 세션이 생성될 때 호출되는 메서드
 	        HttpSession session = event.getSession();
-	        session.setMaxInactiveInterval(1800); // 세션 만료 시간 설정 (초 단위)
+	        session.setMaxInactiveInterval(600000); // 세션 만료 시간 설정 (초 단위)
 	    }
 
     @Override

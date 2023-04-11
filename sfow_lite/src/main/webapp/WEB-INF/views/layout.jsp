@@ -141,13 +141,12 @@
                           <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">수주관리</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">견적서 등록</a>
-                            <a class="collapse-item" href="#">수주서 관리</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/orderList');">수주서 관리</a>
                            </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
                         aria-expanded="false" aria-controls="collapseWarehouse">출하관리</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">출하 등록</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/shipout/main');">출하 등록</a>
                                   <a class="collapse-item" href="#">출하 조회</a>
                           </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse2"
