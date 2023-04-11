@@ -10,7 +10,7 @@ import com.yeonoo.so.domain.SearchDTO;
 
 public interface ShipOutService {
 
-	List<ShipOut> getList(SearchDTO searchDTO);
+	List<ShipOut> getList(SearchDTO searchDTO, String companyCode);
 	
 	List<Map<String, Object>> getModalItem();
 	

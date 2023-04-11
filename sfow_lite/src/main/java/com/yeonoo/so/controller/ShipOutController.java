@@ -59,8 +59,15 @@ public class ShipOutController {
 	@ResponseBody
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	public List<ShipOut> getList(@RequestBody SearchDTO searchDTO, HttpSession session) {
-		System.out.println("list = " + searchDTO);
-		List<ShipOut> shipOutList = shipOutService.getList(searchDTO);
+		
+		System.out.println("검색할 단어 DTO = " + searchDTO);
+		
+		UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+		String companyCode = user.getCompanyCode();
+		System.out.println("로그인유저의 companyCode = " + companyCode);
+		
+		List<ShipOut> shipOutList = shipOutService.getList(searchDTO, companyCode);
+		System.out.println("조회한 shipOutList = " + shipOutList);
 		
 		return shipOutList;
 	}

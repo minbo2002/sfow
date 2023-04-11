@@ -28,9 +28,9 @@ public class ShipOutServiceImpl implements ShipOutService {
 	
 	// 전체조회
 	@Override
-	public List<ShipOut> getList(SearchDTO searchDTO) {	
+	public List<ShipOut> getList(SearchDTO searchDTO, String companyCode) {	
 
-		return shipOutRepository.getList(searchDTO);
+		return shipOutRepository.getList(searchDTO, companyCode);
 	}
 
 	// Modal Item조회

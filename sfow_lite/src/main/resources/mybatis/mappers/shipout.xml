@@ -2,32 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.shipout">
-	<select id="getList" resultType="shipOut">
+	<select id="getList" parameterType="Map" resultType="shipOut">
 		<![CDATA[
 			SELECT out_code AS outCode, order_number AS orderNumber, client_code AS clientCode,
 				   out_type AS outType, trans_type AS transType, out_plan_date AS outPlanDate,
 				   out_manager AS outManager, out_status AS outStatus, memo, create_date AS createDate, create_user AS createUser,
-				   update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo 
+				   update_date AS updateDate, update_user AS updateUser, delete_yes_no AS deleteYesNo  
 			FROM so_shipout
- 			where COALESCE(out_code, '') LIKE CONCAT('%', #{outCode}, '%') AND  
- 				  COALESCE(order_number, '') LIKE CONCAT('%', #{orderNumber}, '%') AND 
-				  COALESCE(client_code, '') LIKE CONCAT('%', #{clientCode}, '%') AND 
-				  COALESCE(out_type, '') LIKE CONCAT('%', #{outType}, '%') AND 
-				  COALESCE(trans_type, '') LIKE CONCAT('%', #{transType}, '%') AND 
+ 			where company_code=#{companyCode} AND
+ 				  COALESCE(out_code, '') LIKE CONCAT('%', #{searchDTO.outCode}, '%') AND  
+ 				  COALESCE(order_number, '') LIKE CONCAT('%', #{searchDTO.orderNumber}, '%') AND 
+				  COALESCE(client_code, '') LIKE CONCAT('%', #{searchDTO.clientCode}, '%') AND 
+				  COALESCE(out_type, '') LIKE CONCAT('%', #{searchDTO.outType}, '%') AND 
+				  COALESCE(trans_type, '') LIKE CONCAT('%', #{searchDTO.transType}, '%') AND 
 		]]>		  
 				  <if test="outPlanDate != null and outPlanDate != ''">
- 				  COALESCE(out_plan_date, '') = DATE(#{outPlanDate}) AND
+ 				  COALESCE(out_plan_date, '') = DATE(#{searchDTO.outPlanDate}) AND
  				  </if>
  		<![CDATA[		   
- 				  COALESCE(out_manager, '') LIKE CONCAT('%', #{outManager}, '%') AND 
-				  COALESCE(out_status, '') LIKE CONCAT('%', #{outStatus}, '%') AND 
-				  COALESCE(memo, '') LIKE CONCAT('%', #{memo}, '%') AND 
+ 				  COALESCE(out_manager, '') LIKE CONCAT('%', #{searchDTO.outManager}, '%') AND 
+				  COALESCE(out_status, '') LIKE CONCAT('%', #{searchDTO.outStatus}, '%') AND 
+				  COALESCE(memo, '') LIKE CONCAT('%', #{searchDTO.memo}, '%') AND 
  		]]>
  				  <if test="createDate != null and createDate != ''">
- 				  COALESCE(create_date, '') = DATE(#{createDate}) AND
+ 				  COALESCE(create_date, '') = DATE(#{searchDTO.createDate}) AND
  				  </if> 
  		<![CDATA[		  
- 				  COALESCE(create_user, '') LIKE CONCAT('%', #{createUser}, '%') AND 
+ 				  COALESCE(create_user, '') LIKE CONCAT('%', #{searchDTO.createUser}, '%') AND 
 				  delete_yes_no='N'
 		]]>		  
 	</select>  
