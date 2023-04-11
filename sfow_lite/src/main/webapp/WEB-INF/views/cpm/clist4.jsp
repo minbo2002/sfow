@@ -245,42 +245,38 @@ $(document).ready(function() {
 
 
 
-  // 행 삭제
      $('#delete-row-btn').on('click', function(event) {
-       event.preventDefault(); // 기본 동작 막기
-       const checkedRows = grid.getCheckedRows();
-       var no = [];
-       var client_Codes = [];
-       for (var i = 0; i < checkedRows.length; i++) {
-         client_Codes.push(checkedRows[i].no);
-       }
-       console.log("no",no);
+    	  event.preventDefault();
+    	  const checkedRows = grid.getCheckedRows();
+    	  var no = [];
+    	  var client_Codes = [];
+    	  for (var i = 0; i < checkedRows.length; i++) {
+    	    client_Codes.push(checkedRows[i].no);
+    	  }
 
-       $.ajax({
-         url: '${ContextPath}/deletecpm',
-         type: 'DELETE',
-         data: JSON.stringify(client_Codes[0]),
-         contentType: 'application/json',
-         success: function(result) {
-           console.log(result);
-           alert('삭제되었습니다.');
-           // 삭제된 행 재로딩
-           $.ajax({
-             url: '${ContextPath}/cpm',
-             method: 'GET',
-             dataType: 'JSON',
-             success: function(result) {
-               console.dir(result);
-               grid.resetData(result);
-             }
-           });
-         },
-         error: function(xhr, status, error) {
-           console.log(xhr.responseText);
-           alert('삭제에 실패했습니다.');
-         }
-       });
-     });
+    	  $.ajax({
+    	    url: '${ContextPath}/deletecpm',
+    	    type: 'DELETE',
+    	    data: JSON.stringify(client_Codes[0]),
+    	    contentType: 'application/json',
+    	    success: function(result) {
+    	      console.log(result);
+    	      alert('삭제되었습니다.');
+
+    	      // 그리드에서 선택한 행을 삭제합니다.
+    	      grid.removeCheckedRows();
+
+    	      // 선택한 행을 삭제하지 않고 표시를 변경할 경우, 아래와 같이 사용합니다.
+    	      // for (var i = 0; i < checkedRows.length; i++) {
+    	      //   grid.removeRow(checkedRows[i].updateKey);
+    	      // }
+    	    },
+    	    error: function(xhr, status, error) {
+    	      console.log(xhr.responseText);
+    	      alert('삭제에 실패했습니다.');
+    	    }
+    	  });
+    	});
 
   
   
