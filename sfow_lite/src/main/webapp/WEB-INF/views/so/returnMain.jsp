@@ -13,9 +13,9 @@ var contextPath = '<%= request.getContextPath() %>';
 
 $(document).ready(function() {
 
-	function initDatePicker() {
+/* 	function initDatePicker() {
 	    jq("#datepicker").datepicker(datepickerConfig);
-	}
+	} */
 	
 	class ClientCodeWithIconRenderer {
 	    constructor(props) {
@@ -267,10 +267,12 @@ $(document).ready(function() {
     	});
 	});
    
+	window.datepickerConfig
+   
    //초기화
    $('#reset').on("click", function() {
     // jQuery Date Picker 날짜 초기화
-    jq('#datepicker').datepicker('setDate', null);
+    $('#datepicker').datepicker('setDate', null);
 	    $.ajax({
 	        url : "<%=request.getContextPath()%>/so/getReturnAdd",
 	        method :"POST",
@@ -398,21 +400,6 @@ $(document).ready(function() {
     	});
 	});
    
-   
-/* 	//데이트피커 설정
-	const datepickerConfig = {
-			dateFormat: 'yy-mm-dd',
-		    prevText: '이전 달',
-		    nextText: '다음 달',
-		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		    dayNames: ['일','월','화','수','목','금','토'],
-		    dayNamesShort: ['일','월','화','수','목','금','토'],
-		    dayNamesMin: ['일','월','화','수','목','금','토'],
-		    yearSuffix: '년',
-	        changeMonth: true,
-	        changeYear: true
-	}; */
 	
 	//반품일자 jQuery 데이트피커
 	jq("#datepicker").datepicker(window.datepickerConfig);

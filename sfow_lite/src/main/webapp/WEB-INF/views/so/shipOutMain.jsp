@@ -32,7 +32,12 @@
 	</style>
 	
 	<script>
+	
+	var contextPath = '<%= request.getContextPath()%>';
+	
 	$(document).ready(window.onload=function() {
+		
+		
 		
 		$('#searchBtn').on('click', function() {
 
@@ -58,7 +63,7 @@
 			event.preventDefault(); // prevent form submission
 
 			$.ajax({
-				url : "${conPath}/shipout/list",
+				url : contextPath + "/shipout/list",
 				method : "post",
 				data : JSON.stringify(searchData),
 				dataType : "json",
@@ -178,7 +183,7 @@
 			*/
 			
 			$.ajax({
-				url : "${conPath}/shipout/selectItems",
+				url : contextPath + "/shipout/selectItems",
 				method : "post",
 				data : jsonRowDatas,
 				dataType : "json",
@@ -191,7 +196,7 @@
 			});
 			
 			$.ajax({
-				url : "${conPath}/shipout/selectLots",
+				url : contextPath + "/shipout/selectLots",
 				method : "post",
 				data : jsonRowDatas2,
 				dataType : "json",
@@ -233,8 +238,9 @@
 	
 	// 1개 row의 수주번호칸 더블클릭시 이벤트 실행
     grid.on('dblclick', function(ev) {
+    	console.log("dbclick이벤트")
         if (ev.columnName === 'orderNumber') {
-            window.open('${conPath}/shipout/modalItem', 'childWindow', 'width=500,height=500');
+            window.open(contextPath + '/shipout/modalItem', 'childWindow', 'width=500,height=500');
         }
     });
 	
@@ -322,7 +328,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 		
 		$.ajax({
-			url : "${conPath}/shipout/write",
+			url : contextPath + "/shipout/write",
 			method : "post",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",
@@ -362,7 +368,7 @@
 		grid.removeCheckedRows([jsonRowKeys]);
 
 		$.ajax({
-			url : "${conPath}/shipout/deleteShipOut",
+			url : contextPath + "/shipout/deleteShipOut",
 			method : "put",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -397,7 +403,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
-			url : "${conPath}/shipout/statusUpdate",
+			url : contextPath + "/shipout/statusUpdate",
 			method : "put",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",
@@ -430,7 +436,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
-			url : "${conPath}/shipout/updateShipOut",
+			url : contextPath + "/shipout/updateShipOut",
 			method : "patch",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",

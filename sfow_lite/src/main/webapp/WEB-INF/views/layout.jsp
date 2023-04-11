@@ -147,7 +147,6 @@
                         aria-expanded="false" aria-controls="collapseWarehouse">출하관리</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
                                   <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/shipout/main');">출하 등록</a>
-                                  <a class="collapse-item" href="#">출하 조회</a>
                           </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse2"
                         aria-expanded="false" aria-controls="collapseWarehouse2">반품관리</a>
@@ -445,9 +444,12 @@
 	            // Contents 영역 교체
 	            $('#bodyContents').html(data);
 	            // 초기화 코드 추가
-	            if (typeof $('#bodyContents').find('#datepicker').datepicker === 'function') {
+	            /* if (typeof $('#bodyContents').find('#datepicker').datepicker === 'function') {
 	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
-	            }	            
+	            }	             */
+	            if ($('#bodyContents').find('#datepicker').length > 0) {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }
 		      },
 		      error: function(request, status, error) {
 		        alert("acyncMovePage 매핑 오류");

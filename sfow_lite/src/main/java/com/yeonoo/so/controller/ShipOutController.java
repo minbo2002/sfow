@@ -59,7 +59,7 @@ public class ShipOutController {
 	@ResponseBody
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	public List<ShipOut> getList(@RequestBody SearchDTO searchDTO, HttpSession session) {
-
+		System.out.println("list = " + searchDTO);
 		List<ShipOut> shipOutList = shipOutService.getList(searchDTO);
 		
 		return shipOutList;

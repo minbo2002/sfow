@@ -225,6 +225,7 @@ public class OrderController {
         @ResponseBody
         public ResponseEntity<List<Map<String, Object>>> getClient() throws Exception {
         	List<Map<String, Object>> result = orderService.getClient();
+        	System.out.println("orderClient="+result);
         	return ResponseEntity.ok(result);
         }
 		 

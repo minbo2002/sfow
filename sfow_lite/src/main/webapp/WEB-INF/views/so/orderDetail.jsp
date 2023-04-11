@@ -56,7 +56,7 @@ $(document).ready(function(){
 	// 서버에서 데이터를 가져와서 그리드에 데이터를 설정합니다.
 	function loadGridData() {
 	    $.ajax({
-	        url: contextPath + 'orderItem', // 실제 데이터를 가져올 URL을 입력해주세요.
+	        url: contextPath + '/orderItem', // 실제 데이터를 가져올 URL을 입력해주세요.
 	        method: 'GET',
 	        dataType : "JSON",
 	        success: function(result) {
