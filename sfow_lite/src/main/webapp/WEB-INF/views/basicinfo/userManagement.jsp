@@ -222,7 +222,7 @@ $(document).ready(function() {
 		
 	  
 	  //행 추가
-	  $('#add-row-btn').on('click', function() {
+	  $('#addRowBtn').on('click', function() {
 		  
 		  
 		  var now = new Date();
@@ -380,7 +380,7 @@ $(document).ready(function() {
 	  
 	  
 		// 행 삭제
-		  $('#delete-row-btn').on('click', function() {
+		  $('#deleteRowBtn').on('click', function() {
 		    const checkedRows = grid.getCheckedRows();
 		    var ids = [];
 		    for (var i = 0; i < checkedRows.length; i++) {
