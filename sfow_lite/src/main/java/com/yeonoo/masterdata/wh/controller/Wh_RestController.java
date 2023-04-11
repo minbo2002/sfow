@@ -119,7 +119,7 @@ public class Wh_RestController {
 	
 	 //Area 행 추가 등록(인서트 "저장" 버튼)
 		@ResponseBody
-	    @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertDetail")
+	    @RequestMapping(method= RequestMethod.POST, value="/warehouse/insertDetail")
 	    public List<WH_detail> insertDetail(@RequestBody List<WH_detail> WH_detail) throws Exception{
 			
 	    	Iterator<WH_detail> iterator = WH_detail.iterator();

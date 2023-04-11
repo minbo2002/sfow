@@ -180,6 +180,16 @@ window.onload = function() {
 	             width: 50,
 	         },'checkbox'],
 	           columns: [
+	            {
+                 header: '회사코드',            // [필수] 컬럼 이름
+                 name: 'company_code',                 // [필수] 컬럼 매핑 이름 값
+                 hidden: true,                   // [선택] 숨김 여부
+             },
+              {
+                 header: '회사코드',            // [필수] 컬럼 이름
+                 name: 'warehouse_code',                 // [필수] 컬럼 매핑 이름 값
+                 hidden: true,                   // [선택] 숨김 여부
+             },
 	        	 {
 	        		 header: '구역코드',
 		                sortable: true, //정렬하는거 옆에 삼각형 2개생김
@@ -195,7 +205,8 @@ window.onload = function() {
 	                align:'center', //텍스트 가운데정렬
 	                width: '150',
 	                name: 'area_name'
-	              }
+	              },
+	              
 	         ]
 	       }); //area 그리드 컬럼끝
 	       
@@ -348,6 +359,10 @@ window.onload = function() {
 		  var	Area_rowDatas2 = grid2.getCheckedRows();
 			var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
 		
+		company_code
+		warehouse_code
+		
+		var area_wh
 		
 		
 	if (jsonRowDatas.createdate =''){
