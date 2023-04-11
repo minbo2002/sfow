@@ -62,7 +62,6 @@ public class ReturnAddRepositoryImpl implements ReturnAddRepository {
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("return_number", return_number);
 	    params.put("company_code", company_code); 
-		
 		sqlSession.update("so_return.conFirmStatus", params);
     }
 	
@@ -71,8 +70,17 @@ public class ReturnAddRepositoryImpl implements ReturnAddRepository {
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("return_number", return_number);
 	    params.put("company_code", company_code); 
-		
 		sqlSession.update("so_return.cancelStatus", params);
     }
+
+	//거래처코드로 반품현황조회
+	public List<Map<String, Object>> getInfoByClient(String client_code, String company_code) {
+	    Map<String, String> params = new HashMap<>();
+	    params.put("client_code", client_code);
+	    params.put("company_code", company_code);
+	    System.out.println("params = "+params);
+	    List<Map<String, Object>> result = sqlSession.selectList("so_return.getInfoByClient", params);
+		return result;
+	}
 	
 }

@@ -177,5 +177,19 @@ public class ReturnAddController {
         return ResponseEntity.ok(result);
     }
     
+    //returnInfo에서 거채처코드로 조회
+    @GetMapping("/so/getInfoByClient")
+    @ResponseBody
+    public List<Map<String, Object>> getInfoByClient(@RequestParam(value = "client_code", required = false) String client_code, HttpSession session) throws Exception {
+		UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		System.out.println("client_code"+client_code);
+		System.out.println("company_code"+company_code);
+		List<Map<String, Object>> result = returnAddService.getInfoByClient(client_code, company_code);
+    	System.out.println(result);
+    	return result;
+    }
+    
+    
 }
 

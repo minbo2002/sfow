@@ -34,4 +34,6 @@ public interface ReturnAddRepository {
 	
 	//상태 저장
 	public void cancelStatus(String return_number, String company_code) throws DataAccessException;
+
+	public List<Map<String, Object>> getInfoByClient(String client_code, String company_code);
 }
