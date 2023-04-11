@@ -132,7 +132,8 @@ $(document).ready(function() {
 	    		{
 	    			header: '회사코드',
 	    			name: 'company_code',
-	    			align: 'center'
+	    			align: 'center',
+    				hidden: true
 	    		}
 	    	]
 	    	}); //그리드 테이블
