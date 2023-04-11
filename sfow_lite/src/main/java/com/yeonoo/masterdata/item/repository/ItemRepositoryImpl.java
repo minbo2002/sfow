@@ -11,7 +11,6 @@ import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
-import com.yeonoo.masterdata.item.domain.PriceDTO;
 
 @Repository
 public class ItemRepositoryImpl implements ItemRepository {

@@ -28,7 +28,7 @@ public class ItemRestController {
 	//품목유형등록 목록
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST},value="/item/typeAjax")
 	public List<ItemType> getItemTypeListAjax(HttpSession session) throws Exception {
-		//String company_code = ((String) session.getAttribute("AUTHUSER")).getCompany_code();
+		//String company_code = ((User) session.getAttribute("AUTHUSER")).getCompany_code();
 		String company_code = "1234567890";
 		List<ItemType> result = itemService.getItemTypeList(company_code);
 		return result;

@@ -6,7 +6,6 @@ import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
-import com.yeonoo.masterdata.item.domain.PriceDTO;
 
 public interface ItemService {
 	//품목유형등록 목록
