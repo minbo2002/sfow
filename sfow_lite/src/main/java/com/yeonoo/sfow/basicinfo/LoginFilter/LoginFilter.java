@@ -16,16 +16,21 @@ public class LoginFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
- 
+        
+        if (uri.endsWith("/sessionLogout")) { // 로그인 페이지 제외
+            chain.doFilter(request, response);
+            return;
+        }
+        
         HttpSession session = req.getSession(false);
  
         if (session == null || session.getAttribute("AUTHUSER") == null) {
-            res.sendRedirect(req.getContextPath() + "/login");
+            res.sendRedirect(req.getContextPath() + "/sessionLogout");
         } else {
             chain.doFilter(req, res);
         }
     }
- 
+    
     public void init(FilterConfig filterConfig) throws ServletException {
     }
  
