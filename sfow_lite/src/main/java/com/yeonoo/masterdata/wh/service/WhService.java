@@ -14,7 +14,7 @@ public interface WhService {
 	
 	//전체 목록 조회
 	
-		public List<WH> getWhAllList() throws Exception;
+		public List<WH> getWhAllList(String company_code) throws Exception;
 	/*
 		//insert
 		public void insertwhService(WH wh) throws Exception;

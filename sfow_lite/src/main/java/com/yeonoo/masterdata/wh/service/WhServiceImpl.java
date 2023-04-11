@@ -18,9 +18,9 @@ public class WhServiceImpl implements WhService {
 	private WhRepositoryImpl whRepository; 
 	
 	@Override
-	public List<WH> getWhAllList() throws Exception{
+	public List<WH> getWhAllList(String company_code) throws Exception{
 		
-		return whRepository.getWhAllList();
+		return whRepository.getWhAllList(company_code);
 	}
 	@Override
 	public List<WH> searchWH(WH searchwh) throws Exception {

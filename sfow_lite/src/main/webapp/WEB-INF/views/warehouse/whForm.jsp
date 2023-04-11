@@ -3,16 +3,16 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <c:set var="conPath"  value="${pageContext.request.contextPath}" />
-<c:set var="CP"  value="<%=request.getContextPath()%>" />
 <!DOCTYPE html>
 <html>
 <head>
    <title>창고등록</title>
-   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+   
+   <!-- <script src="https://code.jquery.com/jquery-1.11.3.js"></script> -->
       
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css"/>
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> -->
+<!-- <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css"/> -->
 
 <style type="text/css">
 
@@ -27,18 +27,34 @@ div#grid{
 input#addRowBtn{
 	width: 25px;
 	height: 25px;
+	background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
 }
 input#deleteRow{
 	width: 25px;
 	height: 25px;
+	background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
 }
 input#addRowBtn2{
 	width: 25px;
 	height: 25px;
+	background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
 }
 input#deleteRow2{
 	width: 25px;
 	height: 25px;
+	background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
 }
 table{
 	width:100%;
@@ -53,18 +69,33 @@ td#td1{
 div.whbox1{
 	margin: 10px;
 }
+/* #saveBtn:hover, #saveBtn2:hover, #search:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+  background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+} */
+#delBtn:hover, #deleteRowBtn2:hover, #reset:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+  background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+}
+
+
 
 </style>
  
 </head>
-<script src="${conPath}/resources/js/warehouse/wh_main.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-
+<script src="<%=request.getContextPath()%>/resources/js/warehouse/wh_main.js"></script>
+<!-- <script src="${conPath}/resources/js/warehouse/wh_main.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 <body>
-
 	<h3>창고등록(입력폼)</h3>
 <hr>
 	
@@ -72,11 +103,7 @@ div.whbox1{
 		
 		<div class="whbox1">
 	<!-- 	<input type="button" name="serchBtn" id="serchBtn" value="조회"> -->
-		
-		
 		</div>
-		
-		
 		<!-- 
 		<button name="WH_type_btn" id="WH_type_btn">창고구분</button>
 		<select>
@@ -98,7 +125,6 @@ div.whbox1{
 		<button name="WH_name_btn" id="WH_name_btn">창고명</button>
 		<input type="text" name="WH_name" id="WH_name">
 		 -->
-
 		<table>
 		
 		<tr>

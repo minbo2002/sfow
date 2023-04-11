@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.domain.WH_detail;
 import com.yeonoo.masterdata.wh.service.WhService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,9 +36,9 @@ public class Wh_RestController {
 	
 	//창고폼에서 AJAX 로 내용 불러오기
 	@RequestMapping(value="/warehouse/whinfoAJ")
-    public List<WH> getWhAllList() throws Exception {
+    public List<WH> getWhAllList(String company_code) throws Exception {
        //전체 목록 조회
-        List<WH> results = whService.getWhAllList();
+        List<WH> results = whService.getWhAllList(company_code);
         return results;
     }
     
@@ -91,29 +93,17 @@ public class Wh_RestController {
     @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
     public List<WH> insertWH(@RequestBody List<WH> wh,HttpSession session) throws Exception{
 		
+		Iterator<WH> iterator = wh.iterator();
+		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = userinfo.getCompanyCode();
+		List<WH> result = whService.getWhAllList(company_code);
 		
-		 String company_code = "temp_company_code"; 
-		    String id = "temp_id"; 
-		    String createuser = id;
-		    if(session != null) { //세션이 null이 아닌 경우에만 세션에서 값을 가져옴
-		        //세션에서 company_code 랑 사용자 (접속자)이름 가져와야한다.
-		        String company_code1 = (String) session.getAttribute("company_code"); //세션에서 company_code 받아오기
-		        String id1 = (String) session.getAttribute("id"); //세션에서 user_id 받아오기
-		        if(company_code1 != null) { //세션에서 받아온 값이 null이 아닌 경우에만 값을 설정
-		            company_code = company_code1;
-		        }
-		        if(id1 != null) { //세션에서 받아온 값이 null이 아닌 경우에만 값을 설정
-		            id = id1;
-		            createuser = id;
-		        }
+		    while(iterator.hasNext()){
+		    	WH elements =iterator.next();
+		    	
+		        int writeCnt = whService.insertWH(elements);
 		    }
-		    
-		    for(WH element : wh) {
-		        element.setCompany_code(company_code); //받아온 company_code를 wh 객체에 설정
-		        element.setCreateuser(createuser); //받아온 id를 wh 객체에 설정, createuser로 이름 변경
-		        int writeCnt = whService.insertWH(element);
-		    }
-		    return wh;
+		    return result;
 		}
 	
 	

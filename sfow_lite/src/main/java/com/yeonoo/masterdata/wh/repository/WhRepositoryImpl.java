@@ -21,8 +21,8 @@ public class WhRepositoryImpl implements WhRepository {
 	
 	//전체목록조회
 	@Override
-	public List<WH> getWhAllList() throws DataAccessException{
-		List<WH> list =	sqlSession.selectList("mapper.warehouse.whAllList");
+	public List<WH> getWhAllList(String company_code) throws DataAccessException{
+		List<WH> list =	sqlSession.selectList("mapper.warehouse.whAllList",company_code);
 		
 		return list;
 	}

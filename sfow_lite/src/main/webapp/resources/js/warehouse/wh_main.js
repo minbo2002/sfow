@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(window.onload = function() {
      
    var gridData=[];
    var grid = new tui.Grid({
@@ -135,7 +135,7 @@ window.onload = function() {
    
     // 모든 목록 보여주는 ajax
     $.ajax({
-      url : '../warehouse/whinfoAJ',
+      url : './warehouse/whinfoAJ',
       method : 'GET',
       dataType : 'JSON',
       success : function(result) {
@@ -235,7 +235,7 @@ window.onload = function() {
 		
 		
 		$.ajax({
-                 url: '../warehouse/WHarea',
+                 url: './warehouse/WHarea',
                  method :'post',
                  dataType: 'JSON',
                  data: jsonRowDatas,
@@ -293,7 +293,7 @@ window.onload = function() {
 				     
 				    // make AJAX call to server
 				    $.ajax({
-				      url:'../warehouse/searchWH',
+				      url:'./warehouse/searchWH',
 				      type: 'get',
 				      dataType:'JSON',
 				      data: {
@@ -368,7 +368,7 @@ window.onload = function() {
 	if (jsonRowDatas.createdate =''){
 	
 		$.ajax({
-                 url: '../warehouse/insertWH',
+                 url: './warehouse/insertWH',
                  method :'post',
                  dataType: 'json',
                  data: jsonRowDatas,
@@ -382,27 +382,11 @@ window.onload = function() {
                      location.href = "../warehouse/whinfo";
                  	}
              }); //insert ajax 끝
-            
-             $.ajax({
-                 url: '../warehouse/insertDetail',
-                 method :'post',
-                 dataType: 'json',
-                 data: Area_jsonRowDatas,
-                 contentType: 'application/json; charset=utf-8',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //insert ajax 끝
-            
+                      
       } else {
     	
 	           $.ajax({
-	                 url: '../warehouse/updateWH',
+	                 url: './warehouse/updateWH',
 	                 method :'patch',
 	                 dataType: 'JSON',
 	                 data: jsonRowDatas2,
@@ -422,7 +406,7 @@ window.onload = function() {
 	
 		
 	
-};	//최초시작
+});	//최초시작
 
 
 

@@ -1,8 +1,8 @@
 package com.yeonoo.masterdata.wh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yeonoo.masterdata.wh.service.WhService;
@@ -20,7 +20,7 @@ public class Wh_Controller {
 		  @RequestMapping("/warehouse/whinfo")
 		   public String whForm() {
 		      
-		      return "/warehouse/whForm";
+		      return "warehouse/whForm";
 		   }
 		   
 			/*
