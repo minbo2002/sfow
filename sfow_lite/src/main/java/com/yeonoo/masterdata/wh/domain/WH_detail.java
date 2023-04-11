@@ -14,4 +14,6 @@ public class WH_detail {
 	private String area_code;		//구역코드
 	private String area_name;		//구역명
 	
+	// public WH_detail() {};
+	
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yeonoo.masterdata.wh.domain.WH;
@@ -73,7 +74,7 @@ public class Wh_RestController {
 	    		Iterator<WH_detail> iterator2 = wh_detail2.iterator();
 	    			
 	    		while (iterator2.hasNext()) {
-	    			
+	    		
 	    			WH_detail wh_details =iterator2.next();
 	    			wh_detail.add(wh_details);
 	    		}
@@ -107,12 +108,22 @@ public class Wh_RestController {
     }
 	
     //전체 행 업데이트 기능  - 구역(area)까지
-  	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value= "/warehouse/updateWH", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
-  	public ResponseEntity<String> updateWH(@RequestBody WH wh) throws Exception {
-  			return whService.updateWH(wh)==1 
-                      ? new ResponseEntity<String> ("success", HttpStatus.OK):
-                              new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-  	}
+    @ResponseBody
+  	@RequestMapping(method = {RequestMethod.PUT,RequestMethod.PATCH}, value= "/warehouse/updateWH")
+  	public int updateWH(@RequestBody List<WH> wh) throws Exception {
+    	
+    	Iterator<WH> iterator =wh.iterator();
+    		int updateCnt = 0;
+    	while(iterator.hasNext()) {
+			
+    		WH elements = iterator.next();
+
+			updateCnt =  whService.updateWH(elements);
+		}
+		
+		return updateCnt;
+	}
+  
     
     
     //특정 데이터로 구역(area) 데이터 조회하기

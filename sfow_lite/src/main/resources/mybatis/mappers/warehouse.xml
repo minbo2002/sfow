@@ -20,6 +20,17 @@
 		<result property="area_name"  column="area_name"/>
 		
 	</resultMap>
+	
+ 	<resultMap type="Wh_Detail" id="Wh_Detail">
+	
+		<result property="company_code"  column="company_code"/>	
+		<result property="warehouse_code"  column="warehouse_type"/>	
+		<result property="area_code"  column="warehouse_code"/>	
+		<result property="area_name"  column="warehouse_name"/>	
+		
+	</resultMap>
+	
+	
 
 	<!-- 창고 전체 목록보기 -->
  	<select id="whAllList" resultType="warehouse">
@@ -31,7 +42,7 @@
 	</select>
   
   <!-- 특정 창고 코드 내부 area 검색 -->
-  <select id="wharea" resultType="Wh_Detail" parameterType="String">
+ 	<select id="wharea" resultType="Wh_Detail" parameterType="String">
 	 	<![CDATA[
 			select * from wh_detail
 			where warehouse_code=#{warehouse_code}

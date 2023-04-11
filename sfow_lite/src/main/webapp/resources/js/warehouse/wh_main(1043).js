@@ -205,43 +205,12 @@ window.onload = function() {
 		  var newRowData =[{area_code:''},{ area_name:''}];
 		  grid2.appendRow(newRowData);
 		});
-		
-		
-		// 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
-	/*	grid.on('click', function(ev) {
-		
-			const rowKey = ev.rowKey;
-		    const columnName = ev.columnName;
-		    const area_rowData = grid2.getRow(rowKey);
-
-
-				$.ajax({
-                 url: '../warehouse/WHarea',
-                 method :'GET',
-                 dataType: 'JSON',
-                 data: JSON.stringify(grid2),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
-                      location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //ajax /warehouse/AreaList 끝
-        
-    	}); //구역 그리드ON data보여주기 끝 
-	*/ 
-		
-		// 그리드 내용 클릭하면 자동 체크 & 두번누르면 해제
-		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
-		
+	/*	
 		grid.on('click', function(ev) {
+		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
 		    const rowKey = ev.rowKey;
 		    const columnName = ev.columnName;
 		    const rowData = grid.getRow(rowKey);
-		
 		    // 체크된 행인지 여부를 checkedRows 배열로 확인
 		    const isChecked = checkedRows.includes(rowKey);
 		
@@ -250,15 +219,47 @@ window.onload = function() {
 		        const index = checkedRows.indexOf(rowKey);
 		        checkedRows.splice(index, 1);
 		        grid.uncheck(rowKey);
+		        grid2.uncheck(rowKey);
 		    } else {
 		        // 체크되지 않은 상태에서 클릭하면 체크
 		        checkedRows.push(rowKey);
 		        grid.check(rowKey);
 		    }
    			
-             
 		});
-				
+	*/
+		// 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
+	grid.on('click', function(ev) {
+		
+	const rowKey = ev.rowKey;
+	    	const columnName = ev.columnName;
+	    	const rowData = grid.getRow(rowKey);
+    	
+        // 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
+			var areaData = grid.getCheckedRows();
+			var jsonArea = JSON.stringify(areaData);
+			
+			// alert(jsonArea); //클릭한 그리드1 행 데이터 확인
+			
+		$.ajax({
+                 url: '../warehouse/WHarea',
+                 method :'post',
+                 dataType: 'JSON',
+                 data: jsonArea,  // 가져올데이터
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(results) {
+                     console.log('Success:', results);
+                   	 grid2.resetData(results);
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                   location.href = "../warehouse/whinfo";
+                 	}
+             }); //ajax /warehouse/AreaList 끝    
+        
+    	}); //구역 그리드ON data보여주기 끝 
+	
+		
 		
 	//조회 버튼 클릭하면 특정 내용 검색(빈내용이면 전부 검색)
 	$(document).ready(function(){
@@ -333,16 +334,16 @@ window.onload = function() {
     	const columnName = ev.columnName;
     	const rowData = grid.getRow(rowKey);
     	
+    	
+    	var rowDatas = grid.getCheckedRows();
+		var jsonRowDatas = JSON.stringify(rowDatas);
 			
     Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
 	      el.addEventListener('click', ev => {
-	      
-	      const rowData2 = grid.getRow(rowKey);
-	      const jsonRowDatas = JSON.stringify(rowData2);  
-	       const rowData3 =grid.getRow(jsonRowDatas);
-			const createdate = rowData3.createdate;
-			
-			 //alert(createdate); 
+	     
+			const createdate = rowData.createdate;
+			 
+			alert(createdate); 
 			  
 			if(createdate == ''){
 		
@@ -366,16 +367,16 @@ window.onload = function() {
 
 			else {
            
-            const rowKey2 = ev.rowKey;
-    		const columnName2 = ev.columnName;
-    		const rowData2 = grid.getRow(rowKey);
+           // const rowKey2 = ev.rowKey;
+    		// const columnName2 = ev.columnName;
+    		// const rowData2 = grid.getRow(rowKey);
            
 	           $.ajax({
 	                 url: '../warehouse/updateWH',
-	                 method :'PUT',
-	                 dataType: 'JSON',
-	                 data: JSON.stringify(rowData2),
-	                 contentType: 'application/json',
+	                 method :'put',
+	                // dataType: 'JSON',
+	                 data: jsonRowDatas,
+	                 contentType: 'application/json; charset=utf-8',
 	                 success: function(response) {
 	                     console.log('Success:', response);
 	                     location.href = "../warehouse/whinfo";

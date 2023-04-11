@@ -103,8 +103,8 @@ div.whbox1{
 		
 		<tr>
 			<td id="td1">창고구분
-				<select id="warehouse_type" name="warehouse_type"style="text-align: center;">
-					<option value="">--</option>
+				<select id="warehouse_type" name="warehouse_type" style="text-align: center;">
+					<option value="all">--</option>
 					<option value="제품창고">제품창고</option>
 					<option value="반제품창고">반제품창고</option>
 					<option value="자재창고">자재창고</option>

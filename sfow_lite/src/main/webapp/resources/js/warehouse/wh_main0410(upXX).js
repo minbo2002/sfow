@@ -146,7 +146,7 @@ window.onload = function() {
       
    });
         
- //행 추가
+ //그리드1 행 추가
 	var addRowBtn = document.getElementById('addRowBtn');
 	addRowBtn.addEventListener('click', function() {
 	  var newRowData = {
@@ -200,41 +200,14 @@ window.onload = function() {
 	       }); //area 그리드 컬럼끝
 	       
 	  //행 추가
-		var addRowBtn2 = document.getElementById('addRowBtn2');
-		addRowBtn2.addEventListener('click', function() {
-		  var newRowData =[{area_code:''},{ area_name:''}];
-		  grid2.appendRow(newRowData);
-		});
-		
-		
-		// 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
-	/*	grid.on('click', function(ev) {
-		
-			const rowKey = ev.rowKey;
-		    const columnName = ev.columnName;
-		    const area_rowData = grid2.getRow(rowKey);
-
-
-				$.ajax({
-                 url: '../warehouse/WHarea',
-                 method :'GET',
-                 dataType: 'JSON',
-                 data: JSON.stringify(grid2),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
-                      location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //ajax /warehouse/AreaList 끝
-        
-    	}); //구역 그리드ON data보여주기 끝 
-	*/ 
-		
-		// 그리드 내용 클릭하면 자동 체크 & 두번누르면 해제
+			var addRowBtn2 = document.getElementById('addRowBtn2');
+			addRowBtn2.addEventListener('click', function() {
+			  var newRowData =[{area_code:''},{ area_name:''}];
+			  grid2.appendRow(newRowData);
+			});
+			
+			
+	// 그리드 내용 클릭하면 자동 체크 & 두번누르면 해제
 		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
 		
 		grid.on('click', function(ev) {
@@ -255,13 +228,12 @@ window.onload = function() {
 		        checkedRows.push(rowKey);
 		        grid.check(rowKey);
 		    }
-   			
-             
-		});
-				
-		
+
+	});	
+	
+	
 	//조회 버튼 클릭하면 특정 내용 검색(빈내용이면 전부 검색)
-	$(document).ready(function(){
+		$(document).ready(function(){
 			
 			  $('#searchBtn').click(function(event) {
 				  event.preventDefault(); // prevent form submission
@@ -291,12 +263,44 @@ window.onload = function() {
 			      }
 			    	   	 });
 			 	});
-			});
-		
-		//체크된 행 삭제하기 (update 삭제)
+			 	
+			}); //searchBtn 끝
+
+	grid.on('check', function(ev) {	
+	      
+			const rowKey = ev.rowKey;
+	    	const columnName = ev.columnName;
+	    	const rowData = grid.getRow(rowKey);
+    	
+        // 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
+			var areaData = grid.getCheckedRows();
+			var jsonArea = JSON.stringify(areaData);
+
+			//alert(jsonArea); //클릭한 그리드1 행 데이터 확인
+
+		$.ajax({
+                 url: '../warehouse/WHarea',
+                 method :'post',
+                 dataType: 'JSON',
+                 data: jsonArea,  // 가져올데이터
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(results) {
+                     console.log('Success:', results);
+                   	 grid2.resetData(results);
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                   location.href = "../warehouse/whinfo";
+                 	}
+             }); //ajax /warehouse/AreaList 끝     
+        
+        }); //그리드1 디테일 보여주기 끝  
+        
+        
+     //체크된 행 삭제하기 (delete 삭제)
 		grid.on('check', function(ev) {	
 	      
-	    const rowKey = ev.rowKey;
+	  	const rowKey = ev.rowKey;
     	const columnName = ev.columnName;
     	const rowData = grid.getRow(rowKey);
 			//console.log('check!', ev);
@@ -321,60 +325,20 @@ window.onload = function() {
                  	}
              }); //ajax(/item/productDeleteAjax)끝
           }); //addEventListener끝
-    	}); //deleteRow 끝
-    }); //grid.on('check')끝 
-		
-		
-		
-	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
-	grid.on('check', function(ev) {	
+          
+          Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
+		      el.addEventListener('click', ev => {
 	      
-	    const rowKey = ev.rowKey;
-    	const columnName = ev.columnName;
-    	const rowData = grid.getRow(rowKey);
-    	
+				const createdate = rowData.createdate;
+				 //alert(createdate); 
+				  
+				if(createdate == ''){
 			
-    Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
-	      el.addEventListener('click', ev => {
-	      
-	      const rowData2 = grid.getRow(rowKey);
-	      const jsonRowDatas = JSON.stringify(rowData2);  
-	       const rowData3 =grid.getRow(jsonRowDatas);
-			const createdate = rowData3.createdate;
-			
-			 //alert(createdate); 
-			  
-			if(createdate == ''){
-		
-				$.ajax({
-                 url: '../warehouse/insertWH',
-                 method :'POST',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //insert ajax 끝
-             
-           }
-
-			else {
-           
-            const rowKey2 = ev.rowKey;
-    		const columnName2 = ev.columnName;
-    		const rowData2 = grid.getRow(rowKey);
-           
-	           $.ajax({
-	                 url: '../warehouse/updateWH',
-	                 method :'PUT',
+					$.ajax({
+	                 url: '../warehouse/insertWH',
+	                 method :'POST',
 	                 dataType: 'JSON',
-	                 data: JSON.stringify(rowData2),
+	                 data: JSON.stringify(rowData),
 	                 contentType: 'application/json',
 	                 success: function(response) {
 	                     console.log('Success:', response);
@@ -384,15 +348,45 @@ window.onload = function() {
 	                     console.log('Error:', error);
 	                     location.href = "../warehouse/whinfo";
 	                 	}
-	             }); //update ajax 끝
-           }
-           
+	             }); //insert ajax 끝
+	             
+	           }else {
+	           
+	            const rowKey = ev.rowKey;
+	    		const columnName = ev.columnName;
+	    		const rowData = grid.getRow(rowKey);
+	    		
+		           $.ajax({
+		                 url: '../warehouse/updateWH',
+		                 method :'PUT',
+		                 dataType: 'JSON',
+		                 data: JSON.stringify(rowData),
+		                 contentType: 'application/json',
+		                 success: function(response) {
+		                     console.log('Success:', response);
+		                     location.href = "../warehouse/whinfo";
+		                     
+		                 	},
+		                 error: function(error) {
+		                     console.log('Error:', error);
+		                     location.href = "../warehouse/whinfo";
+		                 	}
+		             }); //update ajax 끝
+	           }
+	             });
+	          }); //addEventListener끝
+    	}); //deleteRow 끝 
+    	
+   	 }); //grid.on('check') 저장,완전삭제,끝    
+        
+        
+                   
+       grid.on('uncheck', function(ev) {	      
+            
+            grid2.clear();  
+            
+             });
              
-          }); //addEventListener끝
-    	 }); //insertRow 끝
-	}); //grid.on('check')끝 	
-		
-	
-};	//최초시작
+};	//win.load최초시작
 
 
