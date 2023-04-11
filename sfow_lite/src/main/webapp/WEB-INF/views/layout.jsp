@@ -24,7 +24,10 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <style>
+   </style>
 </head>
+<section id="section1">
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -157,6 +160,7 @@
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/perform');">작업등록</a>
                     </div>
                 </div>
             </li>
@@ -172,6 +176,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="">품목별 재고현황</a>
                         <a class="collapse-item" href="">창고별 재고현황</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockSearch');">품목창고 재고현황</a>
                     </div>
                 </div>
             </li>
@@ -342,8 +347,7 @@
          <!-- body -->
         <div id="bodyContents">     
 		</div>
-		
-		
+	
 		
 		
 		</div>
@@ -424,7 +428,7 @@
 		  });
 	}
 	</script>
-
+</section>
 </body>
 
 </html>
