@@ -27,13 +27,14 @@
 		 id속성 : unique해야한다. 각 요소를 구분하기 위한 용도 -->
 	<!-- 전체 게시물수 조회 -->
 
-	<select id="allStockList" resultType="com.yeonoo.stock.domain.Stock">
+	<select id="allStockList" resultType="com.yeonoo.stock.domain.Stock" parameterType="String">
 	  <![CDATA[
 		SELECT s.lot_no, i.item_code, i.item_category, i.item_stock_unit, i.item_specification, i.item_name, i.item_category, w.warehouse_code, w.warehouse_name, wd.area_code
 		FROM pp_perform s
 		INNER JOIN ma_item i ON s.item_code = i.item_code
 		INNER JOIN wh w ON i.company_code = w.company_code
 		INNER JOIN wh_detail wd ON w.warehouse_code = wd.warehouse_code
+		WHERE i.company_code = #{company_code}
 	  ]]>
 	</select>
 
@@ -45,19 +46,20 @@
 	  ]]>
 	</update>
 	
-	<select id="searchStockList" resultType="com.yeonoo.stock.domain.Stock" parameterType="com.yeonoo.stock.domain.Stock">
+	<select id="searchStockList" resultType="com.yeonoo.stock.domain.Stock" parameterType="map">
 	  <![CDATA[
 		SELECT s.lot_no, i.item_code, i.item_category, i.item_stock_unit, i.item_specification, i.item_name, i.item_category, w.warehouse_code, w.warehouse_name, wd.area_code
 		FROM pp_perform s
 		INNER JOIN ma_item i ON s.item_code = i.item_code
 		INNER JOIN wh w ON i.company_code = w.company_code
 		INNER JOIN wh_detail wd ON w.warehouse_code = wd.warehouse_code
-		WHERE COALESCE(w.warehouse_code, '') LIKE CONCAT('%', #{warehouse_code}, '%') 
-		  AND COALESCE(w.warehouse_name, '') LIKE CONCAT('%', #{warehouse_name}, '%')
-		  AND COALESCE(s.lot_no, '') LIKE CONCAT('%', #{lot_no}, '%')
-		  AND COALESCE(i.item_category, '') LIKE CONCAT('%', #{item_category}, '%')
-		  AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{item_code}, '%')
-		  AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{item_name}, '%')
+		WHERE COALESCE(w.warehouse_code, '') LIKE CONCAT('%', #{stock.warehouse_code}, '%') 
+		  AND COALESCE(w.warehouse_name, '') LIKE CONCAT('%', #{stock.warehouse_name}, '%')
+		  AND COALESCE(s.lot_no, '') LIKE CONCAT('%', #{stock.lot_no}, '%')
+		  AND COALESCE(i.item_category, '') LIKE CONCAT('%', #{stock.item_category}, '%')
+		  AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{stock.item_code}, '%')
+		  AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{stock.item_name}, '%')
+		  AND i.company_code = #{company_code}
 	  ]]>
 	</select>
 	
