@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.sfow.ppPerform.domain.BOM;
 import com.yeonoo.sfow.ppPerform.domain.Order;
 import com.yeonoo.sfow.ppPerform.domain.Perform;
@@ -36,7 +38,8 @@ public class PerformController {
 		
 	@RequestMapping("/selectOrder")
 	@ResponseBody
-	public List<Order> selectOrder(Order order) {
+	public List<Order> selectOrder(Order order, HttpSession session, HttpServletRequest request) {
+
 		System.out.println(order);
 		List<Order> result=performService.selectOrder(order);
 		return result;
@@ -89,10 +92,10 @@ public class PerformController {
 	@GetMapping("/selectWorker")
 	@ResponseBody
 	public List<Perform> selectWorker(Perform worker,HttpSession com) {
-//		UseInfo user = (UserInfo) com.getAttribute("AUTHUSER");
-//		user.getComp
-//		
-//		work.setCompany_code=
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		
+		worker.setCompany_code(comCode);
 		
 		
 		List<Perform> workers=performService.selectWorker(worker);

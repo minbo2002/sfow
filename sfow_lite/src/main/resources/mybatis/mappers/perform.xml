@@ -71,12 +71,13 @@ WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
 </update>
 
 <select id="selectWorker" resultType="com.yeonoo.sfow.ppPerform.domain.Perform" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
-	<![CDATA[select id,user_name from cm_userinfo]]>
+	<![CDATA[select id,user_name from cm_userinfo
+		     where company_code=#{company_code}]]>
 </select>
 <select id="selectWorker2" resultType="com.yeonoo.sfow.ppPerform.domain.Perform" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[ SELECT id, user_name 
 			  FROM cm_userinfo 
-			  WHERE id LIKE CONCAT('%', #{user_code}, '%')]]>
+			  WHERE id LIKE CONCAT('%', #{user_code}, '%') and company_code=#{company_code}]]>
 </select>
 
 <update id="updateOrderDate" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
