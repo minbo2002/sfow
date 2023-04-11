@@ -82,7 +82,6 @@ button {
 </style>
 	
 	
-</style>
 
 </head>
 
@@ -412,7 +411,7 @@ button {
 
    /* modal 삽입 */
    // client_code 더블클릭 이벤트 실행
-    grid.on('dblclick', function(ev) {
+    grid.on('dblclick', function(ev) { 
         if (ev.columnName === 'clientCode') {
             window.open('${conPath}/raw/clientModalList', 'childWindow', 'width=500,height=500');
         }
@@ -442,13 +441,16 @@ button {
     const columns = grid.getColumns();
     const currentItem = grid.getData()[focusedCell.rowKey];
     const selectedRowCopy = Object.assign({}, selectedRow);
-    
+    console.log('123',columns);
     for (const column of columns) {
     	  const columnName = column.field;
-    	  if (columnName !== 'itemType' && columnName !== 'itemCategory') {
+    	  console.log('10',columnName);
+    	  if (columnName !== 'itemType' || columnName !== 'itemCategory') {
     	    const currentValue = currentItem[columnName];
     	    const selectedValue = selectedRow[columnName];
-    	    selectedRowCopy[columnName] = selectedValue !== undefined ? selectedValue : currentValue;
+    	    selectedRowCopy[columnName] = selectedValue !== null ? selectedValue : currentValue;
+    	    console.log('1',currentValue);
+    	    console.log('2',selectedValue);
     	    grid.setValue(focusedCell.rowKey, columnName, selectedRowCopy[columnName]);
     	  }
     	} 

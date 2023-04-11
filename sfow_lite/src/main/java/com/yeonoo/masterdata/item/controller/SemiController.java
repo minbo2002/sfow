@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,9 +30,28 @@ public class SemiController {
 	private final Logger logger = LoggerFactory.getLogger(SemiController.class);
 	
 	// modal form
-	@RequestMapping("/modalList") //get
-	public String modalList() {
-		return "item/modalList";
+	//품목유형등록 목록
+	@GetMapping("/item/type")
+	public String getItemTypeList() throws Exception {
+		return "item/itemType";
+	}
+	
+	//품목유형등록셀렉트 목록
+	@GetMapping("/item/typeSelect")
+	public String selectItemTypeList() throws Exception {
+		return "item/itemTypeSelect";
+	}
+	
+	//규격 모달
+	@RequestMapping("/item/itemSpecificationSelect")
+	public String modalitemSpecificationSelect() throws Exception {
+		return "item/itemSpecificationSelect";		
+	}
+	
+	//재고단위 모달
+	@RequestMapping("/item/itemStockUnitSelect")
+	public String modalstockunitList() throws Exception {
+		return "item/itemStockUnitSelect";
 	}
 	
 // modal data process
