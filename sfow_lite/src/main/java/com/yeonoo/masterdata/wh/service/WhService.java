@@ -25,6 +25,9 @@ public interface WhService {
 
 	public List<WH> searchWH(WH searchwh) throws Exception;
 
+	
+	
+	
 	public int updateWH(WH wh) throws Exception ;
 
 	// 행 추가 등록하기 

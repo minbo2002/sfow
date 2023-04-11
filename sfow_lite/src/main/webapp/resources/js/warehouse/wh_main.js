@@ -134,13 +134,14 @@ $(document).ready(window.onload = function() {
        }); //그리드 컬럼끝
    
     // 모든 목록 보여주는 ajax
+    
     $.ajax({
       url : './warehouse/whinfoAJ',
       method : 'GET',
       dataType : 'JSON',
       success : function(result) {
          console.dir(result);
-        grid.resetData(result);
+         grid.resetData(result);
       } 
       
       
@@ -294,23 +295,24 @@ $(document).ready(window.onload = function() {
 				    // make AJAX call to server
 				    $.ajax({
 				      url:'./warehouse/searchWH',
-				      type: 'get',
+				      type: 'post',
 				      dataType:'JSON',
-				      data: {
+				      contentType: 'application/json',
+				      data:JSON.stringify({
 			    	  warehouse_type: warehouse_type,
 			    	  warehouse_code: warehouse_code,
 			    	  warehouse_name: warehouse_name
-			      },
+			      }),
 			      success: function(data) {
 			    	 	console.dir(data);
-			    	 	grid.clear();
 			    	 	grid.resetData(data);
-			    	  	
-			    	  	
-			      }
+			      },
+			      error: function(error) {
+              		 console.log('Error:', error);
+           	}
 			    	   	 });
 			 	});
-			});
+			}); //$('#searchBtn')끝
 		
 		//체크된 행 삭제하기 (update 삭제)
 		grid.on('check', function(ev) {	
@@ -325,7 +327,7 @@ $(document).ready(window.onload = function() {
 	      el.addEventListener('click', ev => {
 
 				$.ajax({
-                 url: '../warehouse/deleteWH',
+                 url: './warehouse/deleteWH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
@@ -359,16 +361,12 @@ $(document).ready(window.onload = function() {
 		  var	Area_rowDatas2 = grid2.getCheckedRows();
 			var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
 		
-		company_code
-		warehouse_code
-		
-		var area_wh
-		
+	
 		
 	if (jsonRowDatas.createdate =''){
 	
 		$.ajax({
-                 url: './warehouse/insertWH',
+                 url: '../warehouse/insertWH',
                  method :'post',
                  dataType: 'json',
                  data: jsonRowDatas,
@@ -386,7 +384,7 @@ $(document).ready(window.onload = function() {
       } else {
     	
 	           $.ajax({
-	                 url: './warehouse/updateWH',
+	                 url: '../warehouse/updateWH',
 	                 method :'patch',
 	                 dataType: 'JSON',
 	                 data: jsonRowDatas2,

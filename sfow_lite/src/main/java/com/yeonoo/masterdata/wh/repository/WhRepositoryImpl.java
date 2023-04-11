@@ -1,5 +1,6 @@
 package com.yeonoo.masterdata.wh.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -24,11 +25,12 @@ public class WhRepositoryImpl implements WhRepository {
 	public List<WH> getWhAllList(String company_code) throws DataAccessException{
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.whAllList",company_code);
 		
-		return list;
+	    return list;
 	}
 	
 	public List<WH> getsearchWH(WH searchwh) throws DataAccessException{
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.searchWH",searchwh);
+		//List<WH> list2 =	sqlSession.selectList("mapper.warehouse.searchWH",company_code);
 		
 		return list;
 	}

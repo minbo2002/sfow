@@ -1,6 +1,7 @@
 package com.yeonoo.masterdata.wh.controller;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.domain.WH_detail;
 import com.yeonoo.masterdata.wh.service.WhService;
@@ -28,27 +27,33 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class Wh_RestController {
-
 	
 	@Autowired
 	private WhService whService;
 	
-	
 	//창고폼에서 AJAX 로 내용 불러오기
-	@RequestMapping(value="/warehouse/whinfoAJ")
-    public List<WH> getWhAllList(String company_code) throws Exception {
+	@RequestMapping(method = {RequestMethod.GET},value="/warehouse/whinfoAJ")
+    public List<WH> getWhAllList(HttpSession session) throws Exception {
        //전체 목록 조회
-        List<WH> results = whService.getWhAllList(company_code);
-        return results;
+        UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = userinfo.getCompanyCode();
+		
+		List<WH> result = whService.getWhAllList(company_code);
+        System.out.println("===========results==="+result);
+        return result;
     }
     
   //3가지 키워드로 검색해서 보여주기 aj
-	@RequestMapping(method = {RequestMethod.GET}, value = "/warehouse/searchWH" )
-    public List<WH> searchWH(Model model,WH searchwh) throws Exception {
-    		System.out.println("searchwh"+searchwh);
+	@RequestMapping(method = {RequestMethod.POST}, value = "/warehouse/searchWH",consumes="application/json" )
+    public List<WH> searchWH(@RequestBody WH searchwh,HttpSession session) throws Exception {
+		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = userinfo.getCompanyCode();
+		searchwh.setCompany_code(company_code);
+		
     	List<WH> results = whService.searchWH(searchwh);
     		System.out.println("results"+results);
-		return results;
+    		
+    	    return results;
     	
     }
 	/*
@@ -96,14 +101,18 @@ public class Wh_RestController {
 		Iterator<WH> iterator = wh.iterator();
 		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
 		String company_code = userinfo.getCompanyCode();
-		List<WH> result = whService.getWhAllList(company_code);
+		String createuser =userinfo.getId();
+	//	List<WH> result = whService.getWhAllList(company_code);
 		
 		    while(iterator.hasNext()){
 		    	WH elements =iterator.next();
 		    	
-		        int writeCnt = whService.insertWH(elements);
+		       whService.insertWH(elements);
+		    
 		    }
-		    return result;
+		   
+		    
+		    return wh;
 		}
 	
 	

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yeonoo.masterdata.wh.service.WhService;
 
@@ -17,7 +18,7 @@ public class Wh_Controller {
 	WhService whService;
 		
 		//창고폼 보여주기
-		  @RequestMapping("/warehouse/whinfo")
+		  @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST}, value="/warehouse/whinfo")
 		   public String whForm() {
 		      
 		      return "warehouse/whForm";

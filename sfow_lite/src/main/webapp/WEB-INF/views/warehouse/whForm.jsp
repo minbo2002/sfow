@@ -130,7 +130,7 @@ div.whbox1{
 		<tr>
 			<td id="td1">창고구분
 				<select id="warehouse_type" name="warehouse_type" style="text-align: center;">
-					<option value="all">--</option>
+					<option value="">--</option>
 					<option value="제품창고">제품창고</option>
 					<option value="반제품창고">반제품창고</option>
 					<option value="자재창고">자재창고</option>
@@ -170,10 +170,7 @@ div.whbox1{
 		<div id="grid"></div>
 		
 	
-	<%-- <input type="hidden" id="warehouse_code" value="${warehouse_code}"> --%>
-	
-	
-<hr>
+	<hr>
 		<div style="display: flex; margin:10px;">구역(Area)
 		<input type="button"  name="addRowBtn2" id="addRowBtn2" value="+" >
 		<input type="button" name="deleteRow2" id="deleteRow2" value="-">

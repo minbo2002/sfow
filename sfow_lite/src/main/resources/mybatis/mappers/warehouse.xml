@@ -58,6 +58,7 @@
 			WHERE COALESCE(warehouse_type, '') LIKE CONCAT('%', #{warehouse_type}, '%')
 			AND COALESCE(warehouse_code, '') LIKE CONCAT('%', #{warehouse_code}, '%')
 			AND COALESCE(warehouse_name, '') LIKE CONCAT('%', #{warehouse_name}, '%')
+			AND company_code = #{company_code}
 		  ]]>
   </select>
   
