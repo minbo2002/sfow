@@ -151,7 +151,7 @@ float: right;
 }
 #modal_search{
   position: fixed;
-  top: 33%; 
+  top: 31%; 
   left: 47%;
   z-index: 1;
 }
