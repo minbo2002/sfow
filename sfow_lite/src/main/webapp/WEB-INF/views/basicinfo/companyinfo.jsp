@@ -128,7 +128,7 @@ $(document).ready(function() {
 	          <input type="hidden" value="${sessionScope.AUTHUSER.id}" name="updateUser" />
 	         <div class="wrapper_button">
 	          <div class="inputButton">
-	            <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+	            <c:if test="${sessionScope.AUTHUSER.adminRole==999 || ${sessionScope.AUTHUSER.adminRole==9999}">
 	              <button type="button" id="edit-btn" class="btn btn-primary rounded-pill mr-2">수정</button>
 	              <button type="reset" id="cancel-btn"  class="btn btn-secondary-custom rounded-pill-custom mr-2" style="display: none">취소</button>
 	              <button type="submit" id="submit-btn" class="btn btn-success-custom rounded-pill-custom" style="display: none">저장</button>
