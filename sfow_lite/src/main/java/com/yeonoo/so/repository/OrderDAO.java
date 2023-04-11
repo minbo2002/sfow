@@ -20,8 +20,8 @@ public class OrderDAO {
 	private final static String NAMESPACE = "orderMapper.";
 	
 	//수주서목록
-	public List<OrderVO> orderList() throws Exception {
-		return sqlSession.selectList(NAMESPACE+"orderList");
+	public List<OrderVO> orderList(String companyCode) throws Exception {
+		return sqlSession.selectList(NAMESPACE+"orderList",companyCode);
 	}
 	
 	//수주서상세

@@ -73,6 +73,7 @@ $(document).ready(function(){
 	//확인버튼
 	$('#confirmBtn').on('click', function() {
 	    const selectedRow = grid.getRow(grid.getFocusedCell().rowKey);
+	    selectedRow.type="REQUEST";
 	    window.opener.postMessage(selectedRow, '*');
 	    window.close();
 	});

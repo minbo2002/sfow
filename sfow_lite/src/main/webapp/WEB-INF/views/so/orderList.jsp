@@ -4,9 +4,10 @@
 <html>
 <head lang="en">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 	<meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<p>세션:${AUTHUSER.companyCode}</p>
+
 
 <style>
 .custom-button {
@@ -67,6 +68,7 @@
 		}
 		
 </style>
+
 </head>
 
 
@@ -101,7 +103,6 @@
      <button id="add-button2" class="custom-button"><i class="fa fa-plus" aria-hidden="true"  ></i></button>
   <h4>세부항목</h4>
   <div id="grid2"></div>
-
 <script type="text/javascript" >
 $(document).ready(function(){
 var gridData = [];
@@ -114,7 +115,7 @@ var gridData = [];
 		useFit:true,
 		rowHeaders: ['rowNum','checkbox'],
 		    columns: [
-		         {header: '회사코드',name: 'company_code',sortingType: 'asc',sortable: true,align: 'center',editor:'text',},
+		         {header: '회사코드',name: 'company_code',sortingType: 'asc',sortable: true,align: 'center'},
 		         {header: '거래처코드',name: 'client_code',sortingType: 'asc',sortable: true,align: 'center',editor:'text',},
 				 {header: '상태',name: 'order_status', sortingType: 'asc',sortable: true,align: 'center'},
 				 {header: '수주번호', name: 'order_number',	sortingType: 'asc',sortable: true,width:90,align: 'center'},
@@ -145,7 +146,7 @@ var gridData = [];
 		bodyHeight: 180,
 		rowHeaders: ['rowNum','checkbox'],
 		    columns: [
-		        {header: 'oddNo',name: 'oddNo',sortingType: 'asc',sortable: true},
+		        {header: 'oddNo',name: 'oddNo',sortingType: 'asc',sortable: true,hidden:true},
 		        {header: '수주번호',name: 'order_number',sortingType: 'asc',sortable: true},
 		        {header: '거래처코드',name: 'client_code',sortingType: 'asc',sortable: true,align: 'center'},
 		        {header: 'ITEM코드',name: 'item_code',sortingType: 'asc',sortable: true,align: 'center'},
@@ -338,7 +339,6 @@ var gridData = [];
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
          dataType: "json",         // 서버에서 받을 데이터타입
          success : function (response) {
-            alert(response); // result는 반환받은 json형태의 객체 
             alert('성공');
          },
          error: function() {
@@ -363,7 +363,6 @@ var gridData = [];
 	     contentType: "application/json; charset=utf-8",
 	     dataType: "json",
 	     success: function(response) {
-	       alert(response);
 	       alert("성공");
 	     },
 	     error: function() {
@@ -397,7 +396,6 @@ var gridData = [];
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
-				alert(result); // result는 반환받은 json형태의 객체 
 				alert('데이터 수정성공');
 			},
 			error: function() {
@@ -430,7 +428,6 @@ var gridData = [];
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			dataType: "json",			// 서버에서 받을 데이터타입
 			success : function (result) {
-				alert(result); // result는 반환받은 json형태의 객체 
 				alert('데이터 수정성공');
 			},
 			error: function() {
@@ -531,19 +528,20 @@ var gridData = [];
         grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.item_code);
         grid2.setValue(focusedCell.rowKey, 'price', selectedRow.sales_price);
         grid2.setValue(focusedCell.rowKey, 'item_st_unit', selectedRow.item_stock_unit); 
-    });
+       });
 	
 	//거래처 관련 정보창에서 전달한 값을 컬럼에 넣기
 	window.addEventListener('message', function(ev) {
         const selectedRow = ev.data;
+        if(selectedRow.type=="REQUEST"){
         const focusedCell = grid2.getFocusedCell();
         grid2.setValue(focusedCell.rowKey, 'client_code', selectedRow.client_code);
+        }
     });
 });
 
 
 //////////////////////////////////////////////////////////////////
-
 
 //////////////////////////////////////////////////////////////////
 </script>

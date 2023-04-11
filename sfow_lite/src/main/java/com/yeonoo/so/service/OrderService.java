@@ -18,8 +18,8 @@ public class OrderService {
 	private OrderDAO  orderDAO;
 	
 		//수주서조회
-		public List<OrderVO> orderList() throws Exception {
-			return orderDAO.orderList();
+		public List<OrderVO> orderList(String  companyCode) throws Exception {
+			return orderDAO.orderList(companyCode);
 		}
 		
 		//수주서 상세조회
