@@ -20,7 +20,7 @@ public interface WhRepository {
 	public List<WH_detail> WHarea(String warehouse_code) throws DataAccessException;
 
 	//새로운 데이터 입력하기 
-	public int insertWH(WH wh) throws DataAccessException ;
+	public int insertWH(WH elements) throws DataAccessException ;
 
 	
 }

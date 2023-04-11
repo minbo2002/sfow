@@ -28,7 +28,7 @@ public interface WhService {
 	public int updateWH(WH wh) throws Exception ;
 
 	// 행 추가 등록하기 
-	public int insertWH(WH wh) throws Exception ;
+	public int insertWH(WH elements) throws Exception ;
 
 	public int deleteWH(WH wh) throws Exception;
 

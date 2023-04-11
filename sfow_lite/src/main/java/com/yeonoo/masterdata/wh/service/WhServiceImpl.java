@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.domain.WH_detail;
 import com.yeonoo.masterdata.wh.repository.WhRepositoryImpl;
@@ -38,9 +40,11 @@ public class WhServiceImpl implements WhService {
 		return cnt;
 	}
 	//insert 등록
-	public int insertWH(WH wh) throws Exception{
+	@Override
+	@Transactional
+	public int insertWH(WH elements) throws Exception{
 		
-		int cnt = whRepository.insertWH(wh);
+		int cnt = whRepository.insertWH(elements);
 		return cnt;
 		
 	}

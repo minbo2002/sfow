@@ -16,19 +16,18 @@
 		<result property="createuser"  column="createuser"/>
 		<result property="updatedate"  column="updatedate"/>
 		<result property="updateuser"  column="updateuser"/>
-		<result property="area_code"  column="area_code"/>
-		<result property="area_name"  column="area_name"/>
+		
 		
 	</resultMap>
 	
- 	<resultMap type="Wh_Detail" id="Wh_Detail">
+ <!-- 	<resultMap type="Wh_Detail" id="Wh_Detail">
 	
 		<result property="company_code"  column="company_code"/>	
 		<result property="warehouse_code"  column="warehouse_type"/>	
 		<result property="area_code"  column="warehouse_code"/>	
 		<result property="area_name"  column="warehouse_name"/>	
 		
-	</resultMap>
+	</resultMap> -->
 	
 	
 
@@ -65,7 +64,7 @@
  	<insert id="insertWH" parameterType="com.yeonoo.masterdata.wh.domain.WH" >
   
  		 <![CDATA[
-			INSERT INTO wh(company_code ,warehouse_type,warehouse_code,warehouse_name,customer_code,memo,useyn,createdate,createuser,updatedate,updateuser)
+			INSERT INTO wh(company_code,warehouse_type,warehouse_code,warehouse_name,customer_code,memo,useyn,createdate,createuser,updatedate,updateuser)
 			VALUES(#{company_code},#{warehouse_type},#{warehouse_code},#{warehouse_name},#{customer_code},#{memo},#{useyn},NOW(),#{createuser},NULL,#{updateuser})
 		]]>
   	</insert> 

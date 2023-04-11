@@ -327,33 +327,21 @@ window.onload = function() {
 		
 		
 	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
-	grid.on('check', function(ev) {	
-	      
-	    const rowKey = ev.rowKey;
-    	const columnName = ev.columnName;
-    	const rowData = grid.getRow(rowKey);
-    	
-			
-    Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
-	      el.addEventListener('click', ev => {
-	      
-	      const rowData2 = grid.getRow(rowKey);
-	      const jsonRowDatas = JSON.stringify(rowData2);  
-	       const rowData3 =grid.getRow(jsonRowDatas);
-			const createdate = rowData3.createdate;
-			
-			 //alert(createdate); 
-			  
-			if(createdate == ''){
-		
-				$.ajax({
+	
+	$('#saveBtn').click(function() {
+	
+	var	rowDatas = grid.getCheckedRows();
+	var jsonRowDatas = JSON.stringify(rowDatas);
+	
+	if (!jsonRowDatas){
+	$.ajax({
                  url: '../warehouse/insertWH',
-                 method :'POST',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json',
-                 success: function(response) {
-                     console.log('Success:', response);
+                 method :'post',
+                 dataType: 'json',
+                 data: jsonRowDatas,
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(result) {
+                     console.log('Success:', result);
                      location.href = "../warehouse/whinfo";
                  	},
                  error: function(error) {
@@ -362,20 +350,16 @@ window.onload = function() {
                  	}
              }); //insert ajax 끝
              
-           }
-
-			else {
-           
-            const rowKey2 = ev.rowKey;
-    		const columnName2 = ev.columnName;
-    		const rowData2 = grid.getRow(rowKey);
+      } else{
+    	  var	rowDatas2 = grid.getCheckedRows();
+		var jsonRowDatas2 = JSON.stringify(rowDatas2);
            
 	           $.ajax({
 	                 url: '../warehouse/updateWH',
-	                 method :'PUT',
+	                 method :'patch',
 	                 dataType: 'JSON',
-	                 data: JSON.stringify(rowData2),
-	                 contentType: 'application/json',
+	                 data: jsonRowDatas2,
+	                 contentType: 'application/json; charset=utf-8',
 	                 success: function(response) {
 	                     console.log('Success:', response);
 	                     location.href = "../warehouse/whinfo";
@@ -385,14 +369,22 @@ window.onload = function() {
 	                     location.href = "../warehouse/whinfo";
 	                 	}
 	             }); //update ajax 끝
-           }
-           
+      
+      
+      }
              
-          }); //addEventListener끝
-    	 }); //insertRow 끝
-	}); //grid.on('check')끝 	
-		
+             
+             
+             
+             
+             
+             
+	 }); //$('#saveBtn')끝
 	
 };	//최초시작
+
+
+
+
 
 

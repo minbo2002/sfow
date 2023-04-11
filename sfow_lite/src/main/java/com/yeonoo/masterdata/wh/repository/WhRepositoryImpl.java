@@ -42,8 +42,8 @@ public class WhRepositoryImpl implements WhRepository {
 	}
 	
 	//저장버튼 insert
-	public int insertWH(WH wh) throws DataAccessException {
-		int cnt = sqlSession.insert("mapper.warehouse.insertWH", wh);
+	public int insertWH(WH elements) throws DataAccessException {
+		int cnt = sqlSession.update("mapper.warehouse.insertWH", elements);
 		
 		return cnt;
 	}
