@@ -27,11 +27,19 @@
 		]]> 	
 	</select>
 	
-	<select id="getItemListByName" resultType="BomItem" parameterType="map">
+	<select id="searchItemListByName" resultType="BomItem" parameterType="map">
 		<![CDATA[
 			SELECT item_name, item_code, item_no, item_stock_unit,item_type, item_category
 			FROM ma_item
 			WHERE item_name LIKE CONCAT('%',#{item_name},'%') AND NOT item_category = '제품' AND company_code = #{company_code}
+		]]> 	
+	</select>
+	
+	<select id="searchItemList" resultType="BomItem" parameterType="String">
+		<![CDATA[
+			SELECT item_name, item_code, item_no, item_stock_unit,item_type, item_category
+			FROM ma_item
+			WHERE NOT item_category = '제품' AND company_code = #{company_code}
 		]]> 	
 	</select>
 	
@@ -45,8 +53,8 @@
 	
 	<insert id="insertTree" parameterType="map">
 		<![CDATA[
-			INSERT INTO ma_bom_tree(company_code,ppitem_cd,sitem_cd,item_name,item_no, item_specification, item_qty, item_stock_unit, item_type)
-			VALUES (#{company_code},#{ppitem_cd},#{bomItem.item_code},#{bomItem.item_name},#{bomItem.item_no},#{bomItem.item_specification},#{bomItem.item_qty},#{bomItem.item_stock_unit},#{bomItem.item_type})
+			INSERT INTO ma_bom_tree(company_code,ppitem_cd,sitem_cd,item_name,item_no, item_specification, item_qty, item_stock_unit, item_type, item_category)
+			VALUES (#{company_code},#{ppitem_cd},#{bomItem.item_code},#{bomItem.item_name},#{bomItem.item_no},#{bomItem.item_specification},#{bomItem.item_qty},#{bomItem.item_stock_unit},#{bomItem.item_type},#{bomItem.item_category})
 		]]>
 	</insert>
 	

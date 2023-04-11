@@ -60,6 +60,7 @@ public class BomController {
 		List<BomItem> treeData = new ArrayList<BomItem>();
 		//자식 데이터
 		List<BomItem> childList = bomService.getBomTree(ppitem_cd, company_code);
+		System.out.println(childList);
 		//부모 데이터
 		BomItem item = null;
 		if(childList.isEmpty()) {
@@ -95,7 +96,18 @@ public class BomController {
 		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
 		String company_code = loginUser.getCompanyCode();
 		
-		List<BomItem> list = bomService.getItemListByName(item_name, company_code);
+		List<BomItem> list = bomService.searchItemListByName(item_name, company_code);
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ma/searchItem2", method = RequestMethod.POST)
+	public List<BomItem> searchItem2(HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
+		List<BomItem> list = bomService.searchItemList(company_code);
 		return list;
 	}
 	

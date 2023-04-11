@@ -42,11 +42,17 @@ public class BomRepositoryImpl implements BomRepository {
 	}
 	
 	@Override
-	public List<BomItem> getItemListByName(String item_name, String company_code) throws DataAccessException {
+	public List<BomItem> searchItemListByName(String item_name, String company_code) throws DataAccessException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("item_name", item_name);
 		map.put("company_code", company_code);
-		List<BomItem> list = sqlSession.selectList("mapper.bom.getItemListByName", map);
+		List<BomItem> list = sqlSession.selectList("mapper.bom.searchItemListByName", map);
+		return list;
+	}
+	
+	@Override
+	public List<BomItem> searchItemList(String company_code) throws DataAccessException {
+		List<BomItem> list = sqlSession.selectList("mapper.bom.searchItemListByName", company_code);
 		return list;
 	}
 	

@@ -30,8 +30,13 @@ public class BomServiceImpl implements BomService{
 	}
 	
 	@Override
-	public List<BomItem> getItemListByName(String item_name, String company_code) throws Exception {
-		return bomRepository.getItemListByName(item_name, company_code);
+	public List<BomItem> searchItemListByName(String item_name, String company_code) throws Exception {
+		return bomRepository.searchItemListByName(item_name, company_code);
+	}
+	
+	@Override
+	public List<BomItem> searchItemList(String company_code) throws Exception {
+		return bomRepository.searchItemList(company_code);
 	}
 	
 	@Override

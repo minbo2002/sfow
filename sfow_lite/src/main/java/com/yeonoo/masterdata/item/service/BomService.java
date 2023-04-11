@@ -13,7 +13,9 @@ public interface BomService {
 
 	public BomItem selectItem(String ppitem_cd, String company_code) throws Exception;
 
-	public List<BomItem> getItemListByName(String item_name, String company_code) throws Exception;
+	public List<BomItem> searchItemListByName(String item_name, String company_code) throws Exception;
+	
+	public List<BomItem> searchItemList(String company_code) throws Exception;
 
 	public void updateTree(String ppitem_cd, BomItem bomItem, String company_code) throws Exception;
 

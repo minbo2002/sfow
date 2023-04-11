@@ -368,19 +368,32 @@ grid3.on('editingFinish', function(ev) {
 
 //아이템 검색 ajax
 function searchItem(item_name){
-	$.ajax({
-	    url: "/ma/searchItem",
-        method : "POST",
-	    data : item_name,
-	    contentType : "application/json; charset=utf-8",
-        dataType : "json",
-	    success: function(data) {
-	    	grid_popup.resetData(data);
-	    },
-	    error: function(){
-	    	alert("품목 찾는 도중 에러발생")
-	    }
-	});
+	if(item_name == ""){
+		$.ajax({
+		    url: "/ma/searchItem2",
+	        method : "POST",
+		    success: function(data) {
+		    	grid_popup.resetData(data);
+		    },
+		    error: function(){
+		    	alert("품목 찾는 도중 에러발생")
+		    }
+		});
+	}else{
+		$.ajax({
+		    url: "/ma/searchItem",
+	        method : "POST",
+		    data : item_name,
+		    contentType : "application/json; charset=utf-8",
+	        dataType : "json",
+		    success: function(data) {
+		    	grid_popup.resetData(data);
+		    },
+		    error: function(){
+		    	alert("품목 찾는 도중 에러발생")
+		    }
+		});
+	}
 }
 
 //조회눌렀을 때
