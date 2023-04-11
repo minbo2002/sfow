@@ -20,13 +20,14 @@
 	      data: gridData,
 	      scrollX: true,
 	      scrollY: true,
-	      width: 990, 
-	      bodyHeight: 500,
+	      width: 'auto',
+	      //width: 990, 
+	      //bodyHeight: 500,
 	      //rowHeight: 44,
 	      rowHeaders: [{
               type: 'rowNum',
               header: "  ",
-              width: 40, 
+			 //width: 40, 
           },{type : 'checkbox'} ],
 	      columns: [
     	  	{	
@@ -34,7 +35,7 @@
    	          sortable: true,
    	          editor: false, 
    	          align:'center', 
-   	       	  width: 100,
+   	       	  //width: 150,
 	   	      filter: {
 	               type: 'text',
 	               showApplyBtn: true,
@@ -66,7 +67,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -79,7 +80,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -92,7 +93,7 @@
 	          sortable: true,
 	          editor: false,
 	          //width: 'auto',
-	          width: 100,
+	          //width: 150,
 	          align:'center',
 	          filter: {
                   type: 'text',
@@ -106,7 +107,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -119,7 +120,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -132,7 +133,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -145,7 +146,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -158,7 +159,7 @@
 	          sortable: true,
 	          editor: false,
 	          align:'center',
-	          width: 100,
+	          //width: 150,
 	          filter: {
                   type: 'text',
                   showApplyBtn: true,
@@ -416,9 +417,22 @@ $(document).ready(function() {
 		border:1px solid #e2e2e2;
 		display:inline-block;
 		}
-	
+	button {
+/*   background-color: rgba(60, 80, 135, 1); */
+  background-color: rgba(051, 51, 102, 1);
+  font-weight : bolder;
+}
+
+	#searchBtn:hover {
+  background-color: rgba(051, 102, 102, 1);
+  opacity: 0.8;
+}
 
 	
+#resetBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
 	
 </style>
 
@@ -429,8 +443,8 @@ $(document).ready(function() {
 
 
 <form id=stockSearch name=stockSearch>
-		&nbsp;<button type="button" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="search()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens.png" width="11px"/>&nbsp;&nbsp;조회</button>
-		&nbsp;<button type="reset" id="resetBtn" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화</button>
+		&nbsp;<button type="button" id="searchBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;" onclick="search()"><img src="<%=request.getContextPath()%>/resources\img\stock\lens_h.png" width="11px"/>&nbsp;&nbsp;조회</button>
+		&nbsp;<button type="reset" id="resetBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px;" style="font-size:15px; color:black;"><img src="<%=request.getContextPath()%>/resources\img\stock\reset_h.png" width="11px"/>&nbsp;&nbsp;초기화</button>
 
 <br/><br/>
 <div style="display:inline-block; margin:5px; font-size:13px; color:black;"><input type="text" class="form-title" value="품목구분" disabled/><select class="form-data" id="item_category" name="item_category">

@@ -19,7 +19,8 @@
 
     <select id="stockByItemSearch" resultType="stock">
         <![CDATA[
-                    SELECT s.*, i.item_stock_unit
+                    SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity, s.stock_status,
+                     i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification 
 					FROM mt_stock_detail s
 					INNER JOIN ma_item i ON s.item_code = i.item_code
         ]]>
@@ -27,11 +28,14 @@
     
     <select id="stockByItemSearchByKeyword" resultType="stock" parameterType="stock">
 		<![CDATA[
-		SELECT * FROM mt_stock_detail
-		WHERE COALESCE(item_category, '') LIKE CONCAT('%', #{item_category}, '%')
-		AND COALESCE(item_code, '') LIKE CONCAT('%', #{item_code}, '%')
-		AND COALESCE(item_name, '') LIKE CONCAT('%', #{item_name}, '%')
-		AND COALESCE(item_no, '') LIKE CONCAT('%', #{item_no}, '%')
+		SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity,s.stock_status,
+               i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification
+		FROM mt_stock_detail s
+		INNER JOIN ma_item i ON s.item_code = i.item_code
+		WHERE COALESCE(i.item_category, '') LIKE CONCAT('%', #{item_category}, '%')
+		AND COALESCE(s.item_code, '') LIKE CONCAT('%', #{item_code}, '%')
+		AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{item_name}, '%')
+		AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{item_no}, '%')
 		]]>
 	</select>
 
