@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.yeonoo.poRequest.model.ReqDetailVO;
+import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,18 @@ public class ReqRepositoryImpl implements ReqRepository{
 	}
 	
 	@Override
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception {
+		if(reqModalVO.getUser_name()==null) {
+			List<ReqModalVO> allList=sqlSession.selectList("mapper.req.reqSelect1");
+			return allList;
+		}else {
+			List<ReqModalVO> list= sqlSession.selectList("mapper.req.reqSelect2",reqModalVO);
+            System.out.println("list"+list);
+            return list;
+		}
+	}
+	
+	@Override
 	public List<ReqDetailVO> reqOrderDetail(String request_number) throws Exception {
 		return sqlSession.selectList("mapper.req.reqOrderDetail",request_number);
 	}
@@ -68,6 +81,16 @@ public class ReqRepositoryImpl implements ReqRepository{
 		sqlSession.insert("mapper.req.reqDetailInsert",reqD);
 		System.out.println("insert repo reqD");
 		
+	}
+
+	@Override
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO) throws Exception {
+		
+		System.out.println("reqItem 레전"+reqDetailVO);
+		List<ReqDetailVO> allList=sqlSession.selectList("mapper.req.reqItem");
+		System.out.println("reqItem 레후"+allList);
+		return allList;
+	
 	}
 
 

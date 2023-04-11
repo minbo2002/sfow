@@ -8,5 +8,6 @@
 		<!-- 구매요청 -->
 		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
 		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqModalVO" alias="reqModalVO" />
 	</typeAliases>
 </configuration>

@@ -1,9 +1,9 @@
 package com.yeonoo.poRequest.controller;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.poRequest.model.ReqDetailVO;
+import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 import com.yeonoo.poRequest.service.ReqService;
 
@@ -30,6 +31,13 @@ public class ReqController {
 		return "poRequest/req";
 	}
 	
+	@GetMapping("/reqChild")
+	public String reqChild() {
+		return "poRequest/reqChild";
+	}
+	
+	
+	
 	@GetMapping("/reqSearch")
 	@ResponseBody
 	public List<ReqVO> reqOrder(
@@ -43,9 +51,21 @@ public class ReqController {
 	    reqVO.setRequest_type(request_type);
 	    reqVO.setRequest_date(request_date);
 	    reqVO.setRequest_empid(request_empid);
-	    System.out.println("reqVO: " + reqVO);
 	    List<ReqVO> reqOrder = reqService.reqOrder(reqVO);
+	    System.out.println("컨트롤러: " + reqOrder);
 	    return reqOrder;
+	}
+	
+	@GetMapping("/reqSearch1")
+	@ResponseBody
+	public List<ReqModalVO> reqOrder1(
+	        @RequestParam(required = false) String user_name
+	) throws Exception {
+		ReqModalVO reqModalVO = new ReqModalVO();
+		reqModalVO.setUser_name(user_name);
+	    List<ReqModalVO> reqOrder1 = reqService.reqOrder1(reqModalVO);
+	    System.out.println("컨트롤러: " + reqOrder1);
+	    return reqOrder1;
 	}
 	
 	
@@ -131,5 +151,16 @@ public class ReqController {
          }
 		return reqDetailVO;
 	}
+	
+	@GetMapping("/reqItem")
+	@ResponseBody
+	public ResponseEntity<List<ReqDetailVO>> reqItem() throws Exception {
+		
+		ReqDetailVO reqDetailVO = new ReqDetailVO();
+	    List<ReqDetailVO> reqItem = reqService.reqItem(reqDetailVO);
+	    System.out.println("reqItem컨트롤러: " + reqItem);
+	    return ResponseEntity.ok(reqItem);
+	}
+	
 	
 }
