@@ -18,32 +18,33 @@
   justify-content: flex-end; /* 변경 */
 }
 
-.btn-wrapper button {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 5px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 70px;
-  height: 30px;
-  font-size: 12px;
-}
 
-#delete-row-btn {
-  background-color: #ff8a80;
-  color: #fff;
-  border: 1px solid #ff8a80;
-}
-
-#delete-row-btn:hover {
-  background-color: #ff7043;
-  border: 1px solid #ff7043;
-}
 
 .inputBox,
 .searchKeywordBtn {
   display: inline-block;
+}
+
+.custom-button {
+    background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+}
+
+#saveBtn:hover, #saveBtn2:hover, #search:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+#delete-row-btn:hover, #delete-row-btn2:hover, #reset:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+#add-row-btn:hover, #add-row-btn2:hover {
+  background-color: rgba(80, 201, 141);
+  opacity: 0.8;
 }
 
 	
@@ -244,42 +245,38 @@ $(document).ready(function() {
 
 
 
-  // 행 삭제
      $('#delete-row-btn').on('click', function(event) {
-       event.preventDefault(); // 기본 동작 막기
-       const checkedRows = grid.getCheckedRows();
-       var no = [];
-       var client_Codes = [];
-       for (var i = 0; i < checkedRows.length; i++) {
-         client_Codes.push(checkedRows[i].no);
-       }
-       console.log("no",no);
+    	  event.preventDefault();
+    	  const checkedRows = grid.getCheckedRows();
+    	  var no = [];
+    	  var client_Codes = [];
+    	  for (var i = 0; i < checkedRows.length; i++) {
+    	    client_Codes.push(checkedRows[i].no);
+    	  }
 
-       $.ajax({
-         url: '${ContextPath}/deletecpm',
-         type: 'DELETE',
-         data: JSON.stringify(client_Codes[0]),
-         contentType: 'application/json',
-         success: function(result) {
-           console.log(result);
-           alert('삭제되었습니다.');
-           // 삭제된 행 재로딩
-           $.ajax({
-             url: '${ContextPath}/cpm',
-             method: 'GET',
-             dataType: 'JSON',
-             success: function(result) {
-               console.dir(result);
-               grid.resetData(result);
-             }
-           });
-         },
-         error: function(xhr, status, error) {
-           console.log(xhr.responseText);
-           alert('삭제에 실패했습니다.');
-         }
-       });
-     });
+    	  $.ajax({
+    	    url: '${ContextPath}/deletecpm',
+    	    type: 'DELETE',
+    	    data: JSON.stringify(client_Codes[0]),
+    	    contentType: 'application/json',
+    	    success: function(result) {
+    	      console.log(result);
+    	      alert('삭제되었습니다.');
+
+    	      // 그리드에서 선택한 행을 삭제합니다.
+    	      grid.removeCheckedRows();
+
+    	      // 선택한 행을 삭제하지 않고 표시를 변경할 경우, 아래와 같이 사용합니다.
+    	      // for (var i = 0; i < checkedRows.length; i++) {
+    	      //   grid.removeRow(checkedRows[i].updateKey);
+    	      // }
+    	    },
+    	    error: function(xhr, status, error) {
+    	      console.log(xhr.responseText);
+    	      alert('삭제에 실패했습니다.');
+    	    }
+    	  });
+    	});
 
   
   
@@ -296,8 +293,8 @@ $(document).ready(function() {
 
          <!-- 테이블 버튼 구성 -->
          <div class="wrapper_rowBtn">
-						  <button id="add-row-btn"><i class="fas fa-plus"></i></button>
-						  <button id="delete-row-btn"><i class="fas fa-minus"></i></button>
+						  <button id="add-row-btn" class="custom-button"><i class="fas fa-plus"></i></button>
+						  <button id="delete-row-btn" class="custom-button"><i class="fas fa-minus"></i></button>
 						</div>
        
         </div>
