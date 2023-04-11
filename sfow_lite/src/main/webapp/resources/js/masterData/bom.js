@@ -4,7 +4,6 @@ $(function(){
         url : " ma/bomGetItem",
         method :"POST",
         success : function(result){
-        	console.log(result);
         	grid1.resetData(result);
         } 
     });
@@ -65,7 +64,6 @@ var grid1 = new tui.Grid({
 	grid1.on('click', (ev) => {
 		const { rowKey } = grid1.getFocusedCell();
 		const rowData = grid1.getRow(rowKey);
-		console.log(rowData);
 		$.ajax({
 			type: "GET",
 	        url : "/ma/getBomTree?ppitem_cd="+rowData.item_code,
@@ -75,7 +73,6 @@ var grid1 = new tui.Grid({
 	        	$("#form-item-name").val(data[0].item_name);
 	        	$("#form-item-no").val(data[0].item_no);
 	        	$("#form-item-category").val(data[0].item_category);
-	        	console.log(data);
 		        grid2.resetData(data);
 		        grid3.resetData(data[0]._children);
 		    },
@@ -235,14 +232,24 @@ $('#delRowBtn').click(function() {
 $("#saveBtn").click(function() {
 	grid3.finishEditing();
 	var rowData = grid3.getCheckedRows();
+	var qtyz = 0;
+	for (var i = 0; i < rowData.length; i++) {
+		if (rowData[i].item_qty == 0) {
+			qtyz++;
+		    }
+	    }
 	if(rowData == ""){
-		alert("원자재를 선택해주세요")
+		alert("원자재를 선택해주세요");
 	}else{
-		let i = confirm('저장하시겠습니까?');
-		if(i) {
-			addData();
-		}else {
-			return false;
+		if(qtyz !== 0){
+			alert("소요량은 0 보다 커야합니다");
+		}else{
+			let i = confirm('저장하시겠습니까?');
+			if(i) {
+				addData();
+			}else {
+				return false;
+			}
 		}
 	}
  });
@@ -399,11 +406,7 @@ function searchItem(item_name){
 //조회눌렀을 때
 function searchBtn() {
 	const name = document.getElementById('searchInput').value;
-	if(name == ""){
-		alert("품명을 입력하세요");
-	}else{
 		searchItem(name);
-	}
 }
 
 //엔터쳤을 때
@@ -411,11 +414,7 @@ function press(event){
     if(event.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
     	const name = document.getElementById('searchInput').value;
     	console.log(name);
-    	if(name == ""){
-    		alert("품명을 입력하세요");
-    	}else{
     		searchItem(name);
-    	}
     }
 }
 

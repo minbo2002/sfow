@@ -52,7 +52,7 @@ public class BomRepositoryImpl implements BomRepository {
 	
 	@Override
 	public List<BomItem> searchItemList(String company_code) throws DataAccessException {
-		List<BomItem> list = sqlSession.selectList("mapper.bom.searchItemListByName", company_code);
+		List<BomItem> list = sqlSession.selectList("mapper.bom.searchItemList", company_code);
 		return list;
 	}
 	

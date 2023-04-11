@@ -60,7 +60,6 @@ public class BomController {
 		List<BomItem> treeData = new ArrayList<BomItem>();
 		//자식 데이터
 		List<BomItem> childList = bomService.getBomTree(ppitem_cd, company_code);
-		System.out.println(childList);
 		//부모 데이터
 		BomItem item = null;
 		if(childList.isEmpty()) {
