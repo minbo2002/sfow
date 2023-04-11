@@ -545,6 +545,10 @@ $(document).ready(function() {
 	  if(grid2){
 		  grid2.destroy();
 	  }
+	
+//       var modalGrid = document.getElementById("modalGrid");
+//       modalGrid.innerHTML = "";
+	
 	  
 	var gridData2=[];
   	grid2 = new tui.Grid({
