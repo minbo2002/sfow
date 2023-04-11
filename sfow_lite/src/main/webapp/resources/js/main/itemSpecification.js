@@ -11,15 +11,13 @@ $(document).ready(window.onload=function() {
 	      { type: 'rowNum', align: 'center'},{ type: 'checkbox' }
         ],
         columns: [
-          { header: '규격',
-            name: 'item_specification',
-            editor:'text',
-            validation:{required: true},
-            align: 'center',
-            filter: { type: 'text', showApplyBtn: true, showClearBtn: true}}
+          { header: '회사코드	', name: 'company_code', hidden:true },	
+          { header: '규격', name: 'item_specification', editor:'text', validation:{required: true}, align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true}}
         ]
       });
-  
+    
+    /* const company_code = getSessionParameter('company_code'); */	
+    
       Array.prototype.forEach.call(document.querySelectorAll('#addRow'), el => {
 			      el.addEventListener('click', ev => {
 			             

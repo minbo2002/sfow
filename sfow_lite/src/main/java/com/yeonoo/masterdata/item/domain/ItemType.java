@@ -11,5 +11,6 @@ public class ItemType {
 	
 	private String item_type;
 	private String item_category;
+	private String company_code;
 	
 }

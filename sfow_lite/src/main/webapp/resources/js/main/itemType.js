@@ -11,26 +11,16 @@ $(document).ready(window.onload=function() {
 	       { type: 'rowNum', align: 'center'}, { type: 'checkbox' }
         ],
         columns: [
-          { header: '품목구분',
-            name: 'item_category',
-            formatter: 'listItemText',
-            editor: {type: 'select',
-                options: { listItems: [
+          { header: '회사코드	', name: 'company_code', hidden:true },		
+          { header: '품목구분', name: 'item_category', formatter: 'listItemText', editor: {type: 'select',
+        	  		options: { listItems: [
                     { text: '제품', value: '제품' },
                     { text: '반제품', value: '반제품' },
                     { text: '원자재', value: '원자재' }
                   ]
                 },
-            validation:{required: true},},
-            align: 'center',
-            filter: { type: 'text', showApplyBtn: true, showClearBtn: true}},
-          {
-            header: '품목유형',
-            name: 'item_type',
-            editor: 'text',
-            validation:{required: true},
-            align: 'center',
-            filter: { type: 'text', showApplyBtn: true, showClearBtn: true}}
+            validation:{required: true},}, align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true}},
+          { header: '품목유형', name: 'item_type', editor: 'text', validation:{required: true}, align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true}}
         ]       
       });
     
@@ -50,7 +40,6 @@ $(document).ready(window.onload=function() {
     
     Array.prototype.forEach.call(document.querySelectorAll('#minusRow'), el => {
 	      el.addEventListener('click', ev => {
-	             
 	    	 grid.removeRow(grid.getRowCount()-1);
 	    	 grid.refreshLayout();
 	      });
