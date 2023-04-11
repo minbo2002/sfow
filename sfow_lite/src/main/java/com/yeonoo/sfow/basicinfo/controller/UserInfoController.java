@@ -38,20 +38,7 @@ public class UserInfoController {
 		
 		UserInfo loginUser = userInfoService.userLogin(userInfo);
 
-		session.setMaxInactiveInterval(3000);
-		
-		
-		// HttpSession 객체를 얻어옴
-		HttpSession sessions = request.getSession(false);
-
-		if (sessions != null) {
-		   System.out.println("sessions 존재한다");
-		} else {
-			System.out.println("sessions 존재 안한다");
-		}
-
-		String sessionId=session.getId();
-		System.out.println("로그인 했을 때 sessionId" + sessionId);
+		session.setMaxInactiveInterval(1800);
 		
 		session.setAttribute("AUTHUSER", loginUser);
 		
@@ -85,20 +72,11 @@ public class UserInfoController {
 	
 	@RequestMapping("/sessionLogout")
 	public String sessionLogout(HttpSession session,HttpServletRequest request) throws Exception {
-		
-		
-		
-		HttpSession sessions = request.getSession(false);
-
-		if (sessions != null) {
-		   System.out.println("sessions 존재한다");
-		} else {
-			System.out.println("sessions 존재 안한다");
-		}
-
-		String sessionId=session.getId();
-		System.out.println("세션 없을 때 sessionId" + sessionId);
-		
 		return "basicinfo/sessionLogout";
+	}
+	
+	@RequestMapping("/sessionLogin")
+	public String sessionLogin(HttpSession session,HttpServletRequest request) throws Exception {
+		return "basicinfo/sessionLogin";
 	}
 }

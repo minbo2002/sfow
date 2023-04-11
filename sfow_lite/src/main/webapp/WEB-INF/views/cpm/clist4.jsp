@@ -303,6 +303,5 @@ $(document).ready(function() {
   <div id="grid"></div>
   
   
- </form>
 </body>
 </html>
