@@ -16,6 +16,9 @@
 		</property>
     </bean>
     
+    <bean id="sessionListener" class="com.yeonoo.sfow.basicinfo.LoginFilter.SessionListener" />
+    
+    
     <!-- AOP 설정 -->
     <aop:aspectj-autoproxy />
     
