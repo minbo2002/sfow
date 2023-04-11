@@ -73,8 +73,7 @@
     
   		<![CDATA[
 			update wh
-			set company_code=#{company_code},warehouse_type=#{warehouse_type},warehouse_name=#{warehouse_name},customer_code=#{customer_code},memo=#{memo},useyn=#{useyn}
-			,createdate=#{createdate},createuser=#{createuser},updatedate=NOW(),updateuser=#{updateuser}
+			set company_code=#{company_code},warehouse_type=#{warehouse_type},warehouse_name=#{warehouse_name},customer_code=#{customer_code},memo=#{memo},useyn=#{useyn},createdate=#{createdate},createuser=#{createuser},updatedate=NOW(),updateuser=#{updateuser}
 			where warehouse_code=#{warehouse_code}
 		]]>
   
