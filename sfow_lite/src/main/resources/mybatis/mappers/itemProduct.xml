@@ -152,19 +152,5 @@
 	AND COALESCE(item_type, '') LIKE CONCAT('%',#{item_type},'%')
   ]]>
  </select>
-   <!-- 아이템코드 목록 -->
- <select id="itemcodeList" resultType="ItemProduct">
- <![CDATA[
- 	SELECT item_code,item_category,item_no,item_name,item_specification
-	FROM ma_item
- ]]>
- </select>
-   <!-- 거래처명 목록 -->
- <select id="companycodeList" resultType="CompanyCode">
- <![CDATA[
- 	SELECT *
-	FROM ma_client_company
- ]]>
- </select>
- 
+	
 </mapper>

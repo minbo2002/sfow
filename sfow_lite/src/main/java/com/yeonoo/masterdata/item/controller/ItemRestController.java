@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yeonoo.masterdata.item.domain.CompanyCode;
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
+import com.yeonoo.masterdata.item.domain.PriceDTO;
 import com.yeonoo.masterdata.item.service.ItemService;
 
 @RestController
@@ -145,18 +145,6 @@ public class ItemRestController {
 	@RequestMapping(method = {RequestMethod.POST}, value="/item/typeSelectSearchAjax", consumes="application/json")
 	public List<ItemType> typeSelectSearchAjax(@RequestBody ItemType itemtype) throws Exception {
 		List<ItemType> result = itemService.typeSelectSearchAjax(itemtype);
-		return result;
-	}
-	//아이템코드 목록
-	@RequestMapping(value="/item/itemcodeSelectAjax")
-	public List<ItemProduct> itemcodeSelectAjax() throws Exception {
-		List<ItemProduct> result = itemService.itemcodeSelectAjax();
-		return result;
-	}
-	//거래처명 목록
-	@RequestMapping(value="/item/companycodeSelectAjax")
-	public List<CompanyCode> companycodeSelectAjax() throws Exception {
-		List<CompanyCode> result = itemService.companycodeSelectAjax();
 		return result;
 	}
 }

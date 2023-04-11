@@ -90,7 +90,7 @@ public class ItemController {
 	//거래처코드 모달
 	@RequestMapping("/item/companyCodeSelect")
 	public String companyCodeSelect() throws Exception {
-		return "price/companyCodeSelect";		
+		return "price/gridPriceList";		
 	}
 /*	
 	//규격 모달 검색

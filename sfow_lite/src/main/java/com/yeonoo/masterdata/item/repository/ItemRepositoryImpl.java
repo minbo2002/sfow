@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.yeonoo.masterdata.item.domain.CompanyCode;
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.ItemSpecification;
 import com.yeonoo.masterdata.item.domain.ItemStockUnit;
 import com.yeonoo.masterdata.item.domain.ItemType;
+import com.yeonoo.masterdata.item.domain.PriceDTO;
 
 @Repository
 public class ItemRepositoryImpl implements ItemRepository {
@@ -118,15 +118,5 @@ public class ItemRepositoryImpl implements ItemRepository {
 	public List<ItemType> typeSelectSearchAjax(ItemType itemtype) throws DataAccessException {
 		List<ItemType> itemtypeselectsearch = sqlSession.selectList("mapper.item.typeselectsearch",itemtype);
 				return itemtypeselectsearch;
-	}
-	//아이템코드 목록
-	public List<ItemProduct> itemcodeSelectAjax() throws DataAccessException{
-		List<ItemProduct> itemcodelist = sqlSession.selectList("mapper.item.itemcodeList");
-		return itemcodelist;
-	}
-	//거래처명 목록
-	public List<CompanyCode> companycodeSelectAjax() throws DataAccessException{
-		List<CompanyCode> companycodelist = sqlSession.selectList("mapper.item.companycodeList");
-		return companycodelist;
 	}
 }
