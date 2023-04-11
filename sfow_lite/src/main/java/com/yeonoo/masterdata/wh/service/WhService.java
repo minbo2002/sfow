@@ -33,6 +33,8 @@ public interface WhService {
 	public int deleteWH(WH wh) throws Exception;
 
 	public List<WH_detail> WHarea(String warehouse_code) throws Exception ;
+
+	public int insertDetail(WH_detail element);
 		
 	
 	

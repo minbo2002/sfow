@@ -53,6 +53,15 @@ public class WhServiceImpl implements WhService {
 		int cnt =whRepository.deleteWH(wh);
 		return cnt;
 	}
+	//Area 구역 인서트 
+	@Override
+	@Transactional
+	public int insertDetail(WH_detail elements) {
+		
+		int cnt = whRepository.insertDetail(elements);
+		
+		return cnt;
+	}
 	
 	
 }

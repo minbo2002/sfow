@@ -343,16 +343,8 @@ window.onload = function() {
 	  var	rowDatas2 = grid.getCheckedRows();
 		var jsonRowDatas2 = JSON.stringify(rowDatas2);
 		
-		var	Area_rowDatas = grid2.getCheckedRows();
-		var Area_jsonRowDatas = JSON.stringify(Area_rowDatas);
-		  var	Area_rowDatas2 = grid2.getCheckedRows();
-			var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
-		
-		
-		
 	if (jsonRowDatas.createdate =''){
-	
-		$.ajax({
+	$.ajax({
                  url: '../warehouse/insertWH',
                  method :'post',
                  dataType: 'json',
@@ -367,25 +359,10 @@ window.onload = function() {
                      location.href = "../warehouse/whinfo";
                  	}
              }); //insert ajax 끝
-            
-             $.ajax({
-                 url: '../warehouse/insertDetail',
-                 method :'post',
-                 dataType: 'json',
-                 data: Area_jsonRowDatas,
-                 contentType: 'application/json; charset=utf-8',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //insert ajax 끝
-            
+             
       } else {
     	
+           
 	           $.ajax({
 	                 url: '../warehouse/updateWH',
 	                 method :'patch',
@@ -401,11 +378,11 @@ window.onload = function() {
 	                     location.href = "../warehouse/whinfo";
 	                 	}
 	             }); //update ajax 끝
+      
+      
       }
-       
+             
 	 }); //$('#saveBtn')끝
-	
-		
 	
 };	//최초시작
 

@@ -86,7 +86,7 @@ public class Wh_RestController {
 	    }
 	
 	
-    //행 추가 등록(인서트 "저장" 버튼)
+    //그리드 1행 추가 등록(인서트 "저장" 버튼)
 	@ResponseBody
     @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
     public List<WH> insertWH(@RequestBody List<WH> wh,HttpSession session) throws Exception{
@@ -115,10 +115,24 @@ public class Wh_RestController {
 		    }
 		    return wh;
 		}
-            
+	
+	
+	 //Area 행 추가 등록(인서트 "저장" 버튼)
+		@ResponseBody
+	    @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertDetail")
+	    public List<WH_detail> insertDetail(@RequestBody List<WH_detail> WH_detail) throws Exception{
+			
+	    	Iterator<WH_detail> iterator = WH_detail.iterator();
+	    	while(iterator.hasNext()) {
+	    		
+	    		WH_detail elements =iterator.next();
+	    		int detailCnt= whService.insertDetail(elements);
+	    	}
+			    return WH_detail;
+			}      
        
 	
-    //전체 행 업데이트 기능  - 구역(area)까지
+    //그리드1 행 업데이트 기능 
     @ResponseBody
   	@RequestMapping(method = {RequestMethod.PUT,RequestMethod.PATCH}, value= "/warehouse/updateWH")
   	public int updateWH(@RequestBody List<WH> wh) throws Exception {

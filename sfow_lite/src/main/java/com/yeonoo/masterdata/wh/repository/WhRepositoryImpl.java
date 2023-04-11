@@ -60,7 +60,12 @@ public class WhRepositoryImpl implements WhRepository {
 		return cnt;
 	}
 
-	
+	//Area 저장버튼 insert
+		public int insertDetail(WH_detail elements) throws DataAccessException {
+			int cnt = sqlSession.insert("mapper.warehouse.insertDetail", elements);
+			
+			return cnt;
+		}
 
 		
 }
