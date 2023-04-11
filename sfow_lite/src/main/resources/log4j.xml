@@ -12,6 +12,10 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.yeonoo.sfow">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="com.yeonoo">
 		<level value="info" />
 	</logger>
 	
