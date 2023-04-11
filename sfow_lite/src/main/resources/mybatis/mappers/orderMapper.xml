@@ -8,7 +8,6 @@
 		SELECT company_code, order_type, order_number, client_code, order_date, order_empid, order_status, due_date, memo, create_date, create_user, update_date, update_user, delete_yes_no, amount, title 
 		FROM so_order
 		where delete_yes_no='N'
-		
 		]]> 	
 	</select>
 <!-- 상세 조회  -->
@@ -16,8 +15,8 @@
 		 <![CDATA[
     SELECT
       d.oddNo,
-      d.client_code,
       d.quantity,
+      d.delete_yes_no,
       d.price,
       d.amount,
       d.memo,
@@ -26,7 +25,7 @@
       o.order_number
     FROM so_order_detail d
     JOIN so_order o ON d.order_number = o.order_number
-    WHERE d.order_number = #{order_number}
+    WHERE d.order_number = #{order_number} AND  d.delete_yes_no='N'
   ]]>
 	</select>
 	
@@ -50,8 +49,8 @@
 <!--상세 등록  -->
 <insert id="orderInsert2" parameterType="OrderDetailVO" >
       <![CDATA[
-      INSERT INTO so_order_detail (order_number, client_code, item_code, price, item_st_unit, quantity, amount, memo) 
-	VALUES (#{order_number}, #{client_code}, #{item_code}, #{price}, #{item_st_unit}, #{quantity}, #{amount}, #{memo})
+      INSERT INTO so_order_detail (order_number, item_code, price, item_st_unit, quantity, amount, memo) 
+	VALUES (#{order_number},#{item_code}, #{price}, #{item_st_unit}, #{quantity}, #{amount}, #{memo})
       ]]>
    </insert>
  <!--삭제(수정)  -->
@@ -59,6 +58,14 @@
   <![CDATA[
     UPDATE so_order SET delete_yes_no = 'Y'
     WHERE order_number = #{order_number}
+  ]]>
+</update>
+
+ <!--상세삭제(수정)  -->
+<update id="orderDelete2" parameterType="OrderDetailVO">
+  <![CDATA[
+    UPDATE so_order_detail SET delete_yes_no = 'Y'
+    WHERE oddNo = #{oddNo}
   ]]>
 </update>
 
@@ -80,7 +87,6 @@
   <![CDATA[
    UPDATE so_order_detail 
    SET 
-   client_code=#{client_code}, 
    quantity=#{quantity}, 
    price=#{price}, 
    amount=#{amount}, 

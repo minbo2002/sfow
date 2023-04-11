@@ -6,8 +6,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	<meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<p>세션:${AUTHUSER.companyCode}</p>
-
 
 <style>
 .custom-button {
@@ -22,7 +20,7 @@
   opacity: 0.8;
 }
 
-#deleteRowBtn:hover, #resetRow:hover{
+#deleteRowBtn:hover, #resetRow:hover, #deleteDetail:hover{
   background-color: rgba(204, 000, 051, 1);
   opacity: 0.8;
 }
@@ -37,6 +35,10 @@
         position: absolute;
         right:50px;
     }
+    #deleteDetail{
+    position: absolute;
+        right:20px;
+     }
     #InsertBtn2{
         position: absolute;
         right:200px;
@@ -100,7 +102,8 @@
   <br>
   <button type="button" id="InsertBtn2"  class="custom-button" ><i class="fa fa-pencil"></i> 세부 등록</button>
   <button type="button" id="updateDetail"  class="custom-button"><i class="fa fa-pencil-square-o"></i> 세부 수정</button>
-     <button id="add-button2" class="custom-button"><i class="fa fa-plus" aria-hidden="true"  ></i></button>
+  <button id="add-button2" class="custom-button"><i class="fa fa-plus" aria-hidden="true"  ></i></button>
+  <button id="deleteDetail" class="custom-button"><i class="fa fa-minus" aria-hidden="true"  ></i></button>
   <h4>세부항목</h4>
   <div id="grid2"></div>
 <script type="text/javascript" >
@@ -115,8 +118,8 @@ var gridData = [];
 		useFit:true,
 		rowHeaders: ['rowNum','checkbox'],
 		    columns: [
-		         {header: '회사코드',name: 'company_code',sortingType: 'asc',sortable: true,align: 'center'},
-		         {header: '거래처코드',name: 'client_code',sortingType: 'asc',sortable: true,align: 'center',editor:'text',},
+		         {header: '회사코드',name: 'company_code',sortingType: 'asc',sortable: true,align: 'center',hidden:true},
+		         {header: '거래처코드',name: 'client_code',sortingType: 'asc',sortable: true,align: 'center'},
 				 {header: '상태',name: 'order_status', sortingType: 'asc',sortable: true,align: 'center'},
 				 {header: '수주번호', name: 'order_number',	sortingType: 'asc',sortable: true,width:90,align: 'center'},
 				 {header: '수주유형',name: 'order_type',	 sortingType: 'asc',sortable: true,editor:'text',align: 'center',defaultValue:'자체생산'},
@@ -148,13 +151,13 @@ var gridData = [];
 		    columns: [
 		        {header: 'oddNo',name: 'oddNo',sortingType: 'asc',sortable: true,hidden:true},
 		        {header: '수주번호',name: 'order_number',sortingType: 'asc',sortable: true},
-		        {header: '거래처코드',name: 'client_code',sortingType: 'asc',sortable: true,align: 'center'},
 		        {header: 'ITEM코드',name: 'item_code',sortingType: 'asc',sortable: true,align: 'center'},
 		        {header: '단가',name: 'price',sortingType: 'asc', sortable: true ,align: 'center',defaultValue:0},
 		        {header: '재고단위',name: 'item_st_unit',sortingType: 'asc', sortable: true ,align: 'center'},
 		        {header: '수량', name: 'quantity', sortingType: 'asc',sortable: true,editor:'text',align: 'center',defaultValue:0},
 		        {header: '총액',name: 'amount',sortingType: 'asc',sortable: true,align: 'center'},
-		        {header: '비고', name: 'memo', sortingType: 'asc',sortable: true,editor:'text',align: 'center'}
+		        {header: '비고', name: 'memo', sortingType: 'asc',sortable: true,editor:'text',align: 'center'},
+		        {header: '삭제여부',name: 'delete_yes_no',hidden:true,align: 'center'}
 		    ]
     });
   /////////////////////////////////////////////  
@@ -267,7 +270,41 @@ var gridData = [];
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
          dataType: "json",         // 서버에서 받을 데이터타입
          success : function (result) {
-        	alert(result)
+            alert('성공');
+         },
+         error: function() {
+              console.log("실패");
+          }
+      });
+   }
+   
+//상세 삭제 실행
+   $("#deleteDetail").click(function() {
+      let d = confirm('삭제하시겠습니까?');
+      if(d) {
+    	  deleteDetail();
+      }else {
+         return false;
+      }
+   });
+// 상세 삭제 함수
+   function deleteDetail() {
+      
+      var rowKeys = grid2.getCheckedRowKeys();  // 선택한 row의 key
+      var jsonRowKeys = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
+      
+      var rowDatas = grid2.getCheckedRows();   // 선택한 row에 해당하는 객체값
+      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+
+      grid2.removeCheckedRows([jsonRowKeys]);
+
+      $.ajax({
+         url : "orderDelete2",
+         method : "post",
+         data : jsonRowDatas,
+         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+         dataType: "json",         // 서버에서 받을 데이터타입
+         success : function (result) {
             alert('성공');
          },
          error: function() {
@@ -515,7 +552,7 @@ var gridData = [];
             window.open(contextPath + 'orderForm', 'childWindow', 'width=500,height=500');
         }
     });
-    grid2.on('dblclick', function(ev) {
+    grid.on('dblclick', function(ev) {
         if (ev.columnName === 'client_code') {
             window.open(contextPath + 'orderForm2', 'childWindow', 'width=500,height=500');
         }
@@ -534,8 +571,8 @@ var gridData = [];
 	window.addEventListener('message', function(ev) {
         const selectedRow = ev.data;
         if(selectedRow.type=="REQUEST"){
-        const focusedCell = grid2.getFocusedCell();
-        grid2.setValue(focusedCell.rowKey, 'client_code', selectedRow.client_code);
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'client_code', selectedRow.client_code);
         }
     });
 });

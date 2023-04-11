@@ -29,8 +29,7 @@ public class ShipOutServiceImpl implements ShipOutService {
 	// 전체조회
 	@Override
 	public List<ShipOut> getList(SearchDTO searchDTO) {	
-		logger.info("2) ServiceImpl에서의  searchDTO : " + searchDTO);
-		
+
 		return shipOutRepository.getList(searchDTO);
 	}
 
@@ -57,29 +56,33 @@ public class ShipOutServiceImpl implements ShipOutService {
 		return shipOutRepository.writeShipOut(elements);
 	}
 
-	// 특정 출하번호의 ITEM 상세정보 조회
+	// 특정 수주번호에 있는 ITEM 정보조회
 	@Override
 	public List<ItemShipOutDTO> selectItem(String orderNumber) {
-		logger.info("Item 3) orderNumber : " + orderNumber);
+		
 		return shipOutRepository.selectItem(orderNumber);
 	}
 
+	// 특정 수주번호에 있는 ITEM 코드의 LOT 정보조회
 	@Override
-	public List<LotShipOutDTO> selectLot(String itemCode) {
-		logger.info("LOT 3) itemCode : " + itemCode);
-		return shipOutRepository.selectLot(itemCode);
+	public List<LotShipOutDTO> selectLot(String orderNumber) {
+		
+		return shipOutRepository.selectLot(orderNumber);
 	}
 
+	// 상태 변경
 	@Override
+	@Transactional
 	public int statusUpdate(String outCode) {
 		
 		return shipOutRepository.statusUpdate(outCode);
 	}
 	
+	// 출하정보 수정
 	@Override
+	@Transactional
 	public int updateShipOut(ShipOut elements) {
-		logger.info("3) elements : " + elements);
+		
 		return shipOutRepository.updateShipOut(elements);
 	}
-
 }

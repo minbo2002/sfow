@@ -36,6 +36,9 @@
 		
 		$('#searchBtn').on('click', function() {
 
+			gridItem.clear();
+			gridLot.clear();
+			
 		    var searchData = {
 		    		"outCode" : $("#outCode").val(),
 		    		"orderNumber" : $("#orderNumber").val(),
@@ -83,26 +86,53 @@
 			{header:"회사코드", name:"companyCode", align:"center", width:"auto"}, // companyCode
 			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
 			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
-			{header:"출하유형", name:"outType", editor:"text", align:"center"},
-			{header:"수불타입", name:"transType", editor:"text", align:"center"},
-			{
-			  header:"출하계획일", 
-			  name:"outPlanDate",
-			  align:"center",
-			  editor: {
+			{header:"출하유형", 
+			 name:"outType",
+			 align:"center",
+			 editor: {
+				      type: 'select',
+				      options: {
+				    	  		  listItems: [
+											  {text: '일반출고',value: '일반출고'},
+											  {text: '반품출고',value: '반품출고'},
+											  {text: '생산출고',value: '생산출고'},
+											  {text: '판매출고',value: '판매출고'}
+										     ]
+				     		   }
+					 }
+			},
+			{header:"수불타입", 
+			 name:"transType",
+			 align:"center",
+			 editor: {
+			      type: 'select',
+			      options: {
+			    	  		  listItems: [
+										  {text: '일반',value: '일반'},
+										  {text: '사급',value: '사급'},
+										  {text: '샘플',value: '샘플'},
+										  {text: '불량',value: '불량'}
+									     ]
+			     		   }
+				 }
+			},
+			{header:"출하계획일", 
+			 name:"outPlanDate",
+			 align:"center",
+			 editor: {
                 	    type: "datePicker",
                 	    options: {
                   				  format: "yyyy-MM-dd"
                 		 	     }		
-           		      }
+           	         }
             },
 			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
 			{header: "상태", name:"outStatus", align:"center"},
 			{header: "비고", name:"memo", editor:"text", align:"center"},
 			{header: "등록일", name:"createDate", align:"center"},
-			{header: "등록자", name:"createUser", editor:"text", align:"center"},
+			{header: "등록자", name:"createUser", align:"center"},
 			{header: "수정일", name:"updateDate", align:"center"},
-			{header: "수정자", name:"updateUser", editor:"text", align:"center"},
+			{header: "수정자", name:"updateUser", align:"center"},
 			{header: "삭제여부", name:"deleteYesNo", align:"center"}
 	      ]
 	});
