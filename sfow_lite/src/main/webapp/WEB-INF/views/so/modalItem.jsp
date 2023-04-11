@@ -77,9 +77,7 @@
 		    columns: [
 		        { header: '수주번호', name: 'orderNumber', align:"center"},
 		        { header: '거래처코드', name: 'clientCode', align:"center"},
-		        { header: '회사코드', name: 'companyCode', align:"center" },
-		        { header: 'ITEM코드', name: 'itemCode', align:"center" },
-		        { header: '수량', name: 'outQuantity', align:"center" }
+		        { header: '회사코드', name: 'companyCode', align:"center" }
 		    ]
 		});
 		

@@ -66,7 +66,7 @@ public class ShipOutRepositoryImpl implements ShipOutRepository {
 	// 상태 변경
 	@Override
 	public int statusUpdate(String outCode) {
-		
+		logger.info("출하번호 = " + outCode);
 		return sqlSession.update("mapper.shipout.statusUpdate", outCode);
 	}
 

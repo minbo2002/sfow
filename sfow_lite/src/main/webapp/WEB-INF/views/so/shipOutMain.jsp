@@ -44,7 +44,6 @@
 		    		"orderNumber" : $("#orderNumber").val(),
 		    		"clientCode" : $("#clientCode").val(),
 		    		"companyCode" : $("#companyCode").val(),
-		    		"itemCode" : $("#itemCode").val(),
 		    		"outType" : $("#outType").val(),
 		    		"transType" : $("#transType").val(),
 		    		"outPlanDate" : $("#outPlanDate").val(),
@@ -83,9 +82,7 @@
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
 			{header:"수주번호", name:"orderNumber", align:"center", width:"auto"},
 			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
-			{header:"회사코드", name:"companyCode", align:"center", width:"auto"}, // companyCode
-			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
-			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
+			{header:"회사코드", name:"companyCode", align:"center", width:"auto", hidden:true},
 			{header:"출하유형", 
 			 name:"outType",
 			 align:"center",
@@ -133,7 +130,7 @@
 			{header: "등록자", name:"createUser", align:"center"},
 			{header: "수정일", name:"updateDate", align:"center"},
 			{header: "수정자", name:"updateUser", align:"center"},
-			{header: "삭제여부", name:"deleteYesNo", align:"center"}
+			{header: "삭제여부", name:"deleteYesNo", align:"center", hidden:true}
 	      ]
 	});
 
@@ -152,8 +149,6 @@
 		var outCode = document.getElementById("outCode");  			// 출하코드
 		var orderNumber = document.getElementById("orderNumber");   // 수주번호
 		var clientCode = document.getElementById("clientCode");   	// 거래처코드
-		var companyCode = document.getElementById("companyCode");   // 회사코드
-		var itemCode = document.getElementById("itemCode");   		// ITEM코드
 
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
 		//alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
@@ -173,13 +168,15 @@
 			clientCode.value=rowData.clientCode;
 			clientCode.readOnly=true;
 			
+			/*
 			companyCode.value=rowData.companyCode;
 			companyCode.readOnly=true;
 			
 			itemCode.value=rowData.itemCode;
 			itemCode.readOnly=true;
 			console.log('itemCode: ', rowData.itemCode);
-
+			*/
+			
 			$.ajax({
 				url : "${conPath}/shipout/selectItems",
 				method : "post",
@@ -217,11 +214,13 @@
         	clientCode.value="";
         	clientCode.readOnly=false;
 			
+        	/*
         	companyCode.value="";
         	companyCode.readOnly=false;
 			
         	itemCode.value="";
         	itemCode.readOnly=false;
+        	*/
 		}
     });
 	
@@ -293,22 +292,7 @@
 	var addRow = document.getElementById("addRow");
 	addRow.addEventListener("click", function() {
 		var newRowData = {
-			outCode: '',
-			orderNumber: '',
-			clientCode: '',
-			companyCode: '',
-			itemCode: '',
-			outType: '',
-			transType: '',
-			outPlanDate: '',
-			outManager: '',
-			outStatus: '',
-			memo: '',
-			createDate: '',
-			createUser: '',
-			updateDate: '',
-			updateUser: '',
-			deleteYesNo: ''
+
 		};
 		grid.appendRow(newRowData);
 	});
@@ -473,12 +457,7 @@
 	resetBtn.addEventListener("click", function() {
 		$("#shipOutSearch")[0].reset();
 	});
-	
-	// 검색창의 출하계획일, 등록일에 오늘날짜 계속 표시
-	//document.getElementById("outPlanDate").valueAsDate = new Date();
-	//document.getElementById("createDate").valueAsDate = new Date();
-	//document.getElementById("updateDate").valueAsDate = new Date();
-	
+
 	</script>
 	
 </head>
@@ -494,10 +473,6 @@
 		<input type="text" name="orderNumber" id="orderNumber" value="" style="background-color: lightgray;">
 		<label for="clientCode">거래처코드:</label>
 		<input type="text" name="clientCode" id="clientCode" value="" style="background-color: lightgray;">
-		<label for="companyCode">회사코드:</label>
-		<input type="text" name="companyCode" id="companyCode" value="" style="background-color: lightgray;"> <br>
-		<label for="itemCode">ITEM코드:</label>
-		<input type="text" name="itemCode" id="itemCode" value="" style="background-color: lightgray;">
 		
 		<label for="outType">출하유형:</label>
 		<select name="outType" id="outType">
@@ -539,14 +514,6 @@
 		</label>
 		<label for="createUser">등록자:</label>
 		<input type="text" name="createUser" id="createUser" value="">
-		
-		<!--
-		<label for="updateDate">수정일:
-		  <input type="date" name="updateDate" id="updateDate" max="2030-12-31" min="2020-01-01">
-		</label>
-		<label for="updateUser">수정자:</label>
-		<input type="text" name="updateUser" id="updateUser" value="">
-		-->
 		
 		<input type="hidden" name="deleteYesNo" id="deleteYesNo" value="N">
 	</form> 

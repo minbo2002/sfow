@@ -157,12 +157,14 @@ public class ShipOutController {
 	@RequestMapping(value="statusUpdate", method=RequestMethod.PUT)
 	public int statusUpdate(@RequestBody List<ShipOut> shipout) {
 
+		logger.info("선택한 shipout 정보 = " + shipout);
+		
 		Iterator<ShipOut> iterator = shipout.iterator();
 		int statuseCnt = 0;
 		
 		while(iterator.hasNext()) {
 			ShipOut elements = iterator.next();
-
+			logger.info("하나의 ShipOut 객체정보 = " + elements + ",  그리고 출하번호 = " + elements.getOutCode());	
 			statuseCnt = shipOutService.statusUpdate(elements.getOutCode());
 		}
 		

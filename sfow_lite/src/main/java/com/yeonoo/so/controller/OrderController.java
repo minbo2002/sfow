@@ -91,16 +91,18 @@ public class OrderController {
         @RequestMapping(value="orderInsert")
         public List<OrderVO> orderInsert(@RequestBody List<OrderVO> orderVO, HttpSession session) {
 
-        	UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
-        	String company_code = userInfo.getCompanyCode();
-        	String create_user	= userInfo.getId();		
-        	
+           UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
+           String company_code = userInfo.getCompanyCode();
+           String create_user   = userInfo.getId();
+           String order_empid = userInfo.getId();
+           
            Iterator<OrderVO> iterator = orderVO.iterator();
            while(iterator.hasNext()) {
-        	   
-        	   OrderVO elements = iterator.next();
+              
+              OrderVO elements = iterator.next();
                elements.setCompany_code(company_code);
                elements.setCreate_user(create_user);
+               elements.setOrder_empid(order_empid);
               orderService.orderInsert(elements);
            }
            
