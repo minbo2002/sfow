@@ -96,7 +96,7 @@ div.whbox1{
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 <body>
-	<h3>창고등록(입력폼)</h3>
+	<h3>창고등록</h3>
 <hr>
 	
 	<form name="whFrm" id="whFrm">

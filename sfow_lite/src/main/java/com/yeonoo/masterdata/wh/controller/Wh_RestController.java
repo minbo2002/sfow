@@ -54,19 +54,27 @@ public class Wh_RestController {
     		System.out.println("results"+results);
     		
     	    return results;
-    	
     }
-	/*
-    //area 데이터 불러오기
-	@RequestMapping(method = {RequestMethod.POST}, value = "/warehouse/WHarea" , consumes="application/json")
-    public List<WH_detail> WHarea(Model model,WH_detail wh_detail,WH wh) throws Exception {
-    		System.out.println("searchwh============"+wh_detail);
-    	List<WH_detail> results = whService.WHarea(wh_detail);
-    		System.out.println("results==="+results);
-    	
-		return results;
-    	
-    }*/
+    //그리드 1행 추가 등록(인서트 "저장" 버튼)
+	@ResponseBody
+    @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
+    public List<WH> insertWH(@RequestBody WH wh,@RequestBody List<WH> insertwh,HttpSession session) throws Exception{
+		
+		Iterator<WH> iterator = insertwh.iterator();
+		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = userinfo.getCompanyCode();
+		String createuser =userinfo.getId();
+		
+		wh.setCompany_code(company_code);
+		wh.setCreateuser(createuser);
+		
+		    while(iterator.hasNext()){
+		    	WH elements =iterator.next();
+		       whService.insertWH(elements);
+		       
+		    }
+		    return insertwh;
+		}
 	
 	//area 데이터 불러오기
 		@RequestMapping(method = {RequestMethod.POST}, value = "/warehouse/WHarea" , consumes="application/json")
@@ -92,30 +100,8 @@ public class Wh_RestController {
 			return wh_detail;
 	    }
 	
-	
-    //그리드 1행 추가 등록(인서트 "저장" 버튼)
-	@ResponseBody
-    @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
-    public List<WH> insertWH(@RequestBody List<WH> wh,HttpSession session) throws Exception{
-		
-		Iterator<WH> iterator = wh.iterator();
-		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
-		String company_code = userinfo.getCompanyCode();
-		String createuser =userinfo.getId();
-	//	List<WH> result = whService.getWhAllList(company_code);
-		
-		    while(iterator.hasNext()){
-		    	WH elements =iterator.next();
-		    	
-		       whService.insertWH(elements);
-		    
-		    }
-		   
-		    
-		    return wh;
-		}
-	
-	
+
+	    
 	 //Area 행 추가 등록(인서트 "저장" 버튼)
 		@ResponseBody
 	    @RequestMapping(method= RequestMethod.POST, value="/warehouse/insertDetail")

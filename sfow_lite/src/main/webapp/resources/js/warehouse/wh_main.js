@@ -326,19 +326,26 @@ $(document).ready(window.onload = function() {
 		Array.prototype.forEach.call(document.querySelectorAll('#delBtn'), el => {
 	      el.addEventListener('click', ev => {
 
-				$.ajax({
+			/*	$.ajax({
                  url: './warehouse/deleteWH',
+                 method :'PUT',
+                 dataType: 'JSON',
+                 data: JSON.stringify(rowData),
+                 contentType: 'application/json',
+             */
+             $.ajax({
+                 url: './warehouse/deleteUP_WH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
                  contentType: 'application/json',
                  success: function(response) {
                      console.log('Success:', response);
-                      location.href = "../warehouse/whinfo";
+                      location.href="javascript:acyncMovePage('./warehouse/whinfo');"
                  	},
                  error: function(error) {
                      console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
+                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
                  	}
              }); //ajax(/item/productDeleteAjax)끝
           }); //addEventListener끝
@@ -348,61 +355,59 @@ $(document).ready(window.onload = function() {
 		
 		
 	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
-	
-	$('#saveBtn').click(function() {
-	
-	var	rowDatas = grid.getCheckedRows();
-	var jsonRowDatas = JSON.stringify(rowDatas);
-	  var	rowDatas2 = grid.getCheckedRows();
-		var jsonRowDatas2 = JSON.stringify(rowDatas2);
+	$(document).ready(function(){
+		$('#saveBtn').click(function() {
 		
-		var	Area_rowDatas = grid2.getCheckedRows();
-		var Area_jsonRowDatas = JSON.stringify(Area_rowDatas);
-		  var	Area_rowDatas2 = grid2.getCheckedRows();
-			var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
+		var	rowDatas = grid.getCheckedRows();
+		var jsonRowDatas = JSON.stringify(rowDatas);
+		  var	rowDatas2 = grid.getCheckedRows();
+			var jsonRowDatas2 = JSON.stringify(rowDatas2);
+			
+			var	Area_rowDatas = grid2.getCheckedRows();
+			var Area_jsonRowDatas = JSON.stringify(Area_rowDatas);
+			  var	Area_rowDatas2 = grid2.getCheckedRows();
+				var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
+				
+		if (jsonRowDatas.createdate == null){
 		
-	
-		
-	if (jsonRowDatas.createdate =''){
-	
-		$.ajax({
-                 url: '../warehouse/insertWH',
-                 method :'post',
-                 dataType: 'json',
-                 data: jsonRowDatas,
-                 contentType: 'application/json; charset=utf-8',
-                 success: function(result) {
-                     console.log('Success:', result);
-                     location.href = "../warehouse/whinfo";
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                     location.href = "../warehouse/whinfo";
-                 	}
-             }); //insert ajax 끝
-                      
-      } else {
-    	
-	           $.ajax({
-	                 url: '../warehouse/updateWH',
-	                 method :'patch',
-	                 dataType: 'JSON',
-	                 data: jsonRowDatas2,
+			$.ajax({
+	                 url: './warehouse/insertWH',
+	                 method :'post',
+	                 dataType: 'json',
+	                 data: jsonRowDatas,
 	                 contentType: 'application/json; charset=utf-8',
-	                 success: function(response) {
-	                     console.log('Success:', response);
-	                     location.href = "../warehouse/whinfo";
+	                 success: function(result) {
+	                     console.log('Success:', result);
+	                   location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 	                 	},
 	                 error: function(error) {
 	                     console.log('Error:', error);
-	                     location.href = "../warehouse/whinfo";
+	                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 	                 	}
-	             }); //update ajax 끝
-      }
-       
-	 }); //$('#saveBtn')끝
+	             }); //insert ajax 끝
+	                      
+	      } else {
+	    	
+		           $.ajax({
+		                 url: './warehouse/updateWH',
+		                 method :'PUT',
+		                 dataType: 'JSON',
+		                 data: jsonRowDatas2,
+		                 contentType: 'application/json; charset=utf-8',
+		                 success: function(response) {
+		                     console.log('Success:', response);
+		                    location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+		                 	},
+		                 error: function(error) {
+		                     console.log('Error:', error);
+		                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+		                 	}
+		             }); //update ajax 끝
+	      }
+	       
+		 }); //$('#saveBtn')끝
 	
-		
+	 });
 	
 });	//최초시작
 
