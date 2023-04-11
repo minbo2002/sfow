@@ -44,6 +44,11 @@ public class OrderDAO {
       public int orderDelete(String order_number) {
           return sqlSession.update(NAMESPACE + "orderDelete", order_number);
       }
+
+      //상세 삭제(수정)
+      public int orderDelete2(int oddNo) {
+    	  return sqlSession.update(NAMESPACE + "orderDelete2", oddNo);
+      }
       
       //상태수정
       public int orderUpdateStatus(String order_number) {

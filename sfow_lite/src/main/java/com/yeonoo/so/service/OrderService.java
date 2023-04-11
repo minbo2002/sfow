@@ -37,10 +37,14 @@ public class OrderService {
 			   return orderDAO.orderInsert2(elements);
 		   }
 		   
-		   //삭제
+	    //삭제
 		public int orderDelete(String order_number) {
 			return orderDAO.orderDelete(order_number);
 		}
+		//상세 삭제
+				public int orderDelete2(int oddNo) {
+					return orderDAO.orderDelete2(oddNo);
+				}
 		
 		//상태수정
 		public int orderUpdateStatus(String order_number) {

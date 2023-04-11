@@ -139,6 +139,22 @@ public class OrderController {
            
            return orderVO;
         }
+
+        //상세 삭제(수정)
+        @ResponseBody
+        @RequestMapping(value="orderDelete2", method=RequestMethod.POST)
+        public List<OrderDetailVO> orderDelete2(@RequestBody List<OrderDetailVO> orderDetailVO) {
+        	
+        	Iterator<OrderDetailVO> iterator = orderDetailVO.iterator();
+        	
+        	while(iterator.hasNext()) {
+        		
+        		OrderDetailVO elements = iterator.next();
+        		orderService.orderDelete2(elements.getOddNo());
+        	}
+        	
+        	return orderDetailVO;
+        }
      
         //상태수정
         @ResponseBody
