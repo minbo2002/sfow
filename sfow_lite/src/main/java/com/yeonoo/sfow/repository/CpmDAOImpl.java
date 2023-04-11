@@ -18,8 +18,8 @@ public class CpmDAOImpl implements CpmDAO {
 	
 	//전체
 	@Override
-	public List<CpmVO> cpmlist() {
-		 List<CpmVO>  list= sqlSession.selectList("mapper.company.cpmlist");
+	public List<CpmVO> cpmlist(String companyCode) {
+		 List<CpmVO>  list= sqlSession.selectList("mapper.company.cpmlist",companyCode);
 		return list;
 	}
 
