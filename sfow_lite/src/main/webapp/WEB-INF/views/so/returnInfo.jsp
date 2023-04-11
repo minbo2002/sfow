@@ -10,7 +10,7 @@ h4{
 	color: black;
 }
 
-span {
+.txtt {
     margin-bottom: 10px;
     color: black;
     margin-left: 1%;
@@ -176,9 +176,9 @@ $(document).ready(function() {
 <body>
 	<h4>반품현황</h4>
 <div class="grid_btn">
-<span>거래처코드</span>
+<span class="txtt">거래처코드</span>
 <input type="text" id="clientCode" readonly="readonly" >
-<span>거래처명</span>
+<span class="txtt">거래처명</span>
 <input type="text" id="clientName" readonly="readonly" >
 <button type="button" id="search" class="custom-button">
 <i class="fa fa-search"></i> 조회</button>
