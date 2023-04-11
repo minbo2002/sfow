@@ -38,6 +38,7 @@
 		<![CDATA[
 			SELECT a.order_number AS orderNumber, b.client_code AS clientCode, a.company_code AS companyCode, b.item_code AS itemCode, b.quantity AS outQuantity
 			FROM so_order a LEFT JOIN so_order_detail b ON a.order_number=b.order_number
+			where a.order_status="확정"
 		]]>
 	</select>
 
@@ -70,12 +71,23 @@
 		]]>
 	</select>
 	
+	<!--
 	<select id="getLot" parameterType="String" resultType="lotShipOutDTO">
 		<![CDATA[
-			SELECT a.lot_no AS lotNo, a.item_code AS itemCode, b.item_name AS itemName, b.item_no AS itemNo, 
+			SELECT a.lot_no AS lotNo, a.item_code AS itemCode, a.item_name AS itemName, b.item_no AS itemNo, 
 	    		   b.item_specification AS itemSpec, b.quantity AS quantity, b.warehouse_code AS warehouseCode
 			FROM pp_perform a left JOIN mt_stock_detail b ON a.item_code=b.item_code
 			WHERE a.item_code=#{itemCode}
+		]]>
+	</select>
+	-->
+	
+	<select id="getLot" parameterType="String" resultType="lotShipOutDTO">
+		<![CDATA[
+			SELECT b.lot_no AS lotNo, a.item_code AS itemCode, a.item_name AS itemName, a.item_no AS itemNo, 
+	    		   a.item_specification AS itemSpec, b.quantity, b.warehouse_code AS warehouseCode
+			FROM ma_item a left JOIN mt_stock_detail b ON a.item_code=b.item_code JOIN so_order_detail c ON a.item_code=c.item_code
+			WHERE c.order_number=#{orderNumber}
 		]]>
 	</select>
 	

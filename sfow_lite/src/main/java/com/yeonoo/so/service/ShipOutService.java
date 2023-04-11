@@ -20,7 +20,7 @@ public interface ShipOutService {
 	
 	List<ItemShipOutDTO> selectItem(String orderNumber);
 	
-	List<LotShipOutDTO> selectLot(String itemCode);
+	List<LotShipOutDTO> selectLot(String orderNumber);
 	
 	int statusUpdate(String outCode);
 	
