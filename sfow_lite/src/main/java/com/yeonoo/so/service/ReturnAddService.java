@@ -11,10 +11,10 @@ import com.yeonoo.so.domain.ReturnAdd;
 public interface ReturnAddService {
 	
 	//전체 반품조회
-	public List<ReturnAdd> getReturnAdd() throws Exception;
+	public List<ReturnAdd> getReturnAdd(String company_code) throws Exception;
 	
 	//날짜로 반품조회
-	public List<ReturnAdd> getReturnAddByDate(String return_date) throws Exception;
+	public List<ReturnAdd> getReturnAddByDate(String return_date, String company_code) throws Exception;
 	
 	//행 삭제
     public void deleteReturnAdd(String returnNumber) throws Exception;
@@ -26,11 +26,11 @@ public interface ReturnAddService {
     void saveUpdateRows(List<Map<String, Object>> updateRows) throws Exception;
     
     //회사 조회
-	public List<Map<String, String>> getClient() throws Exception;
+	public List<Map<String, String>> getClient(String company_code) throws Exception;
     
 	//상태 확정
-    public void conFirmStatus(String returnNumber) throws Exception;
+    public void conFirmStatus(String return_number, String company_code) throws Exception;
     
 	//상태 저장
-    public void cancelStatus(String returnNumber) throws Exception;
+    public void cancelStatus(String return_number, String company_code) throws Exception;
 }

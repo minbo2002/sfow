@@ -11,10 +11,10 @@ import com.yeonoo.so.domain.ReturnAdd;
 public interface ReturnAddRepository {
 
 	//전체 반품조회
-	public List<ReturnAdd> getReturnAdd() throws DataAccessException;
+	public List<ReturnAdd> getReturnAdd(String company_code) throws DataAccessException;
 	
 	//날짜로 반품조회
-	public List<ReturnAdd> getReturnAddByDate(String return_date) throws DataAccessException;
+	public List<ReturnAdd> getReturnAddByDate(String return_date, String company_code) throws DataAccessException;
 
 	//삭제
 	public void deleteByReturnNumber(String returnNumber) throws DataAccessException;
@@ -27,11 +27,11 @@ public interface ReturnAddRepository {
 	void updateReturnAdd(Map<String, Object> data);
 	
 	//회사 조회
-	public List<Map<String, String>> getClient() throws DataAccessException;
+	public List<Map<String, String>> getClient(String company_code) throws DataAccessException;
 	
 	//상태 확정
-	public void conFirmStatus(String returnNumber) throws DataAccessException;
+	public void conFirmStatus(String return_number, String company_code) throws DataAccessException;
 	
 	//상태 저장
-	public void cancelStatus(String returnNumber) throws DataAccessException;
+	public void cancelStatus(String return_number, String company_code) throws DataAccessException;
 }

@@ -5,11 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/so/returnMain.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <title>고객반품등록</title>
 <script>
+var jq = jQuery.noConflict();
+var contextPath = '<%= request.getContextPath() %>';
+
 $(document).ready(function() {
 	
-	var contextPath = '<%= request.getContextPath() %>';
+	
+	
 	
 	class ClientCodeWithIconRenderer {
 	    constructor(props) {
@@ -123,6 +128,11 @@ $(document).ready(function() {
 	    			align: 'center',
 	    			sortable: true,
 	    			editor: 'text'
+	    		},
+	    		{
+	    			header: '회사코드',
+	    			name: 'company_code',
+	    			align: 'center'
 	    		}
 	    	]
 	    	}); //그리드 테이블
@@ -175,7 +185,7 @@ $(document).ready(function() {
 	}
    
 
-	//행의 컬럼 클릭시 rowKey 받아와서 Detail Select   
+//행의 컬럼 클릭시 rowKey 받아와서 Detail Select   
    grid.on('focusChange', function(ev) {
 	    const rowKey = ev.rowKey;
 	    console.log(rowKey);
@@ -204,8 +214,12 @@ $(document).ready(function() {
    
    //조회버튼 클릭시 데이트피커 val가져오기
    $('#search').on("click", function(){
-       const date = $('#datepicker').val();
-       loadDataByDate(date);
+       const date = jq('#datepicker').val();
+       if(date === ''){
+    	   loadGridData();
+       } else{
+    	   loadDataByDate(date);   
+       }
    });
    
    function loadDataByDate(date) {
@@ -245,7 +259,6 @@ $(document).ready(function() {
             alert('삭제되었습니다.');
         	//전체 데이터 조회	    
         	loadGridData();
-        	// 위에 loadGridData 함수를 호출하면 ajax로 전체데이터 조회하게 해놨는데 작동하나?
         },
         error: function() {
             alert('삭제 중 오류가 발생했습니다.');
@@ -256,7 +269,7 @@ $(document).ready(function() {
    //초기화
    $('#reset').on("click", function() {
     // jQuery Date Picker 날짜 초기화
-    $('#datepicker').datepicker('setDate', null);
+    jq('#datepicker').datepicker('setDate', null);
 	    $.ajax({
 	        url : "<%=request.getContextPath()%>/so/getReturnAdd",
 	        method :"POST",
@@ -296,6 +309,20 @@ $(document).ready(function() {
 	    console.log("createRows:", createRows);
 	    console.log("updateRows:", updateRows);
 	
+	    // 변경된 데이터가 없을 경우 경고창 띄우기
+	    if (createRows.length === 0 && updateRows.length === 0) {
+	        alert('변경된 데이터가 없습니다.');
+	        return;
+	    }
+	    
+	    // client_code와 return_date가 무조건 입력되어야 하는 조건 검사
+	    for (const row of createRows.concat(updateRows)) {
+	        if (!row.client_code || !row.return_date) {
+	            alert('거래처코드와 입고일자는 필수 입력 사항입니다.');
+	            return;
+	        }
+	    }
+	    
 	    // 새로운 행과 수정된 행을 서버로 전송하기 위한 AJAX 요청
 	    $.ajax({
 	        url: "<%=request.getContextPath()%>/so/saveReturnAdd",
@@ -371,8 +398,6 @@ $(document).ready(function() {
 	});
    
    
-   
-   
 	//데이트피커 설정
 	const datepickerConfig = {
 			dateFormat: 'yy-mm-dd',
@@ -389,7 +414,7 @@ $(document).ready(function() {
 	};
 	
 	//반품일자 jQuery 데이트피커
-	$("#datepicker").datepicker(datepickerConfig);
+	jq("#datepicker").datepicker(datepickerConfig);
 
 	
 	//grid2 테이블 관련 설정
@@ -420,16 +445,6 @@ $(document).ready(function() {
             { header : '비고', name: 'memo', align: 'center', sortable: true, editor: 'text'}
     	]
     	}); //그리드 테이블
-
-    	
-	// 거래처 코드 입력 필드 클릭 이벤트 등록
-	 $('#client_code').click(function() {
-	     const url = '/childWindow'; // 새 창의 URL
-	     const name = 'childWindow'; // 새 창의 이름
-	     const specs = 'width=500,height=500'; // 새 창의 크기
-	     const childWindow = window.open(url, name, specs); // 새 창 열기
-	     childWindow.focus();
-	 });
     	
    // grid2 행추가. 행을 추가하며 추가된 행의 company_code 컬럼에 세션에서 받아온 데이터 넣음
    $('#addRowBtn2').on("click", function() {
@@ -442,9 +457,6 @@ $(document).ready(function() {
 	    
 	    const return_number = focusedRowData.return_number;
 	   	console.log(return_number);
-	   	
-
-	    
 	   	grid2.appendRow({ return_number: return_number});
    });
     	
@@ -476,12 +488,10 @@ $(document).ready(function() {
         return;
     }
     
-    
     // 데이터 확인
     console.log("createRows2:", createRows2);
     console.log("updateRows2:", updateRows2);
     
-
     // 새로운 행과 수정된 행을 서버로 전송하기 위한 AJAX 요청
     $.ajax({
         url: "<%=request.getContextPath()%>/so/saveReturnDetail",
@@ -492,7 +502,29 @@ $(document).ready(function() {
         success: function() {
             alert('저장되었습니다.');
             // 저장 후 그리드 데이터를 다시 불러옵니다.
-            /* loadGridData(); */
+            
+            grid2.restore();
+            
+            const focusedCell = grid.getFocusedCell();
+            const focusedRowKey = focusedCell.rowKey;
+            const focusedRowData = grid.getRow(focusedRowKey);
+            const return_number = focusedRowData.return_number;
+            console.log(return_number);
+            
+    	    $.ajax({
+    	        url: "<%=request.getContextPath()%>/so/getReturnDetail",
+    	        method: "POST",
+    	        dataType: "JSON",
+    	        data: { return_number: return_number },
+    	        success: function(returnDetail) {
+    	            // 가져온 데이터를 grid2에 표시합니다.
+    	            grid2.resetData(returnDetail);
+    	        },
+    	        error: function() {
+    	            alert('에러');
+    	            console.log(returnDetail);
+    	        }
+    	    });
         },
         error: function(xhr, status, errorThrown) {
             console.log('Error occurred:', status, errorThrown);
@@ -520,8 +552,7 @@ $(document).ready(function() {
         }
     });
 }
-	
-   
+	  
 	//체크박스 선택된 항목들 삭제
 	$('#deleteRowBtn2').on("click", function() {
     	const checkedRows = grid2.getCheckedRows();
@@ -547,8 +578,12 @@ $(document).ready(function() {
 	                if (response.success) {
 	                    // 성공적으로 삭제되면, 선택된 행을 그리드에서 제거합니다.
 	                    const checkedRowKeys = grid2.getCheckedRowKeys();
-	                    grid2.removeRow(checkedRowKeys, {
-	                        removeOriginalData: true
+	                    
+	                    // forEach를 사용하여 선택한 행을 순회하며 삭제
+	                    checkedRowKeys.forEach(function(rowKey) {
+	                        grid2.removeRow(rowKey, {
+	                            removeOriginalData: true
+	                        });
 	                    });
 	                    alert("삭제성공");
 	                    

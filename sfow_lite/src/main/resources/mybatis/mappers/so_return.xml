@@ -24,6 +24,7 @@
 		<![CDATA[
 			select *
 			from so_return_add
+			where company_code = #{company_code}
 		]]> 	
 	</select>
 	
@@ -33,6 +34,7 @@
 		    SELECT *
 		    FROM so_return_add
 		    WHERE return_date = #{return_date}
+		    and company_code = #{company_code}
 	    ]]>
 	</select>
 	
@@ -67,6 +69,7 @@
 	  <![CDATA[
 	    select client_code, client_name
 	    from ma_client_company
+	    where company_code = #{company_code}
 	  ]]>
 	</select>
 	
@@ -76,6 +79,7 @@
        UPDATE so_return_add
        SET out_status = 1
        WHERE return_number = #{return_number}
+       and company_code = #{company_code}
        ]]>
     </update>
 	
@@ -85,6 +89,7 @@
        UPDATE so_return_add
        SET out_status = 0
        WHERE return_number = #{return_number}
+       and company_code = #{company_code}
        ]]>
     </update>
 

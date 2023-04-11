@@ -16,7 +16,6 @@ public interface ReturnDetailRepository {
 	//저장
 	void insertDetailAdd(Map<String, Object> data);
 	
-	
 	//수정
 	void updateDetailAdd(Map<String, Object> data);
 	
@@ -24,8 +23,11 @@ public interface ReturnDetailRepository {
 	void deleteReturnDetail(List<Integer> sorder);
 	
 	//아이템조회
-	public List<Map<String, String>> getItem();
+	public List<Map<String, String>> getItem(String company_code);
 	
 	//확정조회
-	public List<Map<String, Object>> getReturnInfo();
+	public List<Map<String, Object>> getReturnInfo(String company_code);
+	
+	//클라이언트 코드로 조회
+	public List<Map<String, Object>> getReturnInfoByClient(String company_code, String client_code) throws DataAccessException;
 }

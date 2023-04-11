@@ -55,7 +55,7 @@
     </filter-mapping>
     
     <!-- 로그인 여부 검사  -->
-    <filter>
+     <filter>
 	    <filter-name>LoginFilter</filter-name>
 	    <filter-class>com.yeonoo.sfow.basicinfo.LoginFilter.LoginFilter</filter-class>
 		</filter>
@@ -68,5 +68,9 @@
 	    </exclusion>
 	</filter-mapping>
     
+    <!-- 세션시간 설정. 30분  -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 
 </web-app>

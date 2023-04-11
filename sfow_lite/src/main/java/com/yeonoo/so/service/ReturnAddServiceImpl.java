@@ -20,13 +20,13 @@ public class ReturnAddServiceImpl implements ReturnAddService {
 	@Autowired
 	ReturnAddRepository returnAddRepository;
 	
-	public List<ReturnAdd> getReturnAdd() throws Exception{
-		return returnAddRepository.getReturnAdd();
+	public List<ReturnAdd> getReturnAdd(String company_code) throws Exception{
+		return returnAddRepository.getReturnAdd(company_code);
 	}
 	
 	//날짜로 반품조회
-	public List<ReturnAdd> getReturnAddByDate(String return_date) throws Exception{
-		 return returnAddRepository.getReturnAddByDate(return_date);
+	public List<ReturnAdd> getReturnAddByDate(String return_date, String company_code) throws Exception{
+		 return returnAddRepository.getReturnAddByDate(return_date, company_code);
 	}
 	
 	//행 삭제
@@ -51,17 +51,17 @@ public class ReturnAddServiceImpl implements ReturnAddService {
     }
     
     //회사조회
-	public List<Map<String, String>> getClient() throws Exception{
-		return returnAddRepository.getClient();
+	public List<Map<String, String>> getClient(String company_code) throws Exception{
+		return returnAddRepository.getClient(company_code);
 	}
     
 	//상태 확정
-    public void conFirmStatus(String returnNumber) throws Exception{
-    	returnAddRepository.conFirmStatus(returnNumber);
+    public void conFirmStatus(String returnNumber, String company_code) throws Exception{
+    	returnAddRepository.conFirmStatus(returnNumber, company_code);
     }
     
 	//상태 저장
-    public void cancelStatus(String returnNumber) throws Exception{
-    	returnAddRepository.cancelStatus(returnNumber);
+    public void cancelStatus(String returnNumber, String company_code) throws Exception{
+    	returnAddRepository.cancelStatus(returnNumber, company_code);
     }
 }

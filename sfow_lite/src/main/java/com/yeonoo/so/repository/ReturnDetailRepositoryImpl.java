@@ -1,5 +1,6 @@
 package com.yeonoo.so.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,6 @@ public class ReturnDetailRepositoryImpl implements ReturnDetailRepository {
 		sqlSession.insert("so_return_detail.insertReturnDetail", data);
 	}
 	
-	
 	//수정
 	public void updateDetailAdd(Map<String, Object> data) {
 		sqlSession.update("so_return_detail.updateReturnDetail", data);
@@ -46,15 +46,25 @@ public class ReturnDetailRepositoryImpl implements ReturnDetailRepository {
     }
 	
     //아이템조회
-	public List<Map<String, String>> getItem() throws DataAccessException{
-	    List<Map<String, String>> result = sqlSession.selectList("so_return_detail.getItem");
+	public List<Map<String, String>> getItem(String company_code) throws DataAccessException{
+	    List<Map<String, String>> result = sqlSession.selectList("so_return_detail.getItem", company_code);
+	    System.out.println("아이템조회: " + result);
+	    return result;
+	}
+	
+    //반품확정조회
+	public List<Map<String, Object>> getReturnInfo(String company_code) throws DataAccessException{
+	    List<Map<String, Object>> result = sqlSession.selectList("so_return_detail.getReturnInfo", company_code);
 	    System.out.println("Result from sqlSession: " + result);
 	    return result;
 	}
 	
-    //아이템조회
-	public List<Map<String, Object>> getReturnInfo() throws DataAccessException{
-	    List<Map<String, Object>> result = sqlSession.selectList("so_return_detail.getReturnInfo");
+    //클라이언트 코드로 반품조회
+	public List<Map<String, Object>> getReturnInfoByClient(String company_code, String client_code) throws DataAccessException{
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("client_code", client_code);
+	    params.put("company_code", company_code); 
+		List<Map<String, Object>> result = sqlSession.selectList("so_return_detail.getReturnInfoByClient", params);
 	    System.out.println("Result from sqlSession: " + result);
 	    return result;
 	}

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.so.domain.ReturnAdd;
 import com.yeonoo.so.domain.ReturnDetail;
 import com.yeonoo.so.service.ReturnAddService;
@@ -35,7 +36,7 @@ public class ReturnAddController {
 
 	@Autowired
 	ReturnAddService returnAddService;
-	
+
 	
 	//고객반품등록 연결
 	@GetMapping("/so/returnMain")
@@ -55,35 +56,29 @@ public class ReturnAddController {
 		return "/so/returnInfo";
 	}
 	
-	
-	
-	
-	
-	
 	//전체 조회
 	@RequestMapping(value="/so/getReturnAdd",
 			   method=RequestMethod.POST)
 	@ResponseBody
-	public List<ReturnAdd> getReturn() throws Exception {
-		List<ReturnAdd> returnAdd = returnAddService.getReturnAdd();
+	public List<ReturnAdd> getReturn(HttpSession session) throws Exception {
+		UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		System.out.println(company_code);
+		List<ReturnAdd> returnAdd = returnAddService.getReturnAdd(company_code);
+		System.out.println(returnAdd);
+       	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가
 		return returnAdd;
 	}
 	
     //선택한 날짜에 맞춰 조회
     @GetMapping("/so/getReturnAddByDate")
     @ResponseBody
-    public List<ReturnAdd> getReturnAddByDate(@RequestParam(value = "return_date", required = false) String return_date) throws Exception {
-    	List<ReturnAdd> returnAddbyDate = returnAddService.getReturnAddByDate(return_date);
-        if (return_date == null ||  return_date.isEmpty()) {
-            returnAddbyDate = returnAddService.getReturnAdd(); // 전체 데이터 조회
-            System.out.println(return_date+"date 비었음");
-            System.out.println(returnAddbyDate);
-        } else {
-            returnAddbyDate = returnAddService.getReturnAddByDate(return_date);
-            System.out.println(return_date+"date 있음");
-            System.out.println(returnAddbyDate);
-        }
-    	
+    public List<ReturnAdd> getReturnAddByDate(@RequestParam(value = "return_date", required = false) String return_date, HttpSession session) throws Exception {
+		UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		System.out.println(company_code);
+    	List<ReturnAdd> returnAddbyDate = returnAddService.getReturnAddByDate(return_date, company_code);
+    	System.out.println(returnAddbyDate);
     	return returnAddbyDate;
     }
     
@@ -99,20 +94,20 @@ public class ReturnAddController {
     @PostMapping("/so/saveReturnAdd")
     public void saveGridData(@RequestBody Map<String, Object> data, HttpServletResponse response, HttpSession session) {
         try {
-			
-        	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가. 세션 없어서 임의값
-        	/* String companyCode = (String) session.getAttribute("company_code"); */
-        	String companyCode = "1234567890";
+        	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가
+        	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+        	String company_code = loginUser.getCompanyCode();
+        	System.out.println("companyCode"+company_code);
 
         	List<Map<String, Object>> createRows = (List<Map<String, Object>>) data.get("createRows");
             List<Map<String, Object>> updateRows = (List<Map<String, Object>>) data.get("updateRows");
             
             for (Map<String, Object> row : createRows) {
-                row.put("company_code", companyCode);
+                row.put("company_code", company_code);
             }
 
             for (Map<String, Object> row : updateRows) {
-                row.put("company_code", companyCode);
+                row.put("company_code", company_code);
             }
             
             // 로그 추가
@@ -151,29 +146,36 @@ public class ReturnAddController {
     //반품상태 확정으로 변경
     @PostMapping("/so/conFirmStatus")
     @ResponseBody
-    public ResponseEntity<Void> conFirmStatus(@RequestParam("return_number") String returnNumber) throws Exception {
-        System.out.println(returnNumber);
-    	returnAddService.conFirmStatus(returnNumber);
+    public ResponseEntity<Void> conFirmStatus(@RequestParam("return_number") String return_number, HttpSession session) throws Exception {
+    	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+    	String company_code = loginUser.getCompanyCode();
+    	System.out.println(return_number+company_code);
+    	returnAddService.conFirmStatus(return_number, company_code);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
     //반품상태 저장으로 변경
     @PostMapping("/so/cancelStatus")
     @ResponseBody
-    public ResponseEntity<Void> cancelStatus(@RequestParam("return_number") String returnNumber) throws Exception {
-        System.out.println(returnNumber);
-    	returnAddService.cancelStatus(returnNumber);
+    public ResponseEntity<Void> cancelStatus(@RequestParam("return_number") String return_number, HttpSession session) throws Exception {
+    	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+    	String company_code = loginUser.getCompanyCode();
+    	System.out.println(return_number+company_code);
+    	returnAddService.cancelStatus(return_number, company_code);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
     //거래처코드와 거래처명 조회. 자식창
     @GetMapping("/so/getClient")
     @ResponseBody
-    public ResponseEntity<List<Map<String, String>>> getClient() throws Exception {
-        List<Map<String, String>> result = returnAddService.getClient();
+    public ResponseEntity<List<Map<String, String>>> getClient(HttpSession session) throws Exception {
+		UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		System.out.println(company_code);
+    	List<Map<String, String>> result = returnAddService.getClient(company_code);
         System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
         return ResponseEntity.ok(result);
     }
-        
+    
 }
 

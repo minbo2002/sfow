@@ -47,13 +47,18 @@ public class ReturnDetailServiceImpl implements ReturnDetailService {
     }
 	
     //아이템조회
-	public List<Map<String, String>> getItem() throws Exception{
-		return returnDetailRepository.getItem();
+	public List<Map<String, String>> getItem(String company_code) throws Exception{
+		return returnDetailRepository.getItem(company_code);
 	}
 	
     //확정조회
-	public List<Map<String, Object>> getReturnInfo() throws Exception{
-		return returnDetailRepository.getReturnInfo();
+	public List<Map<String, Object>> getReturnInfo(String company_code) throws Exception{
+		return returnDetailRepository.getReturnInfo(company_code);
+	}
+	
+    //클라이언트 코드로 조회
+	public List<Map<String, Object>> getReturnInfoByClient(String company_code, String client_code) throws Exception{
+		return returnDetailRepository.getReturnInfoByClient(company_code, client_code);
 	}
     
 }

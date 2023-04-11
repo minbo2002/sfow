@@ -43,23 +43,36 @@
 	    </foreach>
 	</delete>
 	
-   	<!-- 아이템 조회  -->
-	<select id="getItem" resultType="java.util.Map">
+   	<!-- 아이템 코드로조회 자식창 -->
+	<select id="getItem" resultType="java.util.Map" parameterType="String">
 	  <![CDATA[
 	    select item_code , item_no , item_name , item_type , item_stock_unit 
-		from ma_item;
+		from ma_item
+		where company_code = #{company_code}
 	  ]]>
 	</select>
 	
 	<!-- 반품확정 조회  -->
-	<select id="getReturnInfo" resultType="java.util.Map">
+	<select id="getReturnInfo" resultType="java.util.Map" parameterType="String">
 	  <![CDATA[
-		SELECT return_number, client_code, client_name, receive_date, item_code,
+		SELECT company_code, return_number, client_code, client_name, receive_date, item_code,
 		item_no, item_name, item_type, item_specification, item_quantity, lot_number, item_detail_memo 
 		FROM return_info_view
-		where out_status = 1;
+		where out_status = 1
+		and company_code = #{company_code}
 	  ]]>
 	</select>
 
+	<!-- 반품확정 회사코드로 조회  -->
+	<select id="getReturnInfoByClient" resultType="java.util.Map">
+	  <![CDATA[
+		SELECT company_code, return_number, client_code, client_name, receive_date, item_code,
+		item_no, item_name, item_type, item_specification, item_quantity, lot_number, item_detail_memo 
+		FROM return_info_view
+		where out_status = 1
+		and company_code = #{company_code}
+		and client_code = #{client_code}
+	  ]]>
+	</select>
 
 </mapper>

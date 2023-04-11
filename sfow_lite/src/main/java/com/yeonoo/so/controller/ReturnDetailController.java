@@ -1,8 +1,6 @@
 package com.yeonoo.so.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.so.domain.ReturnDetail;
 import com.yeonoo.so.service.ReturnDetailService;
 
@@ -50,9 +49,10 @@ public class ReturnDetailController {
     @PostMapping("/so/saveReturnDetail")
     public void saveReturnDetail(@RequestBody Map<String, Object> data, HttpServletResponse response, HttpSession session) {
         try {
-        	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가. 세션 없어서 임의값
-        	/* String companyCode = (String) session.getAttribute("company_code"); */
-        	String companyCode = "1234567890";
+        	// session.getAttribute로 company_code를 가져오고 그 파라미터를 리스트에 추가
+        	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+        	String companyCode = loginUser.getCompanyCode();
+        	System.out.println("companyCode"+companyCode);
 
         	List<Map<String, Object>> createRows = (List<Map<String, Object>>) data.get("createRows2");
             List<Map<String, Object>> updateRows = (List<Map<String, Object>>) data.get("updateRows2");
@@ -121,20 +121,27 @@ public class ReturnDetailController {
     //아이템코드로 조회 자식창
     @GetMapping("/so/getItem")
     @ResponseBody
-    public ResponseEntity<List<Map<String, String>>> getItem() throws Exception {
-        List<Map<String, String>> result = returnDetailService.getItem();
+    public ResponseEntity<List<Map<String, String>>> getItem(HttpSession session) throws Exception {
+    	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+    	String company_code = loginUser.getCompanyCode();
+    	System.out.println(company_code);
+    	List<Map<String, String>> result = returnDetailService.getItem(company_code);
         System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
         return ResponseEntity.ok(result);
     }
 	
-    //반품확정 조회
+    //반품확정 조회 View테이블 company_code 넣어서 다시만들어야겄다
     @GetMapping("/so/getReturnInfo")
     @ResponseBody
-    public ResponseEntity<List<Map<String, Object>>> getReturnInfo() throws Exception {
-        List<Map<String, Object>> result = returnDetailService.getReturnInfo();
+    public ResponseEntity<List<Map<String, Object>>> getReturnInfo(HttpSession session) throws Exception {
+    	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+    	String company_code = loginUser.getCompanyCode();
+    	System.out.println(company_code);
+    	List<Map<String, Object>> result = returnDetailService.getReturnInfo(company_code);
         System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
         return ResponseEntity.ok(result);
     }
+    
     
 }
 
