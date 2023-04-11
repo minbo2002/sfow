@@ -38,7 +38,7 @@ public class UserInfoController {
 		
 		UserInfo loginUser = userInfoService.userLogin(userInfo);
 
-		session.setMaxInactiveInterval(60);
+		session.setMaxInactiveInterval(1800);
 		
 		session.setAttribute("AUTHUSER", loginUser);
 		
@@ -71,7 +71,12 @@ public class UserInfoController {
 	
 	
 	@RequestMapping("/sessionLogout")
-	public String sessionLogout() throws Exception {
+	public String sessionLogout(HttpSession session,HttpServletRequest request) throws Exception {
 		return "basicinfo/sessionLogout";
+	}
+	
+	@RequestMapping("/sessionLogin")
+	public String sessionLogin(HttpSession session,HttpServletRequest request) throws Exception {
+		return "basicinfo/sessionLogin";
 	}
 }

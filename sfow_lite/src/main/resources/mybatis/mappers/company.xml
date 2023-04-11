@@ -11,15 +11,17 @@
 	<!-- 거래처 전체 -->
 	<select id="cpmlist"  resultType="cpmVO">
 	<![CDATA[
-		select * from ma_client_company
+		select * 
+from ma_client_company
+where company_code=#{company_code}
 	]]>
 	</select>
 	
 	<!-- 거래처 등록  -->
 	<insert id="cpmInsert" parameterType="cpmVO">
 	<![CDATA[
-	insert into ma_client_company ( client_Name, ceo_Name, client_Phone, client_Email, create_Date, update_Date) 
-values (  #{client_Name}, #{ceo_Name}, #{client_Phone}, #{client_Email}, now(), now())
+	insert into ma_client_company (company_code, client_Name, ceo_Name, client_Phone, client_Email, create_Date, update_Date) 
+values (#{company_code},  #{client_Name}, #{ceo_Name}, #{client_Phone}, #{client_Email}, now(), now())
 
 	]]>
 	</insert>
