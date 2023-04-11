@@ -7,11 +7,11 @@ import com.yeonoo.stock.domain.Stock;
 public interface StockByItemRepository {
 
 	//그리드 조회
-	public List<Stock> stockByItemSearch(); 
+	public List<Stock> stockByItemSearch(String companyCode); 
 	
 	//검색어조회
-	public List<Stock> stockByItemSearchByKeyword(Stock stock);
+	public List<Stock> stockByItemSearchByKeyword(Stock stock, String companyCode);
 	
 	//그리드 수정
-	public void stockByItemUpdate(Stock stock);
+	/*public void stockByItemUpdate(Stock stock);*/
 }

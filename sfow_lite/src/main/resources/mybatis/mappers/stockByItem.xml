@@ -17,29 +17,32 @@
         <result property="stock_status" column="stock_status"/>
     </resultMap> -->
 
-    <select id="stockByItemSearch" resultType="stock">
+    <select id="stockByItemSearch" resultType="stock" parameterType="String">
         <![CDATA[
-                    SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity, s.stock_status,
-                     i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification 
-					FROM mt_stock_detail s
-					INNER JOIN ma_item i ON s.item_code = i.item_code
+               	SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity, s.stock_status,
+          		 i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification 
+				FROM mt_stock_detail s
+				INNER JOIN ma_item i ON s.item_code = i.item_code
+				where s.company_code = #{companyCode}
+				
         ]]>
     </select>
     
-    <select id="stockByItemSearchByKeyword" resultType="stock" parameterType="stock">
+    <select id="stockByItemSearchByKeyword" resultType="stock" parameterType="map">
 		<![CDATA[
-		SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity,s.stock_status,
-               i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification
-		FROM mt_stock_detail s
-		INNER JOIN ma_item i ON s.item_code = i.item_code
-		WHERE COALESCE(i.item_category, '') LIKE CONCAT('%', #{item_category}, '%')
-		AND COALESCE(s.item_code, '') LIKE CONCAT('%', #{item_code}, '%')
-		AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{item_name}, '%')
-		AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{item_no}, '%')
+			SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity,s.stock_status,
+	               i.item_stock_unit, i.item_category, i.item_name, i.item_no, i.item_specification
+			FROM mt_stock_detail s
+			INNER JOIN ma_item i ON s.item_code = i.item_code
+			WHERE s.company_code = #{companyCode}
+			AND COALESCE(i.item_category, '') LIKE CONCAT('%', #{stock.item_category}, '%')
+			AND COALESCE(s.item_code, '') LIKE CONCAT('%', #{stock.item_code}, '%')
+			AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{stock.item_name}, '%')
+			AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{stock.item_no}, '%') 
 		]]>
 	</select>
 
-    <update id="stockByItemUpdate" parameterType="stock">
+   <!--  <update id="stockByItemUpdate" parameterType="stock">
   		<![CDATA[
 		UPDATE mt_stock_detail
 		SET company_code = #{company_code},
@@ -52,6 +55,6 @@
 		    quantity = #{quantity}
 		WHERE item_code = #{item_code}
  		 ]]>
-	</update>
+	</update> -->
 
 </mapper>
