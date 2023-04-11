@@ -3,11 +3,11 @@
 
 <mapper namespace="orderMapper">
 <!--수주서 전체 조회  -->
-	<select id="orderList" parameterType="OrderVO" resultType="OrderVO">
+		<select id="orderList" parameterType="OrderVO" resultType="OrderVO">
 		<![CDATA[
 		SELECT company_code, order_type, order_number, client_code, order_date, order_empid, order_status, due_date, memo, create_date, create_user, update_date, update_user, delete_yes_no, amount, title 
 		FROM so_order
-		where delete_yes_no='N'
+		where delete_yes_no='N' AND company_code=#{company_code}
 		]]> 	
 	</select>
 <!-- 상세 조회  -->

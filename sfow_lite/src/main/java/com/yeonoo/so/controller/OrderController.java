@@ -40,8 +40,9 @@ public class OrderController {
 		//수주서 목록조회
 		@RequestMapping("so/orderList")
 		@ResponseBody
-		public List<OrderVO> orderList(HttpServletRequest request) throws Exception {
-		    String company_code = (String) request.getSession().getAttribute("company_code"); // 세션에서 회사코드 가져오기
+		public List<OrderVO> orderList(HttpSession session) throws Exception {
+			UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
+			String company_code = userInfo.getCompanyCode();
 		    List<OrderVO> list = orderService.orderList(company_code); // 회사코드를 파라미터로 전달
 		    return list;
 		}
