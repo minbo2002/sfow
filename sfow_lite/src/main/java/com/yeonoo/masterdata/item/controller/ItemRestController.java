@@ -102,6 +102,13 @@ public class ItemRestController {
 				? new ResponseEntity<String> ("success", HttpStatus.OK) :
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	//재고단위 삭제
+	@RequestMapping(method = {RequestMethod.DELETE} , value = "/item/stockUnitDeleteAjax")
+	public ResponseEntity<String> stockUnitDeleteAjax(@RequestBody ItemStockUnit itemstockunit) throws Exception {
+		return itemService.deleteStockUnit(itemstockunit) == 1
+				? new ResponseEntity<String> ("success", HttpStatus.OK) :
+	                new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	//재고단위 검색
 	@RequestMapping(method = {RequestMethod.POST}, value="/item/stockunitSearchAjax", consumes="application/json")
 	public List<ItemStockUnit> stockunitSearchAjax(@RequestBody ItemStockUnit itemstockunit) throws Exception {
@@ -120,6 +127,13 @@ public class ItemRestController {
 		return itemService.specificationInsert(itemspecification) == 1
 				? new ResponseEntity<String> ("success", HttpStatus.OK) :
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	//규격 삭제
+	@RequestMapping(method = {RequestMethod.DELETE} , value = "/item/specificationDeleteAjax")
+	public ResponseEntity<String> specificationDeleteAjax(@RequestBody ItemSpecification itemspecification) throws Exception {
+		return itemService.deleteSpecification(itemspecification) == 1
+				? new ResponseEntity<String> ("success", HttpStatus.OK) :
+	                new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	//규격 검색
 	@RequestMapping(method = {RequestMethod.POST}, value="/item/specificationSearchAjax", consumes="application/json")

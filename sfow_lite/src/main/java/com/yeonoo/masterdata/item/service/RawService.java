@@ -8,14 +8,14 @@ import com.yeonoo.masterdata.item.domain.RawDTO;
 public interface RawService {
 
 	// 전체 반제품조회
-	public List<RawDTO> rawList();
+	public List<RawDTO> rawList(RawDTO dto);
 	
 	// 반제품 등록
-	public int insertRaw(RawDTO dto);
+	public int insertRaw(RawDTO elements);
 
 	// 반제품 정보 수정
 	public int updateRaw(RawDTO dto);
 
 	// 반제품 삭제
-	public void deleteRaw(String itemCode);
+	public int deleteRaw(String itemCode);
 }

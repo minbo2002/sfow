@@ -21,6 +21,8 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -83,7 +85,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                     
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
-                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
+                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a> 
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
@@ -91,7 +93,7 @@
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
-
+ 
                            </div>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
@@ -165,7 +167,8 @@
                   <i class="fas fa-fw fa-folder"></i>
                     <span>생산관리</span>
                 </a>
-                <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo3" class="collapse" aria-la
+                belledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
                     </div>

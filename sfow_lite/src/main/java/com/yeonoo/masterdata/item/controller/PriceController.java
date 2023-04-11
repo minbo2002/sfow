@@ -39,7 +39,8 @@ public class PriceController {
 		return list;
 	}
 
-
+	// 등록
+	
 			
 		  
 }

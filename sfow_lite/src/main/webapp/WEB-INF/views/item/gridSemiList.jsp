@@ -62,7 +62,7 @@
 				<button id="addRowBtn">+</button>
 				<button  type="button" id="delRowBtn" onclick="deleteRow()">-(DB삭제)</button>
 				<button type="button" id="insertRowBtn" style="background-color: #33F6FF">등록</button>
-				<button id="updateRowBtn">저장</button>
+				<button id="updateRowBtn" onclick="updateRow()">저장</button>
 				<button id="resetRow">초기화</button> 
   </div>
 
@@ -77,26 +77,13 @@
 	    scrollY: false,
 		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
-
+ 
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
-    { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, editor: 'text' ,align:'center' },	    	
+    { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '유형',
-      name: 'itemType',
-      sortable: true,
-      editor: {type: 'select',
-    	  options: {
-              listItems: [
-                  {text: '제품', value: "제품"},
-                  {text: '반제품', value: "반제품"},
-                  {text: '원제품', value: "원제품"}
-                  
-             			 ] 
-      				}
-      }
-      ,align:'center' },
+    { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { 
       header: '재고단위',
@@ -113,7 +100,7 @@
                   {text: 'ℓ', value: "ℓ"},
                   {text: '㎡', value: "㎡"},
                   {text: 'm', value: "m"},
-                  
+                   
              			 ] 
       				}
       },
@@ -313,30 +300,36 @@
 
 		
 
-	// 컬럼 수정
-	$('#updateRowBtn').on('click', function() { 
-	grid.on('editingFinish', function(ev) {
-	      const rowKey = el.rowKey;
-	      const columnName = el.columnName;
-	      var updatedData = {};
-	      const rowData = grid.getRow(rowKey);
-	      console.log('Row data: ', rowData);
+	// 행 수정
+	function updateRow() {
+
+	      var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
+	      alert(rowKeys);
+	      var test = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
+	      alert(test);
 	      
-	     $.ajax({
-	        url: '${conPath}/semi/updateSemi',
-	        method: 'PATCH',
-	        dataType: 'JSON',
-	        data: JSON.stringify(rowData),
-	        contentType: 'application/json',
-	        success: function(response) {
-	            console.log('Success:', response);
-	        },
-	        error: function(error) {
-	            console.log('Error:', error);
-	         }
-	       }); 
+	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+	      alert(rowDatas);
+	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+	      alert(jsonRowDatas);
+	      
+	      grid.removeCheckedRows([test]);		// 그리드 인덱스 제거용 (한 줄 제거용)
+
+	      $.ajax({
+	         url : "semi/updateSemi",
+	         method : "POST",
+	         data : JSON.stringify(rowDatas),
+	         contentType : "application/json; charset=UTF-8",
+	         dataType: "JSON",
+	         success : function (dd) {
+	            alert(dd);
+	            alert('성공');  // result를 배열로 받는다
+	         },
+	         error: function() {
+	              console.log("실패");
+	          }
 	      });
-	});
+	   }
 	
 	
 		

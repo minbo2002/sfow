@@ -75,6 +75,8 @@
     AND COALESCE(item_name, '') LIKE CONCAT('%',#{item_name},'%')
     AND COALESCE(item_no, '') LIKE CONCAT('%',#{item_no},'%')
     AND COALESCE(item_type, '') LIKE CONCAT('%',#{item_type},'%')
+	AND item_category='제품'
+	AND (useyn is NULL OR useyn = 'y')
   ]]>
  </select>
   <!-- 품목유형등록 목록-->
@@ -99,6 +101,12 @@
 	VALUE(#{item_stock_unit},1)
  ]]>
 </insert>
+ <!-- 재고단위 삭제 -->
+ <delete id="deleteStockUnit">
+ <![CDATA[
+ 	delete from ma_item_stockunit where item_stock_unit=#{item_stock_unit}
+ ]]>
+</delete>
 <!-- 재고단위 검색 -->
   <select id="ItemStockUnitSearch" resultType="ItemStockUnit" parameterType="ItemStockUnit">
  <![CDATA[
@@ -121,6 +129,12 @@
 	VALUE(#{item_specification},1)
  ]]>
 </insert>
+ <!-- 규격 삭제 -->
+ <delete id="deleteSpecification">
+ <![CDATA[
+ 	delete from ma_item_specification where item_specification=#{item_specification}
+ ]]>
+</delete>
 <!-- 규격 검색 -->
   <select id="spSearch" resultType="ItemSpecification" parameterType="ItemSpecification">
  <![CDATA[

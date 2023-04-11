@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>품목단가관리</title>
-
 <style>
 		.form-title{
 		width : 100px;
@@ -35,10 +34,7 @@
 	
 	
 </style>
-
 </head>
-
-
 <body>
 	
 
@@ -73,15 +69,12 @@
   </div>
 
 </body>
-<script>
+<script> 
 
-	var newRowData ="";
-	var gridData=[]; 
 	var grid = new tui.Grid({
 	el: document.getElementById('grid'),
 	    scrollX: false,
 	    scrollY: false,
-		data:gridData,
 	    rowHeaders: ['checkbox','rowNum'],
 
 	columns: [
@@ -106,8 +99,8 @@
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '시작일' 	 , name: 'startDate' 		, sortable: true, editor: {type: 'datePicker',options: { format:'yyyy-MM-dd'}}},
+    { header: '종료일' 	 , name: 'endDate' 			, sortable: true, editor: {type: 'datePicker',options: { format:'yyyy-MM-dd'}}},
     { header: '매입단가'	 , name: 'buyPrice' 		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '매출단가'	 , name: 'salesPrice'		, sortable: true, editor: 'text' ,align:'right'  },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
@@ -128,7 +121,6 @@
 	]
 	
 	});
-	
 	//checkbox 체크 시에 input 태그에 해당 value 출력(checkbox 다중 선택시 데이터 초기화 기능 추가)
 	grid.on('check', function(ev) {
         const rowKey = ev.rowKey;
@@ -254,7 +246,7 @@
 	// 목록 조회(첫 페이지 출력시 자동 조회)
 	
 	$.ajax({
-		url : "price/toastPriceDataList",		//toastDataList
+		url : "./price/toastPriceDataList",		//toastDataList
 		method :"GET",
 		dataType : "JSON",
 		contentType : "application/json; charset=utf-8",

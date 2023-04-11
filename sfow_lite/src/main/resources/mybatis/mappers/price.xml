@@ -24,19 +24,20 @@
 
 	<select id="priceList" resultType="priceDTO">
 		<![CDATA[
-		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_specification as itemSpecification,client_code as clientCode,client_name as clientName ,start_date as startDate,end_date as endDate,buy_price as buyPrice,sales_price as salesPrice,memo,useyn
-			from ma_item_price
-			where useyn='Y'
-		order by item_code 
+		select i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,c.client_code as clientCode,c.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+			from ma_item_price p, ma_item i ,ma_client_company c
+			where p.item_code=i.item_code AND p.useyn='Y'
+		order by i.item_code 
 		]]>	
 	</select>
 
 	<select id="priceListSearch" resultMap="priceDTO" parameterType="priceDTO">
 		<![CDATA[
-		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_specification as itemSpecification,client_code as clientCode,client_name as clientName ,start_date as startDate,end_date as endDate,buy_price as buyPrice,sales_price as salesPrice,memo,useyn
-			from ma_item_price
-			where 
-						 COALESCE(item_category, '') LIKE CONCAT('%', #{itemCategory}, '%')
+		select i.company_code as companyCode, item_code as itemCode,item_name as itemName,i.item_no as itemNo,item_specification as itemSpecification,client_code as clientCode,client_name as clientName ,start_date as startDate,end_date as endDate,buy_price as buyPrice,sales_price as salesPrice,memo,useyn
+			from ma_item_price p,ma_item i ,c.ma_client_company
+			where 		 
+						 p.item_code=i.item_code 
+						 AND COALESCE(item_category, '') LIKE CONCAT('%', #{itemCategory}, '%')
 						 AND COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
 						 AND COALESCE(item_name, '') LIKE CONCAT('%', #{itemName}, '%')
 						 AND COALESCE(item_no, '') LIKE CONCAT('%', #{itemNo}, '%')
@@ -48,6 +49,8 @@
 		order by item_code  
 		]]>	
 	</select>
+	
+	
 
 
 	
