@@ -103,6 +103,7 @@ public class StockByWhController {
 	  
 	  List<Stock> results = stockService.searchWh(data);
 	  System.out.println("modal의 search data"+results);
+	  
 	  return results;
   }
   
