@@ -68,7 +68,7 @@
 			});
 	   });
 	});
-	
+
 	var gridData = [];
 	var grid = new tui.Grid({
 	      el: document.getElementById('grid'),
@@ -80,7 +80,7 @@
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
 			{header:"수주번호", name:"orderNumber", align:"center", width:"auto"},
 			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
-			{header:"회사코드", name:"companyCode", align:"center", width:"auto"},
+			{header:"회사코드", name:"companyCode", align:"center", width:"auto"}, // companyCode
 			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
 			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
 			{header:"출하유형", name:"outType", editor:"text", align:"center"},

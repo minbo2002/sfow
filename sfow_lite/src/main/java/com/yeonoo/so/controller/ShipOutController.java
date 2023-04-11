@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.so.domain.ShipOut;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.so.domain.ItemShipOutDTO;
 import com.yeonoo.so.domain.LotShipOutDTO;
 import com.yeonoo.so.domain.SearchDTO;
@@ -58,7 +61,7 @@ public class ShipOutController {
 	// 전체조회
 	@ResponseBody
 	@RequestMapping(value="list", method=RequestMethod.POST)
-	public List<ShipOut> getList(@RequestBody SearchDTO searchDTO) {
+	public List<ShipOut> getList(@RequestBody SearchDTO searchDTO, HttpSession session) {
 
 		logger.info("1) searchDTO = " + searchDTO);
 
@@ -97,15 +100,19 @@ public class ShipOutController {
 	// 등록
 	@ResponseBody
 	@RequestMapping(value="write", method=RequestMethod.POST)
-	public List<ShipOut> shipOutWrite(@RequestBody List<ShipOut> shipout) {
+	public List<ShipOut> shipOutWrite(@RequestBody List<ShipOut> shipout, HttpSession session) {
 
 		logger.info("등록을 위해 입력한 shipout 정보 = " + shipout);
 
+		UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
+		String userId = userInfo.getId();
+		
 		Iterator<ShipOut> iterator = shipout.iterator();
+		
 		while(iterator.hasNext()) {
 			ShipOut elements = iterator.next();
 			logger.info("shipout 정보 iterator 변환 = " + elements);
-			
+			elements.setCreateUser(userId);
 			int writeCnt = shipOutService.writeShipOut(elements);
 			logger.info("DB에 insert된 출하 개수 : " + writeCnt);
 		}
