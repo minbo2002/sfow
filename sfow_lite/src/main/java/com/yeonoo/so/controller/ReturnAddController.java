@@ -1,6 +1,8 @@
 package com.yeonoo.so.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +179,7 @@ public class ReturnAddController {
         return ResponseEntity.ok(result);
     }
     
-    //returnInfo에서 거채처코드로 조회
+    //returnInfo에서 거래처코드로 조회
     @GetMapping("/so/getInfoByClient")
     @ResponseBody
     public List<Map<String, Object>> getInfoByClient(@RequestParam(value = "client_code", required = false) String client_code, HttpSession session) throws Exception {
@@ -186,7 +188,16 @@ public class ReturnAddController {
 		System.out.println("client_code"+client_code);
 		System.out.println("company_code"+company_code);
 		List<Map<String, Object>> result = returnAddService.getInfoByClient(client_code, company_code);
-    	System.out.println(result);
+    	
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        for (Map<String, Object> resultMap : result) {
+            Date receiveDate = (Date) resultMap.get("receive_date");
+            String formattedDate = sdf.format(receiveDate);
+            resultMap.put("receive_date", formattedDate);
+        }
+		
+        System.out.println(result);
     	return result;
     }
     

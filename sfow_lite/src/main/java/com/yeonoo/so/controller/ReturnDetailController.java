@@ -1,6 +1,8 @@
 package com.yeonoo.so.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +132,7 @@ public class ReturnDetailController {
         return ResponseEntity.ok(result);
     }
 	
-    //반품확정 조회 View테이블 company_code 넣어서 다시만들어야겄다
+    //반품확정 조회 View테이블
     @GetMapping("/so/getReturnInfo")
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> getReturnInfo(HttpSession session) throws Exception {
@@ -138,6 +140,15 @@ public class ReturnDetailController {
     	String company_code = loginUser.getCompanyCode();
     	System.out.println(company_code);
     	List<Map<String, Object>> result = returnDetailService.getReturnInfo(company_code);
+    	
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        for (Map<String, Object> resultMap : result) {
+            Date receiveDate = (Date) resultMap.get("receive_date");
+            String formattedDate = sdf.format(receiveDate);
+            resultMap.put("receive_date", formattedDate);
+        }
+    	
         System.out.println("Returning JSON data: " + new ObjectMapper().writeValueAsString(result));
         return ResponseEntity.ok(result);
     }

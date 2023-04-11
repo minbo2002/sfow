@@ -16,6 +16,8 @@
 	<result property="memo"  column="memo"/>		
 </resultMap>
 	
+	
+	
     <!-- 추가된 열에 insert -->
     <insert id="insertReturnDetail" parameterType="map">
         <![CDATA[
