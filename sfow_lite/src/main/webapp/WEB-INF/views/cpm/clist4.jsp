@@ -74,6 +74,11 @@ $(document).ready(function() {
                        showApplyBtn: true,
                        showClearBtn: true 
                    }
+    	   },
+                   {
+                       header: '회사코드',            
+                       name: 'company_code',
+                       align: 'center',
                    },
              {
                  header: '회사명',             // [필수] 컬럼 이름
@@ -124,15 +129,15 @@ $(document).ready(function() {
                  header: '등록일',
                  name: 'create_Date',
                  align: 'center',
+                 hidden:true
                	},
                 {
                  header: '수정일',
                  name: 'update_Date',
                  align: 'center',
+                 hidden:true
                  }
-               	
         ]
-     
         
      });
      
@@ -149,6 +154,7 @@ $(document).ready(function() {
     	    // 새로운 데이터 생성
     	    const newRowData = {
     	        client_Code: '',
+    	        company_code: '${sessionScope.AUTHUSER.companyCode}',
     	        client_Name: '',
     	        ceo_Name: '',
     	        client_Phone: '',
@@ -172,7 +178,7 @@ $(document).ready(function() {
     	            console.log(result);
     	            
     	            $.ajax({
-    	                url: '${ContextPath}/cpm',
+    	                url: '${ContextPath}/cpm?companyCode=${sessionScope.AUTHUSER.companyCode}',
     	                method: 'GET',
     	                dataType: 'JSON',
     	                success: function(result) {
@@ -192,7 +198,7 @@ $(document).ready(function() {
      
    //행 모든 데이터 불러오기
      $.ajax({
-         url: '${ContextPath}/cpm',
+         url: '${ContextPath}/cpm?companyCode=${sessionScope.AUTHUSER.companyCode}',
          method: 'GET',
          dataType: 'JSON',
          success: function(result) {
