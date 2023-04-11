@@ -10,7 +10,7 @@ public interface CpmDAO {
 
 	
 	//전체보기
-	public List<CpmVO> cpmlist() throws DataAccessException;
+	public List<CpmVO> cpmlist(String companyCode) throws DataAccessException;
 	
 	//거래처 등록
 	public int cpmInsert(CpmVO cpmVO);
