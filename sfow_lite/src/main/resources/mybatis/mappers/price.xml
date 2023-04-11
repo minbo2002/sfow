@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="price">
+
+<resultMap type="priceDTO" id="priceDTO">
+        <result property="companyCode" column="company_code"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="itemSpecification" column="item_specification"/>
+        <result property="clientCode" column="clientCode"/>
+        <result property="clientName" column="clientName"/>
+        <result property="startDate" column="startDate"/>
+        <result property="endDate" column="endDate"/>
+        <result property="buyPrice" column="buy_price"/>
+        <result property="salesPrice" column="sales_price"/>
+        <result property="memo" column="memo"/>
+        <result property="useyn" column="useyn"/>
+    </resultMap> 
+    
+
+	<select id="priceList" resultType="priceDTO">
+		<![CDATA[
+		select i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,c.client_code as clientCode,c.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+			from ma_item_price p, ma_item i ,ma_client_company c
+			where p.item_code=i.item_code AND p.useyn='Y'
+		order by i.item_code 
+		]]>	
+	</select>
+
+	<select id="priceListSearch" resultMap="priceDTO" parameterType="priceDTO">
+		<![CDATA[
+		select i.company_code as companyCode, item_code as itemCode,item_name as itemName,i.item_no as itemNo,item_specification as itemSpecification,client_code as clientCode,client_name as clientName ,start_date as startDate,end_date as endDate,buy_price as buyPrice,sales_price as salesPrice,memo,useyn
+			from ma_item_price p,ma_item i ,c.ma_client_company
+			where 		 
+						 p.item_code=i.item_code 
+						 AND COALESCE(item_category, '') LIKE CONCAT('%', #{itemCategory}, '%')
+						 AND COALESCE(item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
+						 AND COALESCE(item_name, '') LIKE CONCAT('%', #{itemName}, '%')
+						 AND COALESCE(item_no, '') LIKE CONCAT('%', #{itemNo}, '%')
+						 AND COALESCE(item_specification, '') LIKE CONCAT('%', #{itemSpecification}, '%')
+						 AND COALESCE(client_code, '') LIKE CONCAT('%', #{clientCode}, '%')
+						 AND COALESCE(client_name, '') LIKE CONCAT('%', #{clientName}, '%')
+						 AND useyn='Y'
+						  
+		order by item_code  
+		]]>	
+	</select>
+	
+<!-- 거래처명 목록 -->
+ <select id="companycodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT client_code,client_name
+	FROM ma_client_company
+ ]]>
+ </select>
+    <!-- 아이템코드 목록 -->
+ <select id="itemcodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT item_code,item_category,item_no,item_name,item_specification
+	FROM ma_item
+ ]]>
+ </select>
+	
+</mapper>  
