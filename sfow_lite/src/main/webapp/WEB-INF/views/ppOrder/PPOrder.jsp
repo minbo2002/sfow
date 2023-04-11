@@ -15,7 +15,7 @@
 $(document).ready(window.onload=function() {
 	
 
-//모달창
+
 
 		          
 //------------------------------------------------------------------------------//
@@ -142,9 +142,9 @@ $(document).ready(window.onload=function() {
       function saveFunction() {
 
          var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-         alert("rowDatas : " + rowDatas);
+         /* alert("rowDatas : " + rowDatas); */
          var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-         alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+         /* alert("JSON.stringify(rowDatas) : " + jsonRowDatas); */
          $.ajax({
             url : "${conPath}/insertPPOrder",
             method : "post",
@@ -170,14 +170,14 @@ $(document).ready(window.onload=function() {
       function deleteRow() {
 
          var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
-         alert(rowKeys);
+        /*  alert(rowKeys); */
          var test = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
          alert(test);
          
          var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-         alert(rowDatas);
+        /*  alert(rowDatas); */
          var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-         alert(jsonRowDatas);
+        /*  alert(jsonRowDatas); */
          
          grid.removeCheckedRows([test]);      // 그리드 인덱스 제거용 (한 줄 제거용)
 
@@ -188,8 +188,8 @@ $(document).ready(window.onload=function() {
             contentType : "application/json; charset=UTF-8",
             dataType: "JSON",
             success : function (dd) {
-               alert(dd);
-               alert('성공');  // result를 배열로 받는다
+             /*   alert(dd); */
+            /*    alert('성공');  // result를 배열로 받는다 */
             },
             error: function() {
                  console.log("실패");
