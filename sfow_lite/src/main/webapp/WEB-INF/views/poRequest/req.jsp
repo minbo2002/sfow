@@ -49,22 +49,34 @@
 	 //행삭제
      var removeRowBtn = document.getElementById('removeRowBtn');
 	   removeRowBtn.addEventListener('click', function() {
-	     var lastIndex = grid.getRowCount()-1;
-	     grid.removeRow(lastIndex);
-	   });
+		var rowCount = grid.getRowCount();
+	  	 var lastIndex = grid.getRowCount()-1;
+	     if (rowCount > 0 && !grid.getData()[lastIndex]["request_number"]) {
+	            grid.removeRow(lastIndex);
+	         } else {
+	            return null;
+	         
+	         }
+	   }); 
 
-   	 var removeRowBtn2 = document.getElementById('removeRowBtn2');
+ 
+	 var removeRowBtn2 = document.getElementById('removeRowBtn2');
 	   removeRowBtn2.addEventListener('click', function() {
-	     var lastIndex = grid2.getRowCount()-1;
-	     grid2.removeRow(lastIndex);
-	   });
-	   
-	   
+		var rowCount = grid2.getRowCount();
+	  	 var lastIndex = grid2.getRowCount()-1;
+	     if (rowCount > 0 && !grid2.getData()[lastIndex]["request_order"]) {
+	            grid2.removeRow(lastIndex);
+	         } else {
+	            return null;
+	         
+	         }
+	   });  
+		   
 	   
 	   
 	 //데이터삭제
 	 // 삭제실행
-	$("#deleteBtn").click(function() {
+	 $("#deleteBtn").click(function() {
       let d = confirm('삭제하시겠습니까?');
       if(d) {
          reqDelfunction();
@@ -82,16 +94,25 @@
 	      grid2.clear();
 	   });
 	
-	   //입력
-	   $("#saveBtn").click(function() {
-	         let i = confirm('등록하시겠습니까?');
-	         if(i) {
-	            saveFunction();
-	         }else {
-	            return false;
-	         }
-	      });
-	      
+    //입력
+    $("#saveBtn").click(function() {
+       let i = confirm('등록하시겠습니까?');
+         if(i) {
+            saveFunction();
+         }else {
+            return false;
+         }
+      });
+    
+    //입력
+    $("#updateBtn").click(function() {
+       let i = confirm('세부 수정하시겠습니까?');
+         if(i) {
+        	 loadGridData();
+         }else {
+            return false;
+         }
+      });
 
  
 	 $('#searchBtn').click(function(event) {
@@ -282,6 +303,7 @@
              }
        });
     }  
+
 	 
 	 //입력함수
   	 function saveFunction() {
@@ -306,51 +328,404 @@
          });
       }
 	 
-  	 function saveFunction() {
-
-         var rowDatas = grid2.getCheckedRows();   // 선택한 row에 해당하는 객체값
-         alert("rowDatas : " + rowDatas);
-         var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-         alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
-         
-         $.ajax({
-            url : "${conPath}/reqDetailInsert",
-            method : "post",
-            data : jsonRowDatas,
-            contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-            dataType: "JSON",         // 서버에서 받을 데이터타입
-            success : function (result) {
-               //alert(result); // result는 반환받은 json형태의 객체 
-            },
-            error: function() {
-                 console.log("입력실패");
-             }
-         });
-      }	 
 	 
 }); //doc끝
 	 	
   	
  	</script>
+ 	
  	<script>
- 	
- 	</script>
- 	
+ 	//modal에 띄워지는 grid3
+
+ 	  var body = document.querySelector('body');
+ 	  var modal = document.querySelector('.modal');
+ 	  var btnOpenPopup = document.querySelector('.btnFas');
+
+ 	var grid3=null;	 //추가된 부분!!
+ 		function resetCheck() {
+ 		  if (grid3) {
+ 		    grid3.uncheckAll();
+ 		  }
+ 		}
+ 		
+ 		//modal 닫기 함수
+ 		function closeModal() {
+ 			  modal.classList.remove('show');
+ 		         body.style.overflow = 'auto';
+ 			}	
+ 		
+ 		
+ 		
+ 		//modal 안에 grid2의 checkbox 체크된 row데이터 input태그에 찍기
+ 		function applyModal() {
+ 			// grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
+ 			// if (grid2 && grid2.getData().length > 0) {   
+ 			        //modal.classList.toggle('show');
+ 			        //body.style.overflow = 'auto';
+ 		      if (grid3 && grid3.getCheckedRows().length > 0) {
+ 		   	    const checkedRows = grid3.getCheckedRows();
+ 		   	    const id = document.getElementById('request_empid');
+ 		   		id.value = checkedRows[0].id;
+ 		        //alert(warehouse_code.value);
+// 		         var warehouse_code = document.getElementById('warehouse_code');
+// 		         var test = rowData.warehouse_code;
+// 		         warehouse_code.value = test;
+ 		      }        
+ 		         modal.classList.remove('show');
+ 		         body.style.overflow = 'auto';
+ 			   // });
+ 			}	
+ 		
+
+
+
+ 	$(document).ready(function() {
+ 		
+ 		//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
+// 	 	function resetCheck(){
+// 	 		grid2.uncheckAll();
+// 	 	};
+
+ 		
+ 	  //$('.btn-open-popup').dblclick(function(event) {
+ 	  $('.btnFas').dblclick(function(event) {
+ 		  
+ 	  
+ 		  event.preventDefault();
+ 		//추가된 부분!!
+ 		  if(grid3){
+ 			  grid3.destroy();
+ 		  }
+ 		  
+ 		var gridData3=[];
+ 	  	grid3 = new tui.Grid({
+ 	  	el: document.getElementById('modalGrid'),
+ 	  	data: gridData3,
+ 	  	bodyHeight:300,
+ 	  	scrollX: false,
+ 	  	scrollY: true,
+ 	  	autoWidth: true,
+ 	  	rowHeaders: [{
+ 	   	   type: 'rowNum',
+ 	   	   header: "  ",
+ 	   	   width: 50
+ 	  	},{type : 'checkbox'}],
+ 	  	columns: [
+ 	  		{
+ 	      	header: 'id',
+ 	      	name: 'id',
+ 	      	sortable: true,
+ 	      	align:'center',
+ 	      	width:165
+ 	 	    	},
+ 	    	{
+ 	      	header: '담당자명',
+ 	      	name: 'user_name',
+ 	      	sortable: true,
+ 	      	align:'center',
+ 	      	width:165
+ 	    	}
+ 	  	]
+ 		});
+ 	  	
+
+  	$.ajax({
+ 	    type:"GET", //요청방식 
+ 	    dataType:"JSON",
+ 	    url: '<%=request.getContextPath()%>/reqSearch1',
+ 		      success: function(data) {
+ 		    	gridData3=data
+ 	  	  		grid3.resetData(data)
+ 	  	  		
+ 	  	  },
+ 	    error: function(xhr, status, error) {
+ 	      // handle error
+ 	      console.log(error);
+ 	    }
+ 	  }); 
+ 	  
+ 	  
+ 	  
+ 		  //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
+ 			grid3.on('check', function(ev) {
+ 		    const rowKey = ev.rowKey;
+ 		    const columnName = ev.columnName;
+ 		    var updatedData = {};
+ 		    const rowData = grid3.getRow(rowKey);
+ 		    console.log('Row data: ', rowData);
+ 		    console.dir('Row data: ', rowData);
+ 			}); 
+ 		  
+ 			$('#searchBtn1').click(function(event) {
+ 	 			 event.preventDefault(); // prevent form submission
+ 	 			    
+ 	 		    // get search parameters
+ 	 		    var user_name = $('#user_name').val();
+ 	 		    
+ 	 		 $.ajax({
+ 	 		      url : "${conPath}/reqSearch1",
+ 	 		      type : "GET",
+ 	 		      dataType : "JSON",
+ 	 		      data:  {
+ 	 		    		user_name:user_name
+ 	 		    	},
+ 	 		      success : function(data) {
+ 	 		         console.dir(data);
+ 	 		         gridData3=data
+ 	 		         grid3.resetData(data);
+ 	 		      }
+ 	 		
+ 	 		 });//reqSearch1 ajax
+ 		  });
+ 		});//double클릭 이벤트 끝
+ 		
+ 		 		
+ 	});//document.ready끝	
+
+
+ 	  //modal 띄우기
+
+ 	  
+ 	  btnOpenPopup.addEventListener('dblclick', () => {
+ 	    modal.classList.toggle('show');
+
+ 	    if (modal.classList.contains('show')) {
+ 	    	body.style.overflow = 'hidden';
+ 	    }
+ 	  });
+
+ 	  //modal 클릭 이벤트 리스너(modal 밖의 바탕을 누르면 modal 창 닫히는 이벤트 리스너 = 닫기 버튼 생성으로 주석처리)
+ 	  
+ 	/*   modal.addEventListener('click', (event) => {
+ 	    if (event.target === modal) {
+ 	      modal.classList.toggle('show');
+
+ 	      if (!modal.classList.contains('show')) {
+ 	        body.style.overflow = 'auto';
+ 	      }
+ 	    }
+ 	  }); */
+ 	 
+  	  
+ 	  
+	</script>
+		
 	<style>
+
 	
-	.modal {
-	  position: fixed;
-	  top: 50%;
-	  left: 50%;
-	  transform: translate(-50%, -50%);
-	  width: 1200px;
-	  height: 600px;
-	  background-color: white;
-	  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-	  padding: 20px;
-	  box-sizing: border-box;
+	button {
+	  /* background-color: rgba(60, 80, 135, 1); */
+	  background-color: rgba(051, 51, 102, 1);
+	  font-weight : bolder;
 	}
 	
+	#searchBtn:hover {
+	  background-color: rgba(051, 102, 102, 1);
+	  opacity: 0.8;
+	}
+	
+	#searchBtn1:hover {
+	  background-color: rgba(051, 102, 102, 1);
+	  opacity: 0.8;
+	}
+	
+	   
+	#resetBtn:hover {
+	  background-color: rgba(204, 000, 051, 1);
+	  opacity: 0.8;
+	}
+	
+	
+	#applyBtn:hover {
+	  background-color: rgba(051, 102, 204, 1);
+	  opacity: 0.8;
+	}
+	
+	
+	#resetMdBtn:hover {
+	  background-color: rgba(204, 000, 051, 1);
+	  opacity: 0.8;
+	}
+	
+	
+	#closeBtn:hover {
+	  background-color: rgba(153, 102, 000, 1);
+	  opacity: 0.8;
+	}
+	
+	#whSearchBtn:hover {
+	  background-color: rgba(102, 102, 102, 1);
+	  opacity: 0.8;
+	}
+		
+	
+	
+	.form-title{
+	  width : 100px;
+	  height: 30px;
+	  color:black;
+	  font-weight:bold;
+	  background-color: #e2e2e2;
+	  /* background-color: #828282; */
+	  border:1px solid #e2e2e2;
+	  text-align:center;
+	  /* 	vertical-align: middle; */
+	  line-height : 30px;
+	  border-radius:3px;
+	  display:inline-block;
+	}
+		
+	.form-data{
+	  width : 200px;
+	  height: 30px;
+	  /* background-color: rgb(230, 242, 255) */
+	  /* text-align:center; */
+	  /* vertical-align: middle; */
+	  line-height : 30px;
+	  border-radius:3px;
+	  border:1px solid #e2e2e2;
+	  display:inline-block;
+	}
+		
+	.btn-open-popup{
+	  width : 200px;
+	  height: 30px;
+	  background-color: rgb(230, 242, 255);
+	  text-align:left;
+	  /* vertical-align: middle; */
+	  line-height : 30px;
+	  border-radius:3px;
+	  border:1px solid #e2e2e2;
+	  display:inline-block;
+	}
+
+	.modal {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+
+	  width: 100%;
+	  height: 100%;
+
+	  display: none;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+	 
+	.modal.show {
+	  display: block;
+	}
+	
+	#modalGrid {
+	  position: relative; /* 변경된 부분 */
+	  /* position: absolute; */
+	  top: 50%;
+	  left: 50%;
+	
+	  width: 500px;
+	  height: 500px;
+	
+	  padding: 40px;
+	
+	  text-align: center;
+	
+	  background-color: rgb(255, 255, 255);
+	  border-radius: 10px;
+	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	
+	  transform: translateX(-50%) translateY(-50%);
+	}
+	
+	.modal-wrapper {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+
+	.search_wh .form-title{
+	  border-radius:3px;
+  	  line-height : 30px;
+	}
+
+    .search_wh input[type="text"] {
+      border: none;
+      outline: none;
+      border-radius:3px;
+      border:1px solid #e2e2e2;
+      line-height : 30px;
+	  height: 30px;
+	}
+
+  	.search_wh .fas.fa-search {
+	  /* margin-right: 4px; */
+  	}
+
+    .search_wh input[type="text"]#lens_sh {
+      margin-left:-0.5px;
+
+	}
+
+  .search_wh input[type="text"].btn-open-popup {
+      padding-left: 30px;
+      cursor: text;
+      margin-left:-3.5px;
+	  margin-right:5px;
+	}
+  
+	.search_wh input[type="text"].btn-open-popup:focus {
+      outline: none;
+	}
+  
+  .search_wh i.fa-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+	
+
+	#applyBtn {
+	  height: 35px;
+	  width: 80px;
+	  font-size: 13px;
+	  color: black;
+	  border: 1px solid #8c8c8c;
+	  border-radius: 4px;
+	  position: absolute;
+	  bottom: 10px;
+	  right: 300px; /* 버튼 위치 조정 */
+	}
+	
+	#resetMdBtn {
+	  height: 35px;
+	  width: 80px;
+	  font-size: 13px;
+	  color: black;
+	  border: 1px solid #8c8c8c;
+	  border-radius: 4px;
+	  position: absolute;
+	  bottom: 10px;
+	  right: 210px; /* 버튼 위치 조정 */
+	}
+	
+	
+	#closeBtn {
+	  height: 35px;
+	  width: 80px;
+	  font-size: 13px;
+	  color: black;
+	  border: 1px solid #8c8c8c;
+	  border-radius: 4px;
+	  position: absolute;
+	  bottom: 10px;
+	  right: 120px; /* 버튼 위치 조정 */
+	}
+
 	.selectbox1 {
 	    width: calc(100%)
 	}
@@ -399,12 +774,14 @@
 <body>
 		<form id="selectReq">
          <input type="submit" name="searchBtn" id="searchBtn" value="조회"/>
-         <button type="button" name="deleteBtn" id="deleteBtn">삭제</button>
-         <button type="button" name="saveBtn" id="saveBtn">저장</button>
-         <input type="reset" name="resetRow" id="resetRow" value="초기화"/>
+         <button type="button" name="deleteBtn" id="deleteBtn" style="height:35px; width:80px; font-size:13px; color:white;">삭제</button>
+         <button type="button" name="saveBtn" id="saveBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c">저장</button>
+         <input type="reset" name="resetRow" id="resetRow" value="초기화">
          <div class="buttonRight">
-         <input type="button" name="addRowBtn" id="addRowBtn" value="+"/>
-         <input type="button" name="removeRowBtn" id="removeRowBtn" value="-"/>
+         	<button type="button" name="addRowBtn" id="addRowBtn" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
+			<i class="fas fa-plus"></i></button>
+	    	<button type="button" name="removeRowBtn" id="removeRowBtn" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
+	    	<i class="fas fa-minus"></i></button>
          </div>
           <div class="divTable">
             <div class="divTableBody">
@@ -430,7 +807,10 @@
             <div class="divTableCell" style="border-color: rgb(255, 92, 92);">구매발주담당자
             </div>
             <div class="divTableCell">
-                <input type="text" name="request_empid" id="request_empid" value=""/>
+                <span style="position: relative;" class="btnFas">
+                <input type="text" class="btn-open-popup" name="request_empid" id="request_empid" style="background-color: rgb(230, 242, 255);"/>
+			    <i class='fas fa-search' style="position: flex; transform: translateY(-50%);"></i>
+			  	</span>
                 </div>
         	</div>
 <!--             <div class="divTableCell">사용자명</div>
@@ -442,21 +822,24 @@
           </div>
 		</form>
 	<div id="grid"></div>
+	<input type="button" name="updateBtn" id="updateBtn" value="세부수정"/>
 	 <div class="buttonRight">
-	<input type="button" name="addRowBtn2" id="addRowBtn2" value="+"/>
-    <input type="button" name="removeRowBtn2" id="removeRowBtn2" value="-"/>
+	<button type="button" name="addRowBtn2" id="addRowBtn2" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
+	<i class="fas fa-plus"></i></button>
+    <button type="button" name="removeRowBtn2" id="removeRowBtn2" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
+    <i class="fas fa-minus"></i></button>
     </div>
 	<div id="grid2"></div>
-	
 
- 
+
  <script>
 	 var gridData=[];
 	 var grid = new tui.Grid({
 	       el: document.getElementById('grid'),
 	       data: gridData,
+	       bodyHeight:250,
 	       scrollX: false,
-	       scrollY: false,
+	       scrollY: true,
 	       rowHeaders: [{
 	           type: 'rowNum',
 	           header: "  ",
@@ -529,8 +912,9 @@
 	 var grid2 = new tui.Grid({
 	       el: document.getElementById('grid2'),
 	       data: gridData2,
+	       bodyHeight:250,
 	       scrollX: false,
-	       scrollY: false,
+	       scrollY: true,
 	       rowHeaders: [{
 	           type: 'rowNum',
 	           header: "  ",
@@ -547,36 +931,42 @@
 	         {
 	           header: 'ITEM코드',
 	           sortable: true,
-	           editor:'text',
 	           name: 'item_code',
 	           align:'center'
 	         },
 	         {
-	           header: '거래처',
+	           header: '거래처번호',
 	           sortable: true,
 	           editor:'text',
 	           name: 'no',
 	           align:'center'
 	         },
+	        /* {
+	           header: '거래처명',
+	           sortable: true,
+	           editor:'text',
+	           name: 'client_name',
+	           align:'center'
+		      },*/
 	         {
 	           header: '품명',
 	           sortable: true,
-	           name: 'item_name',
 	           editor:'text',
+	           name: 'item_name',
 	           align:'center'
 	         },
 	         {
 	           header: '품번',
 	           sortable: true,
-	           name: 'item_no',
 	           editor:'text',
+	           name: 'item_no',
 	           align:'center'
 	           },
 	         {
 	           header: '재고단위',
 	           sortable: true,
-	           name: 'item_stock_unit',
 	           editor:'text',
+	           name: 'item_stock_unit',
 	           align:'center'
 	         },
 	         {
@@ -620,12 +1010,101 @@
 		     }
 		    
 	       ]
-	     });
- 
+	     }); //grid2
+	     
+	     grid2.on('dblclick', function(ev) {
+	          if (ev.columnName === 'item_code') {
+	              window.open('${conPath}/reqChild', 'childWindow', 'width=500,height=500');
+	          }
+	      });
+		    	
+	      window.addEventListener('message', function(ev) {
+	          const selectedRow = ev.data;
+	          const focusedCell = grid2.getFocusedCell();
+	          alert(JSON.stringify(selectedRow));
+	          grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.item_code);
+	          grid2.setValue(focusedCell.rowKey, 'item_name', selectedRow.item_name);
+	          grid2.setValue(focusedCell.rowKey, 'item_no', selectedRow.item_no);
+	          grid2.setValue(focusedCell.rowKey, 'item_stock_unit', selectedRow.item_stock_unit);
+	          grid2.setValue(focusedCell.rowKey, 'price', selectedRow.buy_price);
+	      });
+	      
+	      
+	      function loadGridData() {
+	    		
+	    	  var rowDatas = grid2.getCheckedRows();   // 선택한 row에 해당하는 객체값
+	          alert("rowDatas : " + rowDatas);
+	          var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+	          alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	    	  
+	    	  
+	    	  $.ajax({
+	    			url: "${conPath}/reqDetail",
+	    			method: "GET",
+	    			dataType: "JSON",
+	    			contentType: "application/json; charset=utf-8",
+	    			success: function(reqOrderDetail) {
+	    				console.dir(reqOrderDetail);
+	    				grid2.resetData(reqOrderDetail);
+	    				
+    					  grid2.on('editingFinish', function(ev) {
+    						  const rowKey = ev.rowKey;
+    						  const columnName = ev.columnName;
+    						  var updatedData = {};
+    						  const rowData = grid2.getRow(rowKey);
+    						  console.log('Row data: ', rowData);
+
+    						  $.ajax({
+    							  url: '${conPath}/reqDetailUpdate',
+    							  method: 'PUT',
+    							  dataType: 'JSON',
+    							  data: JSON.stringify(rowData),
+    							  contentType: 'application/json',
+    							  success: function(response) {
+    								  console.log('Success:', response);
+    							  },
+    							  error: function(error) {
+    								  console.log('Error:', error);
+    							  }
+    						  });//ajax_update
+    					  });
+	    						
+	    				  },
+	    				  error: function(error) {
+	    					console.log('Error:', error);
+	    				  },
+
+	    			error: function(reqOrderDetail) {
+	    				alert('에러');
+	    			}
+	    		
+	    		}); //ajax끝
+	    	}
+	    		
+	      
+	      
 
 </script>
-        
-       
+     <div class="modal">
+  <!-- modal에 grid 띄우기 -->
+  <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+	  <span>담당자명<input type="text" id="user_name" name="user_name">
+	  <button type="button" id="searchBtn1" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c;">조회</button></span>
+	  <p/>
+    <!-- reset 버튼 추가 -->
+    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources/img/request/apply_h.png" width="13px"/>&nbsp;&nbsp;적용
+    </button>
+    
+    <button type="button" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources/img/request/reset_h.png" width="11px"/>&nbsp;&nbsp;초기화
+    </button>
+    
+    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources/img/request/ex_h.png" width="11px"/>&nbsp;&nbsp;닫기
+    </button>
+  </div>
+</div>
             
 
 </body>

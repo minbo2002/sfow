@@ -3,10 +3,13 @@ package com.yeonoo.poRequest.service;
 import java.util.List;
 
 import com.yeonoo.poRequest.model.ReqDetailVO;
+import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 
 public interface ReqService {
 	public List<ReqVO> reqOrder(ReqVO reqVO) throws Exception;
+	
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception;
 
 	public List<ReqDetailVO> reqOrderDetail(String request_number) throws Exception;
 	
@@ -19,6 +22,8 @@ public interface ReqService {
 	public void reqInsert(ReqVO req)throws Exception;
 
 	public void reqDetailInsert(ReqDetailVO reqD)throws Exception;
+	
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO)throws Exception;
 
 
 

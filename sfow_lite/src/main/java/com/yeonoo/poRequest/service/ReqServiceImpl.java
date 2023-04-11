@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.yeonoo.poRequest.model.ReqDetailVO;
+import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 import com.yeonoo.poRequest.repository.ReqRepository;
 
@@ -19,6 +20,11 @@ public class ReqServiceImpl implements ReqService{
 	@Override
 	public List<ReqVO> reqOrder(ReqVO reqVO) throws Exception {
 		return reqRepository.reqOrder(reqVO);
+	}
+	
+	@Override
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception {
+		return reqRepository.reqOrder1(reqModalVO);
 	}
 
 	@Override
@@ -52,6 +58,12 @@ public class ReqServiceImpl implements ReqService{
 	public void reqDetailInsert(ReqDetailVO reqD) throws Exception {
 		System.out.println("insert serv ReqD");
 		reqRepository.reqDetailInsert(reqD);
+	}
+
+	@Override
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO) throws Exception {
+		System.out.println("reqItem 서비스");
+		return reqRepository.reqItem(reqDetailVO);
 	}
 
 
