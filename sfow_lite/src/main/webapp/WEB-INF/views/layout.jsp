@@ -163,7 +163,7 @@
                 </a>
                 <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">구매요청</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/req1');">구매발주</a>
                         <a class="collapse-item" href="#">구매입고등록</a>
                     </div>
                 </div>

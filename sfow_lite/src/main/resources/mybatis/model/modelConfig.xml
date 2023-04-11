@@ -5,6 +5,11 @@
 
 <configuration>
 	<typeAliases>
+		<!-- 구매요청 -->
+		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqModalVO" alias="reqModalVO" />
+	
 		<typeAlias type="com.yeonoo.sfow.model.NoticeVO" alias="noticeVO"/>	
 		<typeAlias type="com.yeonoo.sfow.model.CpmVO" alias="cpmVO"/>	
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>
