@@ -3,6 +3,8 @@ package com.yeonoo.poRequest.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.yeonoo.poRequest.model.ReqDetailVO;
 import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 import com.yeonoo.poRequest.service.ReqService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -127,8 +130,8 @@ public class ReqController {
 
 	@PostMapping("/reqInsert")
 	@ResponseBody
-	public List<ReqVO> reqInsert(@RequestBody List<ReqVO> reqVO)throws Exception {
-		
+	public List<ReqVO> reqInsert(@RequestBody List<ReqVO> reqVO, HttpSession session)throws Exception {
+		UserInfo userInfo = (UserInfo)session.getAttribute("AUTHUSER");
 		Iterator<ReqVO> iterator = reqVO.iterator();
 		while(iterator.hasNext()) {
 			ReqVO req = iterator.next();
