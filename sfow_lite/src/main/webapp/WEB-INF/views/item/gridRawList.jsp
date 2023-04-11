@@ -451,7 +451,7 @@ button {
     	    selectedRowCopy[columnName] = selectedValue !== undefined ? selectedValue : currentValue;
     	    grid.setValue(focusedCell.rowKey, columnName, selectedRowCopy[columnName]);
     	  }
-    	}
+    	} 
 
     	grid.setValue(focusedCell.rowKey, 'itemType', selectedRowCopy.itemType);
     	grid.setValue(focusedCell.rowKey, 'itemCategory', selectedRowCopy.itemCategory);
