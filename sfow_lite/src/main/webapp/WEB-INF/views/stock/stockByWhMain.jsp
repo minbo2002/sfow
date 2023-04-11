@@ -25,8 +25,8 @@
           },{type : 'checkbox'}     ],
 	      columns: [
 	        {
-	          header: '회사코드',
-	          name: 'company_code',
+	          header: 'LOT번호',
+	          name: 'lot_no',
 	          sortable: true,
 	             filter: {
 	                  type: 'text',
@@ -60,17 +60,6 @@
 	        {
 	          header: '구역코드',
 	          name: 'area_code',
-	          sortable: true,
-	             filter: {
-	                  type: 'text',
-	                  showApplyBtn: true,
-	                  showClearBtn: true
-	              },
-	          align:'center'
-	        },
-	        {
-	          header: 'LOT번호',
-	          name: 'lot_no',
 	          sortable: true,
 	             filter: {
 	                  type: 'text',
@@ -185,17 +174,6 @@
 	          name: 'quantity',
 	          sortable: true,
 	          editor:'text',
-	             filter: {
-	                  type: 'text',
-	                  showApplyBtn: true,
-	                  showClearBtn: true
-	              },
-	          align:'center'
-	        },
-	        {
-	          header: '재고상태',
-	          name: 'stock_status',
-	          sortable: true,
 	             filter: {
 	                  type: 'text',
 	                  showApplyBtn: true,
@@ -765,7 +743,7 @@ function whSearch(){
 	  top: 50%;
 	  left: 50%;
 	
-	  width: 550px;
+	  width: 520px;
 	  height: 500px;
 	
 	  padding: 40px;
@@ -832,7 +810,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 330px; /* 버튼 위치 조정 */
+  right: 310px; /* 버튼 위치 조정 */
 }
 
 #resetMdBtn {
@@ -844,7 +822,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 240px; /* 버튼 위치 조정 */
+  right: 220px; /* 버튼 위치 조정 */
 }
 
 
@@ -857,7 +835,7 @@ function whSearch(){
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
-  right: 150px; /* 버튼 위치 조정 */
+  right: 130px; /* 버튼 위치 조정 */
 }
 
 
