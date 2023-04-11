@@ -132,8 +132,8 @@ button {
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
-    { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
+    { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
     { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
     { 
@@ -157,8 +157,8 @@ button {
       },
       align:'center'
       },
-    { header: '거래처코드' , name: 'clientCode' 		, sortable: true, editor: 'text' ,align:'center' },  
-    { header: '거래처명' , name: 'clientName' 			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '거래처코드' , name: 'clientCode' 		, sortable: true, align:'center' },  
+    { header: '거래처명' , name: 'clientName' 			, sortable: true, align:'center' },
     { header: '입고창고' , name: 'warehouseCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '창고명' , name: 'warehouseName' 		, sortable: true, editor: 'text' ,align:'center' },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },

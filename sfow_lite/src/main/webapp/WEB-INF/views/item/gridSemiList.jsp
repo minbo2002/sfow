@@ -130,8 +130,8 @@ button {
 	columns: [
 	{ header: '회사코드	', name: 'companyCode', hidden:true	},
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
-    { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
-    { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
+    { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' , validation:{required: true}},
+    { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' , validation:{required: true}},
     
     /* 유형 칼럼 시작 */
     { header: '유형', name: 'itemType', sortable: true, editor: 'text' ,align:'center' },	// 유형 컬럼 끝 
