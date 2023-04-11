@@ -9,6 +9,7 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <title>BOM 등록</title>
 <link href="${conPath}/resources/css/masterData/bom.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <div><h2>BOM 등록</h2></div>
@@ -40,8 +41,8 @@
 					<span class="btnGroup">
 						<button id="addRowBtn"><i class="fa fa-plus" aria-hidden="true"></i></button>
 						<button id="delRowBtn"><i class="fa fa-minus" aria-hidden="true"></i></button>
-						<button id="saveBtn">저장</button>
-						<button id="delItemBtn">삭제</button>
+						<button id="saveBtn"><i class="fa fa-save"></i> 저장</button>
+						<button id="delItemBtn"><i class="fa fa-trash"></i> 삭제</button>
 					</span>
 				</div>
 				<div id="grid3"></div>
@@ -56,12 +57,12 @@
         <div class="close-area">X</div>
 			<div class="searchForm">
 				<input type="text" id="searchInput" onKeypress="javascript:press(event)">
-				<button onclick="searchBtn()"><i class="fa fa-search" aria-hidden="true"></i></button>
+				<button id="searchBtn" onclick="searchBtn()"><i class="fa fa-search" aria-hidden="true"></i></button>
 			</div>
 			<div id="grid_popup"></div>
 			<div class="buttons">
 				<button class="closeBtn">닫기</button>
-				<button type="button" class="btn btn-primary applyBtn">적용</button>
+				<button type="button" class="applyBtn">적용</button>
 			</div>
         </div>
       </div>

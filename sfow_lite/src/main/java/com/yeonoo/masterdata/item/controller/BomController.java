@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yeonoo.masterdata.item.domain.BomItem;
 import com.yeonoo.masterdata.item.domain.DupDto;
 import com.yeonoo.masterdata.item.service.BomService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 @Controller
 public class BomController {
@@ -26,7 +30,6 @@ public class BomController {
 	@Autowired
 	BomService bomService;
 	
-	String company_code = "1234567890";
 	
 	private static final Logger logger = LoggerFactory.getLogger(BomController.class);
 	
@@ -37,7 +40,10 @@ public class BomController {
 	
 	@RequestMapping("/ma/bomGetItem")
 	@ResponseBody
-	public List<BomItem> getItem() throws Exception {
+	public List<BomItem> getItem(HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
 		List<BomItem> list = bomService.getItemList(company_code);
 		return list;
 	}
@@ -45,7 +51,11 @@ public class BomController {
 	//BomTree 조회 후 데이터 넘기기
 	@RequestMapping("/ma/getBomTree")
 	@ResponseBody
-	public List<BomItem> getBomTree(String ppitem_cd) throws Exception {
+	public List<BomItem> getBomTree(String ppitem_cd, HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
 		//넘길 데이터
 		List<BomItem> treeData = new ArrayList<BomItem>();
 		//자식 데이터
@@ -80,7 +90,11 @@ public class BomController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/ma/searchItem", method = RequestMethod.POST)
-	public List<BomItem> searchItem(@RequestBody String item_name) throws Exception {
+	public List<BomItem> searchItem(@RequestBody String item_name, HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
 		List<BomItem> list = bomService.getItemListByName(item_name, company_code);
 		return list;
 	}
@@ -88,7 +102,11 @@ public class BomController {
 	//중복 Tree 검사
 	@ResponseBody
 	@RequestMapping(value = "/ma/dupTest", method = RequestMethod.POST)
-	public int dupTest(@RequestBody DupDto dupDto) throws Exception {
+	public int dupTest(@RequestBody DupDto dupDto, HttpServletRequest req) throws Exception {
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
 		String ppitem_cd = dupDto.getPpitem_cd();
 		//부모 트리 검색
 		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
@@ -109,7 +127,11 @@ public class BomController {
 	
 	@ResponseBody
 	@RequestMapping(value="/ma/addTree", method=RequestMethod.POST)
-	public int addTree(@RequestBody DupDto dupDto) throws Exception{
+	public int addTree(@RequestBody DupDto dupDto, HttpServletRequest req) throws Exception{
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
 		String ppitem_cd = dupDto.getPpitem_cd();
 		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
 		List<BomItem> rowData = dupDto.getRowData();
@@ -133,7 +155,11 @@ public class BomController {
 	
 	@ResponseBody
 	@RequestMapping(value="/ma/delTree", method=RequestMethod.POST)
-	public int delTree(@RequestBody DupDto dupDto) throws Exception{
+	public int delTree(@RequestBody DupDto dupDto, HttpServletRequest req) throws Exception{
+		HttpSession session = req.getSession();
+		UserInfo loginUser = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = loginUser.getCompanyCode();
+		
 		String ppitem_cd = dupDto.getPpitem_cd();
 		List<BomItem> list = bomService.getBomTree(ppitem_cd, company_code);
 		List<BomItem> rowData = dupDto.getRowData();
@@ -148,11 +174,6 @@ public class BomController {
 			}
 		}
 		return 1;
-	}
-	
-	@RequestMapping(value = "/login")
-	public String login() {
-		return "login";
 	}
 
 }
