@@ -48,7 +48,9 @@ public class RawRepositoryImpl implements RawRepository{
 			
 			return sqlSession.update("raw.useUpdate", itemCode);
 		}
-
+		
+		// -------- Modal ---------------------
+		
 		// 거래처 모달 데이터처리
 		@Override
 		public List<Map<String, Object>> getModalClient() {
@@ -56,7 +58,26 @@ public class RawRepositoryImpl implements RawRepository{
 			return sqlSession.selectList("raw.getModalClient");
 		}
 
-
+		// 유형 모달 데이터처리
+		@Override
+		public List<Map<String, Object>> getModalType() {
+			
+			return sqlSession.selectList("raw.getModalType");
+		}
+		
+		// 규격 모달 데이터처리
+		@Override
+		public List<Map<String, Object>> getModalSpecification() {
+			
+			return sqlSession.selectList("raw.getModalSpecification");
+		}
+		
+		// 재고단위 모달 데이터처리
+		@Override
+		public List<Map<String, Object>> getModalStockUnit() {
+			
+			return sqlSession.selectList("raw.getModalStockUnit");
+		}		
 
 
 }

@@ -20,6 +20,18 @@ public interface RawRepository {
 	// 반제품 삭제
 	public int deleteRaw(String itemCode);
 	
+	// --------------Modal -----------------
+	
 	//거래처 모달 데이터처리
 	public List<Map<String, Object>> getModalClient();
+
+	// 유형 모달 데이터처리
+	public List<Map<String, Object>> getModalType();
+
+	// 규격 모달 데이터처리
+	public List<Map<String, Object>> getModalSpecification();
+	
+	// 재고단위 모달 데이터처리
+	public List<Map<String, Object>> getModalStockUnit();
+	
 }

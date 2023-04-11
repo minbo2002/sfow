@@ -57,5 +57,22 @@ public class RawServiceImpl implements RawService{
 	public List<Map<String, Object>> getModalClient() {
 		return rawRepository.getModalClient();
 	}
+	
+	// 유형 모달 데이터처리
+	@Override
+	public List<Map<String, Object>> getModalType() {
+		return rawRepository.getModalType();
+	}
+	
+	// 규격 모달 데이터처리
+	@Override
+	public List<Map<String, Object>> getModalSpecification() {
+		return rawRepository.getModalSpecification();
+	}
 
+	// 재고단위 모달 데이터처리
+	@Override
+	public List<Map<String, Object>> getModalStockUnit() {
+		return rawRepository.getModalStockUnit();
+	}
 }

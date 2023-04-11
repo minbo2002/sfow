@@ -67,6 +67,8 @@
 		]]>
 	</update>
 	
+	<!-- Modal -->
+	
 	<!-- Client modal   -->
 	<select id="getModalClient" resultType="Map">
       <![CDATA[
@@ -74,6 +76,31 @@
 		 FROM ma_client_company
       ]]>
    </select>
+   
+   	<!-- Type modal   -->
+	<select id="getModalType" resultType="Map">
+	<![CDATA[
+ 	SELECT item_category as itemCategory, item_type as itemType
+	FROM ma_itemtype
+	WHERE item_category='원자재'
+	 ]]>
+   </select>
+   
+   	<!-- Specification modal   -->
+	<select id="getModalSpecification" resultType="Map">
+	 <![CDATA[
+	 	SELECT item_specification as itemSpecification
+		FROM ma_item_specification
+	 ]]>
+   	</select>
+   	
+   	<!-- StockUnit modal   -->
+	<select id="getModalStockUnit" resultType="Map">
+	 <![CDATA[
+	 	SELECT item_Stock_Unit as itemStockUnit
+		FROM ma_item_stockunit
+	 ]]>
+   	</select>
    
 
 </mapper>  

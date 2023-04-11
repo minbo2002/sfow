@@ -134,33 +134,13 @@ button {
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
-    { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
-    { 
-      header: '재고단위',
-      name: 'itemStockUnit',
-      sortable: true,
-      editor: {type: 'select',
-    	  options: {
-              listItems: [
-                  {text: 'EA', value: "EA"},
-                  {text: 'g', value: "g"},
-                  {text: 'KG', value: "KG"},
-                  {text: 'Ton', value: "Ton"},
-                  {text: '㎖', value: "㎖"},
-                  {text: 'ℓ', value: "ℓ"},
-                  {text: '㎡', value: "㎡"},
-                  {text: 'm', value: "m"},
-                  
-             			 ] 
-      				}
-      },
-      align:'center'
-      },
-    { header: '거래처코드' , name: 'clientCode' 		, sortable: true, align:'center' },  
-    { header: '거래처명' , name: 'clientName' 			, sortable: true, align:'center' },
-    { header: '입고창고' , name: 'warehouseCode' 		, sortable: true, editor: 'text' ,align:'center' },
-    { header: '창고명' , name: 'warehouseName' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '유형'		 , name: 'itemType' 		, sortable: true, align:'center' },
+    { header: '규격'	 	 , name: 'itemSpecification', sortable: true, align:'center' },
+    { header: '재고단위'	 , name: 'itemStockUnit'	, sortable: true, align:'center' },
+    { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, align:'center' },  
+    { header: '거래처명'   , name: 'clientName' 		, sortable: true, align:'center' },
+    { header: '입고창고'   , name: 'warehouseCode' 	, sortable: true, editor: 'text' ,align:'center' },
+    { header: '창고명'     , name: 'warehouseName' 	, sortable: true, editor: 'text' ,align:'center' },
 	{ header: '비고'		 , name: 'memo'				, sortable: true, editor: 'text' ,align:'center' },
 	{ header: '사용여부',
 	  name: 'useyn', 
@@ -434,7 +414,7 @@ button {
    // client_code 더블클릭 이벤트 실행
     grid.on('dblclick', function(ev) {
         if (ev.columnName === 'clientCode') {
-            window.open('${conPath}/raw/modalList', 'childWindow', 'width=500,height=500');
+            window.open('${conPath}/raw/clientModalList', 'childWindow', 'width=500,height=500');
         }
     });
    
@@ -447,6 +427,50 @@ button {
     });
 
 
+ // itemType 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'itemType') {
+            window.open('${conPath}/raw/typeModalList', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'itemType', selectedRow.itemType);
+        grid.setValue(focusedCell.rowKey, 'itemCategory', selectedRow.itemCategory);
+    });
+
+    // itemSpecification 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'itemSpecification') {
+            window.open('${conPath}/raw/specificationModalList', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'itemSpecification', selectedRow.itemSpecification);
+        
+    });
+      
+    // itemStockUnit 더블클릭 이벤트 실행
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'itemStockUnit') {
+            window.open('${conPath}/raw/stockUnitModalList', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        const focusedCell = grid.getFocusedCell();
+        grid.setValue(focusedCell.rowKey, 'itemStockUnit', selectedRow.itemStockUnit);
+    });
+   
 </script>
 
 	

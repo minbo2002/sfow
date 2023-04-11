@@ -24,15 +24,30 @@ public class RawController {
 	RawService rawService;
 
 	// modal 
-	// modal form
-	@RequestMapping("/modalList") //get
-	public String modalList() {
-		return "item/modalList";
+	// 유형 모달 폼
+	@RequestMapping("/typeModalList") //get
+	public String typeModalList() {
+		return "item/typeModalList";
+	}
+	// 규격 모달 폼
+	@RequestMapping("/specificationModalList") //get
+	public String specificationModalList() {
+		return "item/specificationModalList";
+	}
+	// 재고 단위 모달 폼
+	@RequestMapping("/stockUnitModalList") //get
+	public String stockUintModalList() {
+		return "item/stockUnitModalList";
+	}
+	// 거래처 모달 폼
+	@RequestMapping("/clientModalList") //get
+	public String clientModalList() {
+		return "item/clientModalList";
 	}
 	
 // modal data process
 	
-// modal Item값 조회
+//  client modal Item값 조회
    @RequestMapping(value="getModalClient")
    @ResponseBody
    public List<Map<String, Object>> getModalClient() {
@@ -41,10 +56,40 @@ public class RawController {
       System.out.println(result);
       return result;
    }
+
+//  Type modal Item값 조회
+	  @RequestMapping(value="getModalType")
+	  @ResponseBody
+	  public List<Map<String, Object>> getModalType() {
+	     
+	     List<Map<String, Object>> result = rawService.getModalType();
+	     System.out.println(result);
+	     return result;
+	  }   
+//  Specification modal Item값 조회
+	  @RequestMapping(value="getModalSpecification")
+	  @ResponseBody
+	  public List<Map<String, Object>> getModalSpecification() {
+	     
+	     List<Map<String, Object>> result = rawService.getModalSpecification();
+	     System.out.println(result);
+	     return result;
+	  } 
+	  
+//  StockUnit modal Item값 조회
+	  @RequestMapping(value="getModalStockUnit")
+	  @ResponseBody
+	  public List<Map<String, Object>> getModalStockUnit() {
+	     
+	     List<Map<String, Object>> result = rawService.getModalStockUnit();
+	     System.out.println(result);
+	     return result;
+	  } 	  
+   
 // --------------------------------------------------------   
    
 	
-	// 원제품 리스트 ( 그리드버젼, 수정까지 완료 후 매핑 수정 및 테이블버젼 삭제 예정) 전체 조회
+	// 원제품 리스트 전체 조회
 	@RequestMapping("/list") //get
 	public String allList() {
 		return "item/gridRawList";
