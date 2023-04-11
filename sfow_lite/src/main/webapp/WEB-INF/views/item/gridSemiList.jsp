@@ -35,6 +35,47 @@
 		display:inline-block;
 		}
 	
+button {
+/*   background-color: rgba(60, 80, 135, 1); */
+  background-color: rgba(051, 51, 102, 1);
+  font-weight : bolder;
+    color: #fff;
+    border: none;
+}
+
+#searchBtn:hover {
+  background-color: rgba(051, 102, 102, 1);
+  opacity: 0.8;
+}
+
+   
+#resetBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+
+#applyBtn:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+
+#resetMdBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+
+#closeBtn:hover {
+  background-color: rgba(153, 102, 000, 1);
+  opacity: 0.8;
+}
+
+#whSearchBtn:hover {
+  background-color: rgba(102, 102, 102, 1);
+  opacity: 0.8;
+}
 
 	
 	
@@ -62,12 +103,14 @@
 
 <font size='7px';>기준정보</font>
   <div id="grid">
-				<button id="searchBtn">조회</button>
-				<button id="addRowBtn">+</button>
-				<button  type="button" id="delRowBtn" onclick="deleteRow()">-(DB삭제)</button>
+				<button id="searchBtn"> <i class="fa fa-search"></i>조회</button>
+				<button id="updateRowBtn" onclick="updateRow()"><i class="fa fa-save"></i>저장</button>
+				<button  type="button" id="delRowBtn" onclick="deleteRow()"> <i class="fa fa-trash"></i> 삭제</button>
+				<button id="resetRow"><i class="fa fa-power-off"></i>초기화</button>
+				<button id="addRowBtn"> <i class="fa fa-plus"></i></button>
 				<button type="button" id="insertRowBtn" style="background-color: #33F6FF">등록</button>
-				<button id="updateRowBtn" onclick="updateRow()">저장</button>
-				<button id="resetRow">초기화</button>
+				
+				
 	
 
   </div>
