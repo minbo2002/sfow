@@ -9,12 +9,13 @@
 <meta charset="UTF-8">
 <!-- 순서주의 -->
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" /> <!-- date-picker -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /><!-- jQuery Modal -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />jQuery Modal -->
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script> <!-- date-picker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script><!-- include jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script><!-- jQuery Modal -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>include jQuery
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>jQuery Modal -->
 <script>
-$(document).ready(window.onload=function() {
+$(document).ready(function() {
       	
 	  $('#search').click(function(event) {
 	    event.preventDefault(); // submit 폼 제출 방지
@@ -28,8 +29,7 @@ $(document).ready(window.onload=function() {
 	    var client_name= $('#client_name').val();
 	    var in_free= $('#in_free').val();
 	    var memo= $('#memo').val();
-	
-	    
+ 
 	    // make AJAX call to server
 	    $.ajax({
 	      url: '${conPath}/searchPoIn',
@@ -43,44 +43,13 @@ $(document).ready(window.onload=function() {
 	    	  client_code:client_code,
 	    	  client_name:client_name,
 	    	  in_free:in_free,
-	    	  memo:memo 
+	    	  memo:memo
 	      },
 	      success: function(data) {
     	 	console.dir(data);
     	 	grid2.clear();
 	    	  	grid.resetData(data);
-	    	   	
-	    	  	
-	    	   	 grid.on('editingFinish', function(ev) {
-	    	   	
-		            const rowKey = ev.rowKey;
-		            const columnName = ev.columnName;
-		            var updatedData = {};
-		            const rowData = grid.getRow(rowKey);
-		            console.log('Row data: ', rowData);
 
-		         //입고관리-수정
-		         var updateBtn = document.getElementById('updateBtn');
-		            updateBtn.addEventListener('click', function() {
-		            	//alert("수정완료");
-		            $.ajax({
-		                 url: '${conPath}/reqMgUp',
-		                 method: 'post',
-		                 dataType: 'JSON',
-		                 data: JSON.stringify(rowData),
-		                 contentType: 'application/json; charset=utf-8',
-		                 success: function(response) {
-		                 
-		                     console.log('Success:', response);
-		                 },
-		                 error: function(error) {
-		                     console.log('Error:', error);
-		                 }
-		             }); 
-		            
-	          	});//btn
-	            
-	    	   	}); //grid.on(첫번쨰)
 	    	  	//checkbox 체크 시 input 태그에 해당 value 출력
 	            grid.on('check', function(ev){
 	              const rowKey = ev.rowKey;
@@ -173,33 +142,6 @@ $(document).ready(window.onload=function() {
 	            	    success: function(response) {
 	            	    	grid2.resetData(response)
 	            	    	console.log('Success:', response);  
-	            	    	
-	            	    	//수정
-	            	    	grid2.on('editingFinish', function(ev) {
-	        		            const rowKey = ev.rowKey;
-	        		            const columnName = ev.columnName;
-	        		            var updatedData = {};
-	        		            const rowData = grid2.getRow(rowKey);
-	        		            console.log('Row data: ', rowData);
-	        		            
-	        		            var updateDetailBtn = document.getElementById('updateDetailBtn');
-	        		            	updateDetailBtn.addEventListener('click', function() {
-		            					//alert("세부항목수정완료");
-			        		            $.ajax({
-					    		    	       url: '${conPath}/reqMgDetailUp',
-					    		    	       method: 'post',
-					    		    	       dataType: 'JSON',
-					    		    	       data: JSON.stringify(rowData),
-					    		    	       contentType: 'application/json',
-					    		    	       success: function(response) {
-					    		    	           console.log('Success:', response);
-					    		    	       },
-					    		    	       error: function(error) {
-					    		    	           console.log('Error:', error);
-					    		               }
-					    		            });
-	        		            });
-	            	    	}); //grid2.on(두번째)
 
 	            	    },
 	            	    error: function(error) {
@@ -270,6 +212,7 @@ $(document).ready(window.onload=function() {
     var plusDeRowBtn = document.getElementById('plusDeRowBtn');
 	    plusDeRowBtn.addEventListener('click', function() {
 	      var newRowData = {
+	    		  in_order: '',
 	    		  in_number: document.getElementById('in_number').value.toString(),
 	    		  request_order: '',
 	    		  item_code: '',
@@ -291,21 +234,33 @@ $(document).ready(window.onload=function() {
     });
     
 
-  	//입고관리 행 제거
-  	//마지막 row에 값이 있으면 삭제 안되게 추가 필요
-     var minusRowBtn = document.getElementById('minusRowBtn');
-   		minusRowBtn.addEventListener('click', function() {
-          var lastIndex = grid.getRowCount()-1;
-          grid.removeRow(lastIndex);
+  	//입고관리 행 제거(data존재시 삭제x)
+        var minusRowBtn = document.getElementById('minusRowBtn');
+        minusRowBtn.addEventListener('click', function() {
+        	//console.log(grid.getData()[lastIndex]["in_number"]) 
+          var rowCount = grid.getRowCount();
+          var lastIndex = rowCount - 1;
+ 
+          if (rowCount > 0 && !grid.getData()[lastIndex]["in_number"]) {
+        	  grid.removeRow(lastIndex);
+          } else {
+        	  return null;
+          
+          }
         });
 
 
-
      //세부항목 행 제거
-      var minusDeRowBtn = document.getElementById('minusDeRowBtn');
-      	minusDeRowBtn.addEventListener('click', function() {
-          var lastIndex = grid2.getRowCount()-1;
-          grid2.removeRow(lastIndex);
+        var minusDeRowBtn = document.getElementById('minusDeRowBtn');
+        minusDeRowBtn.addEventListener('click', function() {
+		//console.log(grid2.getData()[lastIndex]["in_order"])        	
+          var rowCount = grid2.getRowCount();
+          var lastIndex = rowCount - 1;
+          if (rowCount > 0 && !grid2.getData()[lastIndex]["in_order"]) {
+            grid2.removeRow(lastIndex);
+          }  else {
+            return null;
+          }
         });
 	  
 	  
@@ -380,8 +335,90 @@ $(document).ready(window.onload=function() {
 	      
 	      
 	   }
+     
+	      
+		//수정  
+ 		 $("#updateBtn").click(function() {
+	      let i = confirm('수정하시겠습니까?');
+	      if(i) {
+	         updateFunction();
+	      }else {
+	         return false;
+	      }
+	   });
+	   
+	   // 수정
+	   function updateFunction() {
 
-	  
+	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+	      alert("rowDatas : " + rowDatas);
+	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	      $.ajax({
+	         url : "${conPath}/reqMgUp",
+	         method : "post",
+	         data : jsonRowDatas,
+	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+	         dataType: "json",         // 서버에서 받을 데이터타입
+	         success : function (result) {
+	            //alert(result); // result는 반환받은 json형태의 객체 
+	         },
+	         error: function() {
+	              console.log("입력실패");
+	          },
+	          complete:function(){
+	          }
+	          
+	      });
+	      
+	   }  
+	
+	
+	   //세부항목수정
+ 		 $("#updateDetailBtn").click(function() {
+	      let i = confirm('세부항목을 수정하시겠습니까?');
+	      if(i) {
+	         updateDetailFunction();
+	      }else {
+	         return false;
+	      }
+	   });
+	   
+	   //세부항목수정
+	   function updateDetailFunction() {
+
+	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+	      alert("rowDatas : " + rowDatas);
+	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	      $.ajax({
+	         url : "${conPath}/reqMgDetailUp",
+	         method : "post",
+	         data : jsonRowDatas,
+	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
+	         dataType: "json",         // 서버에서 받을 데이터타입
+	         success : function (result) {
+	            //alert(result); // result는 반환받은 json형태의 객체 
+	         },
+	         error: function() {
+	              console.log("입력실패");
+	          },
+	          complete:function(){
+	          }
+	          
+	      });
+	      
+	   }  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	  
 	  
 	// 삭제실행
@@ -441,22 +478,226 @@ $(document).ready(window.onload=function() {
 		    memo.disabled=false; 
 		    
 	}
+	
+	
+	
+	
+	
+	
+	
 </script>
+
+
+
 <style>
 /* modal */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1200px;
-  height: 600px;
-  background-color: white;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  box-sizing: border-box;
+		.form-title{
+		width : 100px;
+		height: 30px;
+		color:black;
+		font-weight:bold;
+ 		background-color: #e2e2e2;
+/* 		background-color: #828282; */
+		border:1px solid #e2e2e2;
+		text-align:center;
+	/* 	vertical-align: middle; */
+		line-height : 30px;
+		border-radius:3px;
+		display:inline-block;
+		}
+		
+		.form-data{
+		width : 200px;
+		height: 30px;
+/* 		background-color: rgb(230, 242, 255) */
+/* 		text-align:center; */
+	/* 	vertical-align: middle; */
+		line-height : 30px;
+		border-radius:3px;
+		border:1px solid #e2e2e2;
+		display:inline-block;
+		}
+		
+		.btn-open-popup{
+		width : 200px;
+		height: 30px;
+		background-color: rgb(230, 242, 255);
+		text-align:left;
+	/* 	vertical-align: middle; */
+		line-height : 30px;
+		border-radius:3px;
+		border:1px solid #e2e2e2;
+		display:inline-block;
+		}
+	
+	.modal {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	
+	  width: 100%;
+	  height: 100%;
+	
+	  display: none;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+	 
+	.modal.show {
+	  display: block;
+	}
+	
+	#modalGrid {
+	position: relative; /* 변경된 부분 */
+/* 	  position: absolute; */
+	  top: 50%;
+	  left: 50%;
+	
+	  width: 500px;
+	  height: 500px;
+	
+	  padding: 40px;
+	
+	  text-align: center;
+	
+	  background-color: rgb(255, 255, 255);
+	  border-radius: 10px;
+	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	
+	  transform: translateX(-50%) translateY(-50%);
+	}
+	
+	.modal-wrapper {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+	
+	
+	
+
+  .search_wh .form-title{
+    border-radius:3px;
+	line-height : 30px;
+  }
+
+  .search_wh input[type="text"] {
+    border: none;
+    outline: none;
+    border-radius:3px;
+    border:1px solid #e2e2e2;
+    line-height : 30px;
+	height: 30px;
+  }
+
+  .search_wh .fas.fa-search {
+/*     margin-right: 4px; */
+  }
+
+  .search_wh input[type="text"]#lens_sh {
+    margin-left:-0.5px;
+
+  }
+
+  .search_wh input[type="text"].btn-open-popup {
+    padding-left: 30px;
+    cursor: text;
+    margin-left:-3.5px;
+	margin-right:5px;
+  }
+  
+  .search_wh input[type="text"].btn-open-popup:focus {
+    outline: none;
+  }
+  
+
+	
+#clientCodeBtn {
+        margin: 0;
+        padding: 0;
+        height: 28px;
+	    width: 60px;
+	    font-size: 13px;
+	    color: black;
+	    border: 1px solid #8c8c8c;
+	    border-radius: 4px;
+	    bottom: 10px;
+    }
+#applyBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 300px; /* 버튼 위치 조정 */
+}
+#resetMdBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+#resetMdBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 210px; /* 버튼 위치 조정 */
 }
 
+
+#closeBtn {
+  height: 35px;
+  width: 80px;
+  font-size: 13px;
+  color: black;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 10px;
+  right: 120px; /* 버튼 위치 조정 */
+}
+
+button {
+/*   background-color: rgba(60, 80, 135, 1); */
+  background-color: rgba(051, 51, 102, 1);
+  font-weight : bolder;
+}
+
+
+#clientCodeBtn:hover {
+  background-color: rgba(051, 102, 102, 1);
+  opacity: 0.8;
+}
+
+   
+#resetBtn:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+
+#applyBtn:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+
+#closeBtn:hover {
+  background-color: rgba(153, 102, 000, 1);
+  opacity: 0.8;
+
+}
+ /* 오른쪽정렬 버튼 */
   .btnR{
    float:right;
   }
@@ -494,6 +735,29 @@ $(document).ready(window.onload=function() {
 .divTableBody {
 	display: table-row-group; 
 }
+
+/* button */
+.custom-button {
+    background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+}
+
+#saveBtn:hover, #saveDetailBtn:hover, #search:hover, #updateBtn:hover, #updateDetailBtn:hover{
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+#delPoIn:hover,  #reset:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+#plusRowBtn:hover, #plusDeRowBtn:hover, #minusRowBtn:hover, #minusDeRowBtn:hover {
+  background-color: rgba(80, 201, 141);
+  opacity: 0.8;
+}
 </style>
 
 <title>Insert title here</title>
@@ -501,17 +765,22 @@ $(document).ready(window.onload=function() {
 
 <body>
 
+<div class="grid_btn">
 <form id="searchFrm">
-    <input type="submit" id="search" value="조회"/>
-    <input type="button" name="delPoIn" id="delPoIn" value="삭제"/>        
-    <input type="reset" onclick="poInReset()" value="초기화"/>
+    <button type="button" id="search" class="custom-button">
+          <i class="fa fa-search"></i> 조회</button>
+	<button type="button" id="delPoIn" class="custom-button">
+          <i class="fa fa-trash"></i> 삭제</button>
+    <input type="reset" id="reset" onclick="poInReset()" class="custom-button" value="초기화">
+          
+
 <div class="divTable">
     <div class="divTableBody">
 
     <div class="divTableRow">
     <div class="divTableCell">입고번호</div>
         <div class="divTableCell">
-            <input type="text" name="in_number" id="in_number" value=""/>
+            <input type="text" name="in_number" id="in_number"/>
         </div>
     <div class="divTableCell">입고유형</div>
         <div class="divTableCell">
@@ -537,10 +806,15 @@ $(document).ready(window.onload=function() {
                 <option value="샘플">샘플</option>
             </select>
         </div>
-    <div class="divTableCell">거래처코드</div>
+        
+	<div class="divTableCell">거래처코드</div>
     <div class="divTableCell">
-        <input type="text" name="client_code" id="client_code"  value=""/>
-        </div>
+    <span style="position: relative;" class="btnFas">
+    <input type="text" class="btn-open-popup" id="client_code" name="client_code" style="background-color: rgb(230, 242, 255);"/>
+  	</span>
+    </div> 
+    
+    
     <div class="divTableCell">거래처명</div>
     <div class="divTableCell">
         <input type="text" name="client_name" id="client_name"  value=""/>
@@ -564,21 +838,21 @@ $(document).ready(window.onload=function() {
     </div>
     </div>
 </form>
-<span><input type="button" name="saveBtn" id="saveBtn" value="구매입고등록"/> <input type="button" name="updateBtn" id="updateBtn" value="구매입고수정"/></span><span class="btnR"><input type="button" name="plusRowBtn" id="plusRowBtn" value="+"/><input type="button" name="minusRowBtn" id="minusRowBtn" value="-"/></span>    
+
+<span><button type="button" id="saveBtn" class="custom-button"><i class="fa fa-save"></i>구매입고등록</button> <button type="button" id="updateBtn" class="custom-button">구매입고수정</button></span> <span class="btnR"><button type="button" id="plusRowBtn" class="custom-button"><i class="fa fa-plus"></i></button><button type="button" id="minusRowBtn" class="custom-button"><i class="fa fa-minus"></i></button></span>
 <div id="grid"></div>
-<div id="ex1" class="modal">
-  <p>Thanks for clicking. That felt good.</p>
-  <a href="#" rel="modal:close">Close</a>
-</div>
-<span><input type="button" name="saveDetailBtn" id="saveDetailBtn" value="세부항목등록"/> <input type="button" name="updateDetailBtn" id="updateDetailBtn" value="세부항목수정"/></span><span class="btnR"><input type="button" name="plusDeRowBtn" id="plusDeRowBtn" value="+"/><input type="button" name="minusDeRowBtn" id="minusDeRowBtn" value="-"/></span>
+<span><button type="button" id="saveDetailBtn" class="custom-button"><i class="fa fa-save"></i> 세부항목등록</button> <button type="button" id="updateDetailBtn" class="custom-button">세부항목수정</button></span> <span class="btnR"><button type="button" id="plusDeRowBtn" class="custom-button"><i class="fa fa-plus"></i></button><button type="button" id="minusDeRowBtn" class="custom-button"><i class="fa fa-minus"></i></button></span>
 <div id="grid2"></div>
+</div>
 <script>
 //----------------------------------------------
+
    //구매입고
    var gridData=[];
    var grid = new tui.Grid({
          el: document.getElementById('grid'),
          data: gridData,
+         bodyHeight:200,
          scrollX: true, //스크롤 가로 false시 고정
          scrollY: true, //스크롤 세로
          rowHeaders: [{
@@ -599,7 +873,7 @@ $(document).ready(window.onload=function() {
               sortable: true,
               align:'center',
               width: 150,
-              editor:'text',
+              /* editor:'text',  */
               name: 'request_number'
             },          
            {
@@ -618,7 +892,8 @@ $(document).ready(window.onload=function() {
             	 type: 'select',
                  	options: { 
                  		listItems: [
-	                      {text: '구매입고', value: '구매입고'}
+	                      {text: '구매입고', value: '구매입고'},
+	                      {text: '미입고', value: '미입고'}
                         ]
                     }
          	},
@@ -645,7 +920,7 @@ $(document).ready(window.onload=function() {
              header: '입고일자',
              sortable: true,
              align:'center',
-             editor:'text',
+             editor: 'text',
              width: 150,
              name: 'in_date'
            }, 
@@ -667,10 +942,14 @@ $(document).ready(window.onload=function() {
              name: 'in_trans_type'
            },
          {
+             header: '거래처번호',
+             hidden:true,
+             name: 'no'
+           },
+         {
              header: '거래처코드',
              sortable: true,
              align:'center',
-             editor:'text', 
              width: 150,
              name: 'client_code'
            },
@@ -678,7 +957,6 @@ $(document).ready(window.onload=function() {
              header: '거래처명',
              sortable: true,
              align:'center',
-             editor:'text', 
              width: 150,
              name: 'client_name'
            },
@@ -699,19 +977,8 @@ $(document).ready(window.onload=function() {
            },
           {
              header: '삭제여부(N,Y)',
-             align:'center',
-          /*    editor: {
-            	 type: 'select',
-                 	options: { 
-                 		listItems: [
-	                      {text: "N", value: "N"},
-	                      {text: "Y", value: "Y"}
-                        ]
-                    }
-         	}, */
-         	 width: 100,
-             name: 'in_delyn',
-             cssClass: 'hidden' 
+             hidden:true,
+             name: 'in_delyn'
            }            
          ]
        });
@@ -731,6 +998,7 @@ $(document).ready(window.onload=function() {
    var grid2 = new tui.Grid({
          el: document.getElementById('grid2'),
          data: gridData2,
+         bodyHeight:200,
          scrollX: true, //스크롤 가로 false시 고정
          scrollY: true, //스크롤 세로
          rowHeaders: [{
@@ -739,6 +1007,11 @@ $(document).ready(window.onload=function() {
              width: 50
          },'checkbox'],
          columns: [
+             {
+                 header: '구매입고상세번호',
+                 hidden:true,
+                 name: 'in_order'
+                },
             {
                header: '구매입고번호',
                sortable: true,
@@ -750,7 +1023,8 @@ $(document).ready(window.onload=function() {
                header: '발주상세보기번호',
                sortable: true,
                align:'center',
-               width: 150,
+               width: 100,
+               /* editor:'text', */ 
                name: 'request_order'
               },
             {
@@ -808,7 +1082,7 @@ $(document).ready(window.onload=function() {
              header: '창고코드',
              sortable: true,
              align:'center',
-             editor:'text', 
+             /* editor:'text',  */
              width: 150,
              name: 'warehouse_code'
            },
@@ -853,178 +1127,300 @@ $(document).ready(window.onload=function() {
        });
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
-/* modal */
-//modal에 띄워지는 grid2
-
-  var body = document.querySelector('body');
-  var modal = document.querySelector('.modal');
-  var btnOpenPopup = document.querySelector('.btnFas');
-
-var grid2=null;	 //추가된 부분!!
-	function resetCheck() {
-	  if (grid2) {
-	    grid2.uncheckAll();
-	  }
-	}
-	
-	//modal 닫기 함수
-	function closeModal() {
-		  modal.classList.remove('show');
-	         body.style.overflow = 'auto';
-		}	
-	
-	
-	
-	//modal 안에 grid2의 checkbox 체크된 row데이터 input태그에 찍기
-	function applyModal() {
-		// grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
-		// if (grid2 && grid2.getData().length > 0) {   
-		        //modal.classList.toggle('show');
-		        //body.style.overflow = 'auto';
-	      if (grid2 && grid2.getCheckedRows().length > 0) {
-	   	    const checkedRows = grid2.getCheckedRows();
-	   	    const warehouse_code = document.getElementById('warehouse_code');
-	   	    warehouse_code.value = checkedRows[0].warehouse_code;
-	        //alert(warehouse_code.value);
-//	         var warehouse_code = document.getElementById('warehouse_code');
-//	         var test = rowData.warehouse_code;
-//	         warehouse_code.value = test;
-	      }        
-	         modal.classList.remove('show');
-	         body.style.overflow = 'auto';
-		   // });
-		}	
-	
 
 
+	/* modal */
+	//modal에 띄워지는 grid3
 
-$(document).ready(function() {
-	
-	//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
-// 	function resetCheck(){
-// 		grid2.uncheckAll();
-// 	};
-
-	
-  //$('.btn-open-popup').dblclick(function(event) {
-  $('.btnFas').dblclick(function(event) {
+	  var body = document.querySelector('body');
+	  var modal = document.querySelector('.modal');
+	  var btnOpenPopup = document.querySelector('.btnFas');
 	  
+
+	  //input 
+	  var grid3=null;	 //추가된 부분!!
+		function resetCheck() {
+		  if (grid3) {
+		    grid3.uncheckAll();
+		  }
+		}
+
+		
+		//modal 닫기 함수
+		function closeModal() {
+			  modal.classList.remove('show');
+		         body.style.overflow = 'auto';
+			}	
+		
+		
+		
+		//modal 안에 grid3의 checkbox 체크된 row데이터 input태그에 찍기
+		function applyModal() {
+			// grid3가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
+			// if (grid3 && grid3.getData().length > 0) {   
+			        //modal.classList.toggle('show');
+			        //body.style.overflow = 'auto';
+		      if (grid3 && grid3.getCheckedRows().length > 0) {
+		    	const checkedRows = grid3.getCheckedRows();
+		    	const mclient_code = document.getElementById('client_code');
+		    	mclient_code.value = checkedRows[0].mclient_code;
+		        //alert(request_number.value);
+//		         var request_number = document.getElementById('request_number');
+//		         var test = rowData.request_number;
+//		         request_number.value = test;
+		      }        
+		         modal.classList.remove('show');
+		         body.style.overflow = 'auto';
+			   // });
+			}	
+		
+
+
+
+		$(document).ready(function() {
+		       
+		       
+		      //$('.btn-open-popup').dblclick(function(event)
+		      $('.btnFas').dblclick(function(event) {
+		         
+		      
+		         event.preventDefault();
+		       //추가된 부분!!
+		         if(grid3){
+		            grid3.destroy();
+		         }
+		         
+		       var gridData3=[];
+		         grid3 = new tui.Grid({
+		         el: document.getElementById('modalGrid'),
+		         data: gridData3,
+		         bodyHeight:300,
+		         scrollX: false,
+		         scrollY: true,
+		         autoWidth: true,
+		         rowHeaders: [{
+		             type: 'rowNum',
+		             header: "  ",
+		             width: 50
+		         },{type : 'checkbox'}],
+		         columns: [
+		            {
+		             header: '거래처코드',
+		             name: 'mclient_code',
+		             sortable: true,
+		             align:'center',
+		             width:165
+		               },
+		           {
+		             header: '거래처명',
+		             name: 'mclient_name',
+		             sortable: true,
+		             align:'center',
+		             width:165
+		           }
+		         ]
+		       }); //grid3[]
+		         
+				//검색x리스트
+		     $.ajax({
+		        type:"get", //요청방식 
+		        dataType:"JSON",
+		        url: '${conPath}/reqCCMList',
+		             success: function(data) {
+		              gridData3=data
+		                 grid3.resetData(data)
+		                 
+		           },
+		        error: function(xhr, status, error) {
+		          // handle error
+		          console.log(error);
+		        }
+		      }); 
+		      
+		      
+		      
+		         //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
+		          grid3.on('check', function(ev) {
+		           const rowKey = ev.rowKey;
+		           const columnName = ev.columnName;
+		           var updatedData = {};
+		           const rowData = grid3.getRow(rowKey);
+		           console.log('Row data: ', rowData);
+		           console.dir('Row data: ', rowData);
+		          }); 
+		         
+		          $('#clientCodeBtn').click(function(event) {
+		               event.preventDefault(); // prevent form submission
+		                  
+		               // get search parameters
+		               var mclient_code = $('#mclient_code').val();
+		           
+		            $.ajax({
+		                 url : "${conPath}/reqCCM",
+		                 type : "GET",
+		                 dataType : "JSON",
+		                 data:  {
+		                	 mclient_code: mclient_code
+		                  },
+		                 success : function(data) {
+		                    console.dir(data);
+		                    gridData3=data
+		                    grid3.resetData(data);
+		                 },
+		                 error: function(xhr, status, error) {
+				              // handle error
+				              console.log(error);
+				            }
+		            });//ajax
+		         });
+		       });//double클릭 이벤트 끝
+	   
+		    });//document.ready끝   
   
-	  event.preventDefault();
-	//추가된 부분!!
-	  if(grid2){
-		  grid2.destroy();
-	  }
-	  
-	var gridData2=[];
-  	grid2 = new tui.Grid({
-  	el: document.getElementById('modalGrid'),
-  	data: gridData2,
-  	scrollX: false,
-  	scrollY: false,
-  	autoWidth: true,
-  	rowHeaders: [{
-   	   type: 'rowNum',
-   	   header: "",
-   	   width: 50
-  	},{type : 'checkbox'}],
-  	columns: [
-   	 {
-    	header: '창고코드',
-      	name: 'warehouse_code',
-      	sortable: true,
-      	align:'center',
-      	width:165
-    	},
-    	{
-      	header: '창고명',
-      	name: 'warehouse_name',
-      	sortable: true,
-      	align:'center',
-      	width:165
-    	}
-  	]
-	});
-  	
 
-$.ajax({
-    type:"POST", //요청방식 
-    dataType:"JSON",
-    url: '<%=request.getContextPath()%>/searchWh',
-	      success: function(data) {
-	    	gridData2=data
-  	  		grid2.resetData(data)
-  	   	
-  	  },
-    error: function(xhr, status, error) {
-      // handle error
-      console.log(error);
-    }
-  });
+	
+	  //modal 띄우기
+
+	  btnOpenPopup.addEventListener('dblclick', () => {
+	    modal.classList.toggle('show');
+
+	    if (modal.classList.contains('show')) {
+	    	body.style.overflow = 'hidden';
+	    }
+	  });
+			
+ 
+	//------------------------------------------------------- 
+		    
+		    
+	//거래처를 더블클릭해서 정보조회하기
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'client_code') {
+            window.open('${conPath}/reqModal', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //자식창에서 전달한 값을 컬럼에 넣기
+    window.addEventListener('message', function(ev) {
+    	const selectedRow = ev.data;
+    	if(selectedRow.type == "CLIENT"){
+    		//console.log("MDselectedRow="+JSON.stringify(selectedRow));
+            const focusedCell=grid.getFocusedCell();
+            grid.setValue(focusedCell.rowKey, 'no', selectedRow.mno);
+            grid.setValue(focusedCell.rowKey, 'client_code', selectedRow.mclient_code);
+            grid.setValue(focusedCell.rowKey, 'client_name', selectedRow.mclient_name); 
+    		}
+    	});
+   
+   
+    //------------------------------------------------------------------------------------------
+	 //발주번호를 더블클릭해서 정보조회하기
+    grid.on('dblclick', function(ev) {
+        if (ev.columnName === 'request_number') {
+            window.open('${conPath}/reqModalPR', 'childWindow', 'width=500,height=500');
+        }
+    });
+   
+   //자식창에서 전달한 값을 컬럼에 넣기
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        if(selectedRow.type == "REQUEST"){
+        	//console.log("PRselectedRow="+JSON.stringify(selectedRow));
+            const focusedCell=grid.getFocusedCell();
+            grid.setValue(focusedCell.rowKey, 'request_number', selectedRow.mrequest_number);
+            grid.setValue(focusedCell.rowKey, 'memo', selectedRow.mmemo);
+        }
+    });
+   //-----------------------------------------------------------------
+   //세부항목
+       grid2.on('dblclick', function(ev) {
+        if (ev.columnName === 'request_order') {
+            window.open('${conPath}/reqDetailModal', 'childWindow', 'width=1600,height=500');
+        }
+    });
+   
+   //자식창에서 전달한 값을 컬럼에 넣기
+    window.addEventListener('message', function(ev) {
+        const selectedRow = ev.data;
+        if(selectedRow.type == "ModalDetail"){
+        	console.log("modalselectedRow="+JSON.stringify(selectedRow));
+            const focusedCell=grid2.getFocusedCell();
+            grid2.setValue(focusedCell.rowKey, 'request_order', selectedRow.mrequest_order);
+            grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.mitem_code);
+            grid2.setValue(focusedCell.rowKey, 'request_quantity', selectedRow.mrequest_quantity);
+            grid2.setValue(focusedCell.rowKey, 'item_name', selectedRow.mitem_name);
+            grid2.setValue(focusedCell.rowKey, 'item_no', selectedRow.mitem_no);
+            grid2.setValue(focusedCell.rowKey, 'item_specification', selectedRow.mitem_specification);
+            grid2.setValue(focusedCell.rowKey, 'item_stock_unit', selectedRow.mitem_stock_unit);
+            grid2.setValue(focusedCell.rowKey, 'price', selectedRow.mprice);
+            grid2.setValue(focusedCell.rowKey, 'amount', selectedRow.mamount);
+            grid2.setValue(focusedCell.rowKey, 'tax_amount', selectedRow.mtax_amount);
+            grid2.setValue(focusedCell.rowKey, 'memo', selectedRow.detailmemo);
+        }
+    });
+   
+    //------------------------------------------------------------------------------------------
+	 //창고번호를 더블클릭해서 정보조회하기
+   grid2.on('dblclick', function(ev) {
+       if (ev.columnName === 'warehouse_code') {
+           window.open('${conPath}/reqDetailWH', 'childWindow', 'width=500,height=500');
+       }
+   });
   
-	  //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
-		grid2.on('check', function(ev) {
-	    const rowKey = ev.rowKey;
-	    const columnName = ev.columnName;
-	    var updatedData = {};
-	    const rowData = grid2.getRow(rowKey);
-	    console.log('Row data: ', rowData);
-	    console.dir('Row data: ', rowData);
-		}); 
-
-	});//double클릭 이벤트 끝
-});//document.ready끝	
-
-
-  //modal 띄우기
-
-
-  
-  btnOpenPopup.addEventListener('dblclick', () => {
-    modal.classList.toggle('show');
-
-    if (modal.classList.contains('show')) {
-    	body.style.overflow = 'hidden';
-    }
-  });
-
-
-
-
-
-
+  //자식창에서 전달한 값을 컬럼에 넣기
+   window.addEventListener('message', function(ev) {
+       const selectedRow = ev.data;
+       console.log("mainWH"+selectedRow);
+       if(selectedRow.type == "WHCODE"){
+       	console.log("WHmainselectedRow="+JSON.stringify(selectedRow));
+           const focusedCell=grid2.getFocusedCell();
+           grid2.setValue(focusedCell.rowKey, 'warehouse_code', selectedRow.mwarehouse_code);
+           grid2.setValue(focusedCell.rowKey, 'warehouse_name', selectedRow.mwarehouse_name);
+       }
+   });
+   
+   
+   
 
 </script>
+
+<!-- 동일id적용시 div id지정 후 선언
+ <script> var client_code = $('#modalTable > #client_code').val();</script>
+  <div id="modalTable" class="divTableCell">
+       거래처코드<input type="text" name="client_code" id="client_code" /><input type="button" id="clientCodeBtn"  value="조회"/>
+</div> -->
+
+
+<div class="modal">
+  <!-- modal에 grid 띄우기 -->
+  <div id="modalGrid" style="display: flex; flex-direction: column; align-items: center;">
+
+      	<div class="divTable">
+    		<div class="divTableBody">
+    			<div class="divTableRow">
+			        <div class="divTableCell">
+			            거래처코드<input type="text" name="client_code" id="mclient_code"/><button type="button" id="clientCodeBtn">조회</button>
+			        </div>
+        		</div>
+        	</div>
+        </div>
+    <!-- reset 버튼 추가 -->
+    <button type="button" id="applyBtn" onclick="applyModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\apply.png" width="13px"/>&nbsp;&nbsp;적용
+    </button>
+    
+    <button type="reset" id="resetMdBtn" onclick="resetCheck()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\reset.png" width="11px"/>&nbsp;&nbsp;초기화
+    </button>
+    
+    <button type="button" id="closeBtn" onclick="closeModal()" style="height:35px; width:80px; font-size:13px; color:black; border:1px solid #8c8c8c; border-radius:4px; position:absolute; bottom:10px;">
+      <img src="<%=request.getContextPath()%>/resources\img\stock\ex.png" width="11px"/>&nbsp;&nbsp;닫기
+    </button>
+  </div>
+  
+</div>
+
 
 
 

@@ -1,10 +1,12 @@
 package com.yeonoo.poRequest.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReqDetailVO {
 	
 	private int request_order;
