@@ -12,7 +12,7 @@ import com.yeonoo.masterdata.item.domain.SemiDTO;
 public interface PriceService {
 
 	// 전체 조회
-	public List<PriceDTO> priceList(PriceDTO dto);
+	public List<PriceDTO> priceList(PriceDTO dto,String companyCode);
 	
 	// 등록
 	public int insertPrice(PriceDTO elements,String companyCode);

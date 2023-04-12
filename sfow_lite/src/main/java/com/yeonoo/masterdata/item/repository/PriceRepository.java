@@ -12,7 +12,7 @@ public interface PriceRepository {
 
 	
 	// 전체 조회
-	public List<PriceDTO> priceList(PriceDTO dto);
+	public List<PriceDTO> priceList(PriceDTO dto, String companyCode);
 	
 	//  등록
 	public int insertPrice(PriceDTO price, String companyCode);

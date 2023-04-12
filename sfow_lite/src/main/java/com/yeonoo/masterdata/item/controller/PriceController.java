@@ -40,10 +40,15 @@ public class PriceController {
 	
 	@ResponseBody
 	@RequestMapping(value="toastPriceDataList", method= {RequestMethod.POST, RequestMethod.GET}) 
- 	public List<PriceDTO> toastDataList(PriceDTO dto) {
-		List<PriceDTO> list = priceService.priceList(dto);
+ 	public List<PriceDTO> toastDataList(PriceDTO dto, HttpSession session) {
 		
-		return list;
+    	UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+	      String companyCode = user.getCompanyCode();
+	      System.out.println("로그인유저의 companyCode = " + companyCode);
+		
+	      List<PriceDTO> list = priceService.priceList(dto,companyCode);
+
+	      return list;
 	}
 	
 	  //수정하기
