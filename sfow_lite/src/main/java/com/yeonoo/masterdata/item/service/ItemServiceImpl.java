@@ -18,8 +18,8 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 	//품목유형등록 목록
-	public List<ItemType> getItemTypeList() throws Exception {
-		List<ItemType> itemtype = itemRepository.getItemTypeList();
+	public List<ItemType> getItemTypeList(String company_code) throws Exception {
+		List<ItemType> itemtype = itemRepository.getItemTypeList(company_code);
 		return itemtype;
 	}
 	//품목유형등록 등록
@@ -38,8 +38,8 @@ public class ItemServiceImpl implements ItemService {
 		return itemtypelist;
 	}
 	//품목등록(제품) 목록
-	public List<ItemProduct> productList() throws Exception {
-		List<ItemProduct> itemproduct = itemRepository.productList();
+	public List<ItemProduct> productList(String company_code) throws Exception {
+		List<ItemProduct> itemproduct = itemRepository.productList(company_code);
 		return itemproduct;
 	}
 	//품목등록(제품) 등록
@@ -63,13 +63,13 @@ public class ItemServiceImpl implements ItemService {
 		return itemproductlist;
 	}
 	//품목유형등록(제품) 목록
-	public List<ItemType> selectItemTypeList() throws Exception {
-		List<ItemType> itemtype = itemRepository.selectItemTypeList();
+	public List<ItemType> selectItemTypeList(String company_code) throws Exception {
+		List<ItemType> itemtype = itemRepository.selectItemTypeList(company_code);
 		return itemtype;
 	}
 	//재고단위 목록
-	public List<ItemStockUnit> stockunitListAjax() throws Exception {
-		List<ItemStockUnit> itemstockunit = itemRepository.stockunitListAjax();
+	public List<ItemStockUnit> stockunitListAjax(String company_code) throws Exception {
+		List<ItemStockUnit> itemstockunit = itemRepository.stockunitListAjax(company_code);
 		return itemstockunit;
 	}
 	//재고단위 등록
@@ -88,8 +88,8 @@ public class ItemServiceImpl implements ItemService {
 		return itemstockunitlist;
 	}
 	//규격 목록
-	public List<ItemSpecification> specificationListAjax() throws Exception {
-		List<ItemSpecification> itemspecificationlist = itemRepository.specificationListAjax();
+	public List<ItemSpecification> specificationListAjax(String company_code) throws Exception {
+		List<ItemSpecification> itemspecificationlist = itemRepository.specificationListAjax(company_code);
 		return itemspecificationlist;
 	}
 	//규격 등록

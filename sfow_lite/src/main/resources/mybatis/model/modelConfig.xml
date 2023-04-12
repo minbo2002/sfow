@@ -17,7 +17,6 @@
 		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemStockUnit" alias="ItemStockUnit"/>
 		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemSpecification" alias="ItemSpecification"/>
 
-
 	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
 	                                     alias="BomItem"/>
 
