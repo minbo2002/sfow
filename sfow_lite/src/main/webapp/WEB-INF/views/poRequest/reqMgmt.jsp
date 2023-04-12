@@ -287,9 +287,7 @@ $(document).ready(function() {
 	   // 등록 진행
 	   function saveFunction() {
 	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      //alert("rowDatas : " + rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 	      $.ajax({
 	         url : "${conPath}/reqMgIn",
 	         method : "post",
@@ -297,7 +295,6 @@ $(document).ready(function() {
 	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 	         dataType: "json",         // 서버에서 받을 데이터타입
 	         success : function (result) {
-	            //alert(result); // result는 반환받은 json형태의 객체 
 	         },
 	         error: function() {
 	              console.log("입력실패");
@@ -345,9 +342,7 @@ $(document).ready(function() {
 	   // 수정
 	   function updateFunction() {
 	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      //alert("rowDatas : " + rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 	      $.ajax({
 	         url : "${conPath}/reqMgUp",
 	         method : "post",
@@ -379,14 +374,10 @@ $(document).ready(function() {
 	// 삭제함수
 	function poInDelfunction() {
 	   var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
-	   //alert("rowKeys : " + rowKeys);
 	   var jsonRowKeys = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
-	   //alert("JSON.stringify(rowKeys) : " + jsonRowKeys);
 	   
 	   var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	   //alert("rowDatas : " + rowDatas);
 	   var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	   //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
  
 	   grid.removeCheckedRows([jsonRowKeys]);
  

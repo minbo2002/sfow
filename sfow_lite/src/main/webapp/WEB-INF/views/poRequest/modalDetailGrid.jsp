@@ -83,7 +83,6 @@ $(document).ready(function(){
 	        method: 'GET',
 	        dataType : "JSON",
 	        success: function(result) {
-	        	//alert("성공"+ result);
 	        	console.log("resultdetail"+JSON.stringify(result));
 	        	grid.resetData(result);
 	        },
@@ -100,7 +99,6 @@ $(document).ready(function(){
 	    const selectedRow = grid.getRow(grid.getFocusedCell()["rowKey"]);
 	    selectedRow.type = "ModalDetail";
 	    window.opener.postMessage(selectedRow, '*');
-		//alert("testdetail"+JSON.stringify(selectedRow));
 	    console.log("testdetail"+JSON.stringify(selectedRow));
 	 
 	   window.close();

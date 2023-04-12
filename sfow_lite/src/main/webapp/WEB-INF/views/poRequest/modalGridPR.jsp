@@ -67,8 +67,6 @@ $(document).ready(function(){
 	        method: 'GET',
 	        dataType : "JSON",
 	        success: function(result) {
-	        	//alert("성공"+ result);
-	        	console.log("resultpr"+JSON.stringify(result));
 	        	grid.resetData(result);
 	        },
 	        error: function(xhr, status, errorThrown) {
@@ -84,7 +82,6 @@ $(document).ready(function(){
 	    const selectedRow = grid.getRow(grid.getFocusedCell()["rowKey"]);
 	    selectedRow.type = "REQUEST";
 	    window.opener.postMessage(selectedRow, '*');
-		//alert("testpr"+JSON.stringify(selectedRow));
 	    console.log("testpr"+JSON.stringify(selectedRow));
 	 
 	   window.close();
