@@ -4,7 +4,10 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
-	<typeAliases>
+<typeAliases>
+	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
+	                                     alias="BomItem"/>
+
 		<!-- 구매요청 -->
 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
  		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />
