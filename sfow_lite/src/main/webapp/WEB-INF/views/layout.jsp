@@ -24,7 +24,8 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -113,15 +114,26 @@
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">품목등록</a>
-                            <a class="collapse-item" href="#">품목조회</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/raw/list');">품목등록(원자재)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
+
                            </div>
-	                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
-	                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
-	                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-	                                  <a class="collapse-item" href="#">창고등록</a>
-	                                  <a class="collapse-item" href="#">창고정보</a>
-	                          </div>
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
+                      aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
+                        <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/price/list');">품목단가관리</a>
+                           </div>
+
+                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
+                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
+                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/warehouse/whinfo');">창고등록</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}');">창고정보</a>
+                          </div>
                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/ma/bom');">BOM등록</a>
                     </div>
                 </div>
