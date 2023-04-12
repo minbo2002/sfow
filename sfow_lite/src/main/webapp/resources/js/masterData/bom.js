@@ -423,7 +423,7 @@ var grid_popup = new tui.Grid({
 	   el: document.getElementById('grid_popup'),
 	   scrollX: true,
 	   scrollY: true,
-	   bodyHeight: 400,
+	   bodyHeight: 430,
 	   rowHeaders: ['checkbox'],
 	   columnOptions: {resizable: true},
 	   columns: [

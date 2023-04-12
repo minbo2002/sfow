@@ -12,14 +12,14 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<div><h2>BOM 등록</h2></div>
+<div><h2 class="bom-title">BOM 등록</h2></div>
 <div class="container-fluid">
 	<div class="row" style="align-items: center; justify-content: center; ">
 		<div class="form-div">
-			<span class="form-item">ITEM코드</span><input type="text" id="form-item-code" readonly="readonly">
-			<span class="form-item">품명</span><input type="text" id="form-item-name" readonly="readonly">
-			<span class="form-item">품목코드</span><input type="text" id="form-item-no" readonly="readonly">
-			<span class="form-item">품목구분</span><input type="text" id="form-item-category" readonly="readonly">
+			<span class="form-item">ITEM코드</span><input type="text" id="form-item-code" class="form-input" readonly="readonly">
+			<span class="form-item">품명</span><input type="text" id="form-item-name" class="form-input" readonly="readonly">
+			<span class="form-item">품목코드</span><input type="text" id="form-item-no" class="form-input" readonly="readonly">
+			<span class="form-item">품목구분</span><input type="text" id="form-item-category" class="form-input" readonly="readonly">
 		</div>
 	</div>
 	<div class="row">
@@ -60,7 +60,7 @@
 				<button id="searchBtn" onclick="searchBtn()"><i class="fa fa-search" aria-hidden="true"></i></button>
 			</div>
 			<div id="grid_popup"></div>
-			<div class="buttons">
+			<div class="modal-buttons">
 				<button class="closeBtn">닫기</button>
 				<button type="button" class="applyBtn">적용</button>
 			</div>
