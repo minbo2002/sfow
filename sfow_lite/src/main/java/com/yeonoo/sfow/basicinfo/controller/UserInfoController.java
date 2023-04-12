@@ -71,12 +71,7 @@ public class UserInfoController {
 	
 	
 	@RequestMapping("/sessionLogout")
-	public String sessionLogout(HttpSession session,HttpServletRequest request) throws Exception {
+	public String sessionLogout() throws Exception {
 		return "basicinfo/sessionLogout";
-	}
-	
-	@RequestMapping("/sessionLogin")
-	public String sessionLogin(HttpSession session,HttpServletRequest request) throws Exception {
-		return "basicinfo/sessionLogin";
 	}
 }

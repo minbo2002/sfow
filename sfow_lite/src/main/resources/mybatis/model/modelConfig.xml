@@ -5,12 +5,25 @@
 
 <configuration>
 <typeAliases>
- <!--<typeAlias type="패키지명.클래스명"    alias="클래스별칭"/>
- 	  <typeAlias type="java.lang.String" alias="string"/>	
- 		<typeAlias type="java.util.List"   alias="list"/> -->
 	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
 	                                     alias="BomItem"/>
 
+		<!-- 구매요청 -->
+		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
+ 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />
+ 		<typeAlias type="com.yeonoo.poRequest.model.ModalVO" alias="modalVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqModalVO" alias="reqModalVO" />
+		<typeAlias type="com.yeonoo.so.domain.ShipOut" alias="shipOut" />
+  		<typeAlias type="com.yeonoo.so.domain.ItemShipOutDTO" alias="itemShipOutDTO" />
+  		<typeAlias type="com.yeonoo.so.domain.LotShipOutDTO" alias="lotShipOutDTO" />
+  		<typeAlias type="java.lang.Integer" alias="Integer"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="com.yeonoo.so.domain.OrderVO" alias="OrderVO"/>
+		<typeAlias type="com.yeonoo.so.domain.OrderDetailVO" alias="OrderDetailVO"/>
+		<typeAlias type="com.yeonoo.so.domain.ReturnAdd" alias="returnAdd"/>
+		<typeAlias type="com.yeonoo.so.domain.ReturnDetail" alias="returnDetail"/>
 		<typeAlias type="com.yeonoo.sfow.model.NoticeVO" alias="noticeVO"/>	
 		<typeAlias type="com.yeonoo.sfow.model.CpmVO" alias="cpmVO"/>	
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>

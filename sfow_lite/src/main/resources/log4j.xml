@@ -12,6 +12,10 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.yeonoo.sfow">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="com.yeonoo">
 		<level value="info" />
 	</logger>
 	
@@ -34,7 +38,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="debug" />
 		<appender-ref ref="console" />
 	</root>
 	
