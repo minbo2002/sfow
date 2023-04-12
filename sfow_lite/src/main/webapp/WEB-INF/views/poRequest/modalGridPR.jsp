@@ -10,6 +10,38 @@
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
+<style>
+   #confirmBtn{
+      background-color: #4e73df;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      margin-right:5px;
+      cursor: pointer;
+
+   }
+   
+   #cancelBtn{
+      background-color: #e03221;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      cursor: pointer;
+      margin-right:5px;
+   }
+   
+    .button-container {
+        text-align: center;
+    }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	

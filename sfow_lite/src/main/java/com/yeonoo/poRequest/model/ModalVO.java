@@ -20,13 +20,8 @@ public class ModalVO {
 	private String mrequest_empid;//담당자
 	private String mmemo;//비고
 	private String mcompany_code;//회사코드
-	
-	//item
 	private String mitem_code; //코드
-	private String mitem_name;//품명
-	private String mitem_no;//품번
-	private String mitem_specification;//규격
-	private String mitem_stock_unit;//재고단위
+	private String mitem_no; //품번
 	
 	//창고
 	private String mwarehouse_code;//창고코드

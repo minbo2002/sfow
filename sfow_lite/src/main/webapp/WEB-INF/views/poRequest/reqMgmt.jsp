@@ -16,11 +16,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>jQuery Modal -->
 <script>
 $(document).ready(function() {
-      	
+
 	  $('#search').click(function(event) {
 	    event.preventDefault(); // submit 폼 제출 방지
 
-	    // get search parameters
+	    //검색
 	  	var in_number = $('#in_number').val();
 	    var in_type = $('#in_type').val();
 	    var in_date = $('#in_date').val();
@@ -30,7 +30,6 @@ $(document).ready(function() {
 	    var in_free= $('#in_free').val();
 	    var memo= $('#memo').val();
  
-	    // make AJAX call to server
 	    $.ajax({
 	      url: '${conPath}/searchPoIn',
 	      mehtod: 'get',
@@ -48,7 +47,7 @@ $(document).ready(function() {
 	      success: function(data) {
     	 	console.dir(data);
     	 	grid2.clear();
-	    	  	grid.resetData(data);
+	    	grid.resetData(data);
 
 	    	  	//checkbox 체크 시 input 태그에 해당 value 출력
 	            grid.on('check', function(ev){
@@ -79,10 +78,10 @@ $(document).ready(function() {
 	        	    var pi8=rowData.memo;
 
 	        	    in_number.value=pi1;
-	        	    in_number.readOnly=true; //일반
+	        	    in_number.readOnly=true;
 	        	    
 	        	    in_type.value=pi2;
-	        	    in_type.disabled=true; //select option
+	        	    in_type.disabled=true;
 	        	    in_date.value=pi3;
 	        	    in_date.readOnly=true;
 	        	    in_trans_type.value=pi4;
@@ -123,25 +122,43 @@ $(document).ready(function() {
 		        	    memo.readOnly=false;   
 		        	    grid2.clear();
 	              }
-	            	//상세보기
-	            	//console.dir(in_number)
-	            	/* var in_number = $('#in_number').val();
-	            	var request_order = $('#request_order').val(); */
-	         
-	            	
-	              	$.ajax({
+	  				//상세보기
+	            	$.ajax({
 	            	    url: '${conPath}/reqMgDetail',
 	            	    method: 'GET',
 	            	    dataType: 'JSON',
 	            	    data:{
-		            	      in_number:in_number.value // pi1 or in_number.value 입력 
-		            	      //request_order:request_order.value
-	            	    	
+		            	      in_number:in_number.value	            	    	
 	            	         },
 	            	    contentType: 'application/json',
 	            	    success: function(response) {
 	            	    	grid2.resetData(response)
-	            	    	console.log('Success:', response);  
+	            	    	//console.log('Success:', response);  
+	            	    	
+	            	    	//상세보기수정
+	            	    	grid2.on('click', function(ev) {
+	        		            const rowKey = ev.rowKey;
+	        		            const columnName = ev.columnName;
+	        		            var updatedData = {};
+	        		            const rowData = grid2.getRow(rowKey);
+	        		            console.log('Row data: '+ rowData);
+	        		            var updateDetailBtn = document.getElementById('updateDetailBtn');
+	        		            	updateDetailBtn.addEventListener('click', function() {
+			        		            $.ajax({
+					    		    	       url: '${conPath}/reqMgDetailUp',
+					    		    	       method: 'post',
+					    		    	       dataType: 'JSON',
+					    		    	       data: JSON.stringify(rowData),
+					    		    	       contentType: 'application/json',
+					    		    	       success: function(response) {
+					    		    	           console.log('수정Success:', response);
+					    		    	       },
+					    		    	       error: function(error) {
+					    		    	           console.log('Error:', error);
+					    		               }
+					    		            });
+	        		            });
+	            	    	}); //grid2.on(두번째)
 
 	            	    },
 	            	    error: function(error) {
@@ -183,7 +200,6 @@ $(document).ready(function() {
 	    	   	
 	    	  },
 	      error: function(xhr, status, error) {
-	        // handle error
 	        console.log(error);
 	      }
 	    });
@@ -194,7 +210,7 @@ $(document).ready(function() {
 	    plusRowBtn.addEventListener('click', function() {
 	      var newRowData = {
 	    		  in_number: '',
-	    		  in_empid: '',
+	    		  in_empid: '${sessionScope.AUTHUSER.id}',
 	    		  in_type: '',
 	    		  in_date: '',
 	    		  in_trans_type: '',
@@ -224,7 +240,6 @@ $(document).ready(function() {
 	    		  item_stock_unit: '',
 	    		  warehouse_code: '',
 	    		  warehouse_name: '',
-	    		  
 	    		  price: '',
 	    		  amount: '',
 	    		  tax_amount: '',
@@ -233,22 +248,18 @@ $(document).ready(function() {
       	grid2.appendRow(newRowData);
     });
     
-
   	//입고관리 행 제거(data존재시 삭제x)
         var minusRowBtn = document.getElementById('minusRowBtn');
         minusRowBtn.addEventListener('click', function() {
         	//console.log(grid.getData()[lastIndex]["in_number"]) 
           var rowCount = grid.getRowCount();
           var lastIndex = rowCount - 1;
- 
           if (rowCount > 0 && !grid.getData()[lastIndex]["in_number"]) {
         	  grid.removeRow(lastIndex);
           } else {
         	  return null;
-          
           }
         });
-
 
      //세부항목 행 제거
         var minusDeRowBtn = document.getElementById('minusDeRowBtn');
@@ -263,7 +274,6 @@ $(document).ready(function() {
           }
         });
 	  
-	  
 	  //등록
 	 $("#saveBtn").click(function() {
 	      let i = confirm('등록하시겠습니까?');
@@ -276,11 +286,10 @@ $(document).ready(function() {
 	   
 	   // 등록 진행
 	   function saveFunction() {
-
 	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      alert("rowDatas : " + rowDatas);
+	      //alert("rowDatas : " + rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	      //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 	      $.ajax({
 	         url : "${conPath}/reqMgIn",
 	         method : "post",
@@ -295,11 +304,8 @@ $(document).ready(function() {
 	          },
 	          complete:function(){
 	          }
-	          
 	      });
-	      
 	   }
-	      
 	 	 $("#saveDetailBtn").click(function() {
 		      let i = confirm('세부항목을 등록하시겠습니까?');
 		      if(i) {
@@ -308,14 +314,10 @@ $(document).ready(function() {
 		         return false;
 		      }
 		   });
-	      
 	      //세부항목 입력 saveDetailBtn
 	    function saveDetailFunction() {
-	    	  
 	      var rowDatas = grid2.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      alert("rowDatas : " + rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 	      $.ajax({
 	         url : "${conPath}/reqMgDetailIn",
 	         method : "post",
@@ -323,20 +325,13 @@ $(document).ready(function() {
 	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 	         dataType: "json",         // 서버에서 받을 데이터타입
 	         success : function (result) {
-	            //alert(result); // result는 반환받은 json형태의 객체 
 	         },
 	         error: function() {
 	              console.log("입력실패");
 	          },
-	          /* complete:function(){ 무조건 출력되는 함수
-	          } */
-	          
 	      });
-	      
-	      
 	   }
-     
-	      
+    
 		//수정  
  		 $("#updateBtn").click(function() {
 	      let i = confirm('수정하시겠습니까?');
@@ -349,11 +344,10 @@ $(document).ready(function() {
 	   
 	   // 수정
 	   function updateFunction() {
-
 	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      alert("rowDatas : " + rowDatas);
+	      //alert("rowDatas : " + rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	      //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
 	      $.ajax({
 	         url : "${conPath}/reqMgUp",
 	         method : "post",
@@ -361,65 +355,16 @@ $(document).ready(function() {
 	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 	         dataType: "json",         // 서버에서 받을 데이터타입
 	         success : function (result) {
-	            //alert(result); // result는 반환받은 json형태의 객체 
 	         },
 	         error: function() {
 	              console.log("입력실패");
 	          },
 	          complete:function(){
 	          }
-	          
 	      });
-	      
 	   }  
-	
-	
-	   //세부항목수정
- 		 $("#updateDetailBtn").click(function() {
-	      let i = confirm('세부항목을 수정하시겠습니까?');
-	      if(i) {
-	         updateDetailFunction();
-	      }else {
-	         return false;
-	      }
-	   });
 	   
-	   //세부항목수정
-	   function updateDetailFunction() {
-
-	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      alert("rowDatas : " + rowDatas);
-	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
-	      $.ajax({
-	         url : "${conPath}/reqMgDetailUp",
-	         method : "post",
-	         data : jsonRowDatas,
-	         contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-	         dataType: "json",         // 서버에서 받을 데이터타입
-	         success : function (result) {
-	            //alert(result); // result는 반환받은 json형태의 객체 
-	         },
-	         error: function() {
-	              console.log("입력실패");
-	          },
-	          complete:function(){
-	          }
-	          
-	      });
-	      
-	   }  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	  
+	 
 	  
 	// 삭제실행
 	$("#delPoIn").click(function() {
@@ -452,22 +397,18 @@ $(document).ready(function() {
 			  contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
 			  dataType: "JSON",         // 서버에서 받을 데이터타입
 			  success : function (result) {
-				 //alert(result); // result는 반환받은 json형태의 객체 
 			  },
 			  error: function() {
-				   console.log("수정실패");
+				   console.log("삭제실패");
 			   }
 	   });
 	}  
-	
-	  
 	//초기화
 	//모든 테이블  초기화하는 부분, 위 아래 두 개 테이블 모두 초기화하고 checked상태에서 초기화할 경우 readOnly랑 disabled false처리
 	function poInReset(){
 		//처음엔 ajax로 넘어온 데이터를 다 ""로 입력해서 다시 resetData하려했는데 grid자체적으로 clear()함수가 있었음
 		 grid.clear();
 		 grid2.clear();
-		 
 		 	in_number.disabled=false;
 		    in_type.disabled=false;
 		    in_date.disabled=false;
@@ -476,18 +417,9 @@ $(document).ready(function() {
 		    client_name.disabled=false;
 		    in_free.disabled=false;
 		    memo.disabled=false; 
-		    
 	}
 	
-	
-	
-	
-	
-	
-	
 </script>
-
-
 
 <style>
 /* modal */
@@ -758,6 +690,11 @@ button {
   background-color: rgba(80, 201, 141);
   opacity: 0.8;
 }
+
+.doubleBlue{
+border: 1px solid;
+border-color: hsl(240, 100%, 50%);
+}
 </style>
 
 <title>Insert title here</title>
@@ -873,6 +810,8 @@ button {
               sortable: true,
               align:'center',
               width: 150,
+              className: 'doubleBlue',
+              validation: { required: true },
               /* editor:'text',  */
               name: 'request_number'
             },          
@@ -881,13 +820,13 @@ button {
              sortable: true, // 정렬
              align:'center',
              width: 100,
-             editor:'text', 
              name: 'in_empid'
            },
            {
              header: '입고유형',
              sortable: true,
              align:'center',
+             validation: { required: true },
              editor: {
             	 type: 'select',
                  	options: { 
@@ -904,6 +843,7 @@ button {
                header: '무상여부',
                sortable: true,
                align:'center',
+               validation: { required: true },
                editor: {
               	 type: 'select',
                    	options: { 
@@ -920,6 +860,7 @@ button {
              header: '입고일자',
              sortable: true,
              align:'center',
+             validation: { required: true },
              editor: 'text',
              width: 150,
              name: 'in_date'
@@ -928,6 +869,7 @@ button {
              header: '수불타입',
              sortable: true,
              align:'center',
+             validation: { required: true },
              editor: {
             	 type: 'select',
                  	options: { 
@@ -951,6 +893,8 @@ button {
              sortable: true,
              align:'center',
              width: 150,
+             className: 'doubleBlue',
+             validation: { required: true },
              name: 'client_code'
            },
          {
@@ -1024,6 +968,8 @@ button {
                sortable: true,
                align:'center',
                width: 100,
+               className: 'doubleBlue',
+               validation: { required: true },
                /* editor:'text', */ 
                name: 'request_order'
               },
@@ -1032,7 +978,6 @@ button {
               sortable: true,
               align:'center',
               width: 150,
-              editor:'text', 
               name: 'item_code'
               },
           {
@@ -1048,6 +993,7 @@ button {
               align:'center',
               editor:'text',
               width: 100,
+              validation: { required: true },
               name: 'in_quantity'
             },
            {
@@ -1082,7 +1028,9 @@ button {
              header: '창고코드',
              sortable: true,
              align:'center',
-             /* editor:'text',  */
+             className: 'doubleBlue',
+             validation: { required: true },
+             /* editor:'text',  */ 
              width: 150,
              name: 'warehouse_code'
            },
@@ -1136,7 +1084,6 @@ button {
 	  var body = document.querySelector('body');
 	  var modal = document.querySelector('.modal');
 	  var btnOpenPopup = document.querySelector('.btnFas');
-	  
 
 	  //input 
 	  var grid3=null;	 //추가된 부분!!
@@ -1146,47 +1093,26 @@ button {
 		  }
 		}
 
-		
 		//modal 닫기 함수
 		function closeModal() {
 			  modal.classList.remove('show');
 		         body.style.overflow = 'auto';
 			}	
-		
-		
-		
+
 		//modal 안에 grid3의 checkbox 체크된 row데이터 input태그에 찍기
 		function applyModal() {
-			// grid3가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
-			// if (grid3 && grid3.getData().length > 0) {   
-			        //modal.classList.toggle('show');
-			        //body.style.overflow = 'auto';
 		      if (grid3 && grid3.getCheckedRows().length > 0) {
 		    	const checkedRows = grid3.getCheckedRows();
 		    	const mclient_code = document.getElementById('client_code');
 		    	mclient_code.value = checkedRows[0].mclient_code;
-		        //alert(request_number.value);
-//		         var request_number = document.getElementById('request_number');
-//		         var test = rowData.request_number;
-//		         request_number.value = test;
 		      }        
 		         modal.classList.remove('show');
 		         body.style.overflow = 'auto';
-			   // });
 			}	
-		
-
-
 
 		$(document).ready(function() {
-		       
-		       
-		      //$('.btn-open-popup').dblclick(function(event)
 		      $('.btnFas').dblclick(function(event) {
-		         
-		      
 		         event.preventDefault();
-		       //추가된 부분!!
 		         if(grid3){
 		            grid3.destroy();
 		         }
@@ -1230,16 +1156,11 @@ button {
 		             success: function(data) {
 		              gridData3=data
 		                 grid3.resetData(data)
-		                 
 		           },
 		        error: function(xhr, status, error) {
-		          // handle error
 		          console.log(error);
 		        }
 		      }); 
-		      
-		      
-		      
 		         //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
 		          grid3.on('check', function(ev) {
 		           const rowKey = ev.rowKey;
@@ -1253,7 +1174,7 @@ button {
 		          $('#clientCodeBtn').click(function(event) {
 		               event.preventDefault(); // prevent form submission
 		                  
-		               // get search parameters
+		               //검색
 		               var mclient_code = $('#mclient_code').val();
 		           
 		            $.ajax({
@@ -1277,9 +1198,7 @@ button {
 		       });//double클릭 이벤트 끝
 	   
 		    });//document.ready끝   
-  
 
-	
 	  //modal 띄우기
 
 	  btnOpenPopup.addEventListener('dblclick', () => {
@@ -1290,9 +1209,7 @@ button {
 	    }
 	  });
 			
- 
 	//------------------------------------------------------- 
-		    
 		    
 	//거래처를 더블클릭해서 정보조회하기
     grid.on('dblclick', function(ev) {
@@ -1312,7 +1229,6 @@ button {
             grid.setValue(focusedCell.rowKey, 'client_name', selectedRow.mclient_name); 
     		}
     	});
-   
    
     //------------------------------------------------------------------------------------------
 	 //발주번호를 더블클릭해서 정보조회하기
@@ -1344,21 +1260,23 @@ button {
     window.addEventListener('message', function(ev) {
         const selectedRow = ev.data;
         if(selectedRow.type == "ModalDetail"){
-        	console.log("modalselectedRow="+JSON.stringify(selectedRow));
+        	//console.log("modalselectedRow="+JSON.stringify(selectedRow));
             const focusedCell=grid2.getFocusedCell();
             grid2.setValue(focusedCell.rowKey, 'request_order', selectedRow.mrequest_order);
+            //console.log("mrequest_order="+selectedRow.mrequest_order);
             grid2.setValue(focusedCell.rowKey, 'item_code', selectedRow.mitem_code);
             grid2.setValue(focusedCell.rowKey, 'request_quantity', selectedRow.mrequest_quantity);
-            grid2.setValue(focusedCell.rowKey, 'item_name', selectedRow.mitem_name);
-            grid2.setValue(focusedCell.rowKey, 'item_no', selectedRow.mitem_no);
-            grid2.setValue(focusedCell.rowKey, 'item_specification', selectedRow.mitem_specification);
-            grid2.setValue(focusedCell.rowKey, 'item_stock_unit', selectedRow.mitem_stock_unit);
             grid2.setValue(focusedCell.rowKey, 'price', selectedRow.mprice);
             grid2.setValue(focusedCell.rowKey, 'amount', selectedRow.mamount);
             grid2.setValue(focusedCell.rowKey, 'tax_amount', selectedRow.mtax_amount);
             grid2.setValue(focusedCell.rowKey, 'memo', selectedRow.detailmemo);
         }
     });
+   
+   
+   
+   
+   
    
     //------------------------------------------------------------------------------------------
 	 //창고번호를 더블클릭해서 정보조회하기
@@ -1379,18 +1297,8 @@ button {
            grid2.setValue(focusedCell.rowKey, 'warehouse_name', selectedRow.mwarehouse_name);
        }
    });
-   
-   
-   
 
 </script>
-
-<!-- 동일id적용시 div id지정 후 선언
- <script> var client_code = $('#modalTable > #client_code').val();</script>
-  <div id="modalTable" class="divTableCell">
-       거래처코드<input type="text" name="client_code" id="client_code" /><input type="button" id="clientCodeBtn"  value="조회"/>
-</div> -->
-
 
 <div class="modal">
   <!-- modal에 grid 띄우기 -->
@@ -1420,13 +1328,5 @@ button {
   </div>
   
 </div>
-
-
-
-
-
-
-
-
 </body>
 </html>

@@ -8,7 +8,7 @@ import com.yeonoo.poRequest.model.ReqMgmtDetailDTO;
 
 public interface ReqMgmtService {
 	//검색리스트
-	public List<ReqMgmtDTO> reqMgmtList(ReqMgmtDTO reqMgmtDTO) throws Exception;
+	public List<ReqMgmtDTO> reqMgmtList(ReqMgmtDTO reqMgmtDTO, String company_code) throws Exception;
 	//입고관리수정
 	public int reqMgmtUpdate(ReqMgmtDTO reqMgmtDTO) throws Exception;
 	//입고관리입력
@@ -24,17 +24,16 @@ public interface ReqMgmtService {
 	
 	//modalList
 	//발주
-	public List<ModalVO> reqPO(ModalVO modalVO) throws Exception;
+	public List<ModalVO> reqPO(String mcompany_code) throws Exception;
 	//거래처
-	//public List<Map<String, Object>> reqCCMList();
-	public List<ModalVO> reqCCMList();
+	public List<ModalVO> reqCCMList(String mcompany_code);
 	
 	//검색
 	public List<ModalVO> reqCCM(ModalVO modalVO)throws Exception;
 	//세부항목모달
 	public List<ModalVO> reqDetailM();
 	//창고모달
-	public List<ModalVO> reqWHCode();
+	public List<ModalVO> reqWHCode(String mcompany_code);
 	
 
 

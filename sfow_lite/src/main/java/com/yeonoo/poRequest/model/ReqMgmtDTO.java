@@ -27,7 +27,7 @@ public class ReqMgmtDTO {
 	private String client_code; //거래처코드
 	private String client_name; //거래처명
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm",timezone="Asia/Seoul")
-	private String in_regdate; //등록수정일
+	private Date in_regdate; //등록수정일
 	private String in_empid; //입고담당자
 	private String in_delyn; //삭제여부 DEFAULT 'N',
 	private String memo; //비고

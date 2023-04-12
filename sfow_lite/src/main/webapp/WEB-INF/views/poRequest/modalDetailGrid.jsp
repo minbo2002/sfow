@@ -8,9 +8,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
-
 <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
+<style>
+   #confirmBtn{
+      background-color: #4e73df;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      margin-right:5px;
+      cursor: pointer;
+
+   }
+   
+   #cancelBtn{
+      background-color: #e03221;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 12px;
+      margin: 10px 2px;
+      cursor: pointer;
+      margin-right:5px;
+   }
+   
+    .button-container {
+        text-align: center;
+    }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -29,18 +60,6 @@ $(document).ready(function(){
         	{ header: '요청수량', 
 	        	align:'center',
 	        	name: 'mrequest_quantity' },
-        	{ header: '품명', 
-	        	align:'center',
-	        	name: 'mitem_name' },
-        	{ header: '품번', 
-	        	align:'center',
-	        	name: 'mitem_no' },
-        	{ header: '규격', 
-	        	align:'center',
-	        	name: 'mitem_specification' },
-        	{ header: '재고단위', 
-	        	align:'center',
-	        	name: 'mitem_stock_unit' },
 	       	{ header: '단가', 
 	        	align:'center',
 	        	name: 'mprice' },
@@ -81,7 +100,7 @@ $(document).ready(function(){
 	    const selectedRow = grid.getRow(grid.getFocusedCell()["rowKey"]);
 	    selectedRow.type = "ModalDetail";
 	    window.opener.postMessage(selectedRow, '*');
-		alert("testdetail"+JSON.stringify(selectedRow));
+		//alert("testdetail"+JSON.stringify(selectedRow));
 	    console.log("testdetail"+JSON.stringify(selectedRow));
 	 
 	   window.close();

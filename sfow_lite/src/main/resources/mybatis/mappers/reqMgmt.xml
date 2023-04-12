@@ -26,65 +26,42 @@
 		<result property="detailmemo" column="memo"/>
 	</resultMap> 
 	
-	
-	<!-- 입고관리 리스트 조건없는-->
-<!--  	<select id="reqMgmtAllList" resultType="reqMgmtDTO">
-		<![CDATA[
-			select pi.in_number,pi.in_empid, pi.in_type, pi.in_date, pi.in_trans_type, pi.in_delyn, pr.request_number, mcc.client_code, mcc.client_name, pi.in_regdate, pr.memo, pi.in_free
-			from po_in pi, po_request pr, ma_client_company mcc
-			where pi.request_number = pr.request_number 
-			and pi.no= mcc.no
-		]]> 	
-	</select> -->
 	<!-- 검색리스트 -->
-	<select id="reqMgmtList" resultType="reqMgmtDTO" parameterType="reqMgmtDTO">
+	<select id="reqMgmtList" resultType="reqMgmtDTO" parameterType="map">
 
 			select pi.in_number,pi.in_empid, pi.in_type, pi.in_date, pi.in_trans_type,pi.in_delyn, pr.request_number, mcc.client_code, mcc.client_name, pi.in_regdate,pr.memo,pi.in_free
 			from po_in pi, po_request pr, ma_client_company mcc
 			where pi.request_number = pr.request_number 
 			and pi.no= mcc.no
 			and pi.in_delyn='N'
+			and pr.company_code=#{company_code}
 			<if test="in_number != null and in_number !=''">
-			and pi.in_number LIKE CONCAT('%', #{in_number}, '%')
+			and pi.in_number LIKE CONCAT('%', #{reqMgmtDTO.in_number}, '%')
 			</if>
 			<if test="in_type != null and in_type !=''">
-			and pi.in_type LIKE CONCAT('%', #{in_type}, '%')
+			and pi.in_type LIKE CONCAT('%', #{reqMgmtDTO.in_type}, '%')
 			</if>
 			<if test="in_date != null and in_date !=''">
-			and pi.in_date LIKE CONCAT('%', #{in_date}, '%')
+			and pi.in_date LIKE CONCAT('%', #{reqMgmtDTO.in_date}, '%')
 			</if>
 			<if test="in_trans_type != null and in_trans_type !=''">
-			and pi.in_trans_type LIKE CONCAT('%', #{in_trans_type}, '%')
+			and pi.in_trans_type LIKE CONCAT('%', #{reqMgmtDTO.in_trans_type}, '%')
 			</if>
 			<if test="client_code != null and client_code !=''">
-			and mcc.client_code LIKE CONCAT('%', #{client_code}, '%')
+			and mcc.client_code LIKE CONCAT('%', #{reqMgmtDTO.client_code}, '%')
 			</if>
 			<if test="client_name != null and client_name !=''">
-			and mcc.client_name LIKE CONCAT('%', #{client_name}, '%')
+			and mcc.client_name LIKE CONCAT('%', #{reqMgmtDTO.client_name}, '%')
 			</if>
 			<if test="in_free != null and in_free !=''">
-			and pi.in_free LIKE CONCAT('%', #{in_free}, '%')
+			and pi.in_free LIKE CONCAT('%', #{reqMgmtDTO.in_free}, '%')
 			</if>
 			<if test="memo != null and memo !=''">
-			and pr.memo LIKE CONCAT('%', #{memo}, '%')
+			and pr.memo LIKE CONCAT('%', #{reqMgmtDTO.memo}, '%')
 			</if>
 
 	</select>
-			<!-- and pr.company_code=#{company_code} -->
-
-	<!-- 입고관리 보기  -->
-<!-- 	<select id="reqMgDetailFrm" resultType="reqMgmtDTO">
-		<![CDATA[
-			select pi.in_number, pi.in_empid, pi.in_type, pi.in_date, pi.in_trans_type, pr.request_number, mcc.client_code, mcc.client_name, pi.in_regdate,pr.in_memo
-			from po_in pi, po_request pr, ma_client_company mcc
-			where pi.request_number = pr.request_number 
-			and pi.client_code= mcc.client_code
-			and pi.in_delyn='N'
-			and in_number = #{in_number}
-			
-		]]> 	
-	</select> 
--->
+	
 	<!-- 입고관리 수정 -->
 	<update id="reqMgmtUp" parameterType="reqMgmtDTO" >
 		<![CDATA[
@@ -95,7 +72,6 @@
 			    pi.in_trans_type = #{in_trans_type}, 
 			    pi.in_date = #{in_date}, 
 			    pi.in_regdate = now(), 
-			    pi.in_empid = #{in_empid}, 
 			    pr.memo = #{memo},
 			    mcc.client_code = #{client_code}
 			where pi.request_number = pr.request_number
@@ -104,6 +80,7 @@
 			and pi.in_delyn='N'
 		]]>
 	</update>
+	
 	<!-- 입고입력 -->
 	<insert id="reqMgmtIn" parameterType="reqMgmtDTO" useGeneratedKeys="true" keyProperty="in_number">
       <selectKey keyProperty="in_number" resultType="String" order="BEFORE">
@@ -114,15 +91,8 @@
 			insert into po_in(in_number, in_type, in_free, in_trans_type, in_date, in_empid, request_number, no)
 			values(#{in_number}, #{in_type}, #{in_free}, #{in_trans_type},#{in_date}, #{in_empid}, #{request_number}, #{no})
       ]]>
-<!--      <selectKey keyColumn="reqMgmtDTO" keyProperty="reqMgmtDTO" resultType="reqMgmtDTO" order="AFTER">
-         select pi.in_number,pi.in_empid, pi.in_type, pi.in_date, pi.in_trans_type,pi.in_delyn, pr.request_number, mcc.client_code, mcc.client_name, pi.in_regdate,pr.memo,pi.in_free
-			from po_in pi, po_request pr, ma_client_company mcc
-			where pi.request_number = pr.request_number 
-			and pi.no= mcc.no
-			and pi.in_delyn='N'
-      </selectKey> -->
    </insert>
-	
+   
 	<!-- 입고삭제-수정 -->
 	<update id="reqMgmtDelUp" parameterType="reqMgmtDTO" >
 		<![CDATA[
@@ -158,51 +128,42 @@
 	<!-- 상세보기수정 -->
  	<update id="reqMgmtDetailUp" parameterType="reqMgmtDetailDTO" >
 		<![CDATA[
-			update po_in_detail pid, ma_item mi, wh w, po_request_detail prd
-			set mi.item_code=#{item_code}, 
-				w.warehouse_code=#{warehouse_code}, 
+			update po_in_detail pid, po_request_detail prd
+			set pid.request_order=#{request_order},
+				pid.item_code=#{item_code}, 
+				pid.warehouse_code=#{warehouse_code}, 
 				prd.memo=#{memo},
 				pid.in_quantity=#{in_quantity}
-			where pid.item_code = mi.item_code 
-			and pid.warehouse_code = w.warehouse_code
-			and pid.request_order = prd.request_order
-			and pid.in_order = #{in_order}		
+			where pid.request_order = prd.request_order
+			and pid.in_order = #{in_order}
 		]]>
 	</update>
 	
 	<!-- modal -->
 	<!-- 발주 -->
- 	<select id="reqPO" resultMap="modalVOid" parameterType="modalVO">
+ 	<select id="reqPO" resultMap="modalVOid" parameterType="String">
  		select * from po_request
-			where delyn='N'	
+		where delyn='N'	
+		and company_code=#{mcompany_code}
 	</select>
-<!-- 			and company_code=#{mcompany_code}		 -->
-	
 	<!-- 거래처 -->
-	<select id="reqCCMList" resultMap="modalVOid">
+	<select id="reqCCMList" resultMap="modalVOid" parameterType="String">
  		select * from ma_client_company
+ 		where company_code=#{mcompany_code}
 	</select>
 	<!-- 검색 -->
  	<select id="reqCCM" resultMap="modalVOid" parameterType="modalVO">
  		select client_code,client_name from ma_client_company
 		where client_code LIKE CONCAT('%', #{mclient_code}, '%')
 	</select>
-	
 	<!-- 세부항목 -->
 	<select id="reqDetailModal" resultMap="modalVOid">
-	select pid.in_order, prd.item_code, mi.item_name, prd.item_no, mi.item_specification, mi.item_stock_unit,  prd.request_quantity, prd.price, prd.amount, prd.tax_amount, prd.memo, prd.request_order, pi.in_number, pid.in_quantity
-			from po_in_detail pid, po_in pi, ma_item mi, po_request_detail prd
-			where pid.in_number = pi.in_number
-			and pid.item_code = mi.item_code
-			and pid.request_order = prd.request_order
+		select * from po_request_detail
 	</select>
 	<!-- 창고 -->
-	<select id="reqWList" resultMap="modalVOid">
+	<select id="reqWList" resultMap="modalVOid" parameterType="String">
  		select warehouse_code,warehouse_name from wh
+ 		where company_code=#{mcompany_code}
 	</select>
-	
-	
-	
-	
 
 </mapper>

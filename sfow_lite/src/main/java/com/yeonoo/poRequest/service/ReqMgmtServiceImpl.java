@@ -22,10 +22,8 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 
 	//검색리스트
 	@Override
-	public List<ReqMgmtDTO> reqMgmtList(ReqMgmtDTO reqMgmtDTO) throws Exception {
-		System.out.println("서전"+reqMgmtDTO);
-		List<ReqMgmtDTO> list= reqMgmtRepository.reqMgmtList(reqMgmtDTO);
-		System.out.println("서후"+list);
+	public List<ReqMgmtDTO> reqMgmtList(ReqMgmtDTO reqMgmtDTO, String company_code) throws Exception {
+		List<ReqMgmtDTO> list= reqMgmtRepository.reqMgmtList(reqMgmtDTO, company_code);
 		return list;
 	}
 
@@ -33,10 +31,7 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 	@Override
 	@Transactional //메서드 안에서는 작동성공시 자동 커밋 / 실패시 롤백처리
 	public int reqMgmtUpdate(ReqMgmtDTO reqMgmtDTO) throws Exception {
-		 System.out.println("서수입전"+reqMgmtDTO);
 		 int cnt=reqMgmtRepository.reqMgmtUp(reqMgmtDTO);
-		 
-		 System.out.println("서수입후"+cnt);
 		return cnt;
 		
 	}
@@ -44,7 +39,6 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 	@Override
 	@Transactional
 	public void reqMgmtInsert(ReqMgmtDTO reqMgmtIn) throws Exception {
-		
 		reqMgmtRepository.reqMgmtInsert(reqMgmtIn);
 	}
 	
@@ -58,9 +52,7 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 	//입고관리세부항목보기
 	@Override
 	public List<ReqMgmtDetailDTO> reqMgmtDetail(String in_number) throws Exception {
-		System.out.println("세리서전"+in_number);
 		List<ReqMgmtDetailDTO> detail = reqMgmtRepository.reqMgmtDetail(in_number);
-		System.out.println("세리서후"+detail);
 		return detail;
 	}
 
@@ -68,32 +60,29 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 	@Override
 	@Transactional
 	public void reqMgDetailUpdate(ReqMgmtDetailDTO reqMgmtDetailDTO) throws Exception {
-		System.out.println("세수서전"+reqMgmtDetailDTO);
+		System.out.println("세부수정서비스전"+reqMgmtDetailDTO);
 		reqMgmtRepository.reqMgDetailUpdate(reqMgmtDetailDTO);		
-		System.out.println("세수서후"+reqMgmtDetailDTO);
+		System.out.println("세부수정서비스후"+reqMgmtDetailDTO);
 	}
 
 	//세부항목입력
 	@Override
 	public void reqMgDetailInsert(ReqMgmtDetailDTO reqMgmtDetailDTO) throws Exception {
-		System.out.println("서전"+reqMgmtDetailDTO);
 		reqMgmtRepository.reqMgDetailInsert(reqMgmtDetailDTO);	
-		System.out.println("서후"+reqMgmtDetailDTO);
 	}
-
 
 	//modalList
 	//발주
 	@Override
-	public List<ModalVO> reqPO(ModalVO modalVO) throws Exception {
-		List<ModalVO> reqPOList=reqMgmtRepository.reqPO(modalVO);
+	public List<ModalVO> reqPO(String mcompany_code) throws Exception {
+		List<ModalVO> reqPOList=reqMgmtRepository.reqPO(mcompany_code);
 		return reqPOList;
 	}
 	//거래처
 	@Override
 	//public List<Map<String, Object>> reqCCMList() {
-	public List<ModalVO> reqCCMList() {
-		List<ModalVO> list=reqMgmtRepository.reqCCMList();
+	public List<ModalVO> reqCCMList(String mcompany_code) {
+		List<ModalVO> list=reqMgmtRepository.reqCCMList(mcompany_code);
 		return list;
 	}
 	//검색
@@ -112,9 +101,8 @@ public class ReqMgmtServiceImpl implements  ReqMgmtService{
 
 	//창고모달
 	@Override
-	public List<ModalVO> reqWHCode() {
-		List<ModalVO> reqWH=reqMgmtRepository.reqWHCode();
-		System.out.println("창고서후"+reqWH);
+	public List<ModalVO> reqWHCode(String mcompany_code) {
+		List<ModalVO> reqWH=reqMgmtRepository.reqWHCode(mcompany_code);
 		return reqWH;
 	}
 
