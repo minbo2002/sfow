@@ -356,6 +356,7 @@ button {
 	      console.log('Row data: ', rowData);
 	      
 	     $.ajax({
+	    	
 	        url: '${conPath}/raw/updateRaw',
 	        method: 'POST',
 	        dataType: 'JSON',
