@@ -26,7 +26,8 @@
 		<typeAlias type="com.yeonoo.so.domain.ReturnDetail" alias="returnDetail"/>
 		<!-- 재고관리-->
 		<typeAlias type="com.yeonoo.stock.domain.Stock" alias="stock"/>
-
+		<typeAlias type="com.yeonoo.stock.domain.Stock" alias="stock"/>
+		
 		<typeAlias type="com.yeonoo.sfow.model.NoticeVO" alias="noticeVO"/>	
 		<typeAlias type="com.yeonoo.sfow.model.CpmVO" alias="cpmVO"/>	
 		<typeAlias type="com.yeonoo.sfow.basicinfo.domain.UserInfo" alias="userInfo"/>

@@ -2,23 +2,23 @@ package com.yeonoo.stock.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 import com.yeonoo.stock.domain.Stock;
-import com.yeonoo.stock.repository.StockRepositoryImpl;
+import com.yeonoo.stock.repository.StockByWhRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class StockServiceImpl implements StockService {
+public class StockByWhServiceImpl implements StockByWhService {
 
-    private final StockRepositoryImpl stockRepository;
+    private final StockByWhRepositoryImpl stockRepository;
 
     @Override
-    public List<Stock> searchAll() throws Exception{
-    	List<Stock> result =  stockRepository.searchAll();
+    public List<Stock> searchAll(String company_code) throws Exception{
+    	List<Stock> result =  stockRepository.searchAll(company_code);
     	
         //return stockRepository.search();
     	System.out.println("Service result"+result);
@@ -32,8 +32,8 @@ public class StockServiceImpl implements StockService {
 	}
     
     @Override
-	public List<Stock> searchWhStock(Stock data) throws Exception{
-		List<Stock> result =  stockRepository.searchWhStock(data);
+	public List<Stock> searchWhStock(Stock data, String company_code) throws Exception{
+		List<Stock> result =  stockRepository.searchWhStock(data, company_code);
 		System.out.println("스톡서비스 리저트"+result);
 		return result;
 	}
