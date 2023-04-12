@@ -105,7 +105,7 @@ button {
 
 
 <font size='7px';>기준정보</font>
-아래 그리드에서 유형,규격,재고단위,거래처명,입고창고,창고명은 모달 그리드 검색
+
   <div id="grid">
 				
 				<button id="searchBtn"> <i class="fa fa-search"></i>조회</button>
@@ -133,9 +133,9 @@ button {
     { header: 'Item코드'	 , name: 'itemCode'			, sortable: true, align:'center' },	    	
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' ,validation:{required: true} },
-    { header: '유형'		 , name: 'itemType' 		, sortable: true, align:'center' },
-    { header: '규격'	 	 , name: 'itemSpecification', sortable: true, align:'center' },
-    { header: '재고단위'	 , name: 'itemStockUnit'	, sortable: true, align:'center' },
+    { header: '유형'		 , name: 'itemType' 		, sortable: true, editor: 'text' ,align:'center' },
+    { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
+    { header: '재고단위'	 , name: 'itemStockUnit'	, sortable: true, editor: 'text' ,align:'center' },
     { header: '거래처코드'  , name: 'clientCode' 		, sortable: true, align:'center' },  
     { header: '거래처명'   , name: 'clientName' 		, sortable: true, align:'center' },
     { header: '입고창고'   , name: 'warehouseCode' 	, sortable: true, editor: 'text' ,align:'center' },
@@ -172,7 +172,7 @@ button {
    		var itemCode = document.getElementById('itemCode');
    		var itemName = document.getElementById('itemName');
   		var itemNo = document.getElementById('itemNo');
-  		var itemNo = document.getElementById('itemSpecification');
+  		var itemSpecification = document.getElementById('itemSpecification');
 	
     	
     	itemCode.value=rowData.itemCode;
@@ -357,7 +357,7 @@ button {
 	      
 	     $.ajax({
 	        url: '${conPath}/raw/updateRaw',
-	        method: 'PATCH',
+	        method: 'POST',
 	        dataType: 'JSON',
 	        data: JSON.stringify(rowData),
 	        contentType: 'application/json',
@@ -426,67 +426,7 @@ button {
     });
 
 
- // itemType 더블클릭 이벤트 실행
-    grid.on('dblclick', function(ev) {
-        if (ev.columnName === 'itemType') {
-            window.open('${conPath}/raw/typeModalList', 'childWindow', 'width=500,height=500');
-        }
-    });
-   
-   //
-	window.addEventListener('message', function(ev) {
-    
-	const selectedRow = ev.data;
-    const focusedCell = grid.getFocusedCell();
-    const columns = grid.getColumns();
-    const currentItem = grid.getData()[focusedCell.rowKey];
-    const selectedRowCopy = Object.assign({}, selectedRow);
-    console.log('123',columns);
-    for (const column of columns) {
-    	  const columnName = column.field;
-    	  console.log('10',columnName);
-    	  if (columnName !== 'itemType' || columnName !== 'itemCategory') {
-    	    const currentValue = currentItem[columnName];
-    	    const selectedValue = selectedRow[columnName];
-    	    selectedRowCopy[columnName] = selectedValue !== null ? selectedValue : currentValue;
-    	    console.log('1',currentValue);
-    	    console.log('2',selectedValue);
-    	    grid.setValue(focusedCell.rowKey, columnName, selectedRowCopy[columnName]);
-    	  }
-    	} 
-
-    	grid.setValue(focusedCell.rowKey, 'itemType', selectedRowCopy.itemType);
-    	grid.setValue(focusedCell.rowKey, 'itemCategory', selectedRowCopy.itemCategory);
-});
-
-    // itemSpecification 더블클릭 이벤트 실행
-    grid.on('dblclick', function(ev) {
-        if (ev.columnName === 'itemSpecification') {
-            window.open('${conPath}/raw/specificationModalList', 'childWindow', 'width=500,height=500');
-        }
-    });
-   
-   //
-    window.addEventListener('message', function(ev) {
-        const selectedRow = ev.data;
-        const focusedCell = grid.getFocusedCell();
-        grid.setValue(focusedCell.rowKey, 'itemSpecification', selectedRow.itemSpecification);
-        
-    });
-      
-    // itemStockUnit 더블클릭 이벤트 실행
-    grid.on('dblclick', function(ev) {
-        if (ev.columnName === 'itemStockUnit') {
-            window.open('${conPath}/raw/stockUnitModalList', 'childWindow', 'width=500,height=500');
-        }
-    });
-   
-   //
-    window.addEventListener('message', function(ev) {
-        const selectedRow = ev.data;
-        const focusedCell = grid.getFocusedCell();
-        grid.setValue(focusedCell.rowKey, 'itemStockUnit', selectedRow.itemStockUnit);
-    });
+ 
    
 </script>
 

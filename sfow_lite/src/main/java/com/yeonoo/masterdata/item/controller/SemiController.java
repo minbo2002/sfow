@@ -108,6 +108,7 @@ public class SemiController {
 		       	SemiDTO elements = iterator.next();
 		          
 		          int insertCnt = semiService.updateSemi(elements,companyCode);
+		          System.out.println(dto);
 		       }
 		       
 		       return dto;
@@ -141,14 +142,14 @@ public class SemiController {
 		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
 			      String companyCode = user.getCompanyCode();
 			      System.out.println("로그인유저의 companyCode = " + companyCode);
-			      
+			        System.out.println(dto);
 		        Iterator<SemiDTO> iterator = dto.iterator();
 		        while(iterator.hasNext()) {
 		        	SemiDTO elements = iterator.next();
-		           
 		           int insertCnt = semiService.insertSemi(elements,companyCode);
+			        System.out.println(insertCnt);
 		        }
-		        
+		        System.out.println(dto);
 		        return dto;
 		     }
 		     

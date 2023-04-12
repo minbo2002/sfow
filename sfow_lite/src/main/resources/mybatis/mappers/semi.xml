@@ -21,11 +21,13 @@
     </resultMap> 
      
 
-	<select id="semiList" resultType="semiDTO">
+	<select id="semiList" resultType="semiDTO" parameterType="map">
 		<![CDATA[
 		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type,item_specification as itemSpecification,item_stock_unit as itemStockUnit,lotsize,memo,useyn,createdate,updatedate
 			from ma_item  
+			
 			where item_category='반제품' AND (useyn='Y' or useyn is null)
+			 AND company_code=#{companyCode} 
 						
 		order by item_code 
 		]]>	
@@ -36,6 +38,7 @@
 		select company_code as companyCode, item_code as itemCode,item_name as itemName,item_no as itemNo,item_type,item_specification as itemSpecification,item_stock_unit as itemStockUnit,lotsize,memo,useyn,createdate,updatedate
 			from ma_item
 			where  item_category='반제품'
+			
 						 AND (useyn='Y' or useyn is null)
 						 AND COALESCE(item_code, '') LIKE CONCAT('%', #{dto.itemCode}, '%')
 						 AND COALESCE(item_name, '') LIKE CONCAT('%', #{dto.itemName}, '%')
@@ -45,24 +48,24 @@
 		]]>	
 	</select>
 
-	<insert id="insertSemi" parameterType="semiDTO">
+	<insert id="insertSemi" parameterType="map">
 
 		INSERT INTO ma_item (company_code,item_name, item_no, item_type, item_specification, item_stock_unit, lotsize, memo,useyn,createdate,item_category) 
-		values ('1234',#{itemName}, #{itemNo}, #{item_type}, #{itemSpecification}, #{itemStockUnit}, #{lotSize}, #{memo}, #{useyn},now(),'반제품')
+		values (#{companyCode},#{elements.itemName}, #{elements.itemNo}, #{elements.item_type}, #{elements.itemSpecification}, #{elements.itemStockUnit}, #{elements.lotSize}, #{elements.memo}, #{elements.useyn},now(),'반제품')
 	</insert>
 	
 	
-	<update id="updateSemi" parameterType="semiDTO">
+	<update id="updateSemi" parameterType="map">
 		update ma_item
-		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{item_type} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=CURRENT_TIMESTAMP
-		where item_code=#{itemCode}
+		set item_name=#{elements.itemName}, item_no=#{elements.itemNo}, item_type=#{elements.item_type} ,item_specification=#{elements.itemSpecification},item_stock_unit=#{elements.itemStockUnit}, lotsize=#{elements.lotSize}, memo=#{elements.memo},useyn=#{elements.useyn} ,updatedate=CURRENT_TIMESTAMP
+		where item_code=#{elements.itemCode}
 	</update>
 
 	<update id="useUpdate" parameterType="String">
 		<![CDATA[
 			update ma_item
 			set useyn='N'
-			where item_code=#{itemCode}
+			where item_code=#{elements.itemCode}
 		]]>
 	</update>
 	

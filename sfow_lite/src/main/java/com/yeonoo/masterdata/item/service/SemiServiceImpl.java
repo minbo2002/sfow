@@ -32,7 +32,7 @@ public class SemiServiceImpl implements SemiService{
 	@Override
 	@Transactional
 	public int insertSemi(SemiDTO elements , String companyCode) {
-		
+		System.out.println(elements);
 		return semiRepository.insertSemi(elements ,companyCode);
 	}
 	

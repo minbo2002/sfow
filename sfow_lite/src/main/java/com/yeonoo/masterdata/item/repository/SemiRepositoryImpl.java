@@ -51,10 +51,11 @@ public class SemiRepositoryImpl implements SemiRepository{
 		// 반제품 등록
 		@Override
 		public int insertSemi(SemiDTO elements, String companyCode) {
-			 
+			 System.out.println(elements);
 			Map<String, Object> map = new HashedMap();
 			map.put("elements", elements);
 			map.put("companyCode", companyCode);
+			System.out.println("2"+elements);
 			return sqlSession.insert("semi.insertSemi", map);
 		}
 

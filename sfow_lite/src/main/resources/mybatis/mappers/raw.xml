@@ -26,7 +26,7 @@
 
 	<select id="rawList" resultType="rawDTO">
 		<![CDATA[
-		select i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_type as itemType,i.item_specification as itemSpecification,i.item_stock_unit as itemStockUnit,c.client_name as clientName,w.warehouse_code as warehouseCode,w.warehouse_name as warehouseName,i.memo,i.useyn,i.createdate,i.updatedate
+		select distinct i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_type as itemType,i.item_specification as itemSpecification,i.item_stock_unit as itemStockUnit,c.client_name as clientName,w.warehouse_code as warehouseCode,w.warehouse_name as warehouseName,i.memo,i.useyn,i.createdate,i.updatedate
 			from ma_item i, ma_client_company c, wh w 
 			where i.item_category='원자재' AND (i.useyn='Y' or i.useyn is null)
 		order by i.item_code 
@@ -35,35 +35,36 @@
 
 	<select id="rawListSearch" resultMap="rawDTO" parameterType="rawDTO">
 		<![CDATA[
-		select i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_type as itemType,i.item_specification as itemSpecification,i.item_stock_unit as itemStockUnit,c.client_name as clientName,w.warehouse_code as warehouseCode,w.warehouse_name as warehouseName,i.memo,i.useyn,i.createdate,i.updatedate
+		select distinct i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_type as itemType,i.item_specification as itemSpecification,i.item_stock_unit as itemStockUnit,c.client_name as clientName,w.warehouse_code as warehouseCode,w.warehouse_name as warehouseName,i.memo,i.useyn,i.createdate,i.updatedate
 			from ma_item i, ma_client_company c, wh w
 			where  i.item_category='원자재'
 						 AND (i.useyn='Y' or i.useyn is null)
 						 AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
 						 AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{itemName}, '%')
 						 AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{itemNo}, '%')
-						 AND COALESCE(i.item_specification, '') LIKE CONCAT('%', #{itemSpecification}, '%') 
+						 AND COALESCE(i.item_specification, '') LIKE CONCAT('%', #{itemSpecification}, '%')
+						 AND i.warehouse_code=w.warehouse_code 
 		order by i.item_code 
 		]]>	
 	</select>
 
-	<insert id="insertRaw" parameterType="rawDTO">
+	<insert id="insertRaw" parameterType="map">
 
-		INSERT INTO ma_item (company_code,item_name, item_no, item_type, item_specification,itemStockUnit,client_name, warehouse_code,warehouse_name, memo,useyn,createdate,item_category) 
-		values ('1234',#{itemName}, #{itemNo}, #{itemType}, #{itemSpecification}, #{itemStockUnit},거래처명,'창고코드','창고명',#{memo}, #{useyn},now(),'원자재')
+		INSERT INTO ma_item (company_code,item_name, item_no, item_type, item_specification,item_stock_unit,client_code,client_name, warehouse_code,warehouse_name, memo,useyn,createdate,item_category) 
+		values (#{companyCode},#{elements.itemName}, #{elements.itemNo}, #{elements.itemType}, #{itemSpecification}, #{elements.itemStockUnit},#{elements.clientCode},#{elements.clientName},#{elements.warehouseCode},#{elements.warehouseName},#{elements.memo}, #{elements.useyn},now(),'원자재')
 	</insert>
 	
-	<update id="updateRaw" parameterType="rawDTO">
+	<update id="updateRaw" parameterType="map">
 		update ma_item
-		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{itemType} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit},buy_price=#{buyPrice}, sales_price=#{salesPrice}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} 
-		where item_code=#{itemCode}
+		set item_name=#{elements.itemName}, item_no=#{elements.itemNo}, item_type=#{elements.itemType} ,item_specification=#{elements.itemSpecification},item_stock_unit=#{elements.itemStockUnit},buy_price=#{elements.buyPrice}, sales_price=#{elements.salesPrice}, lotsize=#{elements.lotSize}, memo=#{elements.memo},useyn=#{elements.useyn} 
+		where item_code=#{elements.itemCode}
 	</update>
 
 	<update id="useUpdate" parameterType="String">
 		<![CDATA[
 			update ma_item
 			set useyn='N'
-			where item_code=#{itemCode}
+			where item_code=#{elements.itemCode}
 		]]>
 	</update>
 	
