@@ -6,6 +6,9 @@ pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script><!-- include jQuery -->
    <title>창고등록</title>
    
    <!-- <script src="https://code.jquery.com/jquery-1.11.3.js"></script> -->
@@ -93,7 +96,6 @@ div.whbox1{
 </head>
 <script src="<%=request.getContextPath()%>/resources/js/warehouse/wh_main.js"></script>
 <!-- <script src="${conPath}/resources/js/warehouse/wh_main.js"></script> -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 <body>
 	<h3>창고등록</h3>
@@ -104,32 +106,11 @@ div.whbox1{
 		<div class="whbox1">
 	<!-- 	<input type="button" name="serchBtn" id="serchBtn" value="조회"> -->
 		</div>
-		<!-- 
-		<button name="WH_type_btn" id="WH_type_btn">창고구분</button>
-		<select>
-			<option value="null">--</option>
-			<option value="type1">제품창고</option>
-			<option value="type2">반제품창고</option>
-			<option value="type3">자재창고</option>
-			<option value="type4">일반창고</option>
-			<option value="type5">설비창고</option>
-			<option value="type6">금형창고</option>
-			<option value="type7">기타창고</option>
-			<option value="type8">자동차감창고</option>
-			<option value="type9">외주출곤창고</option>
-		</select>
-		
-		<button name="WH_code_btn" id="WH_code_btn">창고코드</button>
-		<input type="text" name="WH_type" id="WH_type">
-		
-		<button name="WH_name_btn" id="WH_name_btn">창고명</button>
-		<input type="text" name="WH_name" id="WH_name">
-		 -->
-		<table>
+	<table>
 		
 		<tr>
 			<td id="td1">창고구분
-				<select id="warehouse_type" name="warehouse_type" style="text-align: center;">
+				<select id="warehouse_typeS" name="warehouse_typeS" style="text-align: center;">
 					<option value="">--</option>
 					<option value="제품창고">제품창고</option>
 					<option value="반제품창고">반제품창고</option>
@@ -143,10 +124,10 @@ div.whbox1{
 				</select>
 			</td >
 			<td id="td2">창고코드
-				<input type="text" name="warehouse_code" id="warehouse_code">
+				<input type="text" name="warehouse_codeS" id="warehouse_codeS">
 			</td>
 			<td id="td3">창고명
-				<input type="text" name="warehouse_name" id="warehouse_name">
+				<input type="text" name="warehouse_nameS" id="warehouse_nameS">
 			</td>
 			<td id="td4">
 				<input type="button" name="searchBtn" id="searchBtn" value="조회">

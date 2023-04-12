@@ -1,12 +1,13 @@
 package com.yeonoo.masterdata.wh.controller;
 
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +32,7 @@ public class Wh_RestController {
 	@Autowired
 	private WhService whService;
 	
+	private final Logger logger = LoggerFactory.getLogger(Wh_RestController.class);
 	//창고폼에서 AJAX 로 내용 불러오기
 	@RequestMapping(method = {RequestMethod.GET},value="/warehouse/whinfoAJ")
     public List<WH> getWhAllList(HttpSession session) throws Exception {
@@ -58,20 +60,20 @@ public class Wh_RestController {
     //그리드 1행 추가 등록(인서트 "저장" 버튼)
 	@ResponseBody
     @RequestMapping(method= {RequestMethod.POST}, value="/warehouse/insertWH")
-    public List<WH> insertWH(@RequestBody WH wh,@RequestBody List<WH> insertwh,HttpSession session) throws Exception{
+    public List<WH> insertWH(@RequestBody List<WH> insertwh,HttpSession session) throws Exception{
 		
 		Iterator<WH> iterator = insertwh.iterator();
 		UserInfo userinfo = (UserInfo) session.getAttribute("AUTHUSER");
 		String company_code = userinfo.getCompanyCode();
 		String createuser =userinfo.getId();
 		
-		wh.setCompany_code(company_code);
-		wh.setCreateuser(createuser);
+		((WH) insertwh).setCompany_code(company_code);
+		((WH) insertwh).setCreateuser(createuser);
 		
 		    while(iterator.hasNext()){
-		    	WH elements =iterator.next();
-		       whService.insertWH(elements);
-		       
+		    		WH elements =iterator.next();
+		    		int writeCnt=   whService.insertWH(elements);
+		    		logger.info("DB에 insert된 출하 개수 : " + writeCnt); 
 		    }
 		    return insertwh;
 		}

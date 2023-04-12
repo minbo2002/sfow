@@ -287,9 +287,9 @@ $(document).ready(window.onload = function() {
 				  event.preventDefault(); // prevent form submission
 				  var Grid = tui.Grid;
 				    // get search parameters
-				    var warehouse_type = $('#warehouse_type').val();
-				    var warehouse_code = $('#warehouse_code').val();
-				    var warehouse_name = $('#warehouse_name').val();
+				    var warehouse_typeS = $('#warehouse_typeS').val();
+				    var warehouse_codeS = $('#warehouse_codeS').val();
+				    var warehouse_nameS = $('#warehouse_nameS').val();
 				   // alert(warehouse_type);
 				     
 				    // make AJAX call to server
@@ -299,9 +299,9 @@ $(document).ready(window.onload = function() {
 				      dataType:'JSON',
 				      contentType: 'application/json',
 				      data:JSON.stringify({
-			    	  warehouse_type: warehouse_type,
-			    	  warehouse_code: warehouse_code,
-			    	  warehouse_name: warehouse_name
+			    	  warehouse_type: warehouse_typeS,
+			    	  warehouse_code: warehouse_codeS,
+			    	  warehouse_name: warehouse_nameS
 			      }),
 			      success: function(data) {
 			    	 	console.dir(data);
@@ -326,19 +326,21 @@ $(document).ready(window.onload = function() {
 		Array.prototype.forEach.call(document.querySelectorAll('#delBtn'), el => {
 	      el.addEventListener('click', ev => {
 
-			/*	$.ajax({
+				$.ajax({
                  url: './warehouse/deleteWH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
                  contentType: 'application/json',
-             */
-             $.ajax({
+             
+            /*  $.ajax({
                  url: './warehouse/deleteUP_WH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
-                 contentType: 'application/json',
+                 contentType: 'application/json', */
+                 
+                 
                  success: function(response) {
                      console.log('Success:', response);
                       location.href="javascript:acyncMovePage('./warehouse/whinfo');"
@@ -363,14 +365,20 @@ $(document).ready(window.onload = function() {
 		  var	rowDatas2 = grid.getCheckedRows();
 			var jsonRowDatas2 = JSON.stringify(rowDatas2);
 			
-			var	Area_rowDatas = grid2.getCheckedRows();
-			var Area_jsonRowDatas = JSON.stringify(Area_rowDatas);
-			  var	Area_rowDatas2 = grid2.getCheckedRows();
-				var Area_jsonRowDatas2 = JSON.stringify(Area_rowDatas2);
-				
-		if (jsonRowDatas.createdate == null){
-		
-			$.ajax({
+			
+			
+	if (jsonRowDatas) {
+  var parsedRowDatas = JSON.parse(jsonRowDatas);
+  var hasCreateUser = true;
+  for (var i = 0; i < parsedRowDatas.length; i++) {
+    if (!parsedRowDatas[i].createuser) {
+      hasCreateUser = false;
+      break;
+    }
+  }
+  
+  if (hasCreateUser) {
+    				$.ajax({
 	                 url: './warehouse/insertWH',
 	                 method :'post',
 	                 dataType: 'json',
@@ -378,6 +386,7 @@ $(document).ready(window.onload = function() {
 	                 contentType: 'application/json; charset=utf-8',
 	                 success: function(result) {
 	                     console.log('Success:', result);
+	                     
 	                   location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 	                 	},
 	                 error: function(error) {
@@ -385,10 +394,8 @@ $(document).ready(window.onload = function() {
 	                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 	                 	}
 	             }); //insert ajax 끝
-	                      
-	      } else {
-	    	
-		           $.ajax({
+					  } else {
+					   $.ajax({
 		                 url: './warehouse/updateWH',
 		                 method :'PUT',
 		                 dataType: 'JSON',
@@ -403,7 +410,8 @@ $(document).ready(window.onload = function() {
 		                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 		                 	}
 		             }); //update ajax 끝
-	      }
+  }
+}
 	       
 		 }); //$('#saveBtn')끝
 	

@@ -1,6 +1,5 @@
 package com.yeonoo.masterdata.wh.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,10 +39,10 @@ public class WhRepositoryImpl implements WhRepository {
 	public List<WH_detail> WHarea(String warehouse_code) throws DataAccessException {
 		return	sqlSession.selectList("mapper.warehouse.wharea",warehouse_code);
 		
-		
 	}
 	
 	//저장버튼 insert
+	@Override
 	public int insertWH(WH elements) throws DataAccessException {
 		int cnt = sqlSession.update("mapper.warehouse.insertWH", elements);
 		
