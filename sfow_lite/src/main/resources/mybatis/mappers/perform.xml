@@ -30,7 +30,7 @@
 
 <select id="selectPerformByLot" resultType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[select * from pp_perform
-			 where lot_no=#{lot_no} and where company_code=#{company_code}]]>
+			 where lot_no=#{lot_no} and company_code=#{company_code}]]>
 </select>
 
 <select id="selectBOM" resultType="com.yeonoo.sfow.ppPerform.domain.BOM">

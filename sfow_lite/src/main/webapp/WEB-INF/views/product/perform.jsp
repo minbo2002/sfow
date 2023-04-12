@@ -50,29 +50,6 @@ select {
   box-sizing: border-box;
 }
 
-input[type="submit"],
-input[type="reset"],
-button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-button:hover {
-  background-color: #555;
-}
-
-button {
-  background-color: #ccc;
-  color: #333;
-}
 
 .form-field {
   display: inline-block;
@@ -428,7 +405,7 @@ function restAllOrder(){
 	<form id="orderSearch">
 	<div>
 		<input type="submit" value="조회" id="search" class="custom-button">
-		<input type="reset" value="초기화" id="resetAllOrder" onclick="restAllOrder()">
+		<input type="reset" value="초기화" d="reset" class="custom-button" onclick="restAllOrder()">
 		<input type="submit" value="작업등록" id="saveBtn" class="custom-button" name="saveBtn">
  		<br/><br/>
  	</div>
@@ -511,7 +488,7 @@ var grid = new tui.Grid({
   ]
 });
 </script>
-	<div id="grid2">생산LOT <input type="button" name="deleteRow" id="deleteRow" style="float:right;" value="작업 삭제하기"></div>
+	<div id="grid2">생산LOT <input type="button" name="deleteRowBtn2"  id="deleteRowBtn2" class="custom-button" style="float:right;" value="작업 삭제하기"></div>
 <script>
 var gridData2 = [];
 var grid2 = new tui.Grid({

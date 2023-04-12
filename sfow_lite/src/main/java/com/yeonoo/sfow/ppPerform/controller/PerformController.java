@@ -42,7 +42,6 @@ public class PerformController {
 		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
 		String comCode=user.getCompanyCode();
 		order.setCompany_code(comCode);
-		System.out.println("order의 컴페니코드 확인해"+order);
 		List<Order> result=performService.selectOrder(order);
 		return result;
 	}
