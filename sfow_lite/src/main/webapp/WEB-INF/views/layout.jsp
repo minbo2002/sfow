@@ -24,9 +24,15 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
-    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+
+    
 </head>
 <body id="page-top">
 
@@ -135,20 +141,18 @@
                           <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">수주관리</a>
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">견적서 등록</a>
-                            <a class="collapse-item" href="#">수주서 관리</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/orderList');">수주서 관리</a>
                            </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
                         aria-expanded="false" aria-controls="collapseWarehouse">출하관리</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">출하 등록</a>
-                                  <a class="collapse-item" href="#">출하 조회</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/shipout/main');">출하 등록</a>
                           </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse2"
                         aria-expanded="false" aria-controls="collapseWarehouse2">반품관리</a>
                            <div id="collapseWarehouse2" class="collapse" aria-labelledby="headingWarehouse2" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">반품등록</a>
-                                  <a class="collapse-item" href="#">반품현황</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnMain');">반품등록</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnInfo');">반품현황</a>
                           </div>
                     </div>
                 </div>
@@ -403,11 +407,11 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="${conPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <%-- <script src="${conPath}/resources/vendor/jquery/jquery.min.js"></script> --%>
     <script src="${conPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <%-- <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script> --%>
 
     <script>
     
@@ -423,7 +427,7 @@
     	    	$("#bodyContents").html(data);
     	    },
     	    error: function(){
-    	    	alert("error")
+    	    	alert("ajax error")
     	    }
     	});
     });
@@ -439,12 +443,36 @@
 		    	$('#bodyContents').children().remove();
 	            // Contents 영역 교체
 	            $('#bodyContents').html(data);
+	            // 초기화 코드 추가
+	            /* if (typeof $('#bodyContents').find('#datepicker').datepicker === 'function') {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }	             */
+	            if ($('#bodyContents').find('#datepicker').length > 0) {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }
 		      },
 		      error: function(request, status, error) {
-		        alert(error);
+		        alert("acyncMovePage 매핑 오류");
 		    }
 		  });
+
 	}
+
+	window.datepickerConfig = {
+		    dateFormat: 'yy-mm-dd',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    dayNames: ['일','월','화','수','목','금','토'],
+		    dayNamesShort: ['일','월','화','수','목','금','토'],
+		    dayNamesMin: ['일','월','화','수','목','금','토'],
+		    yearSuffix: '년',
+		    changeMonth: true,
+		    changeYear: true
+		};
+	
+	
 	</script>
 
 </body>
