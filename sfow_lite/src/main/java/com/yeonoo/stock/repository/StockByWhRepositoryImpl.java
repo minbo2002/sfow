@@ -56,7 +56,10 @@ public class StockByWhRepositoryImpl implements StockByWhRepository{
 				(data.getItem_name()==null||data.getItem_name()=="")&&
 				(data.getItem_category()==null||data.getItem_category()=="")&&
 				(data.getWarehouse_name()==null||data.getWarehouse_name()=="")) {
-			List<Stock> result=sqlSession.selectList("mapper.stockWh.allStockList");
+			Map<String, Object> map = new HashedMap();
+		      map.put("company_code" , company_code);
+		      map.put("stock" , data);
+			List<Stock> result=sqlSession.selectList("mapper.stockWh.allStockList", company_code);
 			System.out.println("스톡리포지토리 리저트1"+result);
 			return result;
 		}else {
