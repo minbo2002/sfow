@@ -49,7 +49,8 @@ $(document).ready(function(){
 	    columns: [
 	        { header: '아이템코드', name: 'item_code',align: 'center'},
 	        { header: '단가', name: 'sales_price',align: 'center'},
-	        { header: '재고단위', name: 'item_stock_unit',align: 'center'}
+	        { header: '재고단위', name: 'item_stock_unit',align: 'center'},
+	        { header: '회사코드', name: 'company_code',align: 'center',hidden:true}
 	    ]
 	});
 	
