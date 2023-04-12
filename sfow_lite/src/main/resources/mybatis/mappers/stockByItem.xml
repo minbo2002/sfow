@@ -27,7 +27,7 @@
 				
         ]]>
     </select>
-    
+     
     <select id="stockByItemSearchByKeyword" resultType="stock" parameterType="map">
 		<![CDATA[
 			SELECT s.company_code, s.item_code, s.pass_quantity, s.fail_quantity, s.quantity,s.stock_status,
