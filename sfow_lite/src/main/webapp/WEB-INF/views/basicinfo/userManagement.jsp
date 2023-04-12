@@ -12,6 +12,8 @@
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <title>Insert title here</title>
   <style>
   .btn-wrapper {
@@ -19,32 +21,58 @@
     justify-content: space-between;
   }
   
-  .btn-wrapper button {
+  /* .btn-wrapper button {
     background-color: #f5f5f5;
     color: #333;
     border: 1px solid #ccc;
-    padding: 5px 8px; /* 버튼 내부 여백 수정 */
+    padding: 5px 8px; 
     border-radius: 4px;
     cursor: pointer;
-    width: 70px; /* 버튼 너비 조정 */
-    height: 30px; /* 버튼 높이 조정 */
-    font-size: 12px; /* 폰트 크기 조정 */
-  }
+    width: 70px; 
+    height: 30px; 
+    font-size: 12px; 
+  } */
 
-  #delete-row-btn {
+/*   #delete-row-btn {
     background-color: #ff8a80;
     color: #fff;
     border: 1px solid #ff8a80;
-  }
+  } */
 
-  #delete-row-btn:hover {
+ /*  #delete-row-btn:hover {
     background-color: #ff7043;
     border: 1px solid #ff7043;
-  }
+  } */
   
   .inputBox, .searchKeywordBtn {
   display: inline-block;
 	}
+	
+	
+	/* ---------------------------------------------------------- */
+	
+	.custom-button {
+    background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+		}
+		
+		#saveBtn:hover, #saveBtn2:hover, #search:hover {
+		  background-color: rgba(051, 102, 204, 1);
+		  opacity: 0.8;
+		}
+		
+		#deleteRowBtn:hover, #deleteRowBtn2:hover, #reset:hover {
+		  background-color: rgba(204, 000, 051, 1);
+		  opacity: 0.8;
+		}
+		
+		#addRowBtn:hover, #addRowBtn2:hover {
+		  background-color: rgba(80, 201, 141);
+		  opacity: 0.8;
+		}
+	
 </style>
 </head>
 <script>
@@ -194,7 +222,7 @@ $(document).ready(function() {
 		
 	  
 	  //행 추가
-	  $('#add-row-btn').on('click', function() {
+	  $('#addRowBtn').on('click', function() {
 		  
 		  
 		  var now = new Date();
@@ -352,7 +380,7 @@ $(document).ready(function() {
 	  
 	  
 		// 행 삭제
-		  $('#delete-row-btn').on('click', function() {
+		  $('#deleteRowBtn').on('click', function() {
 		    const checkedRows = grid.getCheckedRows();
 		    var ids = [];
 		    for (var i = 0; i < checkedRows.length; i++) {
@@ -420,12 +448,12 @@ $(document).ready(function() {
 				  	  <div class="inputBox">
 				      <input type="text" name="searchKeyword" id="searchKeyword">
 				      <div class="searchKeywordBtn">
-				        <button id="searchKeywordBtn">이름 검색</button>
+				        <button id="search"  class="custom-button">이름 검색</button>
 				      </div>
 				    </div>
 				    <div class="wrapper_rowBtn">
-						  <button id="add-row-btn"><i class="fas fa-plus"></i></button>
-						  <button id="delete-row-btn"><i class="fas fa-minus"></i></button>
+						  <button id="addRowBtn" class="custom-button"><i class="fas fa-plus"></i></button>
+						  <button id="deleteRowBtn"  class="custom-button"><i class="fas fa-minus"></i></button>
 						</div>
 				  </div>
 				</div>
