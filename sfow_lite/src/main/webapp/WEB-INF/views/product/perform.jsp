@@ -155,7 +155,7 @@ button {
 </style>
 <script>
 $(document).ready(function() {
-	  $('#searchOrder').click(function(event) {
+	  $('#search').click(function(event) {
 		 event.preventDefault();
 			var pp_no = $('#pp_no').val();
 			var pp_date = $('#pp_date').val();
@@ -354,7 +354,7 @@ $(document).ready(function() {
 	});
 		});
 	  
-	$('#sPerform').click(function(event) {
+	$('#saveBtn').click(function(event) {
 			 event.preventDefault();
 			 
 		var pp_no = $('#pp_no').val();
@@ -427,9 +427,9 @@ function restAllOrder(){
 <body>
 	<form id="orderSearch">
 	<div>
-		<input type="submit" value="조회" id="searchOrder">
+		<input type="submit" value="조회" id="search" class="custom-button">
 		<input type="reset" value="초기화" id="resetAllOrder" onclick="restAllOrder()">
-		<input type="submit" value="작업등록" id="sPerform" name="sPerform">
+		<input type="submit" value="작업등록" id="saveBtn" class="custom-button" name="saveBtn">
  		<br/><br/>
  	</div>
  		<div class="form-field">
