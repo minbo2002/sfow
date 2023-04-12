@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yeonoo.masterdata.item.domain.PriceDTO;
+import com.yeonoo.masterdata.item.domain.PriceDTO;
 import com.yeonoo.masterdata.item.repository.PriceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,38 @@ public class PriceServiceImpl implements PriceService{
 	public List<PriceDTO> priceList( PriceDTO dto) {
 		return priceRepository.priceList(dto);
 	}
+	
+	// 등록하기
+		@Override
+		@Transactional
+		public int insertPrice(PriceDTO elements , String companyCode) {
+			
+			return priceRepository.insertPrice(elements ,companyCode);
+		}
+		
+		//수정하기
+		@Override
+		@Transactional
+		public int updatePrice(PriceDTO elements , String companyCode) {
+			return priceRepository.updatePrice(elements ,companyCode);
+			 
+			 
+
+		}
+		
+		// 삭제하기(상태업데이트)
+		@Override
+		@Transactional
+		public int deletePrice(String itemCode , String companyCode) {
+			return priceRepository.deletePrice(itemCode ,companyCode);
+		}
+	
+	
+	
+	
+	
+	
+	
 	//거래처명 목록
 	public List<PriceDTO> companycodeSelectAjax() throws Exception {
 		List<PriceDTO> companycodelist = priceRepository.companycodeSelectAjax();

@@ -1,7 +1,9 @@
 package com.yeonoo.masterdata.item.repository;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,7 +23,7 @@ public class PriceRepositoryImpl implements PriceRepository{
 		@Autowired
 		private SqlSession sqlSession;
 		
-		// 전체 반제품 조회
+		// 전체  조회
 		@Override
 		@ResponseBody
 		public List<PriceDTO> priceList(PriceDTO dto) {
@@ -45,6 +47,39 @@ public class PriceRepositoryImpl implements PriceRepository{
 				
 		}
 
+		//  등록
+				@Override
+				public int insertPrice(PriceDTO elements, String companyCode) {
+					 
+					Map<String, Object> map = new HashedMap();
+					map.put("elements", elements);
+					map.put("companyCode", companyCode);
+					return sqlSession.insert("price.insertPrice", map);
+				}
+
+
+				//  수정
+				@Override
+				public int updatePrice(PriceDTO elements, String companyCode) {
+				
+					Map<String, Object> map = new HashedMap();
+					map.put("elements", elements);
+					map.put("companyCode", companyCode);
+					int cnt = sqlSession.update(" price.updatePrice", map);
+					return cnt;
+				}
+
+				//  삭제(상태업데이트)
+				@Override
+				public int deletePrice(String itemCode, String companyCode) {
+					
+					Map<String, Object> map = new HashedMap();
+					map.put("itemCode", itemCode);
+					map.put("companyCode", companyCode);
+					return sqlSession.update("price.useUpdate", map);
+				}
+		
+		
 		//거래처명 목록
 		public List<PriceDTO> companycodeSelectAjax() throws DataAccessException {
 			List<PriceDTO> companycodelist = sqlSession.selectList("price.companycodeList");

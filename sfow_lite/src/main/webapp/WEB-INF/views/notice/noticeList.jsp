@@ -70,7 +70,7 @@
 	        listHtml += "<td colspan='4'>";
 	        listHtml += "<textarea id='ta" + notice.no + "' readonly rows='7' class='form-control'>" + notice.content + "</textarea>";
 	        listHtml += "<br/>";
-	        listHtml += "<c:if test='${sessionScope.AUTHUSER.adminRole==999}'>";
+	        listHtml += "<c:if test='${sessionScope.AUTHUSER.adminRole==9999}'>";
 	        listHtml += "<span id='ub" + notice.no + "'><button class='btn btn-success btn-sm' onclick='updateNoticeForm(" + notice.no + ")'>수정화면</button></span>&nbsp;";
 	        listHtml += "<button class='btn btn-warning btn-sm' onclick='deleteNotice(" + notice.no + ", " + pageMaker.criteria.page + ")'>삭제</button>";
 	        listHtml += "</c:if>";
@@ -286,7 +286,7 @@
    <div class="card">
     <div class="card-body">
        
-    <c:if test="${sessionScope.AUTHUSER.adminRole==999}">
+    <c:if test="${sessionScope.AUTHUSER.adminRole==9999}">
  <button id="writeButton" class='btn btn-primary btn-sm' onclick='goForm()' style='margin-bottom: 10px;'>글쓰기</button>
 </c:if>
       <div id="view"></div>

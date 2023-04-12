@@ -38,7 +38,7 @@ public class UserInfoController {
 		
 		UserInfo loginUser = userInfoService.userLogin(userInfo);
 
-		session.setMaxInactiveInterval(600000);
+		session.setMaxInactiveInterval(1800);
 		
 		session.setAttribute("AUTHUSER", loginUser);
 		

@@ -18,7 +18,8 @@ $(document).ready(window.onload=function() {
           {  header: '품명', name: 'item_name', align: 'center', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
           {  header: '품번', name: 'item_no', editor: 'text', align: 'center', filter: { type: 'text', showApplyBtn: true, showClearBtn: true }, validation:{required: true}},
           {  header: '유형', name: 'item_type',
-            onBeforeChange(tp) {
+            
+        	  onBeforeChange(tp) {
         	  
             	openModal();
             	
