@@ -365,19 +365,7 @@ $(document).ready(window.onload = function() {
 		  var	rowDatas2 = grid.getCheckedRows();
 			var jsonRowDatas2 = JSON.stringify(rowDatas2);
 			
-			
-			
-	if (jsonRowDatas) {
-  var parsedRowDatas = JSON.parse(jsonRowDatas);
-  var hasCreateUser = true;
-  for (var i = 0; i < parsedRowDatas.length; i++) {
-    if (!parsedRowDatas[i].createuser) {
-      hasCreateUser = false;
-      break;
-    }
-  }
-  
-  if (hasCreateUser) {
+ 				 if(jsonRowDatas.createuser =='') {
     				$.ajax({
 	                 url: './warehouse/insertWH',
 	                 method :'post',
@@ -393,7 +381,8 @@ $(document).ready(window.onload = function() {
 	                     console.log('Error:', error);
 	                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 	                 	}
-	             }); //insert ajax 끝
+	             		}); //insert ajax 끝
+	         	   
 					  } else {
 					   $.ajax({
 		                 url: './warehouse/updateWH',
@@ -410,11 +399,10 @@ $(document).ready(window.onload = function() {
 		                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
 		                 	}
 		             }); //update ajax 끝
-  }
-}
-	       
+					}; //if문끝
+					
 		 }); //$('#saveBtn')끝
-	
+
 	 });
 	
 });	//최초시작
