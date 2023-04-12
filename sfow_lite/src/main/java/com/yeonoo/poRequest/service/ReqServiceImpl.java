@@ -18,13 +18,13 @@ public class ReqServiceImpl implements ReqService{
 	private final ReqRepository reqRepository;
 	
 	@Override
-	public List<ReqVO> reqOrder(ReqVO reqVO) throws Exception {
-		return reqRepository.reqOrder(reqVO);
+	public List<ReqVO> reqOrder(ReqVO reqVO,String company_code) throws Exception {
+		return reqRepository.reqOrder(reqVO,company_code);
 	}
 	
 	@Override
-	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception {
-		return reqRepository.reqOrder1(reqModalVO);
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO,String company_code) throws Exception {
+		return reqRepository.reqOrder1(reqModalVO,company_code);
 	}
 
 	@Override
