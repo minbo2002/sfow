@@ -1,6 +1,8 @@
 package com.yeonoo.poRequest.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,27 +31,39 @@ public class ReqRepositoryImpl implements ReqRepository{
 	}
 
 	@Override
-	public List<ReqVO> reqOrder(ReqVO reqVO) throws Exception {
+	public List<ReqVO> reqOrder(ReqVO reqVO,String company_code) throws Exception {
 		if(reqVO.getRequest_number()==null 
 	            &&reqVO.getRequest_type()==null 
 	            &&reqVO.getRequest_date()==null
 	            &&reqVO.getRequest_empid()==null) {
-			List<ReqVO> allList=sqlSession.selectList("mapper.req.reqOrder");
+			Map<String, Object>map=new HashMap<String, Object>();
+			map.put("company_code", company_code);
+			map.put("reqVO", reqVO);
+			List<ReqVO> allList=sqlSession.selectList("mapper.req.reqOrder",map);
 			return allList;
 		}else {
-			List<ReqVO> list= sqlSession.selectList("mapper.req.reqSelect",reqVO);
+			Map<String, Object>map=new HashMap<String, Object>();
+			map.put("company_code", company_code);
+			map.put("reqVO", reqVO);
+			List<ReqVO> list= sqlSession.selectList("mapper.req.reqSelect",map);
             System.out.println("list"+list);
             return list;
 		}
 	}
 	
 	@Override
-	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception {
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO,String company_code) throws Exception {
 		if(reqModalVO.getUser_name()==null) {
-			List<ReqModalVO> allList=sqlSession.selectList("mapper.req.reqSelect1");
+			Map<String, Object>map=new HashMap<String, Object>();
+			map.put("company_code", company_code);
+			map.put("reqModalVO", reqModalVO);
+			List<ReqModalVO> allList=sqlSession.selectList("mapper.req.reqSelect1",map);
 			return allList;
 		}else {
-			List<ReqModalVO> list= sqlSession.selectList("mapper.req.reqSelect2",reqModalVO);
+			Map<String, Object>map=new HashMap<String, Object>();
+			map.put("company_code", company_code);
+			map.put("reqModalVO", reqModalVO);
+			List<ReqModalVO> list= sqlSession.selectList("mapper.req.reqSelect2",map);
             System.out.println("list"+list);
             return list;
 		}

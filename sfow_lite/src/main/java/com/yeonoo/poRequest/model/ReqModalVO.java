@@ -9,5 +9,6 @@ public class ReqModalVO {
 	
 	private String user_name;
 	private String id;
+	private String company_code;
 
 }

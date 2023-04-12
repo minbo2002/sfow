@@ -7,9 +7,9 @@ import com.yeonoo.poRequest.model.ReqModalVO;
 import com.yeonoo.poRequest.model.ReqVO;
 
 public interface ReqService {
-	public List<ReqVO> reqOrder(ReqVO reqVO) throws Exception;
+	public List<ReqVO> reqOrder(ReqVO reqVO,String company_code) throws Exception;
 	
-	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO) throws Exception;
+	public List<ReqModalVO> reqOrder1(ReqModalVO reqModalVO,String company_code) throws Exception;
 
 	public List<ReqDetailVO> reqOrderDetail(String request_number) throws Exception;
 	
