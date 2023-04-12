@@ -4,9 +4,15 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
-
-	<typeAliases> 
-  		<typeAlias type="com.yeonoo.so.domain.ShipOut" alias="shipOut" />
+	<typeAliases>
+		<!-- 구매요청 -->
+		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
+ 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />
+ 		<typeAlias type="com.yeonoo.poRequest.model.ModalVO" alias="modalVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqVO" alias="reqVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqDetailVO" alias="reqDetailVO" />
+		<typeAlias type="com.yeonoo.poRequest.model.ReqModalVO" alias="reqModalVO" />
+		<typeAlias type="com.yeonoo.so.domain.ShipOut" alias="shipOut" />
   		<typeAlias type="com.yeonoo.so.domain.ItemShipOutDTO" alias="itemShipOutDTO" />
   		<typeAlias type="com.yeonoo.so.domain.LotShipOutDTO" alias="lotShipOutDTO" />
   		<typeAlias type="java.lang.Integer" alias="Integer"/>
