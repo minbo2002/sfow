@@ -8,6 +8,9 @@
 	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
 	                                     alias="BomItem"/>
 
+		<typeAlias type="com.yeonoo.poRequest.domain.FMpr" alias="FMpr" />
+		<typeAlias type="com.yeonoo.poRequest.domain.FMpi" alias="FMpi" />
+		<typeAlias type="com.yeonoo.ppOrder.domain.PPOrder" alias="PPOrder" />
 		<!-- 구매요청 -->
 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
  		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />
