@@ -306,6 +306,30 @@
           }
         });
 	  } 
+	 
+  	 function saveFunction() {
+
+         var rowDatas = grid2.getCheckedRows(); 
+         alert("rowDatas : " + rowDatas);
+         var jsonRowDatas = JSON.stringify(rowDatas); 
+         alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+         
+         $.ajax({
+            url : "${conPath}/reqDetailInsert",
+            method : "post",
+            data : jsonRowDatas,
+            contentType : "application/json; charset=utf-8", 
+            dataType: "JSON", 
+            success : function (result) {
+               
+            },
+            error: function() {
+                 console.log("입력실패");
+          }
+        });
+     } 
+	 
+	 
 	}); //doc끝
 	 	
   	
