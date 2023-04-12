@@ -69,8 +69,6 @@ $(document).ready(function(){
 	        method: 'GET',
 	        dataType : "JSON",
 	        success: function(result) {
-	        	//alert("성공"+ result);
-	        	//console.log("result"+result);
 	        	grid.resetData(result);
 	        },
 	        error: function(xhr, status, errorThrown) {
