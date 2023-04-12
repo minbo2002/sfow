@@ -18,19 +18,19 @@ public class StockByItemServiceImpl implements StockByItemService{
     private StockByItemRepository stockByItemRepository;
 	
 	//그리드 조회
-	public List<Stock> stockByItemSearch() {
-		return stockByItemRepository.stockByItemSearch();
+	public List<Stock> stockByItemSearch(String companyCode) {
+		return stockByItemRepository.stockByItemSearch(companyCode);
 	}
 	
 	//검색어조회
-	public List<Stock> stockByItemSearchByKeyword(Stock stock){
-		List<Stock> result =  stockByItemRepository.stockByItemSearchByKeyword(stock);
+	public List<Stock> stockByItemSearchByKeyword(Stock stock, String companyCode){
+		List<Stock> result =  stockByItemRepository.stockByItemSearchByKeyword(stock,companyCode);
 		return result;
 	}
 	
 	//그리드 수정
-	public void stockByItemUpdate(Stock stock) {
+	/*public void stockByItemUpdate(Stock stock) {
 		stockByItemRepository.stockByItemUpdate(stock);
 	}
-
+	*/
 }
