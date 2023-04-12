@@ -48,7 +48,7 @@ $(document).ready(function(){
 	const grid = new tui.Grid({
 	    el: document.getElementById('grid'),
 	    columns: [
-	        { header: '발주번호', 
+	        { header: '구매발주번호', 
 	        	align:'center',
 	        	name: 'mrequest_number' },
 	        { header: '발주담당자', 
