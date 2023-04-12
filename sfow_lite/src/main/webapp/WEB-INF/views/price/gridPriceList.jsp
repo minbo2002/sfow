@@ -324,23 +324,9 @@ font-size:5px;
     { header: '품목구분',
 	      name: 'itemCategory',
 	      sortable: true,
-	      editor: {type: 'select',
-	    	  options: {
-	              listItems: [
-	                  {text: '제품', value: "제품"},
-	                  {text: '반제품', value: "반제품"},
-	                  {text: '원제품', value: "원자재"}
-	                  
-	             			 ] 
-	      				}
-	      }
+	      editor: 'text'
 	      ,align:'center' },
-    { header: '품목검색'	 , name: 'itemCode',
-    	onBeforeChange() {
-    	alert("modal");
-    	openModal();
-    } 
-	  ,editor: 'text' ,align:'center' },
+    { header: '품목검색'	 , name: 'itemCode' 		, sortable: true, editor: 'text' ,align:'center' },
     { header: '품명'	 	 , name: 'itemName'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '품목번호'	 , name: 'itemNo'			, sortable: true, editor: 'text' ,align:'center' },
     { header: '규격'	 	 , name: 'itemSpecification', sortable: true, editor: 'text' ,align:'center' },
@@ -570,14 +556,10 @@ font-size:5px;
 	   function deleteRow() {
 
 	      var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
-	      alert(rowKeys);
 	      var test = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
-	      alert(test);
 	      
 	      var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-	      alert(rowDatas);
 	      var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-	      alert(jsonRowDatas);
 	      
 	      grid.removeCheckedRows([test]);		// 그리드 인덱스 제거용 (한 줄 제거용)
 
@@ -588,8 +570,6 @@ font-size:5px;
 	         contentType : "application/json; charset=UTF-8",
 	         dataType: "JSON",
 	         success : function (dd) {
-	            alert(dd);
-	            alert('성공');  // result를 배열로 받는다
 	         },
 	         error: function() {
 	              console.log("실패");
@@ -611,7 +591,7 @@ font-size:5px;
 	      
 	     $.ajax({
 	        url: '${conPath}/price/updatePrice',
-	        method: 'PATCH',
+	        method: 'POST',
 	        dataType: 'JSON',
 	        data: JSON.stringify(rowData),
 	        contentType: 'application/json',
@@ -638,9 +618,7 @@ font-size:5px;
    function addBtn() {
 
       var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-      alert("rowDatas : " + rowDatas);
       var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-      alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
       
       $.ajax({
          url : "price/insertPrice",
@@ -649,8 +627,6 @@ font-size:5px;
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
          dataType: "json",         // 서버에서 받을 데이터타입
          success : function (result) {
-            alert(result); // result는 반환받은 json형태의 객체 
-            alert('성공');
          },
          error: function() {
               console.log("실패");

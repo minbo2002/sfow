@@ -3,6 +3,8 @@ package com.yeonoo.masterdata.item.repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.masterdata.item.domain.ItemProduct;
 import com.yeonoo.masterdata.item.domain.PriceDTO;
+import com.yeonoo.masterdata.item.domain.RawDTO;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +30,7 @@ public class PriceRepositoryImpl implements PriceRepository{
 		// 전체  조회
 		@Override
 		@ResponseBody
-		public List<PriceDTO> priceList(PriceDTO dto) {
-			System.out.println("이건 priceListDTO if문 전"+dto);
+		public List<PriceDTO> priceList(PriceDTO dto, String companyCode) {
 			if (	dto.getItemCategory()==null
 					&&dto.getItemCode()==null
 					&&dto.getItemName()==null
@@ -37,11 +40,18 @@ public class PriceRepositoryImpl implements PriceRepository{
 					&&dto.getClientName()==null
 					&&dto.getUseyn()==null) {
 				
-				List<PriceDTO> allList = sqlSession.selectList("price.priceList");
+				Map<String, Object> map = new HashedMap();
+				map.put("dto", dto);
+				map.put("companyCode", companyCode);
+				
+				List<PriceDTO> allList = sqlSession.selectList("price.priceList",map);
 				return allList;
 			}else
 			{
-				List<PriceDTO> List = sqlSession.selectList("price.priceListSearch", dto);
+				Map<String, Object> map = new HashedMap();
+				map.put("dto", dto);
+				map.put("companyCode", companyCode);
+				List<PriceDTO> List = sqlSession.selectList("price.priceListSearch", map);
 				return List;
 			}
 				
