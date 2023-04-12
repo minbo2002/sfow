@@ -4,6 +4,9 @@ package com.yeonoo.ppOrder.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeonoo.ppOrder.domain.PPOrder;
 import com.yeonoo.ppOrder.service.PPOrderService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +43,7 @@ public class PPOrderController  {
 	//화면목록페이지
 	@GetMapping("/PPOrder")
 	@ResponseBody
-	public List<PPOrder> list(		 
+	public List<PPOrder> list( HttpSession com, HttpServletRequest request,
 	         @RequestParam(required = false) String pp_type,
 	         @RequestParam(required = false) String po_date,
 	         @RequestParam(required = false) String end_date,
@@ -47,8 +51,12 @@ public class PPOrderController  {
 	         @RequestParam(required = false) String warehouse_code,
 	         @RequestParam(required = false) String warehouse_name
 	         
-			
 			) throws Exception {
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		System.out.println(user);
+		String company_code = user.getCompanyCode();
+		
+		
 		PPOrder ppOrder = new PPOrder();
 		ppOrder.setPp_type(pp_type);
 		ppOrder.setPo_date(po_date);
@@ -56,7 +64,8 @@ public class PPOrderController  {
 		ppOrder.setPp_no(pp_no);
 		ppOrder.setWarehouse_code(warehouse_code);
 		ppOrder.setWarehouse_name(warehouse_name);
-
+		ppOrder.setCompany_code(company_code);
+		System.out.println(ppOrder.getCompany_code());
 		//전체목록조회
 		List<PPOrder> list = ppOrderService.getPPOrderAllList(ppOrder);
 		

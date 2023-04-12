@@ -142,6 +142,7 @@ $(document).ready(window.onload=function() {
       function saveFunction() {
 
          var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+         console.log(rowDatas);
          /* alert("rowDatas : " + rowDatas); */
          var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
          /* alert("JSON.stringify(rowDatas) : " + jsonRowDatas); */
@@ -189,7 +190,7 @@ $(document).ready(window.onload=function() {
             dataType: "JSON",
             success : function (dd) {
              /*   alert(dd); */
-            /*    alert('성공');  // result를 배열로 받는다 */
+            /*    alert('성공');   // result를 배열로 받는다 */
             },
             error: function() {
                  console.log("실패");
@@ -469,7 +470,15 @@ button {
 	        editor: 'text',
 	        align:'center',
 			        
-		  }
+		  },
+		  {
+	        header: '회사코드',
+	        name: 'company_code',
+	        sortable: true,
+	        editor: 'text',
+	        align:'center'
+				        
+			  }
 	    ]
 	  });//그리기 끝
 

@@ -3,7 +3,8 @@ package com.yeonoo.ppOrder.domain;
 
 
 import lombok.Data;
-
+import lombok.ToString;
+@ToString
 @Data
 public class PPOrder {
 	
@@ -20,6 +21,7 @@ public class PPOrder {
 	private String pp_quantity;			//작업지시수량
 	private String pp_status;			//작업지시상태
 	private String pp_date;				//작업지시시간
+	private String company_code;	    //회사코드
 	
 
 

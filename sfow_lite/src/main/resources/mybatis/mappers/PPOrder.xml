@@ -19,6 +19,7 @@
 		<result property="pp_quantity"  column="pp_quantity"/>	
 		<result property="pp_status"  column="pp_status"/>	
 		<result property="pp_date"  column="pp_date"/>
+		<result property="company_code"  column="company_code"/>
 	
 	</resultMap>
 	
@@ -28,9 +29,10 @@
          SELECT pp_order_seq_12('PO')
       </selectKey>
 		INSERT INTO pp_order (
-		pp_no,pp_type,po_date,end_date,item_code,item_name,item_no,item_specification,warehouse_code,warehouse_name,pp_quantity,pp_status) 
+		pp_no,pp_type,po_date,end_date,item_code,item_name,item_no,item_specification,warehouse_code,warehouse_name,pp_quantity,pp_status,company_code) 
 		values ( 
-		#{pp_no}, #{pp_type}, #{po_date}, #{end_date}, #{item_code}, #{item_name},#{item_no},#{item_specification}, #{warehouse_code}, #{warehouse_name}, #{pp_quantity}, #{pp_status})
+		#{pp_no}, #{pp_type}, #{po_date}, #{end_date}, #{item_code}, #{item_name},#{item_no},#{item_specification}, #{warehouse_code}, #{warehouse_name}, #{pp_quantity}, #{pp_status},#{company_code})
+		
 	</insert>
 	
 	<!-- 등록하기
@@ -45,7 +47,7 @@
 		<!-- 검색하기 -->
    <select id="PPOrderList" resultMap="PPOrderResult">
       <![CDATA[
-         select ppo.pp_no,ppo.pp_type,ppo.po_date,ppo.end_date,ppo.item_code,ppo.item_name,ppo.item_no,ppo.item_specification,ppo.warehouse_code,ppo.warehouse_name,ppo.pp_quantity,ppo.pp_status,ppo.pp_date
+         select ppo.pp_no,ppo.pp_type,ppo.po_date,ppo.end_date,ppo.item_code,ppo.item_name,ppo.item_no,ppo.item_specification,ppo.warehouse_code,ppo.warehouse_name,ppo.pp_quantity,ppo.pp_status,ppo.pp_date,ppo.company_code
 		 from pp_order ppo, ma_item mi, wh w
 		 where ppo.item_code = mi.item_code
 	     AND ppo.warehouse_code = w.warehouse_code
@@ -56,11 +58,9 @@
 		 and COALESCE(ppo.pp_no, '') LIKE CONCAT('%', #{pp_no}, '%')
 		 and COALESCE(w.warehouse_code, '') LIKE CONCAT('%', #{warehouse_code}, '%')
 		 and COALESCE(w.warehouse_name, '') LIKE CONCAT('%', #{warehouse_name}, '%')
-         
+         AND ppo.company_code=#{company_code}
       ]]>   
    </select>
-   
-
 	
 	<!-- 수정하기 -->
 	<update id="updatePPOrder" parameterType="PPOrder">
@@ -79,13 +79,13 @@
 		    warehouse_name = #{warehouse_name},
 		    pp_quantity = #{pp_quantity},
 		    pp_status = #{pp_status}
-		 where pp_no = #{pp_no}
+		 where pp_no = #{pp_no} and company_code=#{company_code}
 		]]>
 	</update>
 
    <delete id="deletePPOrder" parameterType="String">
       <![CDATA[
-		DELETE FROM pp_order WHERE pp_no = #{pp_no}
+		DELETE FROM pp_order WHERE pp_no = #{pp_no} and company_code=#{company_code}
       ]]>
    </delete>
   

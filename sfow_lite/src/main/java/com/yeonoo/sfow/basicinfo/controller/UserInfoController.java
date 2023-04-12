@@ -41,7 +41,7 @@ public class UserInfoController {
 		session.setMaxInactiveInterval(1800);
 		
 		session.setAttribute("AUTHUSER", loginUser);
-		
+		System.out.println(loginUser);
 		if(loginUser==null) {
 			return "1";
 		} else {
