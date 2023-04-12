@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="price">
+
+<resultMap type="priceDTO" id="priceDTO">
+        <result property="companyCode" column="company_code"/>
+        <result property="itemCategory" column="item_category"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="itemSpecification" column="item_specification"/>
+        <result property="clientCode" column="client_code"/>
+        <result property="clientName" column="client_name"/>
+        <result property="startDate" column="startDate"/>
+        <result property="endDate" column="endDate"/>
+        <result property="buyPrice" column="buy_price"/>
+        <result property="salesPrice" column="sales_price"/>
+        <result property="memo" column="memo"/>
+        <result property="useyn" column="useyn"/>
+        
+    </resultMap> 
+    
+
+	<select id="priceList" resultType="priceDTO">
+		<![CDATA[
+		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+			from ma_item_price p, ma_item i ,ma_client_company c
+			where p.item_code=i.item_code
+			AND p.useyn='Y'
+		order by i.item_code 
+		]]>	
+	</select>
+
+	<select id="priceListSearch" resultMap="priceDTO" parameterType="priceDTO">
+		<![CDATA[
+		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName ,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+			from ma_item_price p,ma_item i ,ma_client_company c
+			where 		 
+						 AND COALESCE(i.item_category, '') LIKE CONCAT('%', #{itemCategory}, '%')
+						 AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
+						 AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{itemName}, '%')
+						 AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{itemNo}, '%')
+						 AND COALESCE(i.item_specification, '') LIKE CONCAT('%', #{itemSpecification}, '%')
+						 AND COALESCE(c.client_code, '') LIKE CONCAT('%', #{clientCode}, '%')
+						 AND COALESCE(c.client_name, '') LIKE CONCAT('%', #{clientName}, '%')
+						 AND p.item_code=i.item_code
+						 AND p.useyn='Y'
+						  
+		order by i.item_code  
+		]]>	
+	</select>
+	
+	<!-- 등록  -->
+	<insert id="insertPrice" parameterType="priceDTO">
+
+		INSERT INTO ma_item_price(company_code,item_category,item_code,item_name, item_no, item_specification, client_code, client_name,startDate,endDate, buyPrice,salesPrice,memo,useyn) 
+		values (#{companyCode}, #{itemCategory}, #{itemCode}, #{itemName}, #{itemNo}, #{itemSpecification}, #{clientCode}, #{clientName},#{startDate},#{endDate},#{buyPrice},#{salesPrice},#{memo},#{useyn})
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updatePrice" parameterType="priceDTO">
+		update ma_item_price
+		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{item_type} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=CURRENT_TIMESTAMP
+		where item_code=#{itemCode}
+	</update>
+
+	<!-- 삭제 -->
+	<update id="useUpdate" parameterType="String">
+		<![CDATA[
+			update ma_item
+			set useyn='N'
+			where item_code=#{itemCode}
+		]]>
+	</update>
+
+	
+<!-- 거래처명 목록 -->
+ <select id="companycodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT client_code,client_name
+	FROM ma_client_company
+ ]]>
+ </select>
+    <!-- 아이템코드 목록 -->
+ <select id="itemcodeList" resultType="priceDTO">
+ <![CDATA[
+ 	SELECT item_code,item_category,item_no,item_name,item_specification
+	FROM ma_item
+ ]]>
+ </select>
+	
+</mapper>  
