@@ -345,7 +345,7 @@
 	      grid.removeCheckedRows([test]);		// 그리드 인덱스 제거용 (한 줄 제거용)
 
 	      $.ajax({
-	         url : "semi/useUpdate",
+	         url : "price/useUpdate",
 	         method : "POST",
 	         data : JSON.stringify(rowDatas),
 	         contentType : "application/json; charset=UTF-8",
@@ -373,7 +373,7 @@
 	      console.log('Row data: ', rowData);
 	      
 	     $.ajax({
-	        url: '${conPath}/semi/updateSemi',
+	        url: '${conPath}/price/updatePrice',
 	        method: 'PATCH',
 	        dataType: 'JSON',
 	        data: JSON.stringify(rowData),
@@ -406,7 +406,7 @@
       alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
       
       $.ajax({
-         url : "semi/insertSemi",
+         url : "price/insertPrice",
          method : "post",
          data : jsonRowDatas,
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다

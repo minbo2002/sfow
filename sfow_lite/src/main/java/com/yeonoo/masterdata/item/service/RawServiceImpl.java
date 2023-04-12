@@ -25,22 +25,22 @@ public class RawServiceImpl implements RawService{
 	
 	// 조회하기
 	@Override
-	public List<RawDTO> rawList(RawDTO dto) {
-		return rawRepository.rawList(dto);
+	public List<RawDTO> rawList(RawDTO dto, String companyCode) {
+		return rawRepository.rawList(dto,companyCode);
 	}
 	
 	// 등록하기
 	@Override
 	@Transactional
-	public int insertRaw(RawDTO elements) {
-		return rawRepository.insertRaw(elements);
+	public int insertRaw(RawDTO elements, String companyCode) {
+		return rawRepository.insertRaw(elements,companyCode);
 	}
 	
 	//수정하기
 	@Override
 	@Transactional
-	public int updateRaw(RawDTO dto) {
-		return rawRepository.updateRaw(dto);
+	public int updateRaw(RawDTO dto, String companyCode) {
+		return rawRepository.updateRaw(dto,companyCode);
 		 
 		 
 
@@ -48,8 +48,8 @@ public class RawServiceImpl implements RawService{
 	//삭제하기
 	@Override
 	@Transactional
-	public int deleteRaw(String itemCode) {
-		return rawRepository.deleteRaw(itemCode);
+	public int deleteRaw(String itemCode, String companyCode) {
+		return rawRepository.deleteRaw(itemCode,companyCode);
 	}
 	
 	// 거래처 모달 데이터처리

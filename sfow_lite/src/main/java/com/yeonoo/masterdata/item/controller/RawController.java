@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yeonoo.masterdata.item.domain.RawDTO;
 import com.yeonoo.masterdata.item.domain.SemiDTO;
 import com.yeonoo.masterdata.item.service.RawService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 @RequestMapping("/raw")
 @Controller
@@ -97,8 +100,13 @@ public class RawController {
 	
 	@ResponseBody
 	@RequestMapping(value="toastRawDataList",method={RequestMethod.POST, RequestMethod.GET}) 
- 	public List<RawDTO> toastDataList(RawDTO dto) {
-		List<RawDTO> list = rawService.rawList(dto);
+ 	public List<RawDTO> toastDataList(RawDTO dto, HttpSession session) {
+		
+		UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+	      String companyCode = user.getCompanyCode();
+	      System.out.println("로그인유저의 companyCode = " + companyCode);
+		
+		List<RawDTO> list = rawService.rawList(dto,companyCode);
 		
 		return list;
 	}
@@ -109,19 +117,28 @@ public class RawController {
 		  //수정하기
 		     @ResponseBody
 		     @RequestMapping(value="/updateRaw", method=RequestMethod.PUT)
-		     public void update(@RequestBody RawDTO dto) throws Exception {
-		        rawService.updateRaw(dto);
+		     public void update(@RequestBody RawDTO dto, HttpSession session) throws Exception {
+		    	 
+		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
+		    	 
+		    	 rawService.updateRaw(dto,companyCode);
 
 		     }	    
 		  // 삭제하기(useyn 상태 변경)
 		     @ResponseBody
 		     @RequestMapping(value="useUpdate", method=RequestMethod.POST)
-		     public List<RawDTO> useUpdate(@RequestBody List<RawDTO> dto) {
+		     public List<RawDTO> useUpdate(@RequestBody List<RawDTO> dto, HttpSession session) {
 
+		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
+			      
 		    	 Iterator<RawDTO> iterator = dto.iterator();
 		    	 while(iterator.hasNext()) {
 		    		 RawDTO elements= iterator.next();
-		    		 rawService.deleteRaw(elements.getItemCode());
+		    		 rawService.deleteRaw(elements.getItemCode(),companyCode);
 		    	 }
 		    	 
 		        System.out.println("dto = " + dto);
@@ -131,14 +148,17 @@ public class RawController {
 		  // 등록
 		     @ResponseBody
 		     @RequestMapping(value="insertRaw", method=RequestMethod.POST)
-		     public List<RawDTO> insertRaw(@RequestBody List<RawDTO> dto) {
+		     public List<RawDTO> insertRaw(@RequestBody List<RawDTO> dto, HttpSession session) {
 
+		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
 
 		        Iterator<RawDTO> iterator = dto.iterator();
 		        while(iterator.hasNext()) {
 		        	RawDTO elements = iterator.next();
 		           
-		           int insertCnt = rawService.insertRaw(elements);
+		           int insertCnt = rawService.insertRaw(elements,companyCode);
 		        }
 		        
 		        return dto;

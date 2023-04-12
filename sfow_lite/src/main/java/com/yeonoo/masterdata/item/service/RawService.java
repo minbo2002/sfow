@@ -9,16 +9,16 @@ import com.yeonoo.masterdata.item.domain.RawDTO;
 public interface RawService {
 
 	// 전체 반제품조회
-	public List<RawDTO> rawList(RawDTO dto);
+	public List<RawDTO> rawList(RawDTO dto,String companyCode);
 	
 	// 반제품 등록
-	public int insertRaw(RawDTO elements);
+	public int insertRaw(RawDTO elements,String companyCode);
 
 	// 반제품 정보 수정
-	public int updateRaw(RawDTO dto);
+	public int updateRaw(RawDTO dto,String companyCode);
 
 	// 반제품 삭제
-	public int deleteRaw(String itemCode);
+	public int deleteRaw(String itemCode,String companyCode);
 	
 	// ------ Modal -----------------------------
 	

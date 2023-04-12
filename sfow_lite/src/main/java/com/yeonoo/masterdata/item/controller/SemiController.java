@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yeonoo.masterdata.item.domain.ItemType;
 import com.yeonoo.masterdata.item.domain.SemiDTO;
 import com.yeonoo.masterdata.item.service.SemiService;
+import com.yeonoo.sfow.basicinfo.domain.UserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,17 +71,21 @@ public class SemiController {
       return result;
    }
 	
-	
-	// 전체 조회 page mapping
 	@RequestMapping("/list") //get
 	public String allList() {
 		return "item/gridSemiList";
 	}
+
 	
 	@ResponseBody
 	@RequestMapping(value="toastSemiDataList", method= {RequestMethod.POST, RequestMethod.GET}) 
- 	public List<SemiDTO> toastDataList(SemiDTO dto) {
-		List<SemiDTO> list = semiService.semiList(dto);
+ 	public List<SemiDTO> toastDataList(SemiDTO dto, HttpSession session) {
+		
+		UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+	      String companyCode = user.getCompanyCode();
+	      System.out.println("로그인유저의 companyCode = " + companyCode);
+		
+		List<SemiDTO> list = semiService.semiList(dto, companyCode);
 		
 		return list;
 	}
@@ -88,14 +96,18 @@ public class SemiController {
 		  //수정하기
 		    @ResponseBody
 		    @RequestMapping(value="updateSemi", method=RequestMethod.POST)
-		    public List<SemiDTO> updateSemi(@RequestBody List<SemiDTO> dto) {
+		    public List<SemiDTO> updateSemi(@RequestBody List<SemiDTO> dto , HttpSession session) {
 		
+		    	UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
+		    	
 		
 		       Iterator<SemiDTO> iterator = dto.iterator();
 		       		while(iterator.hasNext()) {
 		       	SemiDTO elements = iterator.next();
 		          
-		          int insertCnt = semiService.updateSemi(elements);
+		          int insertCnt = semiService.updateSemi(elements,companyCode);
 		       }
 		       
 		       return dto;
@@ -104,13 +116,17 @@ public class SemiController {
 		  // 삭제하기(useyn 상태 변경)
 		     @ResponseBody
 		     @RequestMapping(value="useUpdate", method=RequestMethod.POST)
-		     public List<SemiDTO> useUpdate(@RequestBody List<SemiDTO> dto) {
+		     public List<SemiDTO> useUpdate(@RequestBody List<SemiDTO> dto , HttpSession session) {
 
+		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
+		    	 
 		    	 Iterator<SemiDTO> iterator = dto.iterator();
 		    	 
 		    	 while(iterator.hasNext()) {
 		    		 SemiDTO elements= iterator.next();
-		    		 semiService.deleteSemi(elements.getItemCode());
+		    		 semiService.deleteSemi(elements.getItemCode(),companyCode);
 		    	 }
 		    	 
 		    	 return dto;
@@ -120,17 +136,37 @@ public class SemiController {
 		  // 등록
 		     @ResponseBody
 		     @RequestMapping(value="insertSemi", method=RequestMethod.POST)
-		     public List<SemiDTO> insertSemi(@RequestBody List<SemiDTO> dto) {
+		     public List<SemiDTO> insertSemi(@RequestBody List<SemiDTO> dto , HttpSession session) {
 
-
+		    	 UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+			      String companyCode = user.getCompanyCode();
+			      System.out.println("로그인유저의 companyCode = " + companyCode);
+			      
 		        Iterator<SemiDTO> iterator = dto.iterator();
 		        while(iterator.hasNext()) {
 		        	SemiDTO elements = iterator.next();
 		           
-		           int insertCnt = semiService.insertSemi(elements);
+		           int insertCnt = semiService.insertSemi(elements,companyCode);
 		        }
 		        
 		        return dto;
 		     }
+		     
+	
+		     
+		 	//품목유형등록(제품) 목록
+		    @ResponseBody
+		 	@RequestMapping(value="/item/typeSelectAjax")
+		 	public List<ItemType> selectItemTypeListAjax() throws Exception {
+		 		List<ItemType> result = semiService.selectItemTypeList();
+		 		return result;
+		 	}
 		  
+			//품목유형등록(제품) 목록검색
+		 	@ResponseBody
+			@RequestMapping(method = {RequestMethod.POST}, value="/item/typeSelectSearchAjax", consumes="application/json")
+			public List<ItemType> typeSelectSearchAjax(@RequestBody ItemType itemtype) throws Exception {
+				List<ItemType> result = semiService.typeSelectSearchAjax(itemtype);
+				return result;
+			}
 }

@@ -14,7 +14,7 @@ public class SemiDTO {
 	private String itemCode;			//item코드
 	private String itemName;			//품명
 	private String itemNo;				//품번
-	private String itemType;			//유형
+	private String item_type;			//유형
 	private String itemSpecification;	//규격
 	private String itemStockUnit;		//재고단위
 	private int lotSize;				//lotsize
@@ -30,14 +30,14 @@ public class SemiDTO {
 	public SemiDTO() {}
 
 	// all parameter
-	public SemiDTO(String companyCode, String itemCode, String itemName, String itemNo, String itemType,
+	public SemiDTO(String companyCode, String itemCode, String itemName, String itemNo, String item_type,
 			String itemSpecification, String itemStockUnit, int lotSize, String memo,
 			String useyn, Date createdate, Date updatedate) {
 		this.companyCode = companyCode;
 		this.itemCode = itemCode;
 		this.itemName = itemName;
 		this.itemNo = itemNo;
-		this.itemType = itemType;
+		this.item_type = item_type;
 		this.itemSpecification = itemSpecification;
 		this.itemStockUnit = itemStockUnit;
 		this.lotSize = lotSize;
@@ -83,12 +83,12 @@ public class SemiDTO {
 		this.itemNo = itemNo;
 	}
 
-	public String getItemType() {
-		return itemType;
+	public String getitem_type() {
+		return item_type;
 	}
 
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
+	public void setitem_type(String item_type) {
+		this.item_type = item_type;
 	}
 
 	public String getItemSpecification() {
