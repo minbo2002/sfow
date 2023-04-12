@@ -25,6 +25,10 @@ public class UserInfoController {
 	
 	private final UserInfoService userInfoService;
 	
+   @RequestMapping("/sessionLogin")
+   public String sessionLogin() throws Exception {
+      return "basicinfo/sessionLogin";
+   }
 	
 	//로그인페이지
 	@RequestMapping("/login")
