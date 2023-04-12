@@ -32,16 +32,23 @@
 	</style>
 	
 	<script>
+	
+	var contextPath = '<%= request.getContextPath()%>';
+	
 	$(document).ready(window.onload=function() {
+		
+		
 		
 		$('#searchBtn').on('click', function() {
 
+			gridItem.clear();
+			gridLot.clear();
+			
 		    var searchData = {
 		    		"outCode" : $("#outCode").val(),
 		    		"orderNumber" : $("#orderNumber").val(),
 		    		"clientCode" : $("#clientCode").val(),
 		    		"companyCode" : $("#companyCode").val(),
-		    		"itemCode" : $("#itemCode").val(),
 		    		"outType" : $("#outType").val(),
 		    		"transType" : $("#transType").val(),
 		    		"outPlanDate" : $("#outPlanDate").val(),
@@ -56,7 +63,7 @@
 			event.preventDefault(); // prevent form submission
 
 			$.ajax({
-				url : "${conPath}/shipout/list",
+				url : contextPath + "/shipout/list",
 				method : "post",
 				data : JSON.stringify(searchData),
 				dataType : "json",
@@ -80,30 +87,55 @@
 			{header:"출하코드", name:"outCode", align:"center", width:"auto"},
 			{header:"수주번호", name:"orderNumber", align:"center", width:"auto"},
 			{header:"거래처코드", name:"clientCode", align:"center", width:"auto"},
-			{header:"회사코드", name:"companyCode", align:"center", width:"auto"}, // companyCode
-			{header:"ITEM코드", name:"itemCode", align:"center", width:"auto"},
-			{header:"출하수량", name:"outQuantity", align:"center", width:"auto"},
-			{header:"출하유형", name:"outType", editor:"text", align:"center"},
-			{header:"수불타입", name:"transType", editor:"text", align:"center"},
-			{
-			  header:"출하계획일", 
-			  name:"outPlanDate",
-			  align:"center",
-			  editor: {
+			{header:"회사코드", name:"companyCode", align:"center", width:"auto", hidden:true},
+			{header:"출하유형", 
+			 name:"outType",
+			 align:"center",
+			 editor: {
+				      type: 'select',
+				      options: {
+				    	  		  listItems: [
+											  {text: '일반출고',value: '일반출고'},
+											  {text: '반품출고',value: '반품출고'},
+											  {text: '생산출고',value: '생산출고'},
+											  {text: '판매출고',value: '판매출고'}
+										     ]
+				     		   }
+					 }
+			},
+			{header:"수불타입", 
+			 name:"transType",
+			 align:"center",
+			 editor: {
+			      type: 'select',
+			      options: {
+			    	  		  listItems: [
+										  {text: '일반',value: '일반'},
+										  {text: '사급',value: '사급'},
+										  {text: '샘플',value: '샘플'},
+										  {text: '불량',value: '불량'}
+									     ]
+			     		   }
+				 }
+			},
+			{header:"출하계획일", 
+			 name:"outPlanDate",
+			 align:"center",
+			 editor: {
                 	    type: "datePicker",
                 	    options: {
                   				  format: "yyyy-MM-dd"
                 		 	     }		
-           		      }
+           	         }
             },
 			{header: "출하담당자", name:"outManager", editor:"text", align:"center"},
 			{header: "상태", name:"outStatus", align:"center"},
 			{header: "비고", name:"memo", editor:"text", align:"center"},
 			{header: "등록일", name:"createDate", align:"center"},
-			{header: "등록자", name:"createUser", editor:"text", align:"center"},
+			{header: "등록자", name:"createUser", align:"center"},
 			{header: "수정일", name:"updateDate", align:"center"},
-			{header: "수정자", name:"updateUser", editor:"text", align:"center"},
-			{header: "삭제여부", name:"deleteYesNo", align:"center"}
+			{header: "수정자", name:"updateUser", align:"center"},
+			{header: "삭제여부", name:"deleteYesNo", align:"center", hidden:true}
 	      ]
 	});
 
@@ -122,8 +154,6 @@
 		var outCode = document.getElementById("outCode");  			// 출하코드
 		var orderNumber = document.getElementById("orderNumber");   // 수주번호
 		var clientCode = document.getElementById("clientCode");   	// 거래처코드
-		var companyCode = document.getElementById("companyCode");   // 회사코드
-		var itemCode = document.getElementById("itemCode");   		// ITEM코드
 
 		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
 		//alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
@@ -143,15 +173,17 @@
 			clientCode.value=rowData.clientCode;
 			clientCode.readOnly=true;
 			
+			/*
 			companyCode.value=rowData.companyCode;
 			companyCode.readOnly=true;
 			
 			itemCode.value=rowData.itemCode;
 			itemCode.readOnly=true;
 			console.log('itemCode: ', rowData.itemCode);
-
+			*/
+			
 			$.ajax({
-				url : "${conPath}/shipout/selectItems",
+				url : contextPath + "/shipout/selectItems",
 				method : "post",
 				data : jsonRowDatas,
 				dataType : "json",
@@ -164,7 +196,7 @@
 			});
 			
 			$.ajax({
-				url : "${conPath}/shipout/selectLots",
+				url : contextPath + "/shipout/selectLots",
 				method : "post",
 				data : jsonRowDatas2,
 				dataType : "json",
@@ -187,11 +219,13 @@
         	clientCode.value="";
         	clientCode.readOnly=false;
 			
+        	/*
         	companyCode.value="";
         	companyCode.readOnly=false;
 			
         	itemCode.value="";
         	itemCode.readOnly=false;
+        	*/
 		}
     });
 	
@@ -204,8 +238,9 @@
 	
 	// 1개 row의 수주번호칸 더블클릭시 이벤트 실행
     grid.on('dblclick', function(ev) {
+    	console.log("dbclick이벤트")
         if (ev.columnName === 'orderNumber') {
-            window.open('${conPath}/shipout/modalItem', 'childWindow', 'width=500,height=500');
+            window.open(contextPath + '/shipout/modalItem', 'childWindow', 'width=500,height=500');
         }
     });
 	
@@ -263,22 +298,7 @@
 	var addRow = document.getElementById("addRow");
 	addRow.addEventListener("click", function() {
 		var newRowData = {
-			outCode: '',
-			orderNumber: '',
-			clientCode: '',
-			companyCode: '',
-			itemCode: '',
-			outType: '',
-			transType: '',
-			outPlanDate: '',
-			outManager: '',
-			outStatus: '',
-			memo: '',
-			createDate: '',
-			createUser: '',
-			updateDate: '',
-			updateUser: '',
-			deleteYesNo: ''
+
 		};
 		grid.appendRow(newRowData);
 	});
@@ -308,7 +328,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 		
 		$.ajax({
-			url : "${conPath}/shipout/write",
+			url : contextPath + "/shipout/write",
 			method : "post",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",
@@ -348,7 +368,7 @@
 		grid.removeCheckedRows([jsonRowKeys]);
 
 		$.ajax({
-			url : "${conPath}/shipout/deleteShipOut",
+			url : contextPath + "/shipout/deleteShipOut",
 			method : "put",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -383,7 +403,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
-			url : "${conPath}/shipout/statusUpdate",
+			url : contextPath + "/shipout/statusUpdate",
 			method : "put",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",
@@ -416,7 +436,7 @@
 		var jsonRowDatas = JSON.stringify(rowDatas);
 
 		$.ajax({
-			url : "${conPath}/shipout/updateShipOut",
+			url : contextPath + "/shipout/updateShipOut",
 			method : "patch",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",
@@ -443,12 +463,7 @@
 	resetBtn.addEventListener("click", function() {
 		$("#shipOutSearch")[0].reset();
 	});
-	
-	// 검색창의 출하계획일, 등록일에 오늘날짜 계속 표시
-	//document.getElementById("outPlanDate").valueAsDate = new Date();
-	//document.getElementById("createDate").valueAsDate = new Date();
-	//document.getElementById("updateDate").valueAsDate = new Date();
-	
+
 	</script>
 	
 </head>
@@ -464,10 +479,6 @@
 		<input type="text" name="orderNumber" id="orderNumber" value="" style="background-color: lightgray;">
 		<label for="clientCode">거래처코드:</label>
 		<input type="text" name="clientCode" id="clientCode" value="" style="background-color: lightgray;">
-		<label for="companyCode">회사코드:</label>
-		<input type="text" name="companyCode" id="companyCode" value="" style="background-color: lightgray;"> <br>
-		<label for="itemCode">ITEM코드:</label>
-		<input type="text" name="itemCode" id="itemCode" value="" style="background-color: lightgray;">
 		
 		<label for="outType">출하유형:</label>
 		<select name="outType" id="outType">
@@ -509,14 +520,6 @@
 		</label>
 		<label for="createUser">등록자:</label>
 		<input type="text" name="createUser" id="createUser" value="">
-		
-		<!--
-		<label for="updateDate">수정일:
-		  <input type="date" name="updateDate" id="updateDate" max="2030-12-31" min="2020-01-01">
-		</label>
-		<label for="updateUser">수정자:</label>
-		<input type="text" name="updateUser" id="updateUser" value="">
-		-->
 		
 		<input type="hidden" name="deleteYesNo" id="deleteYesNo" value="N">
 	</form> 

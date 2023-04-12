@@ -40,8 +40,9 @@ public class OrderController {
 		//수주서 목록조회
 		@RequestMapping("so/orderList")
 		@ResponseBody
-		public List<OrderVO> orderList(HttpServletRequest request) throws Exception {
-		    String company_code = (String) request.getSession().getAttribute("company_code"); // 세션에서 회사코드 가져오기
+		public List<OrderVO> orderList(HttpSession session) throws Exception {
+			UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
+			String company_code = userInfo.getCompanyCode();
 		    List<OrderVO> list = orderService.orderList(company_code); // 회사코드를 파라미터로 전달
 		    return list;
 		}
@@ -91,16 +92,18 @@ public class OrderController {
         @RequestMapping(value="orderInsert")
         public List<OrderVO> orderInsert(@RequestBody List<OrderVO> orderVO, HttpSession session) {
 
-        	UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
-        	String company_code = userInfo.getCompanyCode();
-        	String create_user	= userInfo.getId();		
-        	
+           UserInfo userInfo = (UserInfo) session.getAttribute("AUTHUSER");
+           String company_code = userInfo.getCompanyCode();
+           String create_user   = userInfo.getId();
+           String order_empid = userInfo.getId();
+           
            Iterator<OrderVO> iterator = orderVO.iterator();
            while(iterator.hasNext()) {
-        	   
-        	   OrderVO elements = iterator.next();
+              
+              OrderVO elements = iterator.next();
                elements.setCompany_code(company_code);
                elements.setCreate_user(create_user);
+               elements.setOrder_empid(order_empid);
               orderService.orderInsert(elements);
            }
            
@@ -223,6 +226,7 @@ public class OrderController {
         @ResponseBody
         public ResponseEntity<List<Map<String, Object>>> getClient() throws Exception {
         	List<Map<String, Object>> result = orderService.getClient();
+        	System.out.println("orderClient="+result);
         	return ResponseEntity.ok(result);
         }
 		 

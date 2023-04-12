@@ -10,7 +10,7 @@ import com.yeonoo.so.domain.SearchDTO;
 
 public interface ShipOutService {
 
-	List<ShipOut> getList(SearchDTO searchDTO);
+	List<ShipOut> getList(SearchDTO searchDTO, String companyCode);
 	
 	List<Map<String, Object>> getModalItem();
 	
@@ -20,7 +20,7 @@ public interface ShipOutService {
 	
 	List<ItemShipOutDTO> selectItem(String orderNumber);
 	
-	List<LotShipOutDTO> selectLot(String itemCode);
+	List<LotShipOutDTO> selectLot(String orderNumber);
 	
 	int statusUpdate(String outCode);
 	

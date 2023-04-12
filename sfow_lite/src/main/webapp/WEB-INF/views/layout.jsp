@@ -22,16 +22,18 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-<!-- Custom styles for this template-->    
+    <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 
+    
 </head>
 <body id="page-top">
 
@@ -43,9 +45,6 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}/home">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
                 <div class="sidebar-brand-text mx-3">SFOW_LITE</div>
             </a>
 
@@ -110,17 +109,28 @@
                            </div>
                     
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
-                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
+                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a> 
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">품목등록</a>
-                            <a class="collapse-item" href="#">품목조회</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/raw/list');">품목등록(원자재)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
+ 
                            </div>
-	                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
-	                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
-	                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-	                                  <a class="collapse-item" href="#">창고등록</a>
-	                                  <a class="collapse-item" href="#">창고정보</a>
-	                          </div>
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
+                      aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
+                        <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/price/list');">품목단가관리</a>
+                           </div>
+
+                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
+                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
+                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/warehouse/whinfo');">창고등록</a>
+                          </div>
+                 <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/ma/bom');">BOM등록</a>
                     </div>
                 </div>
             </li>
@@ -146,13 +156,12 @@
                         aria-expanded="false" aria-controls="collapseWarehouse">출하관리</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
                                   <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/shipout/main');">출하 등록</a>
-                                  <a class="collapse-item" href="#">출하 조회</a>
                           </div>
                  <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse2"
                         aria-expanded="false" aria-controls="collapseWarehouse2">반품관리</a>
                            <div id="collapseWarehouse2" class="collapse" aria-labelledby="headingWarehouse2" data-parent="#collapseUtilities">
-                                  <a class="collapse-item" href="#">반품등록</a>
-                                  <a class="collapse-item" href="#">반품현황</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnMain');">반품등록</a>
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/so/returnInfo');">반품현황</a>
                           </div>
                     </div>
                 </div>
@@ -167,8 +176,8 @@
                 </a>
                 <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">구매요청</a>
-                        <a class="collapse-item" href="#">구매입고등록</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/req1');">구매발주</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/reqM');">구매입고등록</a>
                     </div>
                 </div>
             </li>
@@ -182,11 +191,12 @@
                 </a>
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/po');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/perform');">작업등록</a>
                     </div>
                 </div>
             </li>
-            
+             
                   <!-- Nav Item -재고관리 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo4"
@@ -196,8 +206,11 @@
                 </a>
                 <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">품목별 재고현황</a>
-                        <a class="collapse-item" href="">창고별 재고현황</a>
+
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockByItem');">품목별 재고현황</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockByWh');">창고별 재고현황</a>
+                      
+
                     </div>
                 </div>
             </li>
@@ -407,11 +420,11 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-
+    <%-- <script src="${conPath}/resources/vendor/jquery/jquery.min.js"></script> --%>
     <script src="${conPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <%-- <script src="${conPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script> --%>
 
     <script>
     
@@ -427,7 +440,7 @@
     	    	$("#bodyContents").html(data);
     	    },
     	    error: function(){
-    	    	alert("error")
+    	    	alert("ajax error")
     	    }
     	});
     });
@@ -443,12 +456,36 @@
 		    	$('#bodyContents').children().remove();
 	            // Contents 영역 교체
 	            $('#bodyContents').html(data);
+	            // 초기화 코드 추가
+	            /* if (typeof $('#bodyContents').find('#datepicker').datepicker === 'function') {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }	             */
+	            if ($('#bodyContents').find('#datepicker').length > 0) {
+	                $('#bodyContents').find('#datepicker').datepicker(datepickerConfig);
+	            }
 		      },
 		      error: function(request, status, error) {
-		        alert(error);
+		        alert("acyncMovePage 매핑 오류");
 		    }
 		  });
+
 	}
+
+	window.datepickerConfig = {
+		    dateFormat: 'yy-mm-dd',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		    dayNames: ['일','월','화','수','목','금','토'],
+		    dayNamesShort: ['일','월','화','수','목','금','토'],
+		    dayNamesMin: ['일','월','화','수','목','금','토'],
+		    yearSuffix: '년',
+		    changeMonth: true,
+		    changeYear: true
+		};
+	
+	
 	</script>
 
 </body>

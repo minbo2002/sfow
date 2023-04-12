@@ -21,6 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<context:component-scan base-package="com.yeonoo.*" />
+	
 	<!-- <beans:bean id="tileConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <beans:property name="definitions">
             <beans:list>
@@ -38,7 +40,14 @@
 	
 	<!-- 인터셉터(클래스) bean 등록 -->
 	<interceptors>
-		<beans:bean class="com.yeonoo.sfow.interceptor.MonitoringInterceptor"></beans:bean>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean class="com.yeonoo.sfow.interceptor.MonitoringInterceptor"></beans:bean>
+		</interceptor>
+		<!-- <interceptor>
+			<mapping path="/ma/**"/>
+			<beans:bean id="BomInterceptor"  class="com.yeonoo.sfow.interceptor.BomInterceptor"></beans:bean>
+		</interceptor> -->
 	</interceptors>
 	
 	<beans:bean id="criteria" class="com.yeonoo.sfow.model.Criteria"/>

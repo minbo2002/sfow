@@ -107,6 +107,8 @@
   <h4>세부항목</h4>
   <div id="grid2"></div>
 <script type="text/javascript" >
+var contextPath = '<%= request.getContextPath() %>';
+
 $(document).ready(function(){
 var gridData = [];
     var grid = new tui.Grid({
@@ -192,7 +194,7 @@ var gridData = [];
  /////////////////////////////////////////////////////   
 //전체조회
 	$.ajax({
-	    url: 'so/orderList',
+	    url: '<%=request.getContextPath()%>/so/orderList',
 	    method: 'GET',
 	    dataType: 'JSON',
 	    success: function(data) {
@@ -208,7 +210,7 @@ var gridData = [];
 // 조회버튼 눌러야지만 데이터 나옴
 	$('#search_btn').on('click', function() {
 	    $.ajax({
-	        url: 'so/orderList',
+	        url: '<%=request.getContextPath()%>/so/orderList',
 	        method: 'GET',
 	        dataType: 'JSON',
 	        success: function(data) {
@@ -263,7 +265,7 @@ var gridData = [];
       grid.removeCheckedRows([jsonRowKeys]);
 
       $.ajax({
-         url : "orderDelete",
+         url : "<%=request.getContextPath()%>/orderDelete",
          method : "post",
          data : jsonRowDatas,
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -298,7 +300,7 @@ var gridData = [];
       grid2.removeCheckedRows([jsonRowKeys]);
 
       $.ajax({
-         url : "orderDelete2",
+         url : "<%=request.getContextPath()%>/orderDelete2",
          method : "post",
          data : jsonRowDatas,
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -333,7 +335,7 @@ var gridData = [];
 
 
       $.ajax({
-         url : "orderUpdateStatus",
+         url : "<%=request.getContextPath()%>/orderUpdateStatus",
          method : "post",
          data : jsonRowDatas,
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -369,7 +371,7 @@ var gridData = [];
       var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
       
       $.ajax({
-         url : "orderInsert",
+         url : "<%=request.getContextPath()%>/orderInsert",
          method : "POST",
          data : jsonRowDatas,
          contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -393,7 +395,7 @@ var gridData = [];
 	   var jsonData = JSON.stringify(rowData);
 	    
 	   $.ajax({
-	     url: "orderInsert2",
+	     url: "<%=request.getContextPath()%>/orderInsert2",
 	     method: "POST",
 	     data: jsonData,
 	     contentType: "application/json; charset=utf-8",
@@ -426,7 +428,7 @@ var gridData = [];
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 
 		$.ajax({
-			url : "orderUpdate",
+			url : "<%=request.getContextPath()%>/orderUpdate",
 			method : "patch",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -458,7 +460,7 @@ var gridData = [];
 		var rowDatas = grid2.getCheckedRows();	// 선택한 row에 해당하는 객체값
 		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
 		$.ajax({
-			url : "orderUpdate2",
+			url : "<%=request.getContextPath()%>/orderUpdate2",
 			method : "patch",
 			data : jsonRowDatas,
 			contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
@@ -490,7 +492,7 @@ var gridData = [];
       var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
       
       $.ajax({
-          url : "orderDetail",
+          url : "<%=request.getContextPath()%>/orderDetail",
           method : "post",
           data : jsonRowDatas,
           dataType : "json",
@@ -548,12 +550,12 @@ var gridData = [];
 		var contextPath = '<%= request.getContextPath() %>';
     grid2.on('dblclick', function(ev) {
         if (ev.columnName === 'item_code') {
-            window.open(contextPath + 'orderForm', 'childWindow', 'width=500,height=500');
+            window.open(contextPath + '/orderForm', 'childWindow', 'width=500,height=500');
         }
     });
     grid.on('dblclick', function(ev) {
         if (ev.columnName === 'client_code') {
-            window.open(contextPath + 'orderForm2', 'childWindow', 'width=500,height=500');
+            window.open(contextPath + '/orderForm2', 'childWindow', 'width=500,height=500');
         }
     });
 	
