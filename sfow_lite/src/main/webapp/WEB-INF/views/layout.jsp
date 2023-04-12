@@ -194,7 +194,7 @@
                 </a>
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/po');">작업지시</a>
                     </div>
                 </div>
             </li>
