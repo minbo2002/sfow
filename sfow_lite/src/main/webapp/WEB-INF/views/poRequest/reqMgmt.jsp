@@ -692,7 +692,7 @@ border-color: hsl(240, 100%, 50%);
 </head>
 
 <body>
-
+<h3>구매입고관리</h3>
 <div class="grid_btn">
 <form id="searchFrm">
     <button type="button" id="search" class="custom-button">
