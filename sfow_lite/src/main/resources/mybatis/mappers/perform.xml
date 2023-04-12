@@ -4,15 +4,17 @@
 
 <select id="selectOrder" resultType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[SELECT pp_no, pp_date, end_date, pp_quantity, warehouse_name
-FROM pp_order
-WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
-  AND (pp_date BETWEEN #{pp_date} AND #{end_date} OR pp_date IS NULL OR #{pp_date} IS NULL OR #{end_date} IS NULL)
-  AND (end_date BETWEEN #{pp_date} AND #{end_date} OR end_date IS NULL OR #{pp_date} IS NULL OR #{end_date} IS NULL)]]>
+			 FROM pp_order
+			 WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
+  			 AND (pp_date BETWEEN #{pp_date} AND #{end_date} OR pp_date IS NULL OR #{pp_date} IS NULL OR #{end_date} IS NULL)
+  			 AND (end_date BETWEEN #{pp_date} AND #{end_date} OR end_date IS NULL OR #{pp_date} IS NULL OR #{end_date} IS NULL)
+  			 AND company_code=#{company_code}]]>
 </select>
 
 <select id="selectOrder2" resultType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[select pp_no,pp_date,end_date,item_code,item_name,pp_quantity,warehouse_name,warehouse_code
-			 from pp_order]]>
+			 from pp_order
+			 where company_code=#{company_code}]]>
 </select>
 
 <update id="updateOrder" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
@@ -22,51 +24,53 @@ WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
 </update>
 
 <select id="selectPerform" resultType="com.yeonoo.sfow.ppPerform.domain.Perform">
-	<![CDATA[select * from pp_perform]]>
+	<![CDATA[select * from pp_perform
+			 where company_code=#{company_code}]]>
 </select>
 
 <select id="selectPerformByLot" resultType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[select * from pp_perform
-			 where lot_no=#{lot_no}]]>
+			 where lot_no=#{lot_no} and where company_code=#{company_code}]]>
 </select>
 
 <select id="selectBOM" resultType="com.yeonoo.sfow.ppPerform.domain.BOM">
 	<![CDATA[select * from ma_bom_tree
-			 where ppitem_cd=#{item_code}]]>
+			 where ppitem_cd=#{item_code} and company_code=#{company_code}]]>
 </select>
 
-<select id="selectOrderOne" resultType="com.yeonoo.sfow.ppPerform.domain.Order">
+<select id="selectOrderOne" resultType="com.yeonoo.sfow.ppPerform.domain.Order" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[select * from pp_order
-			 where pp_no=#{pp_no}]]>
+			 where pp_no=#{pp_no} and company_code=#{company_code}
+			]]>
 </select>
 
 <select id="selectPerformSum" resultType="int" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform" >
 <![CDATA[select COALESCE(SUM(per_quantity),0)
 		 from pp_perform
-		 where pp_no=#{pp_no}]]>
+		 where pp_no=#{pp_no} and company_code=#{company_code}]]>
 </select>
 
 <select id="selectBOMOne" resultType="int" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[select bomdno from ma_bom_tree
-			 where ppitem_cd = #{item_code}]]>
+			 where item_name = #{item_name} and company_code=#{company_code}]]>
 </select>
 
 <insert id="insertPerform" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
-	<![CDATA[insert into pp_perform(pp_no,bomdno,item_code,item_name,per_sTime,per_eTime,per_quantity,user_name,user_code)
-			 values(#{pp_no},#{bomdno},#{item_code},#{item_name},now(),#{per_eTime},#{per_quantity},#{user_name},#{user_code})]]>
+	<![CDATA[insert into pp_perform(pp_no,bomdno,item_code,item_name,per_sTime,per_eTime,per_quantity,user_name,user_code,company_code)
+			 values(#{pp_no},#{bomdno},#{item_code},#{item_name},now(),#{per_eTime},#{per_quantity},#{user_name},#{user_code},#{company_code})]]>
 </insert>
 
 <update id="updatePerformEnd" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[update pp_order
 			 set end_date=now(),pp_status='E'
-			 where pp_no=#{pp_no}
+			 where pp_no=#{pp_no} and company_code=#{company_code}
 	]]>
 </update>
 
 <update id="updatePerformStart" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[update pp_order
 			 set pp_date=now()
-			 where pp_no=#{pp_no}
+			 where pp_no=#{pp_no} and company_code=#{company_code}
 	]]>
 </update>
 
@@ -83,14 +87,14 @@ WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
 <update id="updateOrderDate" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[update pp_order
 			 set pp_date=null and end_date=null
-			 where pp_no=#{pp_no}
+			 where pp_no=#{pp_no} and company_code=#{company_code}
 	]]>
 </update>
 
 <update id="updateOrderDate2" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[update pp_order
 			 set end_date=null
-			 where pp_no=#{pp_no}
+			 where pp_no=#{pp_no} and company_code=#{company_code}
 	]]>
 </update>
 
@@ -100,13 +104,18 @@ WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
 </delete>
 
 <select id="selectPerformStock" resultType="com.yeonoo.sfow.ppPerform.domain.PerStock" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
-	<![CDATA[SELECT NULL AS result
-			 WHERE NOT EXISTS (SELECT item_code,quantity FROM mt_stock_detail WHERE item_code =#{item_code})]]>
+	<![CDATA[SELECT item_code, quantity
+			 FROM mt_stock_detail
+			 WHERE item_code =#{item_code}
+			 UNION ALL
+			 SELECT NULL AS item_code, NULL AS quantity
+			 FROM dual
+			 WHERE NOT EXISTS (SELECT item_code FROM mt_stock_detail WHERE item_code =#{item_code})]]>
 </select>
 <update id="updatePerformStock" parameterType="com.yeonoo.sfow.ppPerform.domain.PerStock">
 	<![CDATA[update mt_stock_detail
 			 set quantity=#{quantity}
-			 where item_code=#{item_code}
+			 where item_code=#{item_code} and company_code=#{company_code}
 	]]>
 </update>
 
@@ -121,6 +130,28 @@ WHERE pp_no LIKE CONCAT('%', #{pp_no}, '%')
 	<![CDATA[insert into mt_stock_detail(company_code,item_code,warehouse_code,quantity)
 		     values(#{company_code},#{item_code},#{warehouse_code},#{quantity})]]>
 </insert>
+<select id="selectStockForDel" resultType="int" parameterType="com.yeonoo.sfow.ppPerform.domain.Perform">
+	<![CDATA[select quantity from mt_stock_detail
+			 where item_code=#{item_code}]]>
+</select>
+<update id="updateStockAfterDel" parameterType="com.yeonoo.sfow.ppPerform.domain.PerStock">
+	<![CDATA[update mt_stock_detail
+			 set quantity=#{qty}
+			 where item_code=#{item_code} and company_code=#{company_code}
+	]]>
+</update>
 
+<select id="bomSitemListSelect" resultType="java.util.List" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
+	<![CDATA[SELECT b.sitem_cd, s.quantity,b.item_qty  
+			 FROM ma_bom_tree b JOIN mt_stock_detail s ON b.sitem_cd = s.item_code 
+			 WHERE b.ppitem_cd =#{item_code} and b.company_code=#{company_code}]]>
+</select>
+
+<update id="updateStockQuantity" parameterType="com.yeonoo.sfow.ppPerform.domain.PerStock">
+	<![CDATA[update mt_stock_detail
+			 set quantity=#{quantity}
+			 where item_code=#{item_code} and company_code=#{company_code}
+	]]>
+</update>
 
 </mapper>

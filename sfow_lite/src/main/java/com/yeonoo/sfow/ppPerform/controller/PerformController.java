@@ -38,9 +38,11 @@ public class PerformController {
 		
 	@RequestMapping("/selectOrder")
 	@ResponseBody
-	public List<Order> selectOrder(Order order, HttpSession session, HttpServletRequest request) {
-
-		System.out.println(order);
+	public List<Order> selectOrder(Order order, HttpSession com, HttpServletRequest request) {
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		order.setCompany_code(comCode);
+		System.out.println("order의 컴페니코드 확인해"+order);
 		List<Order> result=performService.selectOrder(order);
 		return result;
 	}
@@ -53,9 +55,15 @@ public class PerformController {
 	
 	@GetMapping("/selectPerform")
 	@ResponseBody
-	public List<Perform> selectPerform(String pp_no){
+	public List<Perform> selectPerform(String pp_no,HttpSession com){
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		Perform perform = new Perform();
+		
+		perform.setCompany_code(comCode);
+		perform.setPp_no(pp_no);
 		System.out.println("pp_no"+pp_no);
-		List<Perform> result=performService.selectPerform(pp_no);
+		List<Perform> result=performService.selectPerform(perform);
 		return result;
 		
 	}
@@ -63,18 +71,21 @@ public class PerformController {
 	
 	@PutMapping("/selectBOM")
 	@ResponseBody
-	public List<BOM> selectBOM(@RequestBody Perform perform) {
-		System.out.println("perform에 롯트번호"+perform);
-		String lot_no=perform.getLot_no();
-		List<BOM> bom=performService.selectBOM(lot_no);
+	public List<BOM> selectBOM(@RequestBody Perform perform,HttpSession com) {
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		perform.setCompany_code(comCode);
+		List<BOM> bom=performService.selectBOM(perform);
 		return bom;
 	}
 	
 	@GetMapping("/insertPerform")
 	@ResponseBody
-	public Map<String, Object> insertPerform(Perform perform) {
-		System.out.println("insert할 perform" + perform
-				);
+	public Map<String, Object> insertPerform(Perform perform,HttpSession com) {
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		
+		perform.setCompany_code(comCode);
 		
 		Boolean isSuccess=performService.insetPerform(perform);
 		int sum=performService.selectQty(perform.getPp_no());
@@ -105,8 +116,10 @@ public class PerformController {
 	
 	@PutMapping("/deletePerform")
 	@ResponseBody
-	public Map<String, Object> deletePerform(@RequestBody Perform perform) {
-		System.out.println("삭제퍼폼 가보쟈고?"+perform);
+	public Map<String, Object> deletePerform(@RequestBody Perform perform,HttpSession com) {
+		UserInfo user = (UserInfo) com.getAttribute("AUTHUSER");
+		String comCode=user.getCompanyCode();
+		perform.setCompany_code(comCode);
 		Boolean isSuccess= performService.deletePerform(perform);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();

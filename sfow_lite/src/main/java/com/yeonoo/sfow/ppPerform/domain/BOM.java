@@ -15,5 +15,5 @@ public class BOM {
 		String item_qty;
 		String item_stock_unit;	
 		String warehouse_code;
-		
+		int quantity;
 }

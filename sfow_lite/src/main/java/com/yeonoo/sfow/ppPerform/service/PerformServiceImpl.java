@@ -29,14 +29,14 @@ public class PerformServiceImpl implements PerformService {
 	}
 
 	@Override
-	public List<Perform> selectPerform(String pp_no) {
-		List<Perform> result=performRepository.selectPerform(pp_no);
+	public List<Perform> selectPerform(Perform perform) {
+		List<Perform> result=performRepository.selectPerform(perform);
 		return result;
 	}
 
 	@Override
-	public List<BOM> selectBOM(String lot_no) {
-		List<BOM> bom=performRepository.selectBOM(lot_no);
+	public List<BOM> selectBOM(Perform perform) {
+		List<BOM> bom=performRepository.selectBOM(perform);
 		return bom;
 	}
 

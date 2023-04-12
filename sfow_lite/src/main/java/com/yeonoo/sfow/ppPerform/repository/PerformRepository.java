@@ -10,8 +10,8 @@ public interface PerformRepository {
 
 	public List<Order> selectOrder(Order order);
 	public void updateOrder(Order order);
-	public List<Perform> selectPerform(String pp_no);
-	public List<BOM> selectBOM(String lot_no);
+	public List<Perform> selectPerform(Perform perform);
+	public List<BOM> selectBOM(Perform perform);
 	public Boolean insertPerform(Perform perform);
 	public int selectQty(String pp_no);
 	public List<Perform> selectWorker(Perform worker);
