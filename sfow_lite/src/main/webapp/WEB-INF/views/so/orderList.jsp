@@ -126,7 +126,6 @@ var gridData = [];
 				 {header: '수주번호', name: 'order_number',	sortingType: 'asc',sortable: true,width:90,align: 'center'},
 				 {header: '수주유형',name: 'order_type',	 sortingType: 'asc',sortable: true,editor:'text',align: 'center',defaultValue:'자체생산'},
 				 {header: '수주일자',name: 'order_date',sortingType: 'asc',sortable: true,editor:{type: "datePicker",options: {format: "yyyy-MM-dd"}},align: 'center'},
-				 {header: '납품처',name: 'customer_code',	 sortingType: 'asc',sortable: true,editor:'text',align: 'center'},
 				 {header: '납기일',name: 'due_date',sortingType: 'asc',sortable: true,editor:{type: "datePicker",options: {format: "yyyy-MM-dd"}},align: 'center'},
 				 {header: '수주담당자',name: 'order_empid',sortingType: 'asc',sortable: true,editor:'text',align: 'center'},
 				 {header: '비고',name: 'memo', sortingType: 'asc',sortable: true,editor:'text',align: 'center'},
