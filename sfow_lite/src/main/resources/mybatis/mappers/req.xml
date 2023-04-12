@@ -12,7 +12,7 @@
 		<result property="delyn" column="delyn"/>
 		<result property="company_code" column="company_code"/>
 	</resultMap>
- 
+<!--  
  	<select id="reqOrder" resultMap="reqVO1">
 		<![CDATA[
 			SELECT po.request_number,po.request_type,po.request_date,po.request_empid,po.createdate,po.memo,po.delyn,ma.company_code
@@ -21,30 +21,53 @@
 			AND po.company_code=#{company_code}
 			AND po.delyn='N'
 		]]> 	
+	</select> -->
+ 
+ 	<select id="reqOrder" resultMap="reqVO1" parameterType="Map">
+		<![CDATA[
+			SELECT request_number,request_type,request_date,request_empid,createdate,memo,delyn,company_code
+			FROM po_request
+			WHERE company_code=#{company_code}
+			AND delyn='N'
+		]]> 	
 	</select>
 	
-   <select id="reqSelect" resultMap="reqVO1">
+<!--    <select id="reqSelect" resultMap="reqVO1" parameterType="Map">
       <![CDATA[
 	      	SELECT po.request_number,po.request_type,po.request_date,po.request_empid,po.createdate,po.memo,po.delyn,ma.company_code
 			FROM po_request po, ma_companyinfo ma
-			WHERE po.company_code=ma.company_code
+			WHERE po.company_code=#{company_code}
 			AND po.delyn='N'
-			AND COALESCE(po.request_number, '') LIKE CONCAT('%', #{request_number}, '%')
-			AND COALESCE(po.request_type, '') LIKE CONCAT('%', #{request_type}, '%')
-			AND COALESCE(po.request_date, '') LIKE CONCAT('%', #{request_date}, '%')
-			AND COALESCE(po.request_empid, '') LIKE CONCAT('%', #{request_empid}, '%')
+			AND COALESCE(po.request_number, '') LIKE CONCAT('%', #{reqVO.request_number}, '%')
+			AND COALESCE(po.request_type, '') LIKE CONCAT('%', #{reqVO.request_type}, '%')
+			AND COALESCE(po.request_date, '') LIKE CONCAT('%', #{reqVO.request_date}, '%')
+			AND COALESCE(po.request_empid, '') LIKE CONCAT('%', #{reqVO.request_empid}, '%')
+      ]]>   
+   </select> -->
+   <select id="reqSelect" resultMap="reqVO1" parameterType="Map">
+      <![CDATA[
+	      	SELECT request_number,request_type,request_date,request_empid,createdate,memo,delyn,company_code
+			FROM po_request
+			WHERE company_code=#{company_code}
+			AND delyn='N'
+			AND COALESCE(request_number, '') LIKE CONCAT('%', #{reqVO.request_number}, '%')
+			AND COALESCE(request_type, '') LIKE CONCAT('%', #{reqVO.request_type}, '%')
+			AND COALESCE(request_date, '') LIKE CONCAT('%', #{reqVO.request_date}, '%')
+			AND COALESCE(request_empid, '') LIKE CONCAT('%', #{reqVO.request_empid}, '%')
       ]]>   
    </select>
    
-   <select id="reqSelect1" resultType="reqModalVO">
+   <select id="reqSelect1" resultType="reqModalVO" parameterType="Map">
       <![CDATA[
 	      	SELECT id,user_name FROM cm_userinfo
+	      	WHERE company_code=#{company_code}
       ]]>   
    </select>
    
-   <select id="reqSelect2" resultType="reqModalVO">
+   <select id="reqSelect2" resultType="reqModalVO" parameterType="Map">
 	      	SELECT id,user_name FROM cm_userinfo
-         	where user_name LIKE CONCAT('%', #{user_name}, '%')
+	      	WHERE company_code=#{company_code}
+         	AND user_name LIKE CONCAT('%', #{user_name}, '%')
    </select>
 <!-- 	      	<if test="user_name != null and user_name !=''">
          </if> -->

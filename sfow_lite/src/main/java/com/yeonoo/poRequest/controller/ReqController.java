@@ -39,6 +39,10 @@ public class ReqController {
 		return "poRequest/reqChild";
 	}
 	
+	@GetMapping("/reqChild2")
+	public String reqChild2() {
+		return "poRequest/reqChild2";
+	}
 	
 	
 	@GetMapping("/reqSearch")
@@ -47,14 +51,18 @@ public class ReqController {
 	        @RequestParam(required = false) String request_number,
 	        @RequestParam(required = false) String request_type,
 	        @RequestParam(required = false) String request_date,
-	        @RequestParam(required = false) String request_empid
+	        @RequestParam(required = false) String request_empid,
+	        HttpSession session
 	) throws Exception {
 	    ReqVO reqVO = new ReqVO();
 	    reqVO.setRequest_number(request_number);
 	    reqVO.setRequest_type(request_type);
 	    reqVO.setRequest_date(request_date);
 	    reqVO.setRequest_empid(request_empid);
-	    List<ReqVO> reqOrder = reqService.reqOrder(reqVO);
+	    UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+	    String company_code = user.getCompanyCode();
+	    System.out.println("로그인유저의 companyCode = " + company_code);
+	    List<ReqVO> reqOrder = reqService.reqOrder(reqVO,company_code);
 	    System.out.println("컨트롤러: " + reqOrder);
 	    return reqOrder;
 	}
@@ -62,11 +70,14 @@ public class ReqController {
 	@GetMapping("/reqSearch1")
 	@ResponseBody
 	public List<ReqModalVO> reqOrder1(
-	        @RequestParam(required = false) String user_name
+	        @RequestParam(required = false) String user_name,
+	        HttpSession session
 	) throws Exception {
 		ReqModalVO reqModalVO = new ReqModalVO();
 		reqModalVO.setUser_name(user_name);
-	    List<ReqModalVO> reqOrder1 = reqService.reqOrder1(reqModalVO);
+		UserInfo user = (UserInfo) session.getAttribute("AUTHUSER");
+		String company_code = user.getCompanyCode();
+	    List<ReqModalVO> reqOrder1 = reqService.reqOrder1(reqModalVO,company_code);
 	    System.out.println("컨트롤러: " + reqOrder1);
 	    return reqOrder1;
 	}
@@ -132,6 +143,7 @@ public class ReqController {
 	@ResponseBody
 	public List<ReqVO> reqInsert(@RequestBody List<ReqVO> reqVO, HttpSession session)throws Exception {
 		UserInfo userInfo = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = userInfo.getCompanyCode();
 		Iterator<ReqVO> iterator = reqVO.iterator();
 		while(iterator.hasNext()) {
 			ReqVO req = iterator.next();
@@ -157,8 +169,8 @@ public class ReqController {
 	
 	@GetMapping("/reqItem")
 	@ResponseBody
-	public ResponseEntity<List<ReqDetailVO>> reqItem() throws Exception {
-		
+	public ResponseEntity<List<ReqDetailVO>> reqItem(HttpSession session) throws Exception {
+		UserInfo userInfo = (UserInfo)session.getAttribute("AUTHUSER");
 		ReqDetailVO reqDetailVO = new ReqDetailVO();
 	    List<ReqDetailVO> reqItem = reqService.reqItem(reqDetailVO);
 	    System.out.println("reqItem컨트롤러: " + reqItem);

@@ -16,17 +16,14 @@
 	 const grid = new tui.Grid({
 		    el: document.getElementById('grid'),
 		    columns: [
-		        { header: 'ITEM코드', name: 'item_code' },
-		        { header: '품명', name: 'item_name' },
-		        { header: '품번', name: 'item_no' },
-		        { header: '재고단위', name: 'item_stock_unit' },
-		        { header: '단가', name: 'buy_price' }
+		        { header: 'id', name: 'id' },
+		        { header: '담당자명', name: 'user_name' }
 		    ]
 		});
 	 
 	 function loadGridData() {
 		    $.ajax({
-		        url: "${conPath}/reqItem", // 실제 데이터를 가져올 URL
+		        url: "${conPath}/reqSearch1", // 실제 데이터를 가져올 URL
 		        method: 'GET',
 		        dataType : "JSON",
 		        success: function(result) {
@@ -66,7 +63,7 @@
 	}
 	</style>
 </head>
-<title>ITEM</title>
+<title>담당자</title>
 
 <body>
 	<div id="grid"></div>

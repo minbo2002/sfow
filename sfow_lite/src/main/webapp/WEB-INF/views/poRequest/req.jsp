@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-
+<h3>구매발주</h3>
 <script>
 
  $(document).ready(window.onload=function() {
@@ -22,7 +22,7 @@
 	    createdate: '',
 	    memo: '',
 	    delyn: '',
-	    company_code: ''
+	    company_code: '${sessionScope.AUTHUSER.companyCode}'
 	    };
 	     grid.appendRow(newRowData);
 	   });  
@@ -88,7 +88,7 @@
 	 //초기화
   	 var resetRow = document.getElementById('resetRow');
 	   resetRow.addEventListener('click', function() {
-	      var confirmMsg = `모든 데이터를 삭제하시겠습니까?`;
+	      var confirmMsg = `초기화하시겠습니까?`;
 	      if(confirm(confirmMsg))
 	      grid.clear();
 	      grid2.clear();
@@ -104,21 +104,9 @@
          }
       });
     
-    //입력
-    $("#updateBtn").click(function() {
-       let i = confirm('세부 수정하시겠습니까?');
-         if(i) {
-        	 loadGridData();
-         }else {
-            return false;
-         }
-      });
-
  
 	 $('#searchBtn').click(function(event) {
-		 event.preventDefault(); // prevent form submission
-		    
-	    // get search parameters
+		 event.preventDefault();
 	    var request_number = $('#request_number').val();
 	    var request_type = $('#request_type').val();
 	    var request_date = $('#request_date').val();
@@ -139,7 +127,7 @@
 	         grid2.clear();
 	         grid.resetData(data);
 	         
-	         grid.on('editingFinish', function(ev) {
+	         grid.on('click', function(ev) {
 	             const rowKey = ev.rowKey;
 	             const columnName = ev.columnName;
 	             var updatedData = {};
@@ -266,26 +254,18 @@
 	              
 	           });
 	          
-	          //여기까지 추가함
-	          
 	       }//search_success
-	     });//ajax_search
-
+		});//ajax_search
 	 }); //searchBtn
 	 
 
 	   // 삭제함수
     function reqDelfunction() {
        
-       var rowKeys = grid.getCheckedRowKeys();  // 선택한 row의 key
-       //alert("rowKeys : " + rowKeys);
-       var jsonRowKeys = JSON.stringify(rowKeys);  // 실제값으로 가공 --> 선택한 row의 key(index)를  JSON 문자배열로 반환
-       //alert("JSON.stringify(rowKeys) : " + jsonRowKeys);
-       
-       var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
-       //alert("rowDatas : " + rowDatas);
-       var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-       //alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+       var rowKeys = grid.getCheckedRowKeys();  
+       var jsonRowKeys = JSON.stringify(rowKeys); 
+       var rowDatas = grid.getCheckedRows();   
+       var jsonRowDatas = JSON.stringify(rowDatas);
   
        grid.removeCheckedRows([jsonRowKeys]);
   
@@ -293,43 +273,40 @@
             url : "${conPath}/reqDel",
             method : "PUT",
             data : jsonRowDatas,
-            contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-            dataType: "JSON",         // 서버에서 받을 데이터타입
+            contentType : "application/json; charset=utf-8",
+            dataType: "JSON",
             success : function (result) {
-              //alert(result); // result는 반환받은 json형태의 객체 
             },
             error: function() {
                 console.log("실패");
              }
-       });
+		});
     }  
 
 	 
 	 //입력함수
   	 function saveFunction() {
 
-         var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+         var rowDatas = grid.getCheckedRows(); 
          alert("rowDatas : " + rowDatas);
-         var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+         var jsonRowDatas = JSON.stringify(rowDatas); 
          alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
          
          $.ajax({
             url : "${conPath}/reqInsert",
             method : "post",
             data : jsonRowDatas,
-            contentType : "application/json; charset=utf-8",  // 전송 데이터타입.  application/json로 설정해야 JSON을 처리할수있는 HTTP메세지컨버터가 실행된다
-            dataType: "JSON",         // 서버에서 받을 데이터타입
+            contentType : "application/json; charset=utf-8", 
+            dataType: "JSON", 
             success : function (result) {
-               //alert(result); // result는 반환받은 json형태의 객체 
+               
             },
             error: function() {
                  console.log("입력실패");
-             }
-         });
-      }
-	 
-	 
-}); //doc끝
+          }
+        });
+	  } 
+	}); //doc끝
 	 	
   	
  	</script>
@@ -354,22 +331,12 @@
  		         body.style.overflow = 'auto';
  			}	
  		
- 		
- 		
  		//modal 안에 grid2의 checkbox 체크된 row데이터 input태그에 찍기
  		function applyModal() {
- 			// grid2가 존재하고 데이터가 있을 때만 이벤트 리스너 등록
- 			// if (grid2 && grid2.getData().length > 0) {   
- 			        //modal.classList.toggle('show');
- 			        //body.style.overflow = 'auto';
  		      if (grid3 && grid3.getCheckedRows().length > 0) {
  		   	    const checkedRows = grid3.getCheckedRows();
  		   	    const id = document.getElementById('request_empid');
  		   		id.value = checkedRows[0].id;
- 		        //alert(warehouse_code.value);
-// 		         var warehouse_code = document.getElementById('warehouse_code');
-// 		         var test = rowData.warehouse_code;
-// 		         warehouse_code.value = test;
  		      }        
  		         modal.classList.remove('show');
  		         body.style.overflow = 'auto';
@@ -381,13 +348,6 @@
 
  	$(document).ready(function() {
  		
- 		//reset button 리셋 함수 그리드 내에 단일 check 된 데이터 초기화
-// 	 	function resetCheck(){
-// 	 		grid2.uncheckAll();
-// 	 	};
-
- 		
- 	  //$('.btn-open-popup').dblclick(function(event) {
  	  $('.btnFas').dblclick(function(event) {
  		  
  	  
@@ -439,11 +399,9 @@
  	  	  		
  	  	  },
  	    error: function(xhr, status, error) {
- 	      // handle error
  	      console.log(error);
  	    }
  	  }); 
- 	  
  	  
  	  
  		  //modal 안에 grid 행 checkbox 체크시 row데이터 출력(웹 console에만 출력하는 용도)
@@ -457,9 +415,7 @@
  			}); 
  		  
  			$('#searchBtn1').click(function(event) {
- 	 			 event.preventDefault(); // prevent form submission
- 	 			    
- 	 		    // get search parameters
+ 	 			 event.preventDefault(); 
  	 		    var user_name = $('#user_name').val();
  	 		    
  	 		 $.ajax({
@@ -475,12 +431,10 @@
  	 		         grid3.resetData(data);
  	 		      }
  	 		
- 	 		 });//reqSearch1 ajax
- 		  });
- 		});//double클릭 이벤트 끝
- 		
- 		 		
- 	});//document.ready끝	
+				});//reqSearch1 ajax
+			});
+		});//double클릭 이벤트 끝
+	});//document.ready끝	
 
 
  	  //modal 띄우기
@@ -494,20 +448,6 @@
  	    }
  	  });
 
- 	  //modal 클릭 이벤트 리스너(modal 밖의 바탕을 누르면 modal 창 닫히는 이벤트 리스너 = 닫기 버튼 생성으로 주석처리)
- 	  
- 	/*   modal.addEventListener('click', (event) => {
- 	    if (event.target === modal) {
- 	      modal.classList.toggle('show');
-
- 	      if (!modal.classList.contains('show')) {
- 	        body.style.overflow = 'auto';
- 	      }
- 	    }
- 	  }); */
- 	 
-  	  
- 	  
 	</script>
 		
 	<style>
@@ -518,6 +458,26 @@
 	  background-color: rgba(051, 51, 102, 1);
 	  font-weight : bolder;
 	}
+	#searchBtn {
+	  /* background-color: rgba(60, 80, 135, 1); */
+	  background-color: rgba(051, 51, 102, 1);
+	  font-weight : bolder;
+	  height:35px;
+	  width:80px; 
+	  color:white; 
+	  border:1px solid #8c8c8c;
+	}
+	
+	#resetRow {
+	  /* background-color: rgba(60, 80, 135, 1); */
+	  background-color: rgba(051, 51, 102, 1);
+	  font-weight : bolder;
+	  height:35px;
+	  width:80px; 
+	  color:white; 
+	  border:1px solid #8c8c8c;
+	}
+	
 	
 	#searchBtn:hover {
 	  background-color: rgba(051, 102, 102, 1);
@@ -529,31 +489,38 @@
 	  opacity: 0.8;
 	}
 	
+	#resetRow:hover {
+	  background-color: rgba(051, 102, 102, 1);
+	  opacity: 0.8;
+	}
+	
 	   
 	#resetBtn:hover {
 	  background-color: rgba(204, 000, 051, 1);
 	  opacity: 0.8;
 	}
 	
-	
 	#applyBtn:hover {
 	  background-color: rgba(051, 102, 204, 1);
 	  opacity: 0.8;
 	}
-	
 	
 	#resetMdBtn:hover {
 	  background-color: rgba(204, 000, 051, 1);
 	  opacity: 0.8;
 	}
 	
-	
 	#closeBtn:hover {
+	  background-color: rgba(051, 102, 204, 1);
+	  opacity: 0.8;
+	}
+	
+	#saveBtn:hover {
 	  background-color: rgba(153, 102, 000, 1);
 	  opacity: 0.8;
 	}
 	
-	#whSearchBtn:hover {
+	#deleteBtn:hover {
 	  background-color: rgba(102, 102, 102, 1);
 	  opacity: 0.8;
 	}
@@ -669,7 +636,7 @@
 
 	}
 
-  .search_wh input[type="text"].btn-open-popup {
+	.search_wh input[type="text"].btn-open-popup {
       padding-left: 30px;
       cursor: text;
       margin-left:-3.5px;
@@ -680,13 +647,13 @@
       outline: none;
 	}
   
-  .search_wh i.fa-search {
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-  }
+	.search_wh i.fa-search {
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+	}
 	
 
 	#applyBtn {
@@ -774,8 +741,8 @@
 <body>
 		<form id="selectReq">
          <input type="submit" name="searchBtn" id="searchBtn" value="조회"/>
-         <button type="button" name="deleteBtn" id="deleteBtn" style="height:35px; width:80px; font-size:13px; color:white;">삭제</button>
-         <button type="button" name="saveBtn" id="saveBtn" style="height:35px; width:80px; font-size:13px; color:white; border:1px solid #8c8c8c">저장</button>
+         <button type="button" name="deleteBtn" id="deleteBtn" style="height:35px; width:80px; color:white;">삭제</button>
+         <button type="button" name="saveBtn" id="saveBtn" style="height:35px; width:80px; color:white;">저장</button>
          <input type="reset" name="resetRow" id="resetRow" value="초기화">
          <div class="buttonRight">
          	<button type="button" name="addRowBtn" id="addRowBtn" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
@@ -809,26 +776,21 @@
             <div class="divTableCell">
                 <span style="position: relative;" class="btnFas">
                 <input type="text" class="btn-open-popup" name="request_empid" id="request_empid" style="background-color: rgb(230, 242, 255);"/>
-			    <i class='fas fa-search' style="position: flex; transform: translateY(-50%);"></i>
 			  	</span>
                 </div>
         	</div>
-<!--             <div class="divTableCell">사용자명</div>
-            <div class="divTableCell">
-                <input type="text" name="user_name" id="user_name"/>
-            </div> -->
-
             </div>
           </div>
 		</form>
+	<p/>
 	<div id="grid"></div>
-	<input type="button" name="updateBtn" id="updateBtn" value="세부수정"/>
 	 <div class="buttonRight">
 	<button type="button" name="addRowBtn2" id="addRowBtn2" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
 	<i class="fas fa-plus"></i></button>
     <button type="button" name="removeRowBtn2" id="removeRowBtn2" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
     <i class="fas fa-minus"></i></button>
     </div>
+	<p/>
 	<div id="grid2"></div>
 
 
@@ -881,9 +843,9 @@
 	         {
 	           header: '구매발주담당',
 	           sortable: true,
-	           editor:'text',
 	           name: 'request_empid',
-	           align:'center'
+	           align:'center',
+	           validation: { required: true }
 	         },
 	         {
 	           header: '비고',
@@ -932,7 +894,8 @@
 	           header: 'ITEM코드',
 	           sortable: true,
 	           name: 'item_code',
-	           align:'center'
+	           align:'center',
+	           validation: { required: true }
 	         },
 	         {
 	           header: '거래처번호',
@@ -1011,6 +974,73 @@
 		    
 	       ]
 	     }); //grid2
+	     
+	     
+	     grid.on('dblclick', function(ev) {
+	          if (ev.columnName === 'request_empid') {
+	              window.open('${conPath}/reqChild2', 'childWindow', 'width=500,height=500');
+	          }
+	      });
+		    	
+	      window.addEventListener('message', function(ev) {
+	          const selectedRow = ev.data;
+	          const focusedCell = grid.getFocusedCell();
+	          alert(JSON.stringify(selectedRow));
+	          grid.setValue(focusedCell.rowKey, 'request_empid', selectedRow.id);
+	      });
+	      
+	      function loadGridData() {
+	    		
+	    	  var rowDatas = grid.getCheckedRows();   // 선택한 row에 해당하는 객체값
+	          alert("rowDatas : " + rowDatas);
+	          var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
+	          alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
+	    	  
+	    	  
+	    	  $.ajax({
+	    			url: "${conPath}/reqSearch",
+	    			method: "GET",
+	    			dataType: "JSON",
+	    			contentType: "application/json; charset=utf-8",
+	    			success: function(reqOrder) {
+	    				console.dir(reqOrder);
+	    				grid.resetData(reqOrder);
+	    				
+    					  grid.on('click', function(ev) {
+    						  const rowKey = ev.rowKey;
+    						  const columnName = ev.columnName;
+    						  var updatedData = {};
+    						  const rowData = grid.getRow(rowKey);
+    						  console.log('Row data: ', rowData);
+
+    						  $.ajax({
+    							  url: '${conPath}/reqUpdate',
+    							  method: 'PUT',
+    							  dataType: 'JSON',
+    							  data: JSON.stringify(rowData),
+    							  contentType: 'application/json',
+    							  success: function(response) {
+    								  console.log('Success:', response);
+    							  },
+    							  error: function(error) {
+    								  console.log('Error:', error);
+    							  }
+    						  });//ajax_update
+    					  });
+	    						
+	    				  },
+	    				  error: function(error) {
+	    					console.log('Error:', error);
+	    				  },
+
+	    			error: function(reqOrderDetail) {
+	    				alert('에러');
+	    			}
+	    		
+	    		}); //ajax끝
+	    	}
+	     
+	     
 	     
 	     grid2.on('dblclick', function(ev) {
 	          if (ev.columnName === 'item_code') {
@@ -1105,7 +1135,5 @@
     </button>
   </div>
 </div>
-            
-
 </body>
 </html>
