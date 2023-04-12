@@ -33,6 +33,8 @@ public class RawDTO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-hh-mm")
 	private Date updatedate;	//수정일시
 	private String itemCategory;
+	private int no;
+	
 	
 }
 

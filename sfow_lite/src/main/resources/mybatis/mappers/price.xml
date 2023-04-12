@@ -14,8 +14,8 @@
         <result property="itemSpecification" column="item_specification"/>
         <result property="clientCode" column="client_code"/>
         <result property="clientName" column="client_name"/>
-        <result property="startDate" column="startDate"/>
-        <result property="endDate" column="endDate"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
         <result property="buyPrice" column="buy_price"/>
         <result property="salesPrice" column="sales_price"/>
         <result property="memo" column="memo"/>
@@ -56,7 +56,7 @@
 	<!-- 등록  -->
 	<insert id="insertPrice" parameterType="priceDTO">
 
-		INSERT INTO ma_item_price(company_code,item_category,item_code,item_name, item_no, item_specification, client_code, client_name,startDate,endDate, buyPrice,salesPrice,memo,useyn) 
+		INSERT INTO ma_item_price(company_code,item_category,item_code,item_name, item_no, item_specification, client_code, client_name,start_date,end_date, buy_price,sales_price,memo,useyn) 
 		values (#{companyCode}, #{itemCategory}, #{itemCode}, #{itemName}, #{itemNo}, #{itemSpecification}, #{clientCode}, #{clientName},#{startDate},#{endDate},#{buyPrice},#{salesPrice},#{memo},#{useyn})
 	</insert>
 	
