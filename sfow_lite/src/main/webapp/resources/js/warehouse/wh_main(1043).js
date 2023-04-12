@@ -1,4 +1,4 @@
-$(document).ready(window.onload = function() {
+window.onload = function() {
      
    var gridData=[];
    var grid = new tui.Grid({
@@ -90,7 +90,7 @@ $(document).ready(window.onload = function() {
              align:'center',
              width:'90',
              name: 'useyn',
-          formatter: 'listItemText',     // [선택] 값을 기반으로 select box 옵션
+          //formatter: 'listItemText',     // [선택] 값을 기반으로 select box 옵션
              editor: {
                  type: 'select',
                  options: {
@@ -134,14 +134,13 @@ $(document).ready(window.onload = function() {
        }); //그리드 컬럼끝
    
     // 모든 목록 보여주는 ajax
-    
     $.ajax({
-      url : './warehouse/whinfoAJ',
+      url : '../warehouse/whinfoAJ',
       method : 'GET',
       dataType : 'JSON',
       success : function(result) {
          console.dir(result);
-         grid.resetData(result);
+        grid.resetData(result);
       } 
       
       
@@ -181,16 +180,6 @@ $(document).ready(window.onload = function() {
 	             width: 50,
 	         },'checkbox'],
 	           columns: [
-	            {
-                 header: '회사코드',            // [필수] 컬럼 이름
-                 name: 'company_code',                 // [필수] 컬럼 매핑 이름 값
-                 hidden: true,                   // [선택] 숨김 여부
-             },
-              {
-                 header: '회사코드',            // [필수] 컬럼 이름
-                 name: 'warehouse_code',                 // [필수] 컬럼 매핑 이름 값
-                 hidden: true,                   // [선택] 숨김 여부
-             },
 	        	 {
 	        		 header: '구역코드',
 		                sortable: true, //정렬하는거 옆에 삼각형 2개생김
@@ -206,8 +195,7 @@ $(document).ready(window.onload = function() {
 	                align:'center', //텍스트 가운데정렬
 	                width: '150',
 	                name: 'area_name'
-	              },
-	              
+	              }
 	         ]
 	       }); //area 그리드 컬럼끝
 	       
@@ -217,51 +205,12 @@ $(document).ready(window.onload = function() {
 		  var newRowData =[{area_code:''},{ area_name:''}];
 		  grid2.appendRow(newRowData);
 		});
-		
-		
-		grid.on('check', function(ev) {
-		
-			grid2.clear();
-			
-			const rowKey = ev.rowKey;
-			const columnName = ev.columnName;
-			var updatedData = {};
-			const rowData = grid.getRow(rowKey);
-		
-		var rowDatas = grid.getCheckedRows();	// 선택한 row에 해당하는 객체값
-		//alert("rowDatas : " + rowDatas + ",  rowDatas length : " + rowDatas.length);
-		var jsonRowDatas = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		//alert("JSON.stringify(rowDatas) : " + jsonRowDatas);
-		var jsonRowDatas2 = JSON.stringify(rowDatas);   // 선택한 row에 해당하는 객체를 JSON 문자배열로 반환
-		
-		
-		$.ajax({
-                 url: './warehouse/WHarea',
-                 method :'post',
-                 dataType: 'JSON',
-                 data: jsonRowDatas,
-                 contentType: 'application/json; charset=utf-8',
-                 success: function(response) {
-                     console.log('Success:', response);
-                     // location.href = "../warehouse/whinfo";
-                      grid2.resetData(response);
-                 	},
-                 error: function(error) {
-                     console.log('Error:', error);
-                   //  location.href = "../warehouse/whinfo";
-                 	}
-             }); //ajax /warehouse/AreaList 끝
-		});
-		
-		/*
-		// 그리드 내용 클릭하면 자동 체크 & 두번누르면 해제
-		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
-		
+	/*	
 		grid.on('click', function(ev) {
+		const checkedRows = []; // 체크된 행의 rowKey를 저장할 배열
 		    const rowKey = ev.rowKey;
 		    const columnName = ev.columnName;
 		    const rowData = grid.getRow(rowKey);
-		
 		    // 체크된 행인지 여부를 checkedRows 배열로 확인
 		    const isChecked = checkedRows.includes(rowKey);
 		
@@ -270,15 +219,47 @@ $(document).ready(window.onload = function() {
 		        const index = checkedRows.indexOf(rowKey);
 		        checkedRows.splice(index, 1);
 		        grid.uncheck(rowKey);
+		        grid2.uncheck(rowKey);
 		    } else {
 		        // 체크되지 않은 상태에서 클릭하면 체크
 		        checkedRows.push(rowKey);
 		        grid.check(rowKey);
 		    }
    			
-             
 		});
-				*/
+	*/
+		// 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
+	grid.on('click', function(ev) {
+		
+	const rowKey = ev.rowKey;
+	    	const columnName = ev.columnName;
+	    	const rowData = grid.getRow(rowKey);
+    	
+        // 그리드1 행 누르면 구역(Area) 그리드2 데이터도 보여주기
+			var areaData = grid.getCheckedRows();
+			var jsonArea = JSON.stringify(areaData);
+			
+			// alert(jsonArea); //클릭한 그리드1 행 데이터 확인
+			
+		$.ajax({
+                 url: '../warehouse/WHarea',
+                 method :'post',
+                 dataType: 'JSON',
+                 data: jsonArea,  // 가져올데이터
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(results) {
+                     console.log('Success:', results);
+                   	 grid2.resetData(results);
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                   location.href = "../warehouse/whinfo";
+                 	}
+             }); //ajax /warehouse/AreaList 끝    
+        
+    	}); //구역 그리드ON data보여주기 끝 
+	
+		
 		
 	//조회 버튼 클릭하면 특정 내용 검색(빈내용이면 전부 검색)
 	$(document).ready(function(){
@@ -287,32 +268,31 @@ $(document).ready(window.onload = function() {
 				  event.preventDefault(); // prevent form submission
 				  var Grid = tui.Grid;
 				    // get search parameters
-				    var warehouse_typeS = $('#warehouse_typeS').val();
-				    var warehouse_codeS = $('#warehouse_codeS').val();
-				    var warehouse_nameS = $('#warehouse_nameS').val();
+				    var warehouse_type = $('#warehouse_type').val();
+				    var warehouse_code = $('#warehouse_code').val();
+				    var warehouse_name = $('#warehouse_name').val();
 				   // alert(warehouse_type);
 				     
 				    // make AJAX call to server
 				    $.ajax({
-				      url:'./warehouse/searchWH',
-				      type: 'post',
+				      url:'../warehouse/searchWH',
+				      type: 'get',
 				      dataType:'JSON',
-				      contentType: 'application/json',
-				      data:JSON.stringify({
-			    	  warehouse_type: warehouse_typeS,
-			    	  warehouse_code: warehouse_codeS,
-			    	  warehouse_name: warehouse_nameS
-			      }),
+				      data: {
+			    	  warehouse_type: warehouse_type,
+			    	  warehouse_code: warehouse_code,
+			    	  warehouse_name: warehouse_name
+			      },
 			      success: function(data) {
 			    	 	console.dir(data);
+			    	 	grid.clear();
 			    	 	grid.resetData(data);
-			      },
-			      error: function(error) {
-              		 console.log('Error:', error);
-           	}
+			    	  	
+			    	  	
+			      }
 			    	   	 });
 			 	});
-			}); //$('#searchBtn')끝
+			});
 		
 		//체크된 행 삭제하기 (update 삭제)
 		grid.on('check', function(ev) {	
@@ -327,27 +307,18 @@ $(document).ready(window.onload = function() {
 	      el.addEventListener('click', ev => {
 
 				$.ajax({
-                 url: './warehouse/deleteWH',
+                 url: '../warehouse/deleteWH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
                  contentType: 'application/json',
-             
-            /*  $.ajax({
-                 url: './warehouse/deleteUP_WH',
-                 method :'PUT',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json', */
-                 
-                 
                  success: function(response) {
                      console.log('Success:', response);
-                      location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+                      location.href = "../warehouse/whinfo";
                  	},
                  error: function(error) {
                      console.log('Error:', error);
-                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+                     location.href = "../warehouse/whinfo";
                  	}
              }); //ajax(/item/productDeleteAjax)끝
           }); //addEventListener끝
@@ -357,58 +328,72 @@ $(document).ready(window.onload = function() {
 		
 		
 	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
-	$(document).ready(function(){
-		$('#saveBtn').click(function() {
-		
-		var	rowDatas = grid.getCheckedRows();
+	grid.on('check', function(ev) {	
+	      
+	    const rowKey = ev.rowKey;
+    	const columnName = ev.columnName;
+    	const rowData = grid.getRow(rowKey);
+    	
+    	
+    	var rowDatas = grid.getCheckedRows();
 		var jsonRowDatas = JSON.stringify(rowDatas);
-		  var	rowDatas2 = grid.getCheckedRows();
-			var jsonRowDatas2 = JSON.stringify(rowDatas2);
 			
- 				 if(jsonRowDatas.createuser =='') {
-    				$.ajax({
-	                 url: './warehouse/insertWH',
-	                 method :'post',
-	                 dataType: 'json',
+    Array.prototype.forEach.call(document.querySelectorAll('#saveBtn'), el => {
+	      el.addEventListener('click', ev => {
+	     
+			const createdate = rowData.createdate;
+			 
+			alert(createdate); 
+			  
+			if(createdate == ''){
+		
+				$.ajax({
+                 url: '../warehouse/insertWH',
+                 method :'POST',
+                 dataType: 'JSON',
+                 data: JSON.stringify(rowData),
+                 contentType: 'application/json',
+                 success: function(response) {
+                     console.log('Success:', response);
+                     location.href = "../warehouse/whinfo";
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                     location.href = "../warehouse/whinfo";
+                 	}
+             }); //insert ajax 끝
+             
+           }
+
+			else {
+           
+           // const rowKey2 = ev.rowKey;
+    		// const columnName2 = ev.columnName;
+    		// const rowData2 = grid.getRow(rowKey);
+           
+	           $.ajax({
+	                 url: '../warehouse/updateWH',
+	                 method :'put',
+	                // dataType: 'JSON',
 	                 data: jsonRowDatas,
 	                 contentType: 'application/json; charset=utf-8',
-	                 success: function(result) {
-	                     console.log('Success:', result);
-	                     
-	                   location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+	                 success: function(response) {
+	                     console.log('Success:', response);
+	                     location.href = "../warehouse/whinfo";
 	                 	},
 	                 error: function(error) {
 	                     console.log('Error:', error);
-	                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+	                     location.href = "../warehouse/whinfo";
 	                 	}
-	             		}); //insert ajax 끝
-	         	   
-					  } else {
-					   $.ajax({
-		                 url: './warehouse/updateWH',
-		                 method :'PUT',
-		                 dataType: 'JSON',
-		                 data: jsonRowDatas2,
-		                 contentType: 'application/json; charset=utf-8',
-		                 success: function(response) {
-		                     console.log('Success:', response);
-		                    location.href="javascript:acyncMovePage('./warehouse/whinfo');"
-		                 	},
-		                 error: function(error) {
-		                     console.log('Error:', error);
-		                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
-		                 	}
-		             }); //update ajax 끝
-					}; //if문끝
-					
-		 }); //$('#saveBtn')끝
-
-	 });
+	             }); //update ajax 끝
+           }
+           
+             
+          }); //addEventListener끝
+    	 }); //insertRow 끝
+	}); //grid.on('check')끝 	
+		
 	
-});	//최초시작
-
-
-
-
+};	//최초시작
 
 

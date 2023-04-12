@@ -21,14 +21,15 @@ public class WhRepositoryImpl implements WhRepository {
 	
 	//전체목록조회
 	@Override
-	public List<WH> getWhAllList() throws DataAccessException{
-		List<WH> list =	sqlSession.selectList("mapper.warehouse.whAllList");
+	public List<WH> getWhAllList(String company_code) throws DataAccessException{
+		List<WH> list =	sqlSession.selectList("mapper.warehouse.whAllList",company_code);
 		
-		return list;
+	    return list;
 	}
 	
 	public List<WH> getsearchWH(WH searchwh) throws DataAccessException{
 		List<WH> list =	sqlSession.selectList("mapper.warehouse.searchWH",searchwh);
+		//List<WH> list2 =	sqlSession.selectList("mapper.warehouse.searchWH",company_code);
 		
 		return list;
 	}
@@ -38,12 +39,12 @@ public class WhRepositoryImpl implements WhRepository {
 	public List<WH_detail> WHarea(String warehouse_code) throws DataAccessException {
 		return	sqlSession.selectList("mapper.warehouse.wharea",warehouse_code);
 		
-		
 	}
 	
 	//저장버튼 insert
-	public int insertWH(WH wh) throws DataAccessException {
-		int cnt = sqlSession.insert("mapper.warehouse.insertWH", wh);
+	@Override
+	public int insertWH(WH elements) throws DataAccessException {
+		int cnt = sqlSession.update("mapper.warehouse.insertWH", elements);
 		
 		return cnt;
 	}
@@ -60,7 +61,12 @@ public class WhRepositoryImpl implements WhRepository {
 		return cnt;
 	}
 
-	
+	//Area 저장버튼 insert
+		public int insertDetail(WH_detail elements) throws DataAccessException {
+			int cnt = sqlSession.insert("mapper.warehouse.insertDetail", elements);
+			
+			return cnt;
+		}
 
 		
 }

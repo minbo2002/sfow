@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yeonoo.masterdata.wh.domain.WH;
 import com.yeonoo.masterdata.wh.domain.WH_detail;
 import com.yeonoo.masterdata.wh.repository.WhRepositoryImpl;
@@ -16,9 +18,9 @@ public class WhServiceImpl implements WhService {
 	private WhRepositoryImpl whRepository; 
 	
 	@Override
-	public List<WH> getWhAllList() throws Exception{
+	public List<WH> getWhAllList(String company_code) throws Exception{
 		
-		return whRepository.getWhAllList();
+		return whRepository.getWhAllList(company_code);
 	}
 	@Override
 	public List<WH> searchWH(WH searchwh) throws Exception {
@@ -38,15 +40,26 @@ public class WhServiceImpl implements WhService {
 		return cnt;
 	}
 	//insert 등록
-	public int insertWH(WH wh) throws Exception{
+	@Override
+	@Transactional
+	public int insertWH(WH elements) throws Exception{
 		
-		int cnt = whRepository.insertWH(wh);
+		int cnt = whRepository.insertWH(elements);
 		return cnt;
 		
 	}
 	//체크된 행 삭제하기 (수정)
 	public int deleteWH(WH wh) throws Exception {
 		int cnt =whRepository.deleteWH(wh);
+		return cnt;
+	}
+	//Area 구역 인서트 
+	@Override
+	@Transactional
+	public int insertDetail(WH_detail elements) {
+		
+		int cnt = whRepository.insertDetail(elements);
+		
 		return cnt;
 	}
 	

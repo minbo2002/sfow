@@ -112,7 +112,7 @@
                            </div>
                     
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
-                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
+                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a> 
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
@@ -120,7 +120,7 @@
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
                             <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
-
+ 
                            </div>
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
                       aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
@@ -132,7 +132,6 @@
                         aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
                            <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
                                   <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/warehouse/whinfo');">창고등록</a>
-                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}');">창고정보</a>
                           </div>
                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/ma/bom');">BOM등록</a>
                     </div>

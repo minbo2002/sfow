@@ -1,4 +1,4 @@
-$(document).ready(window.onload = function() {
+window.onload = function() {
      
    var gridData=[];
    var grid = new tui.Grid({
@@ -134,14 +134,13 @@ $(document).ready(window.onload = function() {
        }); //그리드 컬럼끝
    
     // 모든 목록 보여주는 ajax
-    
     $.ajax({
-      url : './warehouse/whinfoAJ',
+      url : '../warehouse/whinfoAJ',
       method : 'GET',
       dataType : 'JSON',
       success : function(result) {
          console.dir(result);
-         grid.resetData(result);
+        grid.resetData(result);
       } 
       
       
@@ -181,16 +180,6 @@ $(document).ready(window.onload = function() {
 	             width: 50,
 	         },'checkbox'],
 	           columns: [
-	            {
-                 header: '회사코드',            // [필수] 컬럼 이름
-                 name: 'company_code',                 // [필수] 컬럼 매핑 이름 값
-                 hidden: true,                   // [선택] 숨김 여부
-             },
-              {
-                 header: '회사코드',            // [필수] 컬럼 이름
-                 name: 'warehouse_code',                 // [필수] 컬럼 매핑 이름 값
-                 hidden: true,                   // [선택] 숨김 여부
-             },
 	        	 {
 	        		 header: '구역코드',
 		                sortable: true, //정렬하는거 옆에 삼각형 2개생김
@@ -206,8 +195,7 @@ $(document).ready(window.onload = function() {
 	                align:'center', //텍스트 가운데정렬
 	                width: '150',
 	                name: 'area_name'
-	              },
-	              
+	              }
 	         ]
 	       }); //area 그리드 컬럼끝
 	       
@@ -236,7 +224,7 @@ $(document).ready(window.onload = function() {
 		
 		
 		$.ajax({
-                 url: './warehouse/WHarea',
+                 url: '../warehouse/WHarea',
                  method :'post',
                  dataType: 'JSON',
                  data: jsonRowDatas,
@@ -287,32 +275,31 @@ $(document).ready(window.onload = function() {
 				  event.preventDefault(); // prevent form submission
 				  var Grid = tui.Grid;
 				    // get search parameters
-				    var warehouse_typeS = $('#warehouse_typeS').val();
-				    var warehouse_codeS = $('#warehouse_codeS').val();
-				    var warehouse_nameS = $('#warehouse_nameS').val();
+				    var warehouse_type = $('#warehouse_type').val();
+				    var warehouse_code = $('#warehouse_code').val();
+				    var warehouse_name = $('#warehouse_name').val();
 				   // alert(warehouse_type);
 				     
 				    // make AJAX call to server
 				    $.ajax({
-				      url:'./warehouse/searchWH',
-				      type: 'post',
+				      url:'../warehouse/searchWH',
+				      type: 'get',
 				      dataType:'JSON',
-				      contentType: 'application/json',
-				      data:JSON.stringify({
-			    	  warehouse_type: warehouse_typeS,
-			    	  warehouse_code: warehouse_codeS,
-			    	  warehouse_name: warehouse_nameS
-			      }),
+				      data: {
+			    	  warehouse_type: warehouse_type,
+			    	  warehouse_code: warehouse_code,
+			    	  warehouse_name: warehouse_name
+			      },
 			      success: function(data) {
 			    	 	console.dir(data);
+			    	 	grid.clear();
 			    	 	grid.resetData(data);
-			      },
-			      error: function(error) {
-              		 console.log('Error:', error);
-           	}
+			    	  	
+			    	  	
+			      }
 			    	   	 });
 			 	});
-			}); //$('#searchBtn')끝
+			});
 		
 		//체크된 행 삭제하기 (update 삭제)
 		grid.on('check', function(ev) {	
@@ -327,27 +314,18 @@ $(document).ready(window.onload = function() {
 	      el.addEventListener('click', ev => {
 
 				$.ajax({
-                 url: './warehouse/deleteWH',
+                 url: '../warehouse/deleteWH',
                  method :'PUT',
                  dataType: 'JSON',
                  data: JSON.stringify(rowData),
                  contentType: 'application/json',
-             
-            /*  $.ajax({
-                 url: './warehouse/deleteUP_WH',
-                 method :'PUT',
-                 dataType: 'JSON',
-                 data: JSON.stringify(rowData),
-                 contentType: 'application/json', */
-                 
-                 
                  success: function(response) {
                      console.log('Success:', response);
-                      location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+                      location.href = "../warehouse/whinfo";
                  	},
                  error: function(error) {
                      console.log('Error:', error);
-                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+                     location.href = "../warehouse/whinfo";
                  	}
              }); //ajax(/item/productDeleteAjax)끝
           }); //addEventListener끝
@@ -357,55 +335,56 @@ $(document).ready(window.onload = function() {
 		
 		
 	//체크 버튼 눌린 행 데이터 추가하기 (insert & update grid)	
-	$(document).ready(function(){
-		$('#saveBtn').click(function() {
+	
+	$('#saveBtn').click(function() {
+	
+	var	rowDatas = grid.getCheckedRows();
+	var jsonRowDatas = JSON.stringify(rowDatas);
+	  var	rowDatas2 = grid.getCheckedRows();
+		var jsonRowDatas2 = JSON.stringify(rowDatas2);
 		
-		var	rowDatas = grid.getCheckedRows();
-		var jsonRowDatas = JSON.stringify(rowDatas);
-		  var	rowDatas2 = grid.getCheckedRows();
-			var jsonRowDatas2 = JSON.stringify(rowDatas2);
-			
- 				 if(jsonRowDatas.createuser =='') {
-    				$.ajax({
-	                 url: './warehouse/insertWH',
-	                 method :'post',
-	                 dataType: 'json',
-	                 data: jsonRowDatas,
+	if (jsonRowDatas.createdate =''){
+	$.ajax({
+                 url: '../warehouse/insertWH',
+                 method :'post',
+                 dataType: 'json',
+                 data: jsonRowDatas,
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(result) {
+                     console.log('Success:', result);
+                     location.href = "../warehouse/whinfo";
+                 	},
+                 error: function(error) {
+                     console.log('Error:', error);
+                     location.href = "../warehouse/whinfo";
+                 	}
+             }); //insert ajax 끝
+             
+      } else {
+    	
+           
+	           $.ajax({
+	                 url: '../warehouse/updateWH',
+	                 method :'patch',
+	                 dataType: 'JSON',
+	                 data: jsonRowDatas2,
 	                 contentType: 'application/json; charset=utf-8',
-	                 success: function(result) {
-	                     console.log('Success:', result);
-	                     
-	                   location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+	                 success: function(response) {
+	                     console.log('Success:', response);
+	                     location.href = "../warehouse/whinfo";
 	                 	},
 	                 error: function(error) {
 	                     console.log('Error:', error);
-	                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
+	                     location.href = "../warehouse/whinfo";
 	                 	}
-	             		}); //insert ajax 끝
-	         	   
-					  } else {
-					   $.ajax({
-		                 url: './warehouse/updateWH',
-		                 method :'PUT',
-		                 dataType: 'JSON',
-		                 data: jsonRowDatas2,
-		                 contentType: 'application/json; charset=utf-8',
-		                 success: function(response) {
-		                     console.log('Success:', response);
-		                    location.href="javascript:acyncMovePage('./warehouse/whinfo');"
-		                 	},
-		                 error: function(error) {
-		                     console.log('Error:', error);
-		                     location.href="javascript:acyncMovePage('./warehouse/whinfo');"
-		                 	}
-		             }); //update ajax 끝
-					}; //if문끝
-					
-		 }); //$('#saveBtn')끝
-
-	 });
+	             }); //update ajax 끝
+      
+      
+      }
+             
+	 }); //$('#saveBtn')끝
 	
-});	//최초시작
+};	//최초시작
 
 
 
