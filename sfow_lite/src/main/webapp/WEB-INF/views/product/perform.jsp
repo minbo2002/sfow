@@ -130,6 +130,28 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+
+.custom-button {
+    background-color: rgba(051, 51, 102, 1);
+    font-weight: bolder;
+    color: #fff;
+    border: none;
+}
+
+#saveBtn:hover, #saveBtn2:hover, #search:hover {
+  background-color: rgba(051, 102, 204, 1);
+  opacity: 0.8;
+}
+
+#deleteRowBtn:hover, #deleteRowBtn2:hover, #reset:hover {
+  background-color: rgba(204, 000, 051, 1);
+  opacity: 0.8;
+}
+
+#addRowBtn:hover, #addRowBtn2:hover {
+  background-color: rgba(80, 201, 141);
+  opacity: 0.8;
+}
 </style>
 <script>
 $(document).ready(function() {

@@ -141,7 +141,7 @@
 	]]>
 </update>
 
-<select id="bomSitemListSelect" resultType="java.util.List" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
+<select id="bomSitemListSelect" resultType="com.yeonoo.sfow.ppPerform.domain.BOM" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[SELECT b.sitem_cd, s.quantity,b.item_qty  
 			 FROM ma_bom_tree b JOIN mt_stock_detail s ON b.sitem_cd = s.item_code 
 			 WHERE b.ppitem_cd =#{item_code} and b.company_code=#{company_code}]]>
