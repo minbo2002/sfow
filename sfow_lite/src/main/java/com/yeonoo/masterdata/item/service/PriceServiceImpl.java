@@ -23,8 +23,8 @@ public class PriceServiceImpl implements PriceService{
 	
 	// 조회하기
 	@Override
-	public List<PriceDTO> priceList( PriceDTO dto) {
-		return priceRepository.priceList(dto);
+	public List<PriceDTO> priceList( PriceDTO dto, String companyCode) {
+		return priceRepository.priceList(dto,companyCode);
 	}
 	
 	// 등록하기

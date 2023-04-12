@@ -14,8 +14,8 @@
         <result property="itemSpecification" column="item_specification"/>
         <result property="clientCode" column="client_code"/>
         <result property="clientName" column="client_name"/>
-        <result property="startDate" column="startDate"/>
-        <result property="endDate" column="endDate"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
         <result property="buyPrice" column="buy_price"/>
         <result property="salesPrice" column="sales_price"/>
         <result property="memo" column="memo"/>
@@ -24,55 +24,57 @@
     </resultMap> 
     
 
-	<select id="priceList" resultType="priceDTO">
+	<select id="priceList" resultType="priceDTO" parameterType="map">
 		<![CDATA[
-		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn,i.item_category as itemCategory
 			from ma_item_price p, ma_item i ,ma_client_company c
 			where p.item_code=i.item_code
 			AND p.useyn='Y'
+			AND i.company_code=#{companyCode}
 		order by i.item_code 
 		]]>	
 	</select>
 
-	<select id="priceListSearch" resultMap="priceDTO" parameterType="priceDTO">
+	<select id="priceListSearch" resultMap="priceDTO" parameterType="map">
 		<![CDATA[
-		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName ,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn
+		select DISTINCT i.company_code as companyCode, i.item_code as itemCode,i.item_name as itemName,i.item_no as itemNo,i.item_specification as itemSpecification,i.client_code as clientCode,i.client_name as clientName ,p.start_date as startDate,p.end_date as endDate,p.buy_price as buyPrice,p.sales_price as salesPrice,p.memo,p.useyn,i.item_category as itemCategory
 			from ma_item_price p,ma_item i ,ma_client_company c
 			where 		 
-						 AND COALESCE(i.item_category, '') LIKE CONCAT('%', #{itemCategory}, '%')
-						 AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{itemCode}, '%')
-						 AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{itemName}, '%')
-						 AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{itemNo}, '%')
-						 AND COALESCE(i.item_specification, '') LIKE CONCAT('%', #{itemSpecification}, '%')
-						 AND COALESCE(c.client_code, '') LIKE CONCAT('%', #{clientCode}, '%')
-						 AND COALESCE(c.client_name, '') LIKE CONCAT('%', #{clientName}, '%')
+						 	 COALESCE(i.item_category, '') LIKE CONCAT('%', #{dto.itemCategory}, '%')
+						 AND COALESCE(i.item_code, '') LIKE CONCAT('%', #{dto.itemCode}, '%')
+						 AND COALESCE(i.item_name, '') LIKE CONCAT('%', #{dto.itemName}, '%')
+						 AND COALESCE(i.item_no, '') LIKE CONCAT('%', #{dto.itemNo}, '%')
+						 AND COALESCE(i.item_specification, '') LIKE CONCAT('%', #{dto.itemSpecification}, '%')
+						 AND COALESCE(c.client_code, '') LIKE CONCAT('%', #{dto.clientCode}, '%')
+						 AND COALESCE(c.client_name, '') LIKE CONCAT('%', #{dto.clientName}, '%')
 						 AND p.item_code=i.item_code
 						 AND p.useyn='Y'
+						 AND i.company_code=#{companyCode}
 						  
 		order by i.item_code  
 		]]>	
 	</select>
 	
 	<!-- 등록  -->
-	<insert id="insertPrice" parameterType="priceDTO">
+	<insert id="insertPrice" parameterType="map">
 
-		INSERT INTO ma_item_price(company_code,item_category,item_code,item_name, item_no, item_specification, client_code, client_name,startDate,endDate, buyPrice,salesPrice,memo,useyn) 
-		values (#{companyCode}, #{itemCategory}, #{itemCode}, #{itemName}, #{itemNo}, #{itemSpecification}, #{clientCode}, #{clientName},#{startDate},#{endDate},#{buyPrice},#{salesPrice},#{memo},#{useyn})
+		INSERT INTO ma_item_price(company_code,item_category,item_code,item_name, item_no, item_specification, client_code, client_name,start_date,end_date, buy_price,sales_price,memo,useyn) 
+		values (#{companyCode}, #{elements.itemCategory}, #{elements.itemCode}, #{elements.itemName}, #{elements.itemNo}, #{elements.itemSpecification}, #{elements.clientCode}, #{elements.clientName},#{elements.startDate},#{elements.endDate},#{elements.buyPrice},#{elements.salesPrice},#{elements.memo},#{elements.useyn})
 	</insert>
 	
 	<!-- 수정 -->
-	<update id="updatePrice" parameterType="priceDTO">
+	<update id="updatePrice" parameterType="map">
 		update ma_item_price
-		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{item_type} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit}, lotsize=#{lotSize}, memo=#{memo},useyn=#{useyn} ,updatedate=CURRENT_TIMESTAMP
+		set item_name=#{itemName}, item_no=#{itemNo}, item_type=#{item_type} ,item_specification=#{itemSpecification},item_stock_unit=#{itemStockUnit}, lotsize=#{lotSize}, memo=#{elements.memo},useyn=#{elements.useyn} ,updatedate=CURRENT_TIMESTAMP
 		where item_code=#{itemCode}
 	</update>
 
 	<!-- 삭제 -->
 	<update id="useUpdate" parameterType="String">
 		<![CDATA[
-			update ma_item
+			update ma_item_price
 			set useyn='N'
-			where item_code=#{itemCode}
+			where item_code=#{elements.itemCode}
 		]]>
 	</update>
 

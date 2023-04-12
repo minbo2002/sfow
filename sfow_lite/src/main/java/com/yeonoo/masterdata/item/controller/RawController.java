@@ -107,7 +107,6 @@ public class RawController {
 	      System.out.println("로그인유저의 companyCode = " + companyCode);
 		
 		List<RawDTO> list = rawService.rawList(dto,companyCode);
-		
 		return list;
 	}
 
