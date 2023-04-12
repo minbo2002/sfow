@@ -3,14 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-<!-- 	<listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<listener>
-	    <listener-class>com.yeonoo.sfow.basicinfo.LoginFilter.SessionListener</listener-class>
-	</listener> -->
-
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
@@ -55,7 +47,7 @@
     </filter-mapping>
     
     <!-- 로그인 여부 검사  -->
-    <filter>
+     <filter>
 	    <filter-name>LoginFilter</filter-name>
 	    <filter-class>com.yeonoo.sfow.basicinfo.LoginFilter.LoginFilter</filter-class>
 		</filter>
@@ -68,5 +60,9 @@
 	    </exclusion>
 	</filter-mapping>
     
+    <!-- 세션시간 설정. 30분  -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 
 </web-app>

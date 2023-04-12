@@ -22,9 +22,10 @@ public class RawDTO {
 	private String itemType;			//유형
 	private String itemSpecification;	//규격
 	private String itemStockUnit; 		//재고단위
+	private String clientCode;
 	private String clientName;			//거래처명
 	private String warehouseCode;		//입고창고
-	private int warehouseName;			//창고명
+	private String warehouseName;			//창고명
 	private String memo;				//비고
 	private String useyn;				//사용여부
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd-hh-mm")

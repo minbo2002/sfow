@@ -17,8 +17,8 @@ public class CpmSericeImpl implements CpmService{
 	
 	//전체
 	@Override
-	public List<CpmVO> cpmlist() {
-		List<CpmVO> list = cpmDAOImpl.cpmlist();
+	public List<CpmVO> cpmlist(String companyCode) {
+		List<CpmVO> list = cpmDAOImpl.cpmlist(companyCode);
 		return list;
 	}
 	
