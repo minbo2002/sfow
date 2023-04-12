@@ -700,8 +700,7 @@ border-color: hsl(240, 100%, 50%);
 	<button type="button" id="delPoIn" class="custom-button">
           <i class="fa fa-trash"></i> 삭제</button>
     <input type="reset" id="reset" onclick="poInReset()" class="custom-button" value="초기화">
-          
-
+ 
 <div class="divTable">
     <div class="divTableBody">
 
