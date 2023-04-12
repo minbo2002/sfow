@@ -959,7 +959,7 @@ button {
 <!-- <input type="text" class="form-title" value="창고검색" disabled/><input type="text" class="btn-open-popup" id ="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/></div> -->
 
 <div class="search_wh" style="display:inline-block; margin-left:6px; font-size:13px; color:black;">
-  <input type="text" class="form-title" id="lens_sh" value="창고검색" disabled/>
+  <input type="text" class="form-title" id="lens_sh" value="창고코드 검색" disabled/>
   <span style="position: relative;" class="btnFas">
     <input type="text" class="btn-open-popup" id="warehouse_code" name="warehouse_code" style="background-color: rgb(230, 242, 255);"/>
     <i class='fas fa-search' style="position: absolute; transform: translateY(-50%);"></i>

@@ -97,6 +97,7 @@ public class StockByWhController {
 	  
 	  UserInfo user = (UserInfo)request.getAttribute("AUTHUSER");
       String company_code = user.getCompanyCode();
+      System.out.println("검색 조회 컨트롤러!!!!"+company_code);
 	  
 	  List<Stock> results = stockService.searchWhStock(data, company_code);
 	  
