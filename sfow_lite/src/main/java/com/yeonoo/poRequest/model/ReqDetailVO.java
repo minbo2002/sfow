@@ -21,5 +21,6 @@ public class ReqDetailVO {
 	private String item_no;
 	private String item_stock_unit;
 	private String client_name;
+	private String company_code;
 
 }

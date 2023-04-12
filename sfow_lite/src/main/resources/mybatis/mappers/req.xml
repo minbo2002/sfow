@@ -178,12 +178,13 @@
 	]]> 	
 	</select>
  -->
- 	<select id="reqItem" resultType="reqDetailVO">
+ 	<select id="reqItem" resultType="reqDetailVO" parameterType="Map">
 	<![CDATA[
 		SELECT ma.item_code,ma.item_name,ma.item_no,ma.item_stock_unit,mp.buy_price
 		FROM ma_item ma, ma_item_price mp
 		WHERE ma.useyn='Y'
 		AND mp.item_no=ma.item_no
+		AND mp.company_code=#{company_code}
 	]]> 	
 	</select>
 		
