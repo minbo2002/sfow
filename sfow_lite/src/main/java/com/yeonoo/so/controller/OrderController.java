@@ -216,17 +216,20 @@ public class OrderController {
         //아이템 조회
         @GetMapping("orderItem")
         @ResponseBody
-        public ResponseEntity<List<Map<String, Object>>> getItem() throws Exception {
-            List<Map<String, Object>> result = orderService.getItem();
+        public ResponseEntity<List<Map<String, Object>>> getItem(HttpSession session) throws Exception {
+        	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+        	String company_code = loginUser.getCompanyCode();
+        	List<Map<String, Object>> result = orderService.getItem(company_code);
             return ResponseEntity.ok(result);
         }
 
         //거래처코드 조회
         @GetMapping("orderClient")
         @ResponseBody
-        public ResponseEntity<List<Map<String, Object>>> getClient() throws Exception {
-        	List<Map<String, Object>> result = orderService.getClient();
-        	System.out.println("orderClient="+result);
+        public ResponseEntity<List<Map<String, Object>>> getClient(HttpSession session) throws Exception {
+        	UserInfo loginUser = (UserInfo) session.getAttribute("AUTHUSER");
+        	String company_code = loginUser.getCompanyCode();
+        	List<Map<String, Object>> result = orderService.getClient(company_code);
         	return ResponseEntity.ok(result);
         }
 		 
