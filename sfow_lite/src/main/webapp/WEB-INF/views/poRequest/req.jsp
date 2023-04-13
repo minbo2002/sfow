@@ -103,6 +103,14 @@
             return false;
          }
       });
+    $("#saveBtn2").click(function() {
+       let i = confirm('등록하시겠습니까?');
+         if(i) {
+            saveFunction2();
+         }else {
+            return false;
+         }
+      });
     
  
 	 $('#searchBtn').click(function(event) {
@@ -306,8 +314,8 @@
           }
         });
 	  } 
-	 
-  	 function saveFunction() {
+	 //입력함수
+  	 function saveFunction2() {
 
          var rowDatas = grid2.getCheckedRows(); 
          alert("rowDatas : " + rowDatas);
@@ -321,15 +329,34 @@
             contentType : "application/json; charset=utf-8", 
             dataType: "JSON", 
             success : function (result) {
-               
+            	
+            	grid2.on('editingFinish', function(ev) {
+					  const rowKey = ev.rowKey;
+					  const columnName = ev.columnName;
+					  var updatedData = {};
+					  const rowData = grid2.getRow(rowKey);
+					  console.log('Row data: ', rowData);
+
+					  $.ajax({
+						  url: '${conPath}/reqDetailUpdate',
+						  method: 'PUT',
+						  dataType: 'JSON',
+						  data: JSON.stringify(rowData),
+						  contentType: 'application/json',
+						  success: function(response) {
+							  console.log('Success:', response);
+						  },
+						  error: function(error) {
+							  console.log('Error:', error);
+						  }
+					  });//ajax_update
+				  });
             },
             error: function() {
                  console.log("입력실패");
           }
         });
-     } 
-	 
-	 
+	  } 
 	}); //doc끝
 	 	
   	
@@ -763,10 +790,12 @@
 <title>구매발주</title>
 
 <body>
+<h3>구매발주</h3>
 		<form id="selectReq">
          <input type="submit" name="searchBtn" id="searchBtn" value="조회"/>
          <button type="button" name="deleteBtn" id="deleteBtn" style="height:35px; width:80px; color:white;">삭제</button>
          <button type="button" name="saveBtn" id="saveBtn" style="height:35px; width:80px; color:white;">저장</button>
+        
          <input type="reset" name="resetRow" id="resetRow" value="초기화">
          <div class="buttonRight">
          	<button type="button" name="addRowBtn" id="addRowBtn" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
@@ -808,6 +837,7 @@
 		</form>
 	<p/>
 	<div id="grid"></div>
+	 <button type="button" name="saveBtn2" id="saveBtn2" style="height:35px; width:80px; color:white;">세부저장</button>
 	 <div class="buttonRight">
 	<button type="button" name="addRowBtn2" id="addRowBtn2" style="height:35px; width:30px; font-size:13px; color:white; border:1px solid #8c8c8c;">
 	<i class="fas fa-plus"></i></button>

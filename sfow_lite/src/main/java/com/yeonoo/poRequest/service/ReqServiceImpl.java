@@ -61,9 +61,9 @@ public class ReqServiceImpl implements ReqService{
 	}
 
 	@Override
-	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO) throws Exception {
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO,String company_code) throws Exception {
 		System.out.println("reqItem 서비스");
-		return reqRepository.reqItem(reqDetailVO);
+		return reqRepository.reqItem(reqDetailVO,company_code);
 	}
 
 
