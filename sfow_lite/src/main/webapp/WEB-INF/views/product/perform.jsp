@@ -266,7 +266,7 @@ $(document).ready(function() {
           	             }
           		   		});
           	       		
-          	          $('#deleteRow').click(function(event) {
+          	          $('#deleteRowBtn2').click(function(event) {
             	            $.ajax({
                  	           url: "${conPath}/deletePerform",
                  	           method: 'PUT',
@@ -566,7 +566,7 @@ var grid3 = new tui.Grid({
   <div class="modal-content">
     <span class="close">&times;</span>
 	<div id="search-result">
-	    <h3>사람 찾기</h3>
+	    <h3>직원 검색</h3>
 	    <input type="text" id="idInput" placeholder="검색어를 입력하세요">
 	    <input type="button" id="workerSearch" name="workerSearch" value="조회">
 	    <input type="button" id="choiceUser" value="확인" style="float:right;">
@@ -601,6 +601,7 @@ $(document).ready(function() {
 		  data: gridData4,
 		  scrollX: true,
 		  scrollY: true,
+		  bodyHeight:200,
 		  rowHeaders: [{
 		      type: 'rowNum',
 		      header: "",
