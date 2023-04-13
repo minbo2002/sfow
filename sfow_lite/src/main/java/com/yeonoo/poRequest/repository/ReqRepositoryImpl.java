@@ -98,10 +98,13 @@ public class ReqRepositoryImpl implements ReqRepository{
 	}
 
 	@Override
-	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO) throws Exception {
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO, String company_code) throws Exception {
 		
 		System.out.println("reqItem 레전"+reqDetailVO);
-		List<ReqDetailVO> allList=sqlSession.selectList("mapper.req.reqItem");
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("company_code", company_code);
+		map.put("reqModalVO", reqDetailVO);
+		List<ReqDetailVO> allList=sqlSession.selectList("mapper.req.reqItem",map);
 		System.out.println("reqItem 레후"+allList);
 		return allList;
 	

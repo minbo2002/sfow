@@ -23,7 +23,7 @@ public interface ReqService {
 
 	public void reqDetailInsert(ReqDetailVO reqD)throws Exception;
 	
-	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO)throws Exception;
+	public List<ReqDetailVO> reqItem(ReqDetailVO reqDetailVO,String company_code)throws Exception;
 
 
 
