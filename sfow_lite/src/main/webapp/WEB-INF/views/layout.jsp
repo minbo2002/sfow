@@ -24,7 +24,8 @@
 
     <!-- Custom styles for this template-->
     <link href="${conPath}/resources/css/main/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -44,9 +45,6 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${conPath}/home">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
                 <div class="sidebar-brand-text mx-3">SFOW_LITE</div>
             </a>
 
@@ -111,17 +109,28 @@
                            </div>
                     
                     <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
-                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a>
+                      aria-expanded="false" aria-controls="collapseItem">품목관리정보</a> 
                         <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
-                            <a class="collapse-item" href="#">품목등록</a>
-                            <a class="collapse-item" href="#">품목조회</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/productList');">품목등록(제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/semi/list');">품목등록(반제품)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/raw/list');">품목등록(원자재)</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/type');">품목유형 코드등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/stockunitList');">재고단위 등록</a>
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/item/specificationList');">규격 등록</a>
+ 
                            </div>
-	                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
-	                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
-	                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
-	                                  <a class="collapse-item" href="#">창고등록</a>
-	                                  <a class="collapse-item" href="#">창고정보</a>
-	                          </div>
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseItem"
+                      aria-expanded="false" aria-controls="collapseItem">품목단가정보</a>
+                        <div id="collapseItem" class="collapse" aria-labelledby="headingItem" data-parent="#collapseUtilities">
+                            <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/price/list');">품목단가관리</a>
+                           </div>
+
+                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseWarehouse"
+                        aria-expanded="false" aria-controls="collapseWarehouse">창고관리정보</a>
+                           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingWarehouse" data-parent="#collapseUtilities">
+                                  <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/warehouse/whinfo');">창고등록</a>
+                          </div>
+                 <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/ma/bom');">BOM등록</a>
                     </div>
                 </div>
             </li>
@@ -168,7 +177,7 @@
                 <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/req1');">구매발주</a>
-                        <a class="collapse-item" href="#">구매입고등록</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/reqM');">구매입고등록</a>
                     </div>
                 </div>
             </li>
@@ -182,11 +191,12 @@
                 </a>
                 <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/product/pp');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/po');">작업지시</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/perform');">작업등록</a>
                     </div>
                 </div>
             </li>
-            
+             
                   <!-- Nav Item -재고관리 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo4"
@@ -196,8 +206,11 @@
                 </a>
                 <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">품목별 재고현황</a>
-                        <a class="collapse-item" href="">창고별 재고현황</a>
+
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockByItem');">품목별 재고현황</a>
+                        <a class="collapse-item" href="javascript:acyncMovePage('${conPath}/stockByWh');">창고별 재고현황</a>
+                      
+
                     </div>
                 </div>
             </li>

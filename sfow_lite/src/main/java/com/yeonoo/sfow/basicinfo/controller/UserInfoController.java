@@ -25,17 +25,18 @@ public class UserInfoController {
 	
 	private final UserInfoService userInfoService;
 	
-	@RequestMapping("/sessionLogin")
-	   public String sessionLogin() throws Exception {
-	      return "basicinfo/sessionLogin";
-	 }
+   @RequestMapping("/sessionLogin")
+   public String sessionLogin() throws Exception {
+      return "basicinfo/sessionLogin";
+   }
+
 	
 	//로그인페이지
 	@RequestMapping("/login")
 	public String userLogin(Model model,HttpSession session) {
 		return "login";
 	}
-	
+	 
 	//로그인
 	@PostMapping("/login")
 	public @ResponseBody String userLogin(UserInfo userInfo,Model model,HttpSession session,HttpServletRequest request) throws Exception {
@@ -45,7 +46,7 @@ public class UserInfoController {
 		session.setMaxInactiveInterval(1800);
 		
 		session.setAttribute("AUTHUSER", loginUser);
-		
+		System.out.println(loginUser);
 		if(loginUser==null) {
 			return "1";
 		} else {
@@ -78,4 +79,6 @@ public class UserInfoController {
 	public String sessionLogout() throws Exception {
 		return "basicinfo/sessionLogout";
 	}
+	
+
 }
