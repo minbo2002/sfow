@@ -20,8 +20,8 @@ public class OrderDAO {
 	private final static String NAMESPACE = "orderMapper.";
 	
 	//수주서목록
-	public List<OrderVO> orderList(String companyCode) throws Exception {
-		return sqlSession.selectList(NAMESPACE+"orderList",companyCode);
+	public List<OrderVO> orderList(String company_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE+"orderList",company_code);
 	}
 	
 	//수주서상세
@@ -66,14 +66,14 @@ public class OrderDAO {
       }
       
     //아이템조회
-      public List<Map<String, Object>> getItem() {
-          List<Map<String, Object>> result = sqlSession.selectList("orderMapper.getItem");
+      public List<Map<String, Object>> getItem(String company_code) {
+          List<Map<String, Object>> result = sqlSession.selectList("orderMapper.getItem",company_code);
           return result;
       }
 
       //거래처조회
-      public List<Map<String, Object>> getClient() {
-    	  List<Map<String, Object>> result = sqlSession.selectList("orderMapper.getClient");
+      public List<Map<String, Object>> getClient(String company_code) {
+    	  List<Map<String, Object>> result = sqlSession.selectList("orderMapper.getClient",company_code);
     	  return result;
       }
       

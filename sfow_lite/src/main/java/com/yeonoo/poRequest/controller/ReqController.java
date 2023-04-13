@@ -156,7 +156,7 @@ public class ReqController {
 	
 	@PostMapping("/reqDetailInsert")
 	@ResponseBody
-	public List<ReqDetailVO> reqDetailInsert(@RequestBody List<ReqDetailVO> reqDetailVO)throws Exception {
+	public List<ReqDetailVO> reqDetailInsert(@RequestBody List<ReqDetailVO> reqDetailVO, HttpSession session)throws Exception {
 		
 		Iterator<ReqDetailVO> iterator = reqDetailVO.iterator();
 		while(iterator.hasNext()) {
@@ -171,8 +171,9 @@ public class ReqController {
 	@ResponseBody
 	public ResponseEntity<List<ReqDetailVO>> reqItem(HttpSession session) throws Exception {
 		UserInfo userInfo = (UserInfo)session.getAttribute("AUTHUSER");
+		String company_code = userInfo.getCompanyCode();
 		ReqDetailVO reqDetailVO = new ReqDetailVO();
-	    List<ReqDetailVO> reqItem = reqService.reqItem(reqDetailVO);
+	    List<ReqDetailVO> reqItem = reqService.reqItem(reqDetailVO,company_code);
 	    System.out.println("reqItem컨트롤러: " + reqItem);
 	    return ResponseEntity.ok(reqItem);
 	}

@@ -21,6 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<context:component-scan base-package="com.yeonoo.*" />
+	
 	<!-- <beans:bean id="tileConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <beans:property name="definitions">
             <beans:list>

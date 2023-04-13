@@ -4,10 +4,25 @@
 <!-- settings -> typeAliases -> environments - > mappers 순서대로 설정할것 (순서 안지키면 에러발생) -->
 
 <configuration>
-<typeAliases>
+	<typeAliases> 
+  		<typeAlias type="java.lang.Integer" alias="Integer"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="com.yeonoo.masterdata.item.domain.RawDTO" alias="rawDTO" />
+		<typeAlias type="com.yeonoo.masterdata.item.domain.SemiDTO" alias="semiDTO" />
+		<typeAlias type="com.yeonoo.masterdata.item.domain.PriceDTO" alias="priceDTO" />
+		<typeAlias type="com.yeonoo.masterdata.wh.domain.WH" alias="warehouse"/>
+		<typeAlias type="com.yeonoo.masterdata.wh.domain.WH_detail" alias="Wh_Detail"/>
+		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemType" alias="ItemType"/>
+		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemProduct" alias="ItemProduct"/>
+		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemStockUnit" alias="ItemStockUnit"/>
+		<typeAlias type="com.yeonoo.masterdata.item.domain.ItemSpecification" alias="ItemSpecification"/>
+
 	  <typeAlias type="com.yeonoo.masterdata.item.domain.BomItem"    
 	                                     alias="BomItem"/>
 
+		<typeAlias type="com.yeonoo.poRequest.domain.FMpr" alias="FMpr" />
+		<typeAlias type="com.yeonoo.poRequest.domain.FMpi" alias="FMpi" />
+		<typeAlias type="com.yeonoo.ppOrder.domain.PPOrder" alias="PPOrder" />
 		<!-- 구매요청 -->
 		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDTO" alias="reqMgmtDTO" />
  		<typeAlias type="com.yeonoo.poRequest.model.ReqMgmtDetailDTO" alias="reqMgmtDetailDTO" />

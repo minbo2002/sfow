@@ -47,7 +47,8 @@ $(document).ready(function(){
 	const grid = new tui.Grid({
 	    el: document.getElementById('grid'),
 	    columns: [
-	        { header: '거래처코드', name: 'client_code',align: 'center'}
+	        { header: '거래처코드', name: 'client_code',align: 'center'},
+	        { header: '회사코드', name: 'company_code',align: 'center',hidden:true}
 	    ]
 	});
 	

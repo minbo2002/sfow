@@ -8,6 +8,7 @@
 			SELECT item_code,item_name,item_no,item_specification,item_type,item_category
 			FROM ma_item
 			WHERE NOT item_category = '원자재' AND company_code = #{company_code}
+			ORDER BY item_category DESC
 		]]> 	
 	</select>
 	
