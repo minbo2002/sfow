@@ -50,29 +50,6 @@ select {
   box-sizing: border-box;
 }
 
-input[type="submit"],
-input[type="reset"],
-button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-button:hover {
-  background-color: #555;
-}
-
-button {
-  background-color: #ccc;
-  color: #333;
-}
 
 .form-field {
   display: inline-block;
@@ -155,7 +132,7 @@ button {
 </style>
 <script>
 $(document).ready(function() {
-	  $('#searchOrder').click(function(event) {
+	  $('#search').click(function(event) {
 		 event.preventDefault();
 			var pp_no = $('#pp_no').val();
 			var pp_date = $('#pp_date').val();
@@ -289,7 +266,7 @@ $(document).ready(function() {
           	             }
           		   		});
           	       		
-          	          $('#deleteRow').click(function(event) {
+          	          $('#deleteRowBtn2').click(function(event) {
             	            $.ajax({
                  	           url: "${conPath}/deletePerform",
                  	           method: 'PUT',
@@ -354,7 +331,7 @@ $(document).ready(function() {
 	});
 		});
 	  
-	$('#sPerform').click(function(event) {
+	$('#saveBtn').click(function(event) {
 			 event.preventDefault();
 			 
 		var pp_no = $('#pp_no').val();
@@ -427,9 +404,9 @@ function restAllOrder(){
 <body>
 	<form id="orderSearch">
 	<div>
-		<input type="submit" value="조회" id="searchOrder">
-		<input type="reset" value="초기화" id="resetAllOrder" onclick="restAllOrder()">
-		<input type="submit" value="작업등록" id="sPerform" name="sPerform">
+		<input type="submit" value="조회" id="search" class="custom-button">
+		<input type="reset" value="초기화" d="reset" class="custom-button" onclick="restAllOrder()">
+		<input type="submit" value="작업등록" id="saveBtn" class="custom-button" name="saveBtn">
  		<br/><br/>
  	</div>
  		<div class="form-field">
@@ -511,7 +488,7 @@ var grid = new tui.Grid({
   ]
 });
 </script>
-	<div id="grid2">생산LOT <input type="button" name="deleteRow" id="deleteRow" style="float:right;" value="작업 삭제하기"></div>
+	<div id="grid2">생산LOT <input type="button" name="deleteRowBtn2"  id="deleteRowBtn2" class="custom-button" style="float:right;" value="작업 삭제하기"></div>
 <script>
 var gridData2 = [];
 var grid2 = new tui.Grid({
@@ -546,7 +523,7 @@ var grid2 = new tui.Grid({
       align: 'center'
     },
     {
-      header: '작업상태',
+      header: 'ITEM이름',
       name: 'item_name',
       align: 'center'
     }
@@ -589,7 +566,7 @@ var grid3 = new tui.Grid({
   <div class="modal-content">
     <span class="close">&times;</span>
 	<div id="search-result">
-	    <h3>사람 찾기</h3>
+	    <h3>직원 검색</h3>
 	    <input type="text" id="idInput" placeholder="검색어를 입력하세요">
 	    <input type="button" id="workerSearch" name="workerSearch" value="조회">
 	    <input type="button" id="choiceUser" value="확인" style="float:right;">
@@ -624,6 +601,7 @@ $(document).ready(function() {
 		  data: gridData4,
 		  scrollX: true,
 		  scrollY: true,
+		  bodyHeight:200,
 		  rowHeaders: [{
 		      type: 'rowNum',
 		      header: "",

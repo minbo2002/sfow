@@ -30,7 +30,7 @@
 
 <select id="selectPerformByLot" resultType="com.yeonoo.sfow.ppPerform.domain.Perform">
 	<![CDATA[select * from pp_perform
-			 where lot_no=#{lot_no} and where company_code=#{company_code}]]>
+			 where lot_no=#{lot_no} and company_code=#{company_code}]]>
 </select>
 
 <select id="selectBOM" resultType="com.yeonoo.sfow.ppPerform.domain.BOM">
@@ -144,7 +144,7 @@
 <select id="bomSitemListSelect" resultType="com.yeonoo.sfow.ppPerform.domain.BOM" parameterType="com.yeonoo.sfow.ppPerform.domain.Order">
 	<![CDATA[SELECT b.sitem_cd, s.quantity,b.item_qty  
 			 FROM ma_bom_tree b JOIN mt_stock_detail s ON b.sitem_cd = s.item_code 
-			 WHERE b.ppitem_cd =#{item_code} and b.company_code=#{company_code}]]>
+			 WHERE b.ppitem_cd =#{item_code} and b.company_code=#{company_code} and b.item_category='원자재']]>
 </select>
 
 <update id="updateStockQuantity" parameterType="com.yeonoo.sfow.ppPerform.domain.PerStock">

@@ -60,18 +60,17 @@ public class PerformRepositoryImpl implements PerformRepository{
 	@Override
 	public List<BOM> selectBOM(Perform perform) {
 		Perform result = sqlSession.selectOne("mapper.perform.selectPerformByLot",perform);
+		
 		result.setCompany_code(perform.getCompany_code());
-		List<BOM> bom = sqlSession.selectList("mapper.perform.selectBOM",result.getItem_code());
+		List<BOM> bom = sqlSession.selectList("mapper.perform.selectBOM",result);
 		return bom;
 	}
 
 	@Override
 	public Boolean insertPerform(Perform perform) {
-		System.out.println("insertperform에서 perform 잘나와?"+perform);
 		
 		Order order=sqlSession.selectOne("mapper.perform.selectOrderOne", perform);
 		
-		System.out.println("order잘나와? "+order);
 		
 		
 		
@@ -83,9 +82,7 @@ public class PerformRepositoryImpl implements PerformRepository{
 		int qty =Integer.parseInt(order.getPp_quantity());
 		int performQty =Integer.parseInt(perform.getPer_quantity());
 		
-		//bom으로 조회 후 나온 자식 아이템들 모두에 대한 stock과 비교 후 가능 할 경우 진행하고 진행 하면서 수량 변동시키
 		List<BOM> bomSitem = sqlSession.selectList("mapper.perform.bomSitemListSelect",order);
-		System.out.println("bomSitem잘 나와?"+bomSitem);
 		
 		for (int i = 0; i < bomSitem.size(); i++) {
 		    BOM bom = bomSitem.get(i);
@@ -95,11 +92,9 @@ public class PerformRepositoryImpl implements PerformRepository{
 		    int itemQty = Integer.parseInt(itemQtya);//완제품에 필요한 자식 개수
 		    int quantity = bom.getQuantity();
 		    int ppQuantity = Integer.parseInt(perform.getPer_quantity());
-		    // 해당 제품에 대한 재고량을 업데이트
 		    int updatedQuantity = quantity -(itemQty * ppQuantity);
 
 		    if (updatedQuantity < 0) {
-		        // 재고량이 부족한 경우 예외 처리 로직 추가
 		    } else {
 		        PerStock bomStockUpdate = new PerStock();
 		        bomStockUpdate.setItem_code(sitemCd);
@@ -214,7 +209,6 @@ public class PerformRepositoryImpl implements PerformRepository{
 			}
 			
 			perform.setQty(updateStock);
-			System.out.println(updateStock);
 			sqlSession.update("mapper.perform.updateStockAfterDel",perform);
 			return true;
 			
