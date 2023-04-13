@@ -128,6 +128,7 @@
 	  <![CDATA[
 	   SELECT a.item_code, b.sales_price, a.item_stock_unit
 		FROM ma_item a left join ma_item_price b ON a.item_code=b.item_code
+		where company_code = #{company_code}
 	  ]]>
 	</select>
 
@@ -136,6 +137,7 @@
 	  <![CDATA[
 	   SELECT client_code
 		FROM ma_client_company
+		where company_code = #{company_code}
 	  ]]>
 	</select>
 

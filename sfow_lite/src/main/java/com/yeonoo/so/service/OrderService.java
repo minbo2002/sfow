@@ -18,8 +18,8 @@ public class OrderService {
 	private OrderDAO  orderDAO;
 	
 		//수주서조회
-		public List<OrderVO> orderList(String  companyCode) throws Exception {
-			return orderDAO.orderList(companyCode);
+		public List<OrderVO> orderList(String  company_code) throws Exception {
+			return orderDAO.orderList(company_code);
 		}
 		
 		//수주서 상세조회
@@ -62,13 +62,13 @@ public class OrderService {
 		}
 		
 		 //아이템조회
-		public List<Map<String, Object>> getItem() {
-		    return orderDAO.getItem();
+		public List<Map<String, Object>> getItem(String company_code) {
+		    return orderDAO.getItem(company_code);
 		}
 	
 		//거래처조회
-		public List<Map<String, Object>> getClient() {
-			return orderDAO.getClient();
+		public List<Map<String, Object>> getClient(String company_code) {
+			return orderDAO.getClient(company_code);
 		}
 	    
 
