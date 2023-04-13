@@ -523,7 +523,7 @@ var grid2 = new tui.Grid({
       align: 'center'
     },
     {
-      header: '작업상태',
+      header: 'ITEM이름',
       name: 'item_name',
       align: 'center'
     }
